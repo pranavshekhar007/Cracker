@@ -386,6 +386,33 @@ body {
 }
 
 
+.featured {
+  /* Light pastel animated gradient background */
+  background: linear-gradient(270deg, #a8edea, #fed6e3, #ffcccc, #ff6666
+);
+  background-size: 800% 800%;
+  animation: gradientShift 15s ease infinite;
+
+  margin-bottom: 100px;
+  color: #333; /* dark text for contrast */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-weight: bold;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 /* .feature-product {
   padding: 30px 15px;
   border-radius: 8px;
@@ -428,7 +455,7 @@ body {
 
 .feature-footer {
   width: 100%;
-  background-color: #fff;
+  /* background-color: #fff; */
   text-align: center;
   padding: 12px 0;
   margin-top: 24px;
@@ -1311,7 +1338,7 @@ body {
 }
 
 .testi-footer {
-  background-color: #f9f9f9;
+  background-color:	#d8c1c1;
   padding: 60px 20px 20px;
   border-top-left-radius: 60% 40px;
   border-top-right-radius: 60% 40px;
@@ -1320,8 +1347,21 @@ body {
 }
 
 .testi-footer.alt {
-  background: linear-gradient(to right, #a91b4c, #d81b60);
+  transition: background 0.4s ease;
 }
+
+.testi-footer.alt:hover {
+  background: linear-gradient(to right, #e76c6a, #6d0d0c);
+}
+
+/* Change text color to white on hover */
+.testi-footer.alt:hover h5,
+.testi-footer.alt:hover small {
+  color: #ffffff !important;
+  transition: color 0.3s ease;
+}
+
+
 
 .testi-footer h5 {
   margin-top: 20px;

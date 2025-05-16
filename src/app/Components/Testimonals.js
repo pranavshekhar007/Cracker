@@ -127,7 +127,7 @@ const Testimonals = () => {
                       The packaging was safe, and the bursts were stunning.
                       Made our Diwali unforgettable. Highly recommend!”
                     </p>
-                    <div className="testi-footer">
+                    <div className="testi-footer alt">
                       <img
                         src="/assets/Buffett.jpg"
                         alt="user1"
@@ -145,7 +145,7 @@ const Testimonals = () => {
                     <p className="testi-content mb-3">
                       “These are the safest and brightest crackers I’ve ever
                       used. My kids had so much fun, and I felt confident
-                      knowing everything was top quality and eco-friendly.”
+                      knowing everything was top quality Too good and eco-friendly.”
                     </p>
                     <div className="testi-footer alt">
                       <img
@@ -153,8 +153,8 @@ const Testimonals = () => {
                         alt="user2"
                         className="testi-img"
                       />
-                      <h5 className="text-white">Bill Gates</h5>
-                      <small className="text-light">Buiseness man</small>
+                      <h5 className="text-dark">Bill Gates</h5>
+                      <small className="text-muted">Buiseness man</small>
                     </div>
                   </div>
                 </div>
