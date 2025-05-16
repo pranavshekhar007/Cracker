@@ -116,6 +116,7 @@ export default function Home() {
 
       {/* hero section */}
 
+    <div className="hero-container">
       <div
         className="hero-section d-flex flex-column justify-content-center"
         style={{
@@ -135,6 +136,7 @@ export default function Home() {
             <img src="/assets/next.png" alt="Next Icon" />
           </div> */}
         {/* </div> */}
+      </div>
       </div>
 
       {/* most popular section */}
@@ -213,7 +215,7 @@ export default function Home() {
       </div> */}
 
       {/* Daily best sells section */}
-      {/* <DailySell /> */}
+      <DailySell />
 
       {/* testimonals section */}
       <Testimonals />

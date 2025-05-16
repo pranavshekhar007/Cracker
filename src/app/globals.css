@@ -131,7 +131,7 @@ body {
   max-width: 1350px;
   margin: 20px auto 100px;
   padding: 30px;
-  height: 72vh;
+  height: 70vh;
   border-radius: 15px;
   background-size: cover;
   background-position: center;
@@ -144,9 +144,12 @@ body {
 /* Tablet (landscape and portrait) */
 @media (max-width: 1024px) {
   .hero-section {
-    margin: 20px;
     padding: 25px;
-    height: 65vh;
+    height: 48vh;
+  }
+  .hero-container{
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
@@ -155,19 +158,34 @@ body {
   .hero-section {
     margin: 20px 15px;
     padding: 20px;
-    height: 60vh;
+    height: 48vh;
+  }
+  .hero-container{
+    padding-left: 5px;
+    padding-right: 36px;
   }
 }
 
 /* Mobile devices */
 @media (max-width: 450px) {
   .hero-section {
-    margin: 20px 10px;
-    padding: 15px;
-    height: 55vh;
+    margin-left: 15px;
+
+    height: 44vh;
   }
 }
+@media (max-width: 425px) {
+  .hero-section {
+    /* margin-left: 10px; */
 
+    height: 28vh;
+  }
+}
+@media (max-width: 320px) {
+  .hero-section {
+    height: 34vh;
+  }
+}
 
 /* .hero-section {
   aspect-ratio: 16 / 9;
@@ -388,8 +406,7 @@ body {
 
 .featured {
   /* Light pastel animated gradient background */
-  background: linear-gradient(270deg, #a8edea, #fed6e3, #ffcccc, #ff6666
-);
+  background: linear-gradient(270deg, #a8edea, #fed6e3, #ffcccc, #ff6666);
   background-size: 800% 800%;
   animation: gradientShift 15s ease infinite;
 
@@ -478,7 +495,12 @@ body {
   border-radius: 6px;
 }
 
-
+@media (max-width: 1024px){
+  .featured{
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
 
 @media (max-width: 868px) {
   .feature-product {
@@ -560,6 +582,8 @@ body {
   border-radius: 7px;
 
 }
+
+
 }
  /* Daily best sells section */
  .daily-sells , .free-shiping  , .faq-section , .from-farm{
@@ -572,12 +596,23 @@ body {
 .all-sells{
   margin-top: 25px;
 }
- .daily-sell1{
-  background: url("https://media.istockphoto.com/id/1250254277/photo/makhana-or-lotus-seed.jpg?s=612x612&w=0&k=20&c=lkG3E1jix3R5WDtwcnGTbfumVz6vpo21ih_G5X3DDYw=");
-  /* height: 470px; */
-  background-position: cover;
-   padding: 25px !important;
- }
+.daily-sell1 {
+  background: url("https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/chakker.png?resize=600%2C494&ssl=1") no-repeat center center;
+  background-size: contain; /* scales image to fit inside container fully */
+  padding: 25px !important;
+  min-height: 300px;
+  border-radius: 12px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background-color: #00000033;
+}
+
+.daily-sells{
+  /* background: linear-gradient(to right, #e76c6a, #6d0d0c); */
+}
+
 .daily-shop{
   width: 130px;
   height: 35px;
@@ -1250,9 +1285,9 @@ body {
 }
 
 .update-bar {
-  width: 100%;
+  /* width: 100%; */
   max-width: 1350px;
-  margin: 100px auto 50px;
+  margin: 100px auto 5px;
   background-color: rgb(232, 229, 229);;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 15px;
@@ -1301,12 +1336,12 @@ body {
 
 @media (max-width:1024px){
   .update-bar{
-  margin: 100px 18px 50px;
+    margin: 90px 20px 0 20px;
   }
 }
-@media (max-width:425px){
+@media (max-width:768px){
   .update-bar{
-  margin: 100px 10px 20px;
+    margin: 75px 20px 0 20px;
   }
 }
 
@@ -1314,6 +1349,12 @@ body {
 
 .testimonals-section {
   background: linear-gradient(to right, #e76c6a, #6d0d0c);
+}
+@media (max-width:1024px){
+  .testimonals-section{
+  margin-left: 20px;
+  margin-right: 20px;
+  }
 }
 
 .testi-heading {
