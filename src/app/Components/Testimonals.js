@@ -107,7 +107,6 @@ const Testimonals = () => {
               fontFamily: "'Playball', cursive",
               fontSize: "3.5rem",
               textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
-              color: "#e53935",
               fontWeight: 600,
             }}>What Our Customers Say</h2>
           </div>

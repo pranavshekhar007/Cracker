@@ -123,7 +123,7 @@ export default function Home() {
           backgroundSize: "cover",
         }}
       >
-        <div className="hero-section1">
+        {/* <div className="hero-section1"> */}
           {/* <h1>
             Say goodbye to bland makhanas; it's time to savor the flavors.
           </h1>
@@ -134,12 +134,12 @@ export default function Home() {
             <p className="fs-5 mb-0 text-white">Shop Now</p>
             <img src="/assets/next.png" alt="Next Icon" />
           </div> */}
-        </div>
+        {/* </div> */}
       </div>
 
       {/* most popular section */}
 
-      <div className="most-popular d-flex flex-column align-items-center">
+      {/* <div className="most-popular d-flex flex-column align-items-center"> */}
         {/* <p className="mb-0">Most Popular</p>
         <h1 className="text-center mx-2">Discover flavours in demand</h1>
         <div className="carousel-container">
@@ -176,7 +176,7 @@ export default function Home() {
             <img src="/assets/next2.png" alt="Next" className="popular-btn" />
           </button>
         </div> */}
-      </div>
+      {/* </div> */}
 
       {/* Featured categories */}
 

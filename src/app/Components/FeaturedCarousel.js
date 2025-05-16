@@ -101,13 +101,13 @@ const products = [
 
 const FeaturedCarousel = () => {
   return (
-    <div className="featured py-5 px-3" style={{ background: "#fffdf7" }}>
+    <div className="featured py-3 px-3" style={{ background: "#fffdf7" }}>
     <h3
       className="text-center mb-5"
       style={{
         fontFamily: "'Playball', cursive",
         fontSize: "3.5rem",
-        textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
+        // textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
         color: "#e53935",
         fontWeight: 600,
       }}

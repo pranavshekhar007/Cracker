@@ -73,8 +73,7 @@ const Navbar = () => {
 
         {/* Nav Links */}
         <ul className={`nav-links list-unstyled mb-0 ${menuOpen ? 'open' : ''}`} style={{
-        fontFamily: "'Poppins', sans-serif",
-        textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
+        // textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
       }}>
           <li><Link href="/">Home</Link></li>
           <li><Link href="/shop">Shop</Link></li>
