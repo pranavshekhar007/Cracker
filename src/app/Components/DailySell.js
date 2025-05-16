@@ -4,10 +4,10 @@ const DailySell = () => {
   return (
     <>
       <div className="daily-sells">
-        <h1>Daily Best Sells</h1>
+        <h1 >Daily Best Sells</h1>
         <div className="all-sells d-flex gap-4">
           <div className="daily-sell1 daily-sell ">
-            <h3 className="text-red">Ground Chakkar.</h3>
+            <h3 className="text-white">Ground Chakkar.</h3>
             <p className="text-white">Get the best deal before close.</p>
             <div className="daily-shop d-flex gap-2 align-items-center justify-content-center my-3">
               <p className="fs-5 mb-0 text-white fs-6">Shop Now</p>
