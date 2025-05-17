@@ -67,21 +67,26 @@ const Navbar = () => {
         </Link>
       </div>
 
+      {/* Desktop Search Bar (Hidden on small screens) */}
+      <div className='search-desktop'>
+        <Search onSearch={(query) => console.log("Searching for:", query)} variant="desktop"  />
+      </div>
+
       {/* Hamburger icon for small screens */}
-      <div className='hamburger d-md-none' onClick={toggleMenu}>
+      <div className='hamburger only-mobile custom-hide' onClick={toggleMenu}>
         <img src='https://cdn-icons-png.flaticon.com/128/1828/1828859.png' alt='menu' />
       </div>
 
       {/* Collapsible Nav Menu */}
       <ul className={`nav-links list-unstyled mb-0 ${menuOpen ? 'open' : ''}`}>
         {/* Search bar for small screen */}
-        <li className='search-mobile d-md-none w-100 mt-2'>
-          <Search onSearch={(query) => console.log("Searching for:", query)} />
+        <li className='search-mobile'>
+          <Search onSearch={(query) => console.log("Searching for:", query)} variant="mobile"  />
         </li>
 
         <li className={pathname === "/" ? "active-link" : ""}><Link href="/">Home</Link></li>
         <li className={pathname === "/category" ? "active-link" : ""}><Link href="/category">Shop By Category</Link></li>
-        <li className={pathname === "/shop" ? "active-link" : ""}><Link href="/shop">Shop</Link></li>
+        <li className={pathname === "/shop" ? "active-link" : ""}><Link href="/shop">Combo Products</Link></li>
         <li className={pathname === "/bulk-order" ? "active-link" : ""}><Link href="/bulk-order">One Page List</Link></li>
       </ul>
 
