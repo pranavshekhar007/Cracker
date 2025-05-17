@@ -1,6 +1,5 @@
 "use client";
 import DailySell from "./Components/DailySell";
-import FeaturedCarousel from "./Components/FeaturedCarousel";
 import Navbar from "./Components/Navbar";
 import { useEffect, useState } from "react";
 import Testimonals from "./Components/Testimonals";
@@ -116,15 +115,15 @@ export default function Home() {
 
       {/* hero section */}
 
-    <div className="hero-container">
-      <div
-        className="hero-section d-flex flex-column justify-content-center"
-        style={{
-          backgroundImage: `url(${currentImage})`,
-          backgroundSize: "cover",
-        }}
-      >
-        {/* <div className="hero-section1"> */}
+      <div className="hero-container">
+        <div
+          className="hero-section d-flex flex-column justify-content-center"
+          style={{
+            backgroundImage: `url(${currentImage})`,
+            backgroundSize: "cover",
+          }}
+        >
+          {/* <div className="hero-section1"> */}
           {/* <h1>
             Say goodbye to bland makhanas; it's time to savor the flavors.
           </h1>
@@ -135,14 +134,60 @@ export default function Home() {
             <p className="fs-5 mb-0 text-white">Shop Now</p>
             <img src="/assets/next.png" alt="Next Icon" />
           </div> */}
-        {/* </div> */}
+          {/* </div> */}
+        </div>
       </div>
+
+      {/* free shiping section */}
+
+      <div className="free-shiping">
+        <div className="services-container">
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/cart.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">Minimum Order Value</p>
+              <p>₹1,999 (TN, BLRE & PY)</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/car.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">HOME DELIVERY</p>
+              <p>(TN, BLRE & PY Only)</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/secure-payment.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">UPTO 80% DISCOUNT</p>
+              <p>with Assured Packing Quality</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* most popular section */}
 
       {/* <div className="most-popular d-flex flex-column align-items-center"> */}
-        {/* <p className="mb-0">Most Popular</p>
+      {/* <p className="mb-0">Most Popular</p>
         <h1 className="text-center mx-2">Discover flavours in demand</h1>
         <div className="carousel-container">
           <button onClick={prevSlide} className="carousel-btn">
@@ -182,7 +227,7 @@ export default function Home() {
 
       {/* Featured categories */}
 
-      <FeaturedCarousel />
+      {/* <FeaturedCarousel /> */}
 
       {/* shop from our farm */}
 
@@ -220,43 +265,7 @@ export default function Home() {
       {/* testimonals section */}
       <Testimonals />
 
-      {/* free shiping section */}
-
-      <div className="free-shiping ">
-        <div className="row">
-          <div className="col-lg-4 col-sm-6 col-12 d-flex gap-4 justify-content-center mb-4">
-            <div className="services-icon-wrapper">
-              <img src="/assets/car.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold"> Free Shipping</p>
-              <p>On Order Over $49</p>
-            </div>
-          </div>
-
-          <div className="col-lg-4 col-sm-6 col-12  d-flex gap-4 justify-content-center mb-4">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">24/7 Customer Care</p>
-              <p>Call us on anytime</p>
-            </div>
-          </div>
-
-          <div className="col-lg-4 col-sm-6 col-12 d-flex gap-4 justify-content-center mb-4">
-            <div className="services-icon-wrapper">
-              <img src="/assets/secure-payment.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">Secure payment</p>
-              <p>100% Safe Payment</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <Faq />
+      {/* <Faq /> */}
 
       {/* footer */}
 

@@ -83,6 +83,7 @@
 
 
 import React from "react";
+import Navbar from "../Components/Navbar";
 
 const products = [
   { id: 1, name: "Ground Chakkar", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/chakker.png?resize=600%2C494&ssl=1" },
@@ -101,7 +102,10 @@ const products = [
 
 const FeaturedCarousel = () => {
   return (
-    <div className="featured py-5 px-3">
+    <>
+    
+   <Navbar />
+    <div className="featured py-5 px-3 ">
     <h3
       className="text-center mb-5"
       style={{
@@ -126,7 +130,7 @@ const FeaturedCarousel = () => {
       ))}
     </div>
   </div>
-  
+  </>
   );
   
   
