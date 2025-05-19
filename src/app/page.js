@@ -6,75 +6,10 @@ import Testimonals from "./Components/Testimonals";
 import Faq from "./Components/Faq";
 import ShopFromFarm from "./Components/ShopFromFarm";
 import Footer from "./Components/Footer";
+import SegmentedToggleWithContent from "./Components/SegmentedToggleWithContent";
 
 export default function Home() {
-  const products = [
-    {
-      id: 1,
-      image:
-        "https://bigbangcrackers.com/wp-content/uploads/2024/08/Website-Sliders-1646-X-609-2.jpg",
-      description: "4 Suta Plus Makhana| (12mm and above)| 200gm",
-      price1: "₹300.00",
-      price2: "₹299.00",
-    },
-    {
-      id: 2,
-      image:
-        "https://bigbangcrackers.com/wp-content/uploads/2024/08/Website-Sliders-1646-X-609-1.jpg",
-      description: "S6.5 Suta Plus(20.7mm above)| Handpicked Makhana|200gm",
-      price1: "₹499.00",
-      price2: "₹499.00",
-    },
-    {
-      id: 3,
-      image:
-        "https://bigbangcrackers.com/wp-content/uploads/2024/08/Website-Sliders-1646-X-609.jpg",
-      description: "5 Suta Plus Handpicked Makhana(15.8mm and above)| 200gm",
-      price1: "₹349.00 ",
-      price2: "₹299.00",
-    },
-  ];
-
-  const [startIndex, setStartIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(4);
-  const [visibleProducts, setVisibleProducts] = useState([]);
-
-  // 1️⃣ Update visible count based on screen size
-  useEffect(() => {
-    const updateVisibleCount = () => {
-      const width = window.innerWidth;
-      if (width <= 600) setVisibleCount(2);
-      else if (width <= 800) setVisibleCount(3);
-      else if (width <= 1025) setVisibleCount(4);
-      else setVisibleCount(4);
-    };
-
-    updateVisibleCount();
-    window.addEventListener("resize", updateVisibleCount);
-    return () => window.removeEventListener("resize", updateVisibleCount);
-  }, []);
-
-  // 2️⃣ Update visible products when startIndex or visibleCount changes
-  useEffect(() => {
-    const end = startIndex + visibleCount;
-    const visible = products
-      .slice(startIndex, end)
-      .concat(products.slice(0, Math.max(0, end - products.length)));
-    setVisibleProducts(visible);
-    // Remove products from dependencies
-  }, [startIndex, visibleCount]);
-
-  // 3️⃣ Navigation
-  const nextSlide = () => {
-    setStartIndex((prev) => (prev + visibleCount) % products.length);
-  };
-
-  const prevSlide = () => {
-    setStartIndex(
-      (prev) => (prev - visibleCount + products.length) % products.length
-    );
-  };
-
+  
   const images = [
     "https://bigbangcrackers.com/wp-content/uploads/2024/08/Website-Sliders-1646-X-609.jpg",
     "https://bigbangcrackers.com/wp-content/uploads/2024/08/Website-Sliders-1646-X-609-2.jpg",
@@ -112,6 +47,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+
 
       {/* hero section */}
 
@@ -183,55 +120,16 @@ export default function Home() {
           </div>
         </div>
       </div>
+      
+      
 
-      {/* most popular section */}
 
-      {/* <div className="most-popular d-flex flex-column align-items-center"> */}
-      {/* <p className="mb-0">Most Popular</p>
-        <h1 className="text-center mx-2">Discover flavours in demand</h1>
-        <div className="carousel-container">
-          <button onClick={prevSlide} className="carousel-btn">
-            <img src="/assets/back.png" alt="Previous" className="popular-btn" />
-          </button>
-
-          <div className="products-grid">
-            {visibleProducts.map((product) => (
-              <div key={product.id} className="product-card d-flex flex-column justify-content-between" >
-                <div>
-                 <a href="/Product"> <img
-                    src={product.image}
-                    alt={product.description}
-                    className="product-img"
-                  /></a>
-                  <p className="product-descrip">{product.description}</p>
-                  <div className="wishlist-icon">
-                    <img src="https://cdn-icons-png.flaticon.com/128/6051/6051092.png" />
-                  </div>
-                </div>
-                <div>
-                  <div className="price d-flex gap-1">
-                    <p className="price1">{product.price1}</p>
-                    <p className="price2">{product.price2}</p>
-                  </div>
-                  <button className="add-to-cart">Add to Cart</button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <button onClick={nextSlide} className="carousel-btn">
-            <img src="/assets/next2.png" alt="Next" className="popular-btn" />
-          </button>
-        </div> */}
-      {/* </div> */}
 
       {/* Featured categories */}
 
       {/* <FeaturedCarousel /> */}
 
       {/* shop from our farm */}
-
-      {/* <ShopFromFarm /> */}
 
       {/* feature bottom */}
 
@@ -261,6 +159,10 @@ export default function Home() {
 
       {/* Daily best sells section */}
       <DailySell />
+
+      <SegmentedToggleWithContent />
+
+      {/* <ShopFromFarm /> */}
 
       {/* testimonals section */}
       <Testimonals />

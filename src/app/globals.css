@@ -9,8 +9,8 @@ body {
   padding: 0;
 }
 :root {
-  --primary-color: #479D78;
-  --secondary-color: #75C475;
+  --primary-color: #e76c6a;
+  --secondary-color:  #6d0d0c;
 }
 
 /* navbar css */
@@ -204,6 +204,11 @@ body {
   justify-content: center;
 }
 
+.shop-now img {
+  width: 19px;
+  height: 19px;
+}
+
 /* Tablet (landscape and portrait) */
 @media (max-width: 1024px) {
   .hero-section {
@@ -341,6 +346,7 @@ body {
   cursor: pointer;
   font-size: 15px;
   font-weight: 500;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .most-popular{
@@ -354,6 +360,7 @@ body {
   font-size: 40px;
   margin-top: 10px;
   margin-bottom: 35px;
+  font-family: cursive;
 }
 .price1{
   text-decoration: line-through;
@@ -361,12 +368,15 @@ body {
   font-size: 18px;
 }
 .price2{
+  color: var(--primary-color);
   font-weight: 500;
   font-size: 18px;
 }
 .product-descrip{
   font-size: 18px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
 .wishlist-icon {
   position: absolute;
   top: 50%;
@@ -389,6 +399,13 @@ body {
   opacity: 1;
 }
 .product-card2:hover .wishlist-icon {
+  opacity: 1;
+}
+
+.shop-product-card{
+  position: relative;
+}
+.shop-product-card:hover .shop-wishlist-icon{
   opacity: 1;
 }
 
@@ -1469,6 +1486,7 @@ body {
 .products{
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .shop-product-card{
   width: 23%;
@@ -1681,3 +1699,35 @@ body {
 }
 
 
+
+.segmented-toggle {
+  background-color: #f6f7fb;
+  border-radius: 50px;
+  box-shadow: 0px 4px 20px rgba(80, 112, 243, 0.15);
+  width: fit-content;
+}
+
+.toggle-option {
+  padding: 10px 24px;
+  border-radius: 50px;
+  font-weight: 600;
+  color: #bbb;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.toggle-option.active {
+  background-color: white;
+  color: #2e2e2e;
+  box-shadow: 0px 4px 12px rgba(80, 112, 243, 0.15);
+}
+
+.toggle-content {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
