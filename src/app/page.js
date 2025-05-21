@@ -60,24 +60,8 @@ export default function Home() {
             backgroundSize: "cover",
           }}
         >
-          {/* <div className="hero-section1"> */}
-          {/* <h1>
-            Say goodbye to bland makhanas; it's time to savor the flavors.
-          </h1>
-          <p className="fs-6 fs-lg-5 mb-4">
-            Get extra 5% off on flavoured makhanas.
-          </p> */}
-          {/* <div className="shop-now d-flex gap-2 align-items-center justify-content-center my-3">
-            <p className="fs-5 mb-0 text-white">Shop Now</p>
-            <img src="/assets/next.png" alt="Next Icon" />
-          </div> */}
-          {/* </div> */}
         </div>
-      </div>
-
-      {/* free shiping section */}
-
-      <div className="free-shiping">
+        <div className="free-shiping">
         <div className="services-container">
           <div className="service-box">
             <div className="services-icon-wrapper">
@@ -111,6 +95,46 @@ export default function Home() {
 
           <div className="service-box">
             <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
               <img src="/assets/secure-payment.png" className="services-icon" />
             </div>
             <div>
@@ -120,8 +144,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      
-      
+      </div>
 
 
 

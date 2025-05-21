@@ -14,6 +14,7 @@ const products = [
     description: "Ground Chakkar Firecracker",
     price1: 250,
     price2: 200,
+    inStock: true,
   },
   {
     id: 2,
@@ -23,6 +24,7 @@ const products = [
     description: "Beautiful Flower Pots",
     price1: 300,
     price2: 250,
+    inStock: true,
   },
   {
     id: 3,
@@ -32,6 +34,7 @@ const products = [
     description: "Loud One Sound Crackers",
     price1: 350,
     price2: 300,
+    inStock: true,
   },
   {
     id: 4,
@@ -41,6 +44,7 @@ const products = [
     description: "Sparkling Sparklers",
     price1: 150,
     price2: 120,
+    inStock: true,
   },
   {
     id: 5,
@@ -50,6 +54,7 @@ const products = [
     description: "Exciting Novelties",
     price1: 400,
     price2: 350,
+    inStock: false,
   },
   {
     id: 6,
@@ -59,6 +64,7 @@ const products = [
     description: "Latest New Arrivals",
     price1: 280,
     price2: 230,
+    inStock: true,
   },
   {
     id: 7,
@@ -68,6 +74,7 @@ const products = [
     description: "Beautiful Fountain Crackers",
     price1: 320,
     price2: 270,
+    inStock: false,
   },
   {
     id: 8,
@@ -77,6 +84,7 @@ const products = [
     description: "Quick Fatafat Crackers",
     price1: 200,
     price2: 160,
+    inStock: false,
   },
   {
     id: 9,
@@ -86,6 +94,7 @@ const products = [
     description: "Fancy Crackers",
     price1: 310,
     price2: 260,
+    inStock: true,
   },
   {
     id: 10,
@@ -95,6 +104,7 @@ const products = [
     description: "Explosive Bombs",
     price1: 400,
     price2: 350,
+    inStock: true,
   },
   {
     id: 11,
@@ -104,15 +114,17 @@ const products = [
     description: "Bright Bijili Crackers",
     price1: 280,
     price2: 230,
+    inStock: false,
   },
   {
     id: 12,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/30-shots.png?w=1136&ssl=1",
-    category: "Multishots",
+    category: "MultiShots",
     description: "Multi-shot Fireworks",
     price1: 450,
     price2: 400,
+    inStock: false,
   },
 ];
 
@@ -142,12 +154,14 @@ const categories = [
 const Page = () => {
   const params = useParams();
   // const searchParams = useSearchParams();
-  const categoryFromUrl = params.category ? decodeURIComponent(params.category) : "All";
+  const categoryFromUrl = params.category
+    ? decodeURIComponent(params.category)
+    : "All";
 
   const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("featured");
-  const [showCount, setShowCount] = useState(10);
+  const [showCount, setShowCount] = useState(products.length);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   useEffect(() => {
@@ -195,6 +209,31 @@ const Page = () => {
     return filtered.slice(0, showCount);
   }, [selectedCategory, searchTerm, sortOption, showCount]);
 
+  const [quantities, setQuantities] = useState({});
+
+  const addToCart = (productId) => {
+    setQuantities((prev) => ({ ...prev, [productId]: 1 }));
+  };
+
+  const incrementQty = (productId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: (prev[productId] || 0) + 1,
+    }));
+  };
+
+  const decrementQty = (productId) => {
+    setQuantities((prev) => {
+      const newQty = (prev[productId] || 1) - 1;
+      if (newQty <= 0) {
+        const updated = { ...prev };
+        delete updated[productId];
+        return updated;
+      }
+      return { ...prev, [productId]: newQty };
+    });
+  };
+
   return (
     <>
       <Navbar />
@@ -215,8 +254,9 @@ const Page = () => {
               Filters
             </button>
           </div>
-           {/* DESKTOP: Sidebar Filter */}
-           <div className="category-section d-none d-md-block">
+
+          {/* DESKTOP: Sidebar Filter */}
+          <div className="category-section d-none d-md-block">
             <h5>Categories</h5>
             <div className="all-category mb-5">
               {categories.map((cat) => (
@@ -254,83 +294,82 @@ const Page = () => {
           </div>
 
           <div className="item-section">
-            {/* product search bar */}
-            <div className="d-flex gap-2 mb-3">
-              <input
-                className="product-search"
-                placeholder="Search for products"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+            <div className="table-responsive">
+              <table className="table table-bordered align-middle">
+                <thead className="table-light">
+                  <tr>
+                    <th>Product Code</th>
+                    <th>Product Name (Packing)</th>
+                    {/* <th>Image</th> */}
+                    <th>MRP</th>
+                    <th>Bijili Price</th>
+                    <th>Quantity</th>
+                    <th>Billing Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredProducts.map((product, index) => (
+                    <tr key={product.id}>
+                      <td>bij_{String(index + 1).padStart(3, "0")}</td>
+                      <td>{product.description} (10pcs/box)</td>
+                      {/* <td>
+                        <img
+                          src={product.image}
+                          alt={product.description}
+                          style={{ width: "40px", height: "auto" }}
+                        />
+                      </td> */}
+                      <td>
+                        <span className="text-muted text-decoration-line-through">
+                          ₹{product.price1}.00
+                        </span>
+                      </td>
+                      <td>₹{product.price2}.00</td>
+                      <td>
+                        {!product.inStock ? (
+                          <span style={{ color: "red" }}>Out of stock</span>
+                        ) : quantities[product.id] ? (
+                          <div className="d-flex justify-content-center align-items-center gap-2">
+                            <button
+                              className="btn btn-outline-danger btn-sm"
+                              onClick={() => decrementQty(product.id)}
+                            >
+                              −
+                            </button>
+                            <span>{quantities[product.id]}</span>
+                            <button
+                              className="btn btn-outline-success btn-sm"
+                              onClick={() => incrementQty(product.id)}
+                            >
+                              +
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={() => addToCart(product.id)}
+                          >
+                            Add To Cart
+                          </button>
+                        )}
+                      </td>
 
-              <select
-                className="form-select form-select-sm w-auto"
-                value={showCount}
-                onChange={(e) => setShowCount(Number(e.target.value))}
-              >
-                <option value={10}>Show: 10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-              </select>
-
-              <select
-                className="form-select form-select-sm w-auto"
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-              >
-                <option value="featured">Sort by: Featured</option>
-                <option value="high to low">Price: High to Low</option>
-                <option value="low to high">Price: Low to High</option>
-                <option value="release date">Release Date</option>
-                <option value="avg. rating">Avg. Rating</option>
-              </select>
-            </div>
-
-            <p className="product-quantity">
-              {filteredProducts.length}{" "}
-              <span className="quantity-p">Products found</span>
-            </p>
-
-            <div className="products">
-              {filteredProducts.map((product) => (
-                <div
-                  className="shop-product-card d-flex flex-column justify-content-between"
-                  key={product.id}
-                >
-                  <div>
-                    <img
-                      src={product.image}
-                      alt={product.description}
-                      className="product-img"
-                    />
-                    <p className="category1 mb-0">{product.category}</p>
-                    <p className="description">{product.description}</p>
-                    <div className="wishlist-icon">
-                      <img
-                        src="https://cdn-icons-png.flaticon.com/128/6051/6051092.png"
-                        alt="wishlist"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="price d-flex gap-1">
-                      <p className="shop-price2  fw-bold">
-                        ₹{product.price2}.00
-                      </p>
-                      <p className="shop-price1 text-muted text-decoration-line-through">
-                        ₹{product.price1}.00
-                      </p>
-                    </div>
-                    <button className="shop-addCart-btn">+ Add to Cart</button>
-                  </div>
-                </div>
-              ))}
+                      <td>
+                        ₹
+                        {quantities[product.id]
+                          ? (quantities[product.id] * product.price2).toFixed(2)
+                          : "0.00"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
-       {/* MOBILE FILTER DRAWER */}
-       {showMobileFilter && (
+      {/* MOBILE FILTER DRAWER */}
+      {showMobileFilter && (
         <div
           className="mobile-filter-drawer"
           style={{

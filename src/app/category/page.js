@@ -82,7 +82,10 @@
 // export default FeaturedCarousel;
 
 
+"use client";
+
 import React from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 
 const products = [
@@ -101,39 +104,49 @@ const products = [
 ];
 
 const FeaturedCarousel = () => {
+  const router = useRouter();
+
+  const handleCategoryClick = (categoryName) => {
+    const encoded = encodeURIComponent(categoryName);
+    router.push(`/shop/${encoded}`);
+  };
+  
+
   return (
     <>
-    
-   <Navbar />
-    <div className="featured py-5 px-3 ">
-    <h3
-      className="text-center mb-5"
-      style={{
-        fontFamily: "'Playball', cursive",
-        fontSize: "3.5rem",
-        textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
-        color: "#e53935",
-        fontWeight: 600,
-      }}
-    >
-      Categories Features
-    </h3>
-  
-    <div className="featured-carousel">
-      {products.map((product) => (
-        <div key={product.id} className="feature-product">
-          <img src={product.image} alt={product.name} />
-          <div className="feature-footer">
-          <p>{product.name}</p>
-          </div>
+      <Navbar />
+      <div className="featured py-5 px-3 ">
+        <h3
+          className="text-center mb-5"
+          style={{
+            fontFamily: "'Playball', cursive",
+            fontSize: "3.5rem",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
+            color: "#e53935",
+            fontWeight: 600,
+          }}
+        >
+          Categories Features
+        </h3>
+
+        <div className="featured-carousel">
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="feature-product"
+              onClick={() => handleCategoryClick(product.name)}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={product.image} alt={product.name} />
+              <div className="feature-footer">
+                <p>{product.name}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  </div>
-  </>
+      </div>
+    </>
   );
-  
-  
 };
 
 export default FeaturedCarousel;
