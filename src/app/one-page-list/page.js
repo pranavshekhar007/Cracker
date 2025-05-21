@@ -239,6 +239,7 @@ const Page = () => {
       <Navbar />
 
       <div className="shop-page">
+      <h1 className="text-center mb-4" style={{ color: '#6d0d0c' }}>Quick Buy</h1>
         <div className="shop-sections d-flex">
           {/* MOBILE: Filter Toggle Button */}
           <div className="d-md-none mb-3">
@@ -247,7 +248,7 @@ const Page = () => {
               onClick={() => setShowMobileFilter(true)}
             >
               <img
-                src="https://cdn-icons-png.flaticon.com/128/1828/1828912.png"
+                src="https://cdn-icons-png.flaticon.com/128/15430/15430342.png"
                 alt="filter icon"
                 style={{ width: "20px", marginRight: "6px" }}
               />

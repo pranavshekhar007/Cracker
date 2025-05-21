@@ -130,10 +130,11 @@ const Navbar = () => {
             src="https://cdn-icons-png.flaticon.com/128/6051/6051092.png"
             alt="icon1"
           />
-          <img
+          <Link href="/signup" ><img
             src="https://cdn-icons-png.flaticon.com/128/15494/15494722.png"
             alt="icon2"
           />
+          </Link>
           <img
             src="https://cdn-icons-png.flaticon.com/128/18695/18695999.png"
             alt="icon3"

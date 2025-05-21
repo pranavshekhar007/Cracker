@@ -208,7 +208,7 @@ const Page = () => {
               onClick={() => setShowMobileFilter(true)}
             >
               <img
-                src="https://cdn-icons-png.flaticon.com/128/1828/1828912.png"
+                src="https://cdn-icons-png.flaticon.com/128/15430/15430342.png"
                 alt="filter icon"
                 style={{ width: "20px", marginRight: "6px" }}
               />
