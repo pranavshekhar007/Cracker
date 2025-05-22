@@ -127,12 +127,13 @@ const page = () => {
                   </div>
                   <div>
                     <div className="price d-flex gap-1">
-                      <p className="shop-price2  fw-bold">
-                        ₹{product.price2}.00
-                      </p>
-                      <p className="shop-price1 text-muted text-decoration-line-through">
+                    <p className="price1 text-muted text-decoration-line-through">
                         ₹{product.price1}.00
                       </p>
+                      <p className="price2  fw-bold">
+                        ₹{product.price2}.00
+                      </p>
+                      
                     </div>
                     <button className="shop-addCart-btn">+ Add to Cart</button>
                   </div>

@@ -8,7 +8,7 @@ const page = () => {
   return (
     <>
     <Navbar/>
-      <div className='policy-page d-flex flex-column align-items-center'>
+      <div className='policy-page d-flex flex-column align-items-center '>
          <div className='policy-head d-flex align-items-center'>
             <div>
                  <h1>Cookie Policy</h1>

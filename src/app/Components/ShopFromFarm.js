@@ -1,7 +1,7 @@
 import React from "react";
 
 const ShopFromFarm = () => {
-  return (
+  return ( 
     <>
       <div className="from-farm d-flex flex-column align-items-center pb-5">
         <h2 className="farm-h">Our Shop</h2>

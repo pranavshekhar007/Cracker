@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -31,14 +32,28 @@ const Footer = () => {
           <div className="footer-2 footer-item d-flex flex-column align-items-center text-center">
             <h6>Explore Links</h6>
             <hr></hr>
-            <div>
-              <p>Cookie Policy</p>
-              <p>Disclaimer</p>
-              <p>Terms & Condition</p>
-              <p>Privacy Policy</p>
-              <p>Refund & Returns</p>
-              <p>Shipping Policy</p>
-              <p>Contact Us</p>
+            <div className="footer-links">
+              <Link href="/cookie-policy">
+                {" "}
+                <p>Cookie Policy</p>{" "}
+              </Link>
+              <Link href="/term-conditions">
+                <p>Terms & Condition</p>
+              </Link>
+              <Link href="/privacy-policy">
+                <p>Privacy Policy</p>
+              </Link>
+              <Link href="/refund-returns">
+                <p>Refund & Returns</p>{" "}
+              </Link>
+              <Link href="/shipping-policy">
+                {" "}
+                <p>Shipping Policy</p>{" "}
+              </Link>
+              <Link href="/contact-us">
+                {" "}
+              <p>Contact Us</p>{" "}
+              </Link>
             </div>
           </div>
 
