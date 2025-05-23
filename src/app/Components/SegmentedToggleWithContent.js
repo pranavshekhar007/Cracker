@@ -11,7 +11,7 @@ export default function SegmentedToggleWithContent() {
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center min-vh-100">
+    <div className="d-flex flex-column justify-content-center align-items-center">
       {/* Toggle Switch */}
       <div className="segmented-toggle d-flex p-1 mb-4">
         <div
