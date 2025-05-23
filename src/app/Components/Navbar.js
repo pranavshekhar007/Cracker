@@ -63,6 +63,7 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Top Navbar */}
       <div className="navbar-outer fixed-top d-flex py-2 justify-content-between align-items-center bg-white shadow">
         <div className="logo">
           <Link href="/">
@@ -82,18 +83,7 @@ const Navbar = () => {
               alt="menu"
             />
           </div>
-
-          {/* Search icon (mobile only) */}
-          <div
-            className="mobile-search-icon d-md-none"
-            onClick={toggleMobileSearch}
-          >
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/622/622669.png"
-              alt="search"
-              height={24}
-            />
-          </div>
+         
         </div>
 
         {/* Collapsible Nav Menu */}
@@ -125,15 +115,17 @@ const Navbar = () => {
           />
         </div>
 
-        <div className="nav-icons d-flex gap-3 align-items-center">
+        {/* Nav Icons */}
+        <div className="nav-icons d-none d-md-flex gap-3 align-items-center">
           <img
             src="https://cdn-icons-png.flaticon.com/128/6051/6051092.png"
             alt="icon1"
           />
-          <Link href="/signup" ><img
-            src="https://cdn-icons-png.flaticon.com/128/15494/15494722.png"
-            alt="icon2"
-          />
+          <Link href="/signup">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/15494/15494722.png"
+              alt="icon2"
+            />
           </Link>
           <img
             src="https://cdn-icons-png.flaticon.com/128/18695/18695999.png"
@@ -141,6 +133,7 @@ const Navbar = () => {
           />
         </div>
       </div>
+
       {/* Full-width mobile search bar */}
       {mobileSearchOpen && (
         <div
@@ -153,6 +146,60 @@ const Navbar = () => {
           />
         </div>
       )}
+
+      {/* Mobile Bottom Navigation */}
+      <div className="footer-links d-md-none fixed-bottom bg-white shadow-lg d-flex justify-content-around align-items-center py-2 border-top">
+        <Link href="/" className="text-center">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png"
+            alt="Home"
+            width="18"
+          />
+          <div className="my-small">Home</div>
+        </Link>
+
+        <div className="text-center">
+        <div
+            className="mobile-search-icon d-md-none"
+            onClick={toggleMobileSearch}
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/622/622669.png"
+              alt="search"
+              height={18}
+              width="18"
+            />
+          </div>
+          <div className="my-small">Search</div>
+        </div>
+
+        <div onClick={toggleMenu} className="text-center">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/1828/1828859.png"
+            alt="Menu"
+            width="18"
+          />
+          <div className="my-small">Menu</div>
+        </div>
+
+        <Link href="/cart" className="text-center">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/3144/3144456.png"
+            alt="Cart"
+            width="18"
+          />
+          <div className="my-small">Cart</div>
+        </Link>
+
+        <Link href="/signup" className="text-center">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/847/847969.png"
+            alt="User"
+            width="18"
+          />
+          <div className="my-small">Me</div>
+        </Link>
+      </div>
     </>
   );
 };

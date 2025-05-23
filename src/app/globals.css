@@ -93,6 +93,22 @@ body {
   box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
 }
 
+.bottom-nav img {
+  display: block;
+  margin: 0 auto;
+}
+.bottom-nav .small {
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+}
+
+.my-small{
+  color: #000000;
+  font-size: 11px;
+}
+
+
 
 @media (max-width: 1095px) {
   .nav-links {
@@ -133,7 +149,7 @@ body {
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 60px;
+    top: 56px;
     left: 12px;
     right: 12px;
     background-color: white;
@@ -159,6 +175,15 @@ body {
     /* margin-left: 60px; */
   }
 
+}
+
+@media (max-width: 767px) {
+  .custom-hide {
+    display: none !important;
+  }
+  .nav-links{
+    top: 42px;
+  }
 }
 
 @media (max-width: 425px) {
@@ -216,6 +241,11 @@ body {
     gap: 10px;
   }
 
+  @media (max-width: 920px) {
+    .hide-on-small {
+      display: none !important;
+    }
+  }  
  
 
 /* home page css */
@@ -269,7 +299,6 @@ body {
 @media (max-width: 450px) {
   .hero-section {
     margin-left: 15px;
-
     height: 44vh;
   }
 }
@@ -962,8 +991,7 @@ body {
 
 }
  /* Section spacing */
-.faq-section,
-.from-farm {
+.faq-section{
   margin: 60px 80px 80px;
 }
 
@@ -1296,10 +1324,10 @@ body {
 }
 
 .footer-outer{
-      padding-top: 60px;
+  padding-top: 60px;
   padding-left: 11%;
   padding-right: 11%;
-  /* margin-bottom: 80px; */
+  margin-top: 1px;
   background-color: #000000;
 }
 .footer-logo{
@@ -1353,7 +1381,11 @@ body {
   padding-right: 5%;
 }
 }
-
+@media (max-width:767px){
+  .footer-outer{
+    margin-bottom: 55px;
+  }
+}
 @media (max-width:670px){
   .footer-inner{
    flex-wrap: wrap;
@@ -1714,33 +1746,6 @@ body {
   font-weight: 600;
 }
 
-
-/* shop page css */
-
-.shop-page{
-  margin-top: 40px;
-    padding-left: 7%;
-    padding-right: 7%;
-    padding-top: 5%;
-    padding-bottom: 8%;
-}
-.category-section{
-  width: 23%;
-}
-.item-section{
-  width: 77%;
-}
-.category img{
-  width: 10px;
-  height: 10px;
-}
-.category{
-  padding: 12px 0px;
-  border-bottom: 1px solid rgb(208, 208, 208);
-}
-.category p{
-  font-weight: 500;
-}
 
 
 @media (max-width: 768px) {

@@ -87,6 +87,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
 
 const products = [
   { id: 1, name: "Ground Chakkar", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/chakker.png?resize=600%2C494&ssl=1" },
@@ -145,6 +146,7 @@ const FeaturedCarousel = () => {
           ))}
         </div>
       </div>
+      <Footer />
     </>
   );
 };
