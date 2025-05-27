@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
 
-         <link rel="icon" type="image/png" href="https://bigbangcrackers.com/wp-content/uploads/2023/08/cropped-big-bang-logo-png-1.png" />
+         <link rel="icon" type="image/png" href="https://bigbangcrackers.com/wp-content/uploads/2023/08/cropped-big-bang-logo-png.png" />
 
       <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
