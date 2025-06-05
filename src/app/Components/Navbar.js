@@ -387,6 +387,7 @@ const Navbar = () => {
               src="https://cdn-icons-png.flaticon.com/128/15494/15494722.png"
               alt="profile-icon"
               title="Sign Up / Login"
+              className="d-none d-md-block"
               onClick={handleProfileClick}
               style={{ cursor: "pointer", width: "30px", height: "30px" }}
             />
