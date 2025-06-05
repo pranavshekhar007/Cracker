@@ -4,10 +4,11 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Navbar from "@/app/Components/Navbar";
 import PriceFilter from "@/app/Components/PriceFilter";
+import ProductCard from "../Components/ProductCard";
 
 const products = [
   {
-    id: 1,
+    _id: 1,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/chakker.png?resize=600%2C494&ssl=1",
     category: "Ground Chakkar",
@@ -16,7 +17,7 @@ const products = [
     price2: 200,
   },
   {
-    id: 2,
+    _id: 2,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/Flower-Pot.png?w=1136&ssl=1",
     category: "Flower Pots",
@@ -25,7 +26,7 @@ const products = [
     price2: 250,
   },
   {
-    id: 3,
+    _id: 3,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/sound.png?w=1136&ssl=1",
     category: "One Sound",
@@ -34,7 +35,7 @@ const products = [
     price2: 300,
   },
   {
-    id: 4,
+    _id: 4,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/sparklers.png?w=1136&ssl=1",
     category: "Sparklers",
@@ -43,7 +44,7 @@ const products = [
     price2: 120,
   },
   {
-    id: 5,
+    _id: 5,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/Rocket.png?w=1136&ssl=1",
     category: "Novelties",
@@ -52,7 +53,7 @@ const products = [
     price2: 350,
   },
   {
-    id: 6,
+    _id: 6,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/kids.png?w=1136&ssl=1",
     category: "New Arrivals",
@@ -61,7 +62,7 @@ const products = [
     price2: 230,
   },
   {
-    id: 7,
+    _id: 7,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fountains.png?w=1136&ssl=1",
     category: "Choice of Fountain",
@@ -70,7 +71,7 @@ const products = [
     price2: 270,
   },
   {
-    id: 8,
+    _id: 8,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fatafat.png?w=1136&ssl=1",
     category: "Fatafat",
@@ -79,7 +80,7 @@ const products = [
     price2: 160,
   },
   {
-    id: 9,
+    _id: 9,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fancy.png?w=1136&ssl=1",
     category: "Fancy",
@@ -88,7 +89,7 @@ const products = [
     price2: 260,
   },
   {
-    id: 10,
+    _id: 10,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/bomb.png?w=1136&ssl=1",
     category: "Bombs",
@@ -97,7 +98,7 @@ const products = [
     price2: 350,
   },
   {
-    id: 11,
+    _id: 11,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/bijili.png?w=1136&ssl=1",
     category: "Bijili",
@@ -106,7 +107,7 @@ const products = [
     price2: 230,
   },
   {
-    id: 12,
+    _id: 12,
     image:
       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/30-shots.png?w=1136&ssl=1",
     category: "Multishots",
@@ -291,39 +292,14 @@ const Page = () => {
               <span className="quantity-p">Products found</span>
             </p>
 
-            <div className="products">
-              {filteredProducts.map((product) => (
-                <div
-                  className="shop-product-card d-flex flex-column justify-content-between"
-                  key={product.id}
-                >
-                  <div>
-                    <img
-                      src={product.image}
-                      alt={product.description}
-                      className="product-img"
-                    />
-                    <p className="category1 mb-0">{product.category}</p>
-                    <p className="description">{product.description}</p>
-                    <div className="wishlist-icon">
-                      <img
-                        src="https://cdn-icons-png.flaticon.com/128/6051/6051092.png"
-                        alt="wishlist"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="price d-flex gap-1">
-                    <p className="price1">
-                        ₹{product.price1}.00
-                      </p>
-                      <p className="price2">
-                        ₹{product.price2}.00
-                      </p>
-                     
-                    </div>
-                    <button className="shop-addCart-btn">+ Add to Cart</button>
-                  </div>
+            {/* product card */}
+
+            <div className="row my-4">
+              {filteredProducts.map((v , i) => (
+               
+                 <div className="col-md-4 col-6 mb-3"> 
+                  <ProductCard value={v}/>
+                  
                 </div>
               ))}
             </div>

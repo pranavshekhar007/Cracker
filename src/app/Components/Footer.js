@@ -21,11 +21,11 @@ const Footer = () => {
             </p>
 
             <div className="social-icons d-flex gap-2 mt-4">
-              <img src="/assets/facebook.png" />
-              <img src="/assets/twitter.png" />
-              <img src="/assets/linkedin.png" />
-              <img src="/assets/instagram.png" />
-              <img src="/assets/youtube.png" />
+              <img src="/assets/facebook.png" alt="facebook" />
+              <img src="/assets/twitter.png" alt="twitter" />
+              <img src="/assets/linkedin.png" alt="linkedin" />
+              <img src="/assets/instagram.png" alt="instagram" />
+              <img src="/assets/youtube.png" alt="youtube" />
             </div>
           </div>
 
@@ -75,11 +75,11 @@ const Footer = () => {
             © 2024. All Rights Reserved Bing Bang
           </p>
           <div className="d-flex gap-3">
-            <img src="/assets/paypal.png" className="company-img" />
-            <img src="/assets/visa.png" className="company-img" />
-            <img src="/assets/mastercard.png" className="company-img" />
-            <img src="/assets/discover.png" className="company-img" />
-            <img src="/assets/JCB.png" className="company-img" />
+            <img src="/assets/paypal.png" alt="paypal" className="company-img" />
+            <img src="/assets/visa.png" alt="visa" className="company-img" />
+            <img src="/assets/mastercard.png" alt="mastercard" className="company-img" />
+            <img src="/assets/discover.png" alt="discover" className="company-img" />
+            <img src="/assets/JCB.png" alt="JCB" className="company-img" />
           </div>
         </div>
         <div className="d-flex justify-content-center mt-1">

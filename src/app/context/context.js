@@ -19,11 +19,9 @@ export const LoggedDataProvider = ({ children }) => {
     // Save data to localStorage
     if (data) {
       localStorage.setItem('user', JSON.stringify(data));
-     
     } 
-  console.log('Logged-in user data stored in context and localStorage:', data);
-      
-   
+
+  console.log('Logged-in user data stored in context and localStorage:', data);  
   };
 
   // Load user data from localStorage when app loads

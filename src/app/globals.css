@@ -12,6 +12,7 @@ body {
 :root {
   --primary-color: #e76c6a;
   --secondary-color:  #6d0d0c;
+  color: #f9f5f5;
 }
 
 /* navbar css */
@@ -33,6 +34,11 @@ body {
 .nav-icons img {
   height: 28px;
   width: 28px;
+}
+.nav-icon-img{
+   height: 28px;
+  width: 28px;
+  margin-right: 3%;
 }
 
 .nav-links {
@@ -509,7 +515,7 @@ body {
   border: none;
 }
 .shop-sections{
-   gap: 1%;
+   gap: 2.5% !important;
 }
 
 .shop-page{
@@ -1137,6 +1143,12 @@ body {
   flex-direction: column;
   box-sizing: border-box;
   background-color: #00000033;
+    border: 1px solid #ddd;
+    
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+.daily-sell1{
+   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .daily-sells {
@@ -1165,19 +1177,14 @@ body {
  
 }
 .daily-sell {
-  width: 100%;
-  max-width: 300px;
-  border-radius: 15px;
-  overflow: hidden;
-  border: 1px solid #ddd;
-  /* background: #fff; */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+   width: 100%;
+  max-width: 300px;
+  overflow: hidden;
 }
 
 .daily-sell:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .daily-product-card {
@@ -1746,6 +1753,22 @@ body {
   font-weight: 600;
 }
 
+.navLinks li a {
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: black;
+    font-family: cursive;
+    margin-bottom: 3%;
+}
+.navLinks li {
+  margin-bottom: 7px;
+}
+
+.navLinks li.active-link a {
+  color: #d94040;
+  font-weight: 600;
+}
 
 
 @media (max-width: 768px) {
@@ -2065,7 +2088,7 @@ body {
 .segmented-toggle {
   background-color: #f6f7fb;
   border-radius: 50px;
-  box-shadow: 0px 4px 20px rgba(80, 112, 243, 0.15);
+  box-shadow: 0px 4px 20px rgba(243, 80, 80, 0.15);
   width: fit-content;
 }
 
@@ -2082,7 +2105,7 @@ body {
 .toggle-option.active {
   background-color: white;
   color: #2e2e2e;
-  box-shadow: 0px 4px 12px rgba(80, 112, 243, 0.15);
+  box-shadow: 0px 4px 12px rgb(243 80 119 / 15%)
 }
 
 .toggle-content {
@@ -2475,4 +2498,81 @@ flex-direction: column;
 .iframe{
   width: 100%;
   height: 450px;
+}
+
+/* CSS by Anushka */
+
+/* .productCard{
+  min-height: 400px;
+}
+.productInner{
+  min-height: 177px;
+} */
+
+.productCard img {
+  height: 180px;
+  width: 180px;
+}
+.productCard h6 {
+  font-family: cursive;
+  margin-bottom: 0px;
+  opacity: 0.6;
+}
+.productCard h4 {
+  font-family: poppins;
+  margin-bottom: 0px;
+  font-size: 16px;
+}
+.productCard p {
+  font-family: poppins;
+  margin-bottom: 0px;
+  font-size: 16px;
+}
+.productCard button {
+  width: 1000%;
+  background-color: var(--secondary-color);
+  padding: 6px 0px;
+  font-family: poppins;
+  border: none;
+  border-radius: 6px;
+  color: white;
+}
+.heartIcon img {
+  height: 22px;
+  width: 22px;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: var(--primary-color)!important;
+  font-size: 30px !important;
+}
+.notificationDiv {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background-color: red;
+  position: relative;
+  top: 10px;
+  left: -10px;
+}
+.notificationDiv p {
+  margin-bottom: 0px;
+  font-size: 10px;
+  text-align: center;
+  color: #fff;
+  font-weight: 500;
+  font-family: monospace;
+}
+.counterDiv p{
+  font-family: 16px;
+  font-family: monospace;
+
+  text-align: center;
+  padding: 4px 14px;
+  /* border-radius: 2px; */
+  margin-right: 0px;
+  color: rgb(0, 0, 0);
+}
+.counterDiv{
+    border: 1px solid rgb(209, 209, 209);
 }

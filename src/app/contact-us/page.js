@@ -17,7 +17,7 @@ const page = () => {
 
         <div className="contact-details d-flex gap-4 justify-content-center">
           <div className="contact-detail">
-            <img src="/assets/location.png"></img>
+            <img src="/assets/location.png" alt="location"></img>
             <div>
               <h5>ADDRESS</h5>
               <p>
@@ -28,7 +28,7 @@ const page = () => {
           </div>
 
           <div className="contact-detail">
-            <img src="assets/mail.png"></img>
+            <img src="assets/mail.png" alt="mail"></img>
             <div>
               <h5>MAIL US</h5>
               <p>vishal@crackers.com</p>

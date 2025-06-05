@@ -11,9 +11,12 @@ export default function SegmentedToggleWithContent() {
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
+    // <div className="d-flex flex-column justify-content-center align-items-center">
+    <div className="">
       {/* Toggle Switch */}
-      <div className="segmented-toggle d-flex p-1 mb-4">
+      <div className="segmented-toggle d-flex  p-1 mb-4"
+      style={{justifySelf: "center"}}
+      >
         <div
           className={`toggle-option ${active === "gpu" ? "active" : ""}`}
           onClick={() => handleToggle("gpu")}
