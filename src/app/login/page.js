@@ -4,6 +4,10 @@ import React from 'react'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
 import { useRouter } from 'next/navigation';
+import { logIn } from '../services/authentication.service';
+import { LoggedDataContext } from '../context/context';
+import { toast } from "react-toastify";
+
 
 const page = () => {
 

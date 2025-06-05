@@ -45,9 +45,10 @@
 // export default Navbar;
 
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { LoggedDataContext } from "../context/context";
 import "../globals.css";
 import Search from "./Search";
 
@@ -55,11 +56,23 @@ const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const { loggedUserData } = useContext(LoggedDataContext);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
   const toggleMobileSearch = () => setMobileSearchOpen(!mobileSearchOpen);
+
+  // 🔁 Conditional navigation logic
+  const handleProfileClick = () => {
+    console.log(loggedUserData);
+    if (loggedUserData) {
+      router.push("/profile");
+    } else {
+      router.push("/signup");
+    }
+  };
 
   return (
     <>
@@ -77,13 +90,15 @@ const Navbar = () => {
 
         <div className="d-flex ham-search align-items-center gap-3">
           {/* Hamburger icon (mobile only) */}
-          <div className="hamburger only-mobile custom-hide" onClick={toggleMenu}>
+          <div
+            className="hamburger only-mobile custom-hide"
+            onClick={toggleMenu}
+          >
             <img
               src="https://cdn-icons-png.flaticon.com/128/1828/1828859.png"
               alt="menu"
             />
           </div>
-         
         </div>
 
         {/* Collapsible Nav Menu */}
@@ -121,12 +136,32 @@ const Navbar = () => {
             src="https://cdn-icons-png.flaticon.com/128/6051/6051092.png"
             alt="icon1"
           />
-          <Link href="/signup">
+          {/* 🔁 Profile icon with conditional redirect */}
+          {loggedUserData && loggedUserData.profilePic ? (
+            <img
+              src={loggedUserData.profilePic}
+              alt="user-profile"
+              className="rounded-circle"
+              title="Go to Profile"
+              onClick={handleProfileClick}
+              style={{
+                cursor: "pointer",
+                width: "35px",
+                height: "35px",
+                objectFit: "cover",
+                borderRadius: "50%",
+              }}
+            />
+          ) : (
             <img
               src="https://cdn-icons-png.flaticon.com/128/15494/15494722.png"
-              alt="icon2"
+              alt="profile-icon"
+              title="Sign Up / Login"
+              onClick={handleProfileClick}
+              style={{ cursor: "pointer", width: "30px", height: "30px" }}
             />
-          </Link>
+          )}
+
           <img
             src="https://cdn-icons-png.flaticon.com/128/18695/18695999.png"
             alt="icon3"
@@ -159,7 +194,7 @@ const Navbar = () => {
         </Link>
 
         <div className="text-center">
-        <div
+          <div
             className="mobile-search-icon d-md-none"
             onClick={toggleMobileSearch}
           >
