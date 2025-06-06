@@ -212,6 +212,7 @@ import Search from "./Search";
 const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [footerMenuOpen, setfooterMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const { loggedUserData, cartList, setCartList } = useContext(LoggedDataContext);
   const router = useRouter();
@@ -219,6 +220,12 @@ const Navbar = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  const toggleFooterMenu = () => {
+    setfooterMenuOpen(!footerMenuOpen);
+  };
+
+
   const toggleMobileSearch = () => setMobileSearchOpen(!mobileSearchOpen);
 
   // 🔁 Conditional navigation logic
@@ -332,7 +339,7 @@ const Navbar = () => {
 
         {/* Collapsible Nav Menu */}
         <ul
-          className={`nav-links  list-unstyled mb-0 `}
+          className={`nav-links  list-unstyled mb-0 ${menuOpen ? "open" : ""} `}
         >
           {/* <li className={pathname === "/" ? "active-link" : ""}>
             <Link href="/">Home</Link>
@@ -340,14 +347,14 @@ const Navbar = () => {
           <li className={pathname === "/shop" ? "active-link" : ""}>
             <Link href="/shop">Shop</Link>
           </li> */}
-          <li className={pathname === "/category" ? "active-link" : ""}>
-            <Link href="/category">Shop By Category</Link>
+          <li className={pathname === "/shop" ? "active-link" : ""}>
+            <Link href="/shop">Shop By Category</Link>
           </li>
           <li className={pathname === "/one-page-list" ? "active-link" : ""}>
             <Link href="/one-page-list">One Page List</Link>
           </li>
           <li className={pathname === "/combo-product" ? "active-link" : ""}>
-            <Link href="/combo-product">Combo Products</Link>
+            <Link href="/combo-product">Combo Packs</Link>
           </li>
           
         </ul>
@@ -367,6 +374,25 @@ const Navbar = () => {
             alt="icon1"
           /> */}
           {/* 🔁 Profile icon with conditional redirect */}
+
+           <div className="d-flex align-items-center ">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/3514/3514491.png"
+              className="nav-icon-img"
+              alt="notification-icon"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#cartSidebar"
+            />
+            <div className="notificationDiv">
+              <p>
+                {cartList?.reduce(
+                  (total, item) => total + (item.quantity || 0),
+                  0
+                )}
+              </p>
+            </div>
+          </div>
+
           {loggedUserData && loggedUserData.profilePic ? (
             <img
               src={loggedUserData.profilePic}
@@ -392,28 +418,7 @@ const Navbar = () => {
               style={{ cursor: "pointer", width: "30px", height: "30px" }}
             />
           )}
-
-            {/* <img
-            src="https://cdn-icons-png.flaticon.com/128/665/665865.png"
-            className="nav-icon-img"
-          /> */}
-          <div className="d-flex align-items-center ">
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/3514/3514491.png"
-              className="nav-icon-img"
-              alt="notification-icon"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#cartSidebar"
-            />
-            <div className="notificationDiv">
-              <p>
-                {cartList?.reduce(
-                  (total, item) => total + (item.quantity || 0),
-                  0
-                )}
-              </p>
-            </div>
-          </div>
+         
          
         </div>
          
@@ -458,7 +463,7 @@ const Navbar = () => {
           <div className="my-small">Search</div>
         </div>
 
-        <div onClick={toggleMenu} className="text-center">
+        <div onClick={toggleFooterMenu} className="text-center">
           <img
             src="https://cdn-icons-png.flaticon.com/128/1828/1828859.png"
             alt="Menu"
@@ -502,20 +507,20 @@ const Navbar = () => {
 
             <div className="offcanvas-body">
               {cartList?.map((item) => (
-                <div className="d-flex mb-3" key={item.id}>
+                <div className="d-flex mb-3" key={item._id}>
                   <img
-                    src={item.image}
+                    src={item.productHeroImage}
                     alt={item.description}
                     className="me-3"
                     style={{ width: "80px", height: "80px" }}
                   />
                   <div className="w-100">
-                    <h6>{item.description}</h6>
+                    <h6>{item.name}</h6>
 
                     <div className="d-flex justify-content-between w-100">
 
                         <p className=" fw-bold mt-1 mb-0">
-                      <del className="text-muted fw-normal">₹{item?.price1}</del> ₹{item?.price2}
+                      <del className="text-muted fw-normal">₹{item?.price}</del> ₹{item?.discountedPrice}
                     </p> 
 
                       <div className="d-flex counterDiv  rounded-1 ">
@@ -528,7 +533,7 @@ const Navbar = () => {
                       </p>
                       <p  className="mb-0">
                         {/* {
-                          cartList.find((item) => item._id === value._id)
+                          cartList.find((cartitem) => cartitem._id === item._id)
                             ?.quantity
                         } */}
                         {item?.quantity}
@@ -549,15 +554,7 @@ const Navbar = () => {
 
               <hr />
 
-              {/* <h6>
-                SUBTOTAL: ₹ (
-                {cartList?.reduce(
-                  (total, item) => total + item.discountedPrice * item.quantity,
-                  0
-                )}
-                )
-              </h6> */}
-                <h6>
+              <h6>
                 SUBTOTAL: ₹ (
                 {cartList?.reduce(
                   (total, item) => total + item.discountedPrice * item.quantity,
@@ -565,6 +562,7 @@ const Navbar = () => {
                 )}
                 )
               </h6>
+                
 
               <button
                 className="btn btn-danger w-100 mt-4"
@@ -613,29 +611,30 @@ const Navbar = () => {
       )}
 
       {/* Mobile Bottom Slide-Up Menu */}
-{menuOpen && (
+{footerMenuOpen && (
   <div
-    className={`mobile-bottom-menu d-md-none position-fixed bottom-0 start-0 w-100 bg-white  p-3`}
+    className={`mobile-bottom-menu d-md-none position-fixed bottom-0 start-0 w-100   p-3`}
     style={{
       zIndex: 1000,
       animation: "slideUp 1s ease",
-      marginBottom: "55px"
+      marginBottom: "55px",
+      backgroundColor: "#f6f6f6"
     }}
   >
     <ul
-          className={`navLinks list-unstyled mb-0  text-center`}
+          className={`navLinks list-unstyled mb-0 text-center`}
         >
-          <li className={pathname === "/" ? "active-link" : ""}>
+          {/* <li className={pathname === "/" ? "active-link" : ""}>
             <Link href="/">Home</Link>
           </li>
           <li className={pathname === "/shop" ? "active-link" : ""}>
             <Link href="/shop">Shop</Link>
-          </li>
-          <li className={pathname === "/category" ? "active-link" : ""}>
-            <Link href="/category">Shop By Category</Link>
+          </li> */}
+          <li className={pathname === "/shop" ? "active-link" : ""}>
+            <Link href="/shop">Shop By Category</Link>
           </li>
           <li className={pathname === "/combo-product" ? "active-link" : ""}>
-            <Link href="/combo-product">Combo Products</Link>
+            <Link href="/combo-product">Combo Packs</Link>
           </li>
           <li className={pathname === "/one-page-list" ? "active-link" : ""}>
             <Link href="/one-page-list">One Page List</Link>

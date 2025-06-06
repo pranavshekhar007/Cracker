@@ -200,7 +200,7 @@
 import React from "react";
 import ProductCard from "./ProductCard";
 
-const ShopFromFarm = () => {
+const ShopFromFarm = ({productList}) => {
 
 
   const products = [
@@ -293,7 +293,7 @@ const ShopFromFarm = () => {
             </div> */}
 
              {
-              products.map((v) => (
+              productList.slice(0 , 8).map((v) => (
                  <div className="col-lg-3 col-6 d-flex justify-content-center mb-4">
                  <ProductCard value={v}/>
             </div>

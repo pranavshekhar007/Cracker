@@ -256,19 +256,40 @@ body {
 
 /* home page css */
 
+.hero-slider-wrapper {
+  overflow: hidden;
+  height: auto;
+}
+
+.hero-section {
+  height: auto;
+}
+
+.banner-img {
+  /* height: 500px; */
+    height: 100%;
+    border-radius: 15px;
+    width: 100%;
+}
+
+/* before */
+
 .hero-section {
   width: 100%;
   max-width: 1350px;
-  margin: 10px auto;
-  padding: 30px;
+  /* margin: 10px auto;
+  padding: 20px; */
   height: 60vh;
-  border-radius: 15px;
-  background-size: cover;
+ border-radius: 15px;
+  margin: 1% auto;
+  padding: 0 0%;
+  /* background-size: cover;
   background-position: center;
   transition: background-image 1s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: center;
+} */
 }
 
 .shop-now img {
@@ -277,9 +298,10 @@ body {
 }
 
 /* Tablet (landscape and portrait) */
-@media (max-width: 1024px) {
+@media (max-width: 1025px) {
   .hero-section {
-    padding: 25px;
+    /* padding: 25px; */
+    padding: 0 2%;
     height: 48vh;
   }
   .hero-container{
@@ -291,54 +313,37 @@ body {
 /* Medium and small tablets */
 @media (max-width: 768px) {
   .hero-section {
-    margin: 10px 15px;
-    padding: 20px;
+    /* margin: 10px 15px;
+    padding: 20px; */
     height: 48vh;
   }
   .hero-container{
-    padding-left: 5px;
-    padding-right: 36px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 
 /* Mobile devices */
-@media (max-width: 450px) {
+@media (max-width: 500px) {
   .hero-section {
-    margin-left: 15px;
-    height: 44vh;
+    /* margin-left: 15px; */
+    /* height: 44vh; */
+    height: 100%;
+      margin: 3% auto;
   }
 }
 @media (max-width: 425px) {
   .hero-section {
     /* margin-left: 10px; */
-
-    height: 28vh;
+/* 
+    height: 28vh; */
   }
 }
 @media (max-width: 320px) {
   .hero-section {
-    height: 34vh;
+    /* height: 34vh; */
   }
 }
-
-/* .hero-section {
-  aspect-ratio: 16 / 9;
-  height: auto;
-  min-height: auto;
-} */
-
-
-/* .carousel-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-} */
-
-/* .products-grid {
-  display: flex;
-  gap: 20px;
-} */
 .products-grid {
   display: flex;
   justify-content: center;
@@ -347,8 +352,6 @@ body {
   flex-wrap: nowrap; /* Prevent wrapping */
   width: 100%;
 }
-
-
 .product-card {
   position: relative; 
   width: 230px;
@@ -1180,6 +1183,7 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
    width: 100%;
   max-width: 300px;
+  min-width: 250px;
   overflow: hidden;
 }
 
@@ -1769,6 +1773,10 @@ body {
   color: #d94040;
   font-weight: 600;
 }
+.navLinks li.active-link , .nav-links li.active-link {
+   padding: 4px 1px;
+  background-color: rgb(237, 236, 236);
+}
 
 
 @media (max-width: 768px) {
@@ -1878,7 +1886,7 @@ body {
 
 
 
-/* .selected-category {
+.selected-category {
   background-color: #0070f3;
   color: white;
   border-radius: 6px;
@@ -1890,7 +1898,7 @@ body {
 .selected-category img {
   filter: invert(1);
   transition: filter 0.3s ease;
-} */
+}
 
 
 .update-bar {
@@ -1918,6 +1926,7 @@ body {
   border-bottom-left-radius: 8px;
   display: flex;
   align-items: center;
+  height: 40px;
 }
 
 .update-text-wrapper {
@@ -2508,7 +2517,19 @@ flex-direction: column;
 .productInner{
   min-height: 177px;
 } */
+ .productCard{
+   height: 100%;
+   width: 100%;
+ }
 
+@media (min-width:500px) {
+  .productHeight{
+   min-height: 400px;
+}
+.innerHeight{
+   min-height: 177px;
+}
+}
 .productCard img {
   height: 180px;
   width: 180px;
@@ -2541,7 +2562,50 @@ flex-direction: column;
   height: 22px;
   width: 22px;
 }
+@media (max-width: 500px) {
+    .banner-img {
+  height: 320px;
+}
 
+.productCard img {
+  height: 90px !important;
+  width: 90px !important;
+}
+
+.productCard h4 {
+  
+  font-size: 11px !important;
+}
+.productCard p {
+ 
+  font-size: 11px !important;
+}
+.productCard button {
+  
+  padding: 3px 0px !important;
+  font-size: 12px !important;
+}
+.heartIcon img {
+  height: 15px !important;
+  width: 15px !important;
+}
+.productSliderDiv h1 {
+ 
+  font-size: 25px;
+}
+.productSliderDiv h5 {
+  
+  font-size: 16px;
+}
+.navbar-outer {
+    padding: 5px;
+    position: relative;
+  }
+ 
+}
+body , html{
+  overflow-x: hidden !important;
+}
 .slick-prev:before, .slick-next:before {
   color: var(--primary-color)!important;
   font-size: 30px !important;

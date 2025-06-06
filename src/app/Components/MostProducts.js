@@ -161,7 +161,7 @@
 import React, { useEffect, useState } from 'react'
 import ProductSlider from './ProductSlider';
 
-const MostProducts = () => {
+const MostProducts = ({productList}) => {
 
     const products = [
         {
@@ -266,58 +266,13 @@ const MostProducts = () => {
 
   return (
        <div className="">
-        {/* <p className="mb-0">New Arrivals</p>
-        <h1 className="text-center mx-2">Discover flavours in demand</h1>
-        <div className="carousel-container d-flex gap-1">
-          <button onClick={prevSlide} className="carousel-btn">
-            <img
-              src="/assets/back.png"
-              alt="Previous"
-              className="popular-btn"
-            />
-          </button>
-
-          <div className="products-grid">
-            {visibleProducts.map((product) => (
-              <div
-                key={product.id}
-                className="product-card d-flex flex-column justify-content-between"
-              >
-                <div>
-                  <a href="/Product">
-                    {" "}
-                    <img
-                      src={product.image}
-                      alt={product.description}
-                      className="product-img"
-                    />
-                  </a>
-                  <p className="product-descrip">{product.description}</p>
-                  <div className="wishlist-icon">
-                    <img src="https://cdn-icons-png.flaticon.com/128/13369/13369080.png" />
-                  </div>
-                </div>
-                <div>
-                  <div className="price d-flex gap-1">
-                    <p className="price1">{product.price1}</p>
-                    <p className="price2">{product.price2}</p>
-                  </div>
-                  <button className="add-to-cart">Add to Cart</button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <button onClick={nextSlide} className="carousel-btn">
-            <img src="/assets/next2.png" alt="Next" className="popular-btn" />
-          </button>
-        </div> */}
+      
 
         <ProductSlider 
          title="New Arrivals"
         subTitle="Discover flavours in demand"
         textAlignCenter={true}
-        productList={products}
+        productList={productList}
            
         />
       </div>

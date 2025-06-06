@@ -3,7 +3,7 @@ import { useState } from "react";
 import MostProducts from "./MostProducts";
 import ShopFromFarm from "./ShopFromFarm";
 
-export default function SegmentedToggleWithContent() {
+export default function SegmentedToggleWithContent({productList}) {
   const [active, setActive] = useState("cloud");
 
   const handleToggle = (value) => {
@@ -34,13 +34,13 @@ export default function SegmentedToggleWithContent() {
       {/* Conditional Content */}
       {active === "gpu" && (
         <div className="toggle-content">
-          <MostProducts />
+          <MostProducts productList = {productList} />
         </div>
       )}
 
       {active === "cloud" && (
         <div className="toggle-content">
-          <ShopFromFarm />
+          <ShopFromFarm  productList = {productList} />
         </div>
       )}
     </div>

@@ -122,7 +122,7 @@ import ProductCard from "./ProductCard";
     },
   ];
 
-const DailySell = () => {
+const DailySell = ({productList}) => {
   return (
     <>
       <div className="daily-sells">
@@ -137,14 +137,14 @@ const DailySell = () => {
             </div>
           </div>
 
-          {products.map((product) => (
+          {productList.slice(0,3).map((product) => (
         
           <div className="daily-sell">
             <ProductCard value={product}
             bgColor = {'#f0d0d0'}
             borderRadius = {'15px'}
-            cardHeight = {"400px"}
-            innerHeight = {"177px"}
+            innerHeight = {true}
+             height = {true}
           />
             </div>
 

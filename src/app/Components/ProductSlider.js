@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function ProductSlider({title, subTitle, productList, textAlignCenter}) {
+function ProductSlider({title, subTitle, productList , textAlignCenter}) {
  var settings = {
     arrows: true,
     dots: true,
@@ -49,8 +49,8 @@ function ProductSlider({title, subTitle, productList, textAlignCenter}) {
           return (
             <div className="col-6 col-md-3 px-1 px-md-2 mb-2 mb-md-3">
               <ProductCard value={v}
-              cardHeight = {"400px"}
-            innerHeight = {"177px"}
+            innerHeight = {true}
+            height = {true}
               />
             </div>
           );

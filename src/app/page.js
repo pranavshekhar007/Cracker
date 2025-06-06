@@ -7,24 +7,27 @@ import Faq from "./Components/Faq";
 import ShopFromFarm from "./Components/ShopFromFarm";
 import Footer from "./Components/Footer";
 import SegmentedToggleWithContent from "./Components/SegmentedToggleWithContent";
+import HeroSection from "./Components/HeroSection";
+import { getProductServ } from "./services/product.service";
 
 export default function Home() {
-  
-  const images = [
-    "https://bigbangcrackers.com/wp-content/uploads/2024/08/Website-Sliders-1646-X-609.jpg",
-    "https://bigbangcrackers.com/wp-content/uploads/2024/08/Website-Sliders-1646-X-609-2.jpg",
-  ];
 
-  const [currentImage, setCurrentImage] = useState(images[0]);
+    const [productlist, setProductList] = useState([]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prevImage) =>
-        prevImage === images[0] ? images[1] : images[0]
-      );
-    }, 4000); // Change every 4 seconds
+  const getProductList = async () => {
+    try {
+      let response = await getProductServ();
+      console.log(response?.data);
+      if (response?.statusCode == "200") {
+        setProductList(response?.data);
+      }
+    } catch (error) {
+      console.log("getting error in product api")
+    }
+  };
 
-    return () => clearInterval(interval); // Cleanup on unmount
+   useEffect(() => {
+    getProductList();
   }, []);
 
   return (
@@ -52,7 +55,7 @@ export default function Home() {
 
       {/* hero section */}
 
-      <div className="hero-container">
+      {/* <div className="hero-container">
         <div
           className="hero-section d-flex flex-column justify-content-center"
           style={{
@@ -61,6 +64,95 @@ export default function Home() {
           }}
         >
         </div>
+        <div className="free-shiping">
+        <div className="services-container">
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/cart.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">Minimum Order Value</p>
+              <p>₹1,999 (TN, BLRE & PY)</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/car.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">HOME DELIVERY</p>
+              <p>(TN, BLRE & PY Only)</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/viber.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">OTHER STATES</p>
+              <p>Minimum Order ₹6,000</p>
+            </div>
+          </div>
+
+          <div className="service-box">
+            <div className="services-icon-wrapper">
+              <img src="/assets/secure-payment.png" className="services-icon" />
+            </div>
+            <div>
+              <p className="mb-0 fw-bold">UPTO 80% DISCOUNT</p>
+              <p>with Assured Packing Quality</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div> */}
+
+      <div className="hero-container">
+         
+        <HeroSection/>
+       
         <div className="free-shiping">
         <div className="services-container">
           <div className="service-box">
@@ -181,9 +273,13 @@ export default function Home() {
       </div> */}
 
       {/* Daily best sells section */}
-      <DailySell />
+      <DailySell
+       productList={productlist}
+      />
 
-      <SegmentedToggleWithContent />
+      <SegmentedToggleWithContent
+       productList={productlist}
+      />
 
       {/* <ShopFromFarm /> */}
 

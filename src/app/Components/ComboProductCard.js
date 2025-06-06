@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
 
-function ProductCard({ value , bgColor , borderRadius  , innerHeight , height}) {
+function ComboProductCard({ value , bgColor , borderRadius  , innerHeight , height}) {
   const { loggedUserData, cartList, setCartList, wishList, setWishList } =  useContext(LoggedDataContext);
   const router = useRouter();
 
@@ -100,6 +100,7 @@ function ProductCard({ value , bgColor , borderRadius  , innerHeight , height}) 
 style={{
   ...(bgColor && { backgroundColor: bgColor }),
   ...(borderRadius && { borderRadius: borderRadius }),
+  // ...(cardHeight && { minHeight: cardHeight }),
 }}
       onClick={() => router.push("/product-details/" + value?._id)}
     >
@@ -113,19 +114,16 @@ style={{
 
       <div className="d-flex justify-content-center">
         <img src={value?.productHeroImage} className="img-fluid" />
-         {/* <img src={value?.image} alt={value.description} className="img-fluid" /> */}
+    
       </div>
 
       <div className={`p-2 productInner d-flex flex-column justify-content-between ${innerHeight ? 'innerHeight' : ''}`}
 >
         <h4>{value?.name}</h4>
        <div>
-         {/* <h4 className="fs-6 mb-1 mt-2">{value.category}</h4>
-        <h4 className="fw-bold mb-3">{value.description}</h4> */}
         <p>
           <s className="text-danger">{value?.price}</s>{" "}
-           <s className="text-danger">{value?.price1}</s>{" "}
-               <span className="fw-bold"> {value?.discountedPrice} &#8377; </span>
+          <span className="text-success text-bold"> {value?.discountedPrice} &#8377; </span>
         </p>
        </div>
       
@@ -146,4 +144,4 @@ style={{
   );
 }
 
-export default ProductCard;
+export default ComboProductCard;
