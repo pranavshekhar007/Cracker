@@ -253,7 +253,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Navbar from "@/app/Components/Navbar";
 import PriceFilter from "@/app/Components/PriceFilter";
-import { getProductServ , getCategory} from "../services/product.service";
+import { getProductServ , getCategory} from "../../services/product.service";
 
 
 
