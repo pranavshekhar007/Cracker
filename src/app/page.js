@@ -282,14 +282,14 @@ export default function Home() {
         })}
 />
 
-      {/* <SegmentedToggleWithContent
+      <SegmentedToggleWithContent
       productList={productlist.filter((v) => 
     v?.specialAppearance?.includes("our shop") &&
     v?.specialAppearance?.includes("new Arrivals")
   )}
-      /> */}
-         <SegmentedToggleWithContent
-      productList={productlist}/>
+      />
+         {/* <SegmentedToggleWithContent
+      productList={productlist}/> */}
 
       {/* <ShopFromFarm /> */}
 

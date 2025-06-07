@@ -36,10 +36,10 @@ export default function SegmentedToggleWithContent({ productList }) {
       {active === "gpu" && (
         <div className="toggle-content">
           <MostProducts
-            // productList={productList?.filter((v, i) => {
-            //   return v?.specialAppearance?.includes("new Arrivals");
-            // })}
-            productList={productList}
+            productList={productList?.filter((v, i) => {
+              return v?.specialAppearance?.includes("new Arrivals");
+            })}
+          
           />
         </div>
       )}

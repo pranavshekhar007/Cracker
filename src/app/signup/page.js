@@ -197,7 +197,7 @@ const handleSubmit = async (e) => {
             <p className="signup-p">
               Already have an account?{" "}
               <span className="signin-option fw-bold" onClick={handleLogin}>
-                Sign in
+                Log in
               </span>
             </p>
           </div>
