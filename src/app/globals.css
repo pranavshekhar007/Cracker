@@ -1161,8 +1161,8 @@ body {
   margin-left: 20px;
   margin-right: 20px;
   padding: 40px 20px;
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-wrap: wrap; */
   gap: 20px;
   justify-content: center;
   border-radius: 20px;
@@ -2603,6 +2603,68 @@ flex-direction: column;
   }
  
 }
+
+/* .product details */
+productDetailsDiv h1{
+  font-family: poppins;
+  font-size: 30px;
+  font-weight: 600;
+  /* color: #3D9970; */
+  color:gray
+}
+.reviewDiv a{
+  font-family: sans-serif;
+}
+.productDetailsDiv h5{
+  font-family: poppins;
+  font-size: 16px;
+  font-weight: 500;
+}
+.varientDiv span{
+  border: 1px solid green;
+  border-radius: 2px;
+  font-family: sans-serif;
+}
+.counterDiv p{
+  font-family: 16px;
+  font-family: monospace;
+  border: 1px solid gray;
+  text-align: center;
+  padding: 4px 14px;
+  border-radius: 2px;
+  margin-right: 6px;
+  color: gray;
+}
+.productDetailsBtn button{
+  width: 48%;
+  background-color: var(--secondary-color);
+  padding: 8px 0px;
+  font-family: poppins;
+  border: none;
+  border-radius: 6px;
+  color: white;
+}
+.productDetailsLeftBtnGroup p{
+  font-family: 16px;
+  font-family: poppins;
+  border: 1px solid gray;
+  text-align: center;
+  padding: 8px 14px;
+  border-radius: 2px;
+  width: 200px;
+  color: gray;
+  margin-bottom: 0px;
+  cursor: pointer;
+}
+.breadcrumb p{
+  font-family: poppins;
+  margin-right: 8px;
+}
+.discountedPrice{
+   font-size: 25px;
+   color: #00b33c;
+}
+
 body , html{
   overflow-x: hidden !important;
 }
@@ -2610,6 +2672,7 @@ body , html{
   color: var(--primary-color)!important;
   font-size: 30px !important;
 }
+
 .notificationDiv {
   height: 15px;
   width: 15px;

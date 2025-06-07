@@ -163,112 +163,13 @@ import ProductSlider from './ProductSlider';
 
 const MostProducts = ({productList}) => {
 
-    const products = [
-        {
-          _id: 111,
-          image:
-            "https://gustosafoods.com/wp-content/uploads/2024/10/4-plus-300x300.png",
-          description: "4 Suta Plus Makhana| (12mm and above)| 200gm",
-          price1: "₹300.00",
-          price2: "₹299.00",
-        },
-        {
-          _id: 222,
-          image:
-            "https://gustosafoods.com/wp-content/uploads/2024/10/6-plus-hp-600x600.png",
-          description: "S6.5 Suta Plus(20.7mm above)| Handpicked Makhana|200gm",
-          price1: "₹499.00",
-          price2: "₹499.00",
-        },
-        {
-          _id: 333,
-          image:
-            "	https://gustosafoods.com/wp-content/uploads/2024/10/5-plus-Handpicked-300x300.jpg",
-          description: "5 Suta Plus Handpicked Makhana(15.8mm and above)| 200gm",
-          price1: "₹349.00 ",
-          price2: "₹299.00",
-        },
-        {
-          _id: 4444,
-          image:
-            "https://gustosafoods.com/wp-content/uploads/2024/10/2-300x300.png",
-          description: "Yogibhog Makhana 500gm (250gm x 2)",
-          price1: "₹1,400.00",
-          price2: "₹799.00",
-        },
-        {
-          _id: 555,
-          image:
-            "https://gustosafoods.com/wp-content/uploads/2024/10/3-300x300.png",
-          description: "Yogibhog | Premium Makhana Big Size 250gm",
-          price1: "₹700.00",
-          price2: "₹499.00",
-        },
-        {
-          _id: 666,
-          image:
-            "https://bigbangcrackers.com/wp-content/uploads/2024/08/Website-Sliders-1646-X-609-2.jpg",
-          description: "Frisky Roasted Makhana(Fox Nut), Peri Peri, jar - 70gm",
-          price1: "₹199.00",
-          price2: "₹198.00",
-        },
-        {
-          _id: 777,
-          image:
-            "https://bigbangcrackers.com/wp-content/uploads/2024/08/Website-Sliders-1646-X-609-2.jpg",
-          description: "Frisky Roasted Makhana(Fox Nut), Peri Peri, jar - 70gm",
-          price1: "₹199.00",
-          price2: "₹198.00",
-        },
-      ];
-    
-    
-      // const [startIndex, setStartIndex] = useState(0);
-      // const [visibleCount, setVisibleCount] = useState(4);
-      // const [visibleProducts, setVisibleProducts] = useState([]);
-    
-      // // 1️⃣ Update visible count based on screen size
-      // useEffect(() => {
-      //   const updateVisibleCount = () => {
-      //     const width = window.innerWidth;
-      //     if (width <= 600) setVisibleCount(2);
-      //     else if (width <= 800) setVisibleCount(3);
-      //     else if (width <= 1025) setVisibleCount(4);
-      //     else setVisibleCount(4);
-      //   };
-    
-      //   updateVisibleCount();
-      //   window.addEventListener("resize", updateVisibleCount);
-      //   return () => window.removeEventListener("resize", updateVisibleCount);
-      // }, []);
-    
-      // // 2️⃣ Update visible products when startIndex or visibleCount changes
-      // useEffect(() => {
-      //   const end = startIndex + visibleCount;
-      //   const visible = products
-      //     .slice(startIndex, end)
-      //     .concat(products.slice(0, Math.max(0, end - products.length)));
-      //   setVisibleProducts(visible);
-      //   // Remove products from dependencies
-      // }, [startIndex, visibleCount]);
-    
-      // // 3️⃣ Navigation
-      // const nextSlide = () => {
-      //   setStartIndex((prev) => (prev + visibleCount) % products.length);
-      // };
-    
-      // const prevSlide = () => {
-      //   setStartIndex(
-      //     (prev) => (prev - visibleCount + products.length) % products.length
-      //   );
-      // };
-    
 
   return (
        <div className="">
       
 
         <ProductSlider 
+
          title="New Arrivals"
         subTitle="Discover flavours in demand"
         textAlignCenter={true}

@@ -428,7 +428,8 @@ import Navbar from "@/app/Components/Navbar";
 import PriceFilter from "@/app/Components/PriceFilter";
 import ProductCard from "../Components/ProductCard";
 import { getProductServ , getCategory} from "../services/product.service";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 
 const Page = () => {
@@ -568,18 +569,33 @@ console.log("filtered product" + filtered);
            <div className="category-section d-none d-md-block">
             <h5>Categories</h5>
             <div className="all-category mb-5">
-              {categories.map((cat) => (
+              {showLoaderCategory
+                  ? [1, 2, 3, 4 , 5 , 6 , 7 , 8]?.map((v, i) => {
+                      return (
+                        <div>
+                          <div className="d-flex align-items-center px-2  text-light mb-1 shadow-sm rounded border">
+                            {/* <Skeleton height={40} width={40}/> */}
+                            <div className="m-1 w-100">
+                              <Skeleton width="100%" height={40}/>
+                              {/* <Skeleton width="100%" height={18}/> */}
+                              
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : categories.map((cat) => (
                 <div
                   key={cat}
-                  className={`category d-flex justify-content-between  ${
+                  className={`category d-flex justify-content-between align-items-center  ${
                     selectedCategory === cat.name ? "selected-category" : ""
                   }`}
                  onClick={() => setSelectedCategory(cat.name)}
                   style={{
                     cursor: "pointer",
                     backgroundColor:
-                      selectedCategory === cat ? "#6d0d0c" : "transparent",
-                    color: selectedCategory === cat ? "white" : "black",
+                      selectedCategory === cat.name ? "#6d0d0c" : "transparent",
+                    color: selectedCategory === cat.name ? "white" : "black",
                     padding: "8px 12px",
                     borderRadius: "6px",
                     transition: "background-color 0.3s ease, color 0.3s ease",
@@ -591,7 +607,7 @@ console.log("filtered product" + filtered);
                     src="https://cdn-icons-png.flaticon.com/128/130/130884.png"
                     alt="arrow icon"
                     style={{
-                      filter: selectedCategory === cat ? "invert(1)" : "none",
+                      filter: selectedCategory === cat.name ? "invert(1)" : "none",
                       transition: "filter 0.3s ease",
                     }}
                   />
@@ -643,7 +659,39 @@ console.log("filtered product" + filtered);
             {/* product card */}
 
             <div className="row my-4">
-              {filteredProducts.map((v , i) => (
+             {showLoader
+                ? [1, 2, 3, 4, 5, 6]?.map((v, i) => {
+                    return (
+                      <div className="col-md-4 col-6 mb-3  ">
+                        <div className="productCard shadow-sm border ">
+                          <div className="d-flex justify-content-between align-items-center heartIcon pe-2">
+                            <h6 className="badge border text-dark m-2">
+                              <Skeleton height={20} width={100} />
+                            </h6>
+                            <Skeleton height={20} width={20} />
+                          </div>
+
+                          <div className="w-100">
+                            <Skeleton height={180} width="100%" />
+                          </div>
+
+                          <div className="p-2">
+                            <h4>
+                              <Skeleton />
+                            </h4>
+                            <p>
+                              <Skeleton />
+                            </p>
+
+                            <div className="w-100 ">
+                              <Skeleton height={30} width="100%" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                  :filteredProducts.map((v , i) => (
                
                  <div className="col-md-4 col-6 mb-3"> 
                   <ProductCard value={v}/>

@@ -114,17 +114,21 @@ style={{
 
       <div className="d-flex justify-content-center">
         <img src={value?.productHeroImage} className="img-fluid" />
-    
       </div>
+      
 
       <div className={`p-2 productInner d-flex flex-column justify-content-between ${innerHeight ? 'innerHeight' : ''}`}
 >
         <h4>{value?.name}</h4>
        <div>
         <p>
-          <s className="text-danger">{value?.price}</s>{" "}
-          <span className="text-success text-bold"> {value?.discountedPrice} &#8377; </span>
+          <s className="text-danger">&#8377;{value?.pricing?.actualPrice}</s>{" "}
+          <span className=" fw-bold">&#8377;{value?.pricing?.offerPrice} </span>
         </p>
+       <div className="d-flex justify-content-between mt-3">
+         <p className="text-secondary fw-bold fs-6">Combo price </p>
+        <p className="text-success fw-bold fs-5">  &#8377;{value?.pricing?.comboPrice}</p>
+       </div>
        </div>
       
 

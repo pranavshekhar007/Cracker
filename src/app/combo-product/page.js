@@ -1,12 +1,13 @@
-"use client"
+"use client";
 
 import React from "react";
 import Navbar from "../Components/Navbar";
 import PriceFilter from "../Components/PriceFilter";
 import ComboProductCard from "../Components/ComboProductCard";
 import { getComboProductServ } from "../services/product.service";
-import { useState , useEffect } from "react";
-
+import { useState, useEffect } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 // const products = [
 //   {
@@ -96,31 +97,25 @@ import { useState , useEffect } from "react";
 //   },
 // ];
 
-
-
 const page = () => {
+  const [products, setProductList] = useState([]);
+  const [showLoader, setShowLoader] = useState(false);
 
-   const [products, setProductList] = useState([]);
-    const [showLoader, setShowLoader] = useState(false);
-  
-  
-    const getProductList = async () => {
-      setShowLoader(true);
-      try {
-        let response = await getComboProductServ();
-        console.log(response?.data);
-        if (response?.statusCode == "200") {
-          setProductList(response?.data);
-        }
-      } catch (error) {}
-      setShowLoader(false);
-    };
+  const getProductList = async () => {
+    setShowLoader(true);
+    try {
+      let response = await getComboProductServ();
+      console.log(response?.data);
+      if (response?.statusCode == "200") {
+        setProductList(response?.data);
+      }
+    } catch (error) {}
+    setShowLoader(false);
+  };
 
-
-        useEffect(() => {
-        getProductList();
-      }, [] );
-
+  useEffect(() => {
+    getProductList();
+  }, []);
 
   return (
     <>
@@ -136,51 +131,52 @@ const page = () => {
             </p>
 
             <div className="products row">
-              {products.map((product) => (
-                // <div
-                //   className="shop-product-card d-flex flex-column justify-content-between"
-                //   key={product.id}
-                // >
-                //   <div>
-                //     <img
-                //       src={product.image}
-                //       alt={product.description}
-                //       className="product-img"
-                //     />
-                //     <p className="category1 mb-0">{product.category}</p>
-                //     <p className="description">{product.description}</p>
-                //     <div className="wishlist-icon">
-                //       <img
-                //         src="https://cdn-icons-png.flaticon.com/128/6051/6051092.png"
-                //         alt="wishlist"
-                //       />
-                //     </div>
-                //   </div>
-                //   <div>
-                //     <div className="price d-flex gap-1">
-                //     <p className="price1 text-muted text-decoration-line-through">
-                //         ₹{product.price1}.00
-                //       </p>
-                //       <p className="price2  fw-bold">
-                //         ₹{product.price2}.00
-                //       </p>
-                      
-                //     </div>
-                //     <button className="shop-addCart-btn">+ Add to Cart</button>
-                //   </div>
-                // </div>
-        
-         <div className="col-lg-3 col-md-4 col-6 mb-md-4 mb-2">
-           <ComboProductCard
-          value={product}
-            // bgColor = {'#f0d0d0'}
-            // borderRadius = {'15px'}
-              innerHeight = {true}
-             height = {true}
-          />
-          </div>
 
-              ))}
+              {products && products.length > 0? (
+                 products.map((product) => (
+                <div className="col-lg-3 col-md-4 col-6 mb-md-4 mb-2">
+                  <ComboProductCard
+                    value={product}
+                    innerHeight={true}
+                    height={true}
+                  />
+                </div>
+              ))
+              ):(
+                 [1, 2, 3 ,4 ,5 ,6 ,7 ,8 ]?.map((v, i) => {
+                                    return (
+                                      <div className="col-md-3 col-6 mb-3 daily-sell ">
+                                        <div className="productCard shadow-sm border ">
+                                          <div className="d-flex justify-content-between align-items-center heartIcon pe-2">
+                                            <h6 className="badge border text-dark m-2">
+                                              <Skeleton height={20} width={100} />
+                                            </h6>
+                                            <Skeleton height={20} width={20} />
+                                          </div>
+                
+                                          <div className="w-100">
+                                            <Skeleton height={180} width="100%" />
+                                          </div>
+                
+                                          <div className="p-2">
+                                            <h4>
+                                              <Skeleton />
+                                            </h4>
+                                            <p>
+                                              <Skeleton />
+                                            </p>
+                
+                                            <div className="w-100 ">
+                                              <Skeleton height={30} width="100%" />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    );
+                                  }
+                               )
+              )}
+             
             </div>
           </div>
         </div>

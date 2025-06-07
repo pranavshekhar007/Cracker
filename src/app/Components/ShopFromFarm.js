@@ -199,6 +199,9 @@
 
 import React from "react";
 import ProductCard from "./ProductCard";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 
 const ShopFromFarm = ({productList}) => {
 
@@ -292,12 +295,48 @@ const ShopFromFarm = ({productList}) => {
               </div>
             </div> */}
 
-             {
+             {productList && productList.length > 0 ? (
+
+             
               productList.slice(0 , 8).map((v) => (
                  <div className="col-lg-3 col-6 d-flex justify-content-center mb-4">
                  <ProductCard value={v}/>
             </div>
               ))
+            ):
+            (
+                [1, 2, 3 ,4]?.map((v, i) => {
+                                   return (
+                                     <div className="col-md-3 col-6 mb-3  ">
+                                       <div className="productCard shadow-sm border ">
+                                         <div className="d-flex justify-content-between align-items-center heartIcon pe-2">
+                                           <h6 className="badge border text-dark m-2">
+                                             <Skeleton height={20} width={100} />
+                                           </h6>
+                                           <Skeleton height={20} width={20} />
+                                         </div>
+               
+                                         <div className="w-100">
+                                           <Skeleton height={180} width="100%" />
+                                         </div>
+               
+                                         <div className="p-2">
+                                           <h4>
+                                             <Skeleton />
+                                           </h4>
+                                           <p>
+                                             <Skeleton />
+                                           </p>
+               
+                                           <div className="w-100 ">
+                                             <Skeleton height={30} width="100%" />
+                                           </div>
+                                         </div>
+                                       </div>
+                                     </div> 
+                )})
+            )
+          
              }
 
            

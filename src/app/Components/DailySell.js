@@ -94,40 +94,15 @@
 
 import React from "react";
 import ProductCard from "./ProductCard";
-
- const products = [
-    {
-      _id: 11,
-      image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2024/08/Ground-Spinner-Ashoka-Photoroom.jpg?w=500&ssl=1",
-      category: "Spinner",
-      description: "Ground Spinner Ashoka – 10 Pcs",
-      price1: "330.00",
-       price2: "66.00",
-    },
-    {
-      _id: 22,
-      image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2024/08/Ground-spinner-big-Photoroom.jpg?w=500&ssl=1",
-      category: "Spinner",
-      description: "Ground Spinner Big – 10 Pcs",
-      price1: "230.00",
-       price2: "46.00",
-    },
-    {
-      _id: 33,
-      image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2024/08/Ground-spinner-special-Photoroom.jpg?w=500&ssl=1",
-      category: "Spinner",
-      description: "Ground Spinner Special – 10 Pcs",
-      price1: "450.00",
-       price2: "90.00",
-    },
-  ];
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const DailySell = ({productList}) => {
   return (
     <>
       <div className="daily-sells">
-        <h1 >Daily Best Sells</h1>
-        <div className="all-sells d-flex gap-4">
+        <h1  className="text-center">Daily Best Sells</h1>
+        <div className="all-sells d-flex gap-4 justify-content-center">
           <div className="daily-sell1 daily-sell ">
             <h3 className="text-white">Ground Chakkar.</h3>
             <p className="text-white">Get the best deal before close.</p>
@@ -137,7 +112,8 @@ const DailySell = ({productList}) => {
             </div>
           </div>
 
-          {productList.slice(0,3).map((product) => (
+          {productList && productList.length > 0 ? (
+             productList.slice(0,3).map((product) => (
         
           <div className="daily-sell">
             <ProductCard value={product}
@@ -148,9 +124,43 @@ const DailySell = ({productList}) => {
           />
             </div>
 
-          ))}
+          ))
+          ):(
+             [1, 2, 3]?.map((v, i) => {
+                    return (
+                      <div className="col-md-3 col-6 mb-3 daily-sell ">
+                        <div className="productCard shadow-sm border ">
+                          <div className="d-flex justify-content-between align-items-center heartIcon pe-2">
+                            <h6 className="badge border text-dark m-2">
+                              <Skeleton height={20} width={100} />
+                            </h6>
+                            <Skeleton height={20} width={20} />
+                          </div>
 
-         
+                          <div className="w-100">
+                            <Skeleton height={180} width="100%" />
+                          </div>
+
+                          <div className="p-2">
+                            <h4>
+                              <Skeleton />
+                            </h4>
+                            <p>
+                              <Skeleton />
+                            </p>
+
+                            <div className="w-100 ">
+                              <Skeleton height={30} width="100%" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+               )
+           )
+        }
+                
         </div>
       </div>
     </>

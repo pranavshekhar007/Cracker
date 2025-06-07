@@ -273,13 +273,23 @@ export default function Home() {
       </div> */}
 
       {/* Daily best sells section */}
-      <DailySell
+      {/* <DailySell
        productList={productlist}
-      />
+      /> */}
+      <DailySell 
+          productList={productlist?.filter((v, i) => {
+          return v?.specialAppearance?.includes("daily sell");
+        })}
+/>
 
-      <SegmentedToggleWithContent
-       productList={productlist}
-      />
+      {/* <SegmentedToggleWithContent
+      productList={productlist.filter((v) => 
+    v?.specialAppearance?.includes("our shop") &&
+    v?.specialAppearance?.includes("new Arrivals")
+  )}
+      /> */}
+         <SegmentedToggleWithContent
+      productList={productlist}/>
 
       {/* <ShopFromFarm /> */}
 

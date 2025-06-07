@@ -324,18 +324,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="d-flex ham-search align-items-center gap-3">
-          {/* Hamburger icon (mobile only) */}
-          <div
-            className="hamburger only-mobile custom-hide"
-            onClick={toggleMenu}
-          >
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/1828/1828859.png"
-              alt="menu"
-            />
-          </div>
-        </div>
+       
 
         {/* Collapsible Nav Menu */}
         <ul
@@ -418,9 +407,24 @@ const Navbar = () => {
               style={{ cursor: "pointer", width: "30px", height: "30px" }}
             />
           )}
+
+           <div className="d-flex ham-search align-items-center gap-3">
+          {/* Hamburger icon (mobile only) */}
+          <div
+            className="hamburger only-mobile custom-hide"
+            onClick={toggleMenu}
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/1828/1828859.png"
+              alt="menu"
+            />
+          </div>
+        </div>
          
          
         </div>
+
+        
          
       </div>
 
