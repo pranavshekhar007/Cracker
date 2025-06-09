@@ -173,8 +173,7 @@ const MostProducts = ({productList}) => {
          title="New Arrivals"
         subTitle="Discover flavours in demand"
         textAlignCenter={true}
-        productList={productList}
-           
+        productList={productList}     
         />
       </div>
   )

@@ -69,3 +69,31 @@ export const getComboProductServ = async () => {
     throw error; 
   }
 };
+
+
+
+// place order
+
+export const placeOrderServ = async (formdata) => {
+  try {
+    const response = await axios.post(BASE_URL + "booking/create", formdata);
+    return response.data;
+  } catch (error) {
+    console.error("place Order error:", error);
+    throw error;
+  }
+};
+
+
+// paymnet
+
+export const uploadPaymentServ = async (formdata) => {
+  try {
+    const response = await axios.put(BASE_URL + "booking/upload/payment-ss", formdata);
+    return response.data;
+  } catch (error) {
+    console.error("payment error:", error);
+    throw error;
+  }
+  
+};

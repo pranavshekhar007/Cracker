@@ -442,7 +442,6 @@ const Page = () => {
   const [sortOption, setSortOption] = useState("featured");
   const [showCount, setShowCount] = useState(10);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
-
   const [products, setProductList] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
 

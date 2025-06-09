@@ -1,10 +1,12 @@
 "use client";
-import { useState } from "react";
+import {useState } from "react";
 import MostProducts from "./MostProducts";
 import ShopFromFarm from "./ShopFromFarm";
 
 export default function SegmentedToggleWithContent({ productList }) {
   const [active, setActive] = useState("cloud");
+
+   
 
   const handleToggle = (value) => {
     setActive(value);

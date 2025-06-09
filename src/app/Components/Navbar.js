@@ -269,14 +269,20 @@ const Navbar = () => {
     localStorage.setItem("cartList", JSON.stringify(localCartList));
     setCartList(localCartList);
   };
-  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+
 
   const handleProceedToCheckout = () => {
-    setShowPaymentPopup(true);
+     const offcanvasElement = document.getElementById("cartSidebar");
+  const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
+
+
+  offcanvas.hide();
+
+
+     router.push("/checkout");
+
   };
-  const handleClosePaymentPopup = () => {
-    setShowPaymentPopup(false);
-  };
+
   const initiatePayment = () => {
     const amount = cartList?.reduce(
       (total, item) => total + item.discountedPrice * item.quantity,
@@ -577,42 +583,7 @@ const Navbar = () => {
             </div>
           </div>
         
-      {/* Payment Popup */}
-      {showPaymentPopup && (
-        <div
-          className="payment-popup position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-          style={{ background: "rgba(0,0,0,0.5)", zIndex: 9999 }}
-        >
-          <div
-            className="bg-white p-4 rounded"
-            style={{ width: "400px", maxWidth: "90%" }}
-          >
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5>Payment Summary</h5>
-              <button
-                className="btn-close"
-                onClick={handleClosePaymentPopup}
-              ></button>
-            </div>
-
-            <p>
-              Total Products:{" "}
-              {cartList?.reduce((total, item) => total + item.quantity, 0)}
-            </p>
-            <p>
-              Subtotal: ₹
-              {cartList?.reduce(
-                (total, item) => total + item.discountedPrice * item.quantity,
-                0
-              )}
-            </p>
-
-            <button className="btn btn-primary w-100" onClick={initiatePayment}>
-              Pay Now
-            </button>
-          </div>
-        </div>
-      )}
+    
 
       {/* Mobile Bottom Slide-Up Menu */}
 {footerMenuOpen && (
