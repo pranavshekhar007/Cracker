@@ -54,10 +54,12 @@ const Page = () => {
     phone: "",
     phoneOtp: "",
   });
+   
   const [showPhoneInput, setShowPhoneInput] = useState(false);
   const sendOtpFunc = async () => {
     try {
-      let response = await otpSend(userFormData);
+       const { phone } = userFormData;
+      let response = await otpSend(phone);
       if (response?.statusCode == "200") {
         toast.success(response?.message);
         setShowPhoneInput(true);
