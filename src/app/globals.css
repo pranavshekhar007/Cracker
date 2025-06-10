@@ -2132,7 +2132,7 @@ body {
 /* Sign up and login page css */
 .signup-page , .login-page{
   padding: 5%;
-  background-color: #f0f5f4;
+  background-color: #fffcfc;;
   margin-top: 45px;
 }
 .profile-pic {
@@ -2980,4 +2980,14 @@ body , html{
   .add-address {
     width: 100%;
   }
+  .cartImg{
+     height: 60px !important;
+     width: 60px !important;
+}
+.cartName{
+  font-size: 12px;
+}
+.cartPrice{
+   font-size: 12px;
+}
 }

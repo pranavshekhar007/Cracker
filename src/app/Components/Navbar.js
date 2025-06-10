@@ -234,7 +234,7 @@ const Navbar = () => {
     if (loggedUserData) {
       router.push("/profile");
     } else {
-      router.push("/signup");
+      router.push("/login");
     }
   };
 
@@ -278,9 +278,7 @@ const Navbar = () => {
 
   offcanvas.hide();
 
-
      router.push("/checkout");
-
   };
 
   const initiatePayment = () => {

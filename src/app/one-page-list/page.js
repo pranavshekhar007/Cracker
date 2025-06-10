@@ -540,7 +540,7 @@ const Page = () => {
       setShowLoader(true);
       try {
         let response = await getProductServ();
-        console.log(response?.data);
+       console.log("response products" + response?.data);
         if (response?.statusCode == "200") {
           setProductList(response?.data);
         }
@@ -554,7 +554,7 @@ const Page = () => {
       setShowLoaderCategory(true);
       try {
         let response = await getCategory();
-        console.log(response?.data);
+        console.log( response?.data);
         if (response?.statusCode == "200") {
   
            const allCategory = { name: "All" };
@@ -699,7 +699,7 @@ const Page = () => {
 
       <div className="shop-page">
       <h1 className="text-center mb-4" style={{ color: '#6d0d0c' }}>Quick Buy</h1>
-        <div className="shop-sections d-flex">
+        <div className="shop-sections d-flex flex-md-nowrap flex-wrap">
           {/* MOBILE: Filter Toggle Button */}
           <div className="d-md-none mb-3">
             <button

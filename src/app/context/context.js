@@ -51,7 +51,7 @@ export const LoggedDataProvider = ({ children }) => {
   
 
   return (
-    <LoggedDataContext.Provider value={{ setWishList, wishList, cartList, setCartList, loggedUserData, updateLoggedUserData, setProductList:setProductList, productList:productList }}>
+    <LoggedDataContext.Provider value={{ setWishList, wishList, cartList, setCartList,setLoggedUserData , loggedUserData, updateLoggedUserData, setProductList:setProductList, productList:productList }}>
       {children}
     </LoggedDataContext.Provider>
   );

@@ -127,7 +127,7 @@ const page = () => {
             {/* product search bar */}
 
             <p className="product-quantity">
-              26 <span className="quantity-p">Products found</span>
+               {products.length} <span className="quantity-p">Products found</span>
             </p>
 
             <div className="products row">

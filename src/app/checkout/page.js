@@ -54,9 +54,25 @@ const Page = () => {
     phone: "",
     phoneOtp: "",
   });
-   
-  const [showPhoneInput, setShowPhoneInput] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
+   const [showPhoneInput, setShowPhoneInput] = useState(false);
+
+   const [phoneLoading, setPhoneLoading] = useState(false);
+      const [otpLoading, setOtpLoading] = useState(false);
+
   const sendOtpFunc = async () => {
+     if (!userFormData.phone) {
+    setErrorMessage("Please enter your phone number first.");
+    return;
+  } 
+   if (userFormData.phone.length !== 10) {
+    setErrorMessage("Please enter a valid 10-digit phone number.");
+    return;
+  }
+
+  setErrorMessage("");
+  setPhoneLoading(true)
     try {
        const { phone } = userFormData;
       let response = await otpSend(phone);
@@ -66,9 +82,17 @@ const Page = () => {
       }
     } catch (error) {
       console.log(error?.response?.message);
+       toast.error(error?.response?.data?.message);
     }
+    setPhoneLoading(false)
   };
   const otpVerifyFunc = async () => {
+      if (!userFormData.phoneOtp) {
+    setErrorMessage("Please enter your otp first.");
+    return;
+  }
+  setErrorMessage("");
+  setOtpLoading(true);
     try {
       let response = await otpVerify(userFormData);
       if (response?.statusCode == "200") {
@@ -77,7 +101,10 @@ const Page = () => {
       }
     } catch (error) {
       console.log(error?.response?.data?.message);
+          toast.error(error?.response?.data?.message);
+    
     }
+    setOtpLoading(false);
   };
   
   const [orderPayload, setOrderPayload]=useState({
@@ -128,8 +155,10 @@ const Page = () => {
          setOrderId(response?.data?._id);
         setShowPaymentPopup(true)
       }
+    
     } catch (error) {
       console.log(error)
+       
     }
    
   }
@@ -166,21 +195,24 @@ const Page = () => {
 
 
   return (
-    <div>
+    <div 
+    style={{backgroundColor: "#f6f6f6" , minHeight: "100vh"}}>
       <Navbar />
-      <div className="container py-5 my-5" style={{ fontFamily: "poppins" }}>
-        <h2>Checkout</h2>
-        <div className="row">
-          <div className="col-7">
-            <div className="border rounded p-4 my-4">
+      <div className="container py-5 mt-5" style={{ fontFamily: "poppins" }}>
+        <h2 className="mb-4">Checkout</h2>
+        <div className="row gx-0 gx-lg-5">
+          <div className="col-lg-7 col-12 order-2 order-lg-1  ">
+            <div className=" rounded px-md-4 p-md-3 p-1 bg-white"
+            style={{boxShadow: "rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;"}}>
               {loggedUserData?._id ? (
                 <div className="border rounded p-3 mb-4">
                   <div className="d-flex justify-content-between align-items-center mx-2 mb-2">
-                    <h4 className="mb-0">Delivery Address</h4>
+                    <h6 className="mb-0 fw-bold">Delivery Address</h6>
                     {addresses?.length > 1 && (
                       <img
                         src="https://cdn-icons-png.flaticon.com/128/6364/6364586.png"
                         style={{ height: "15px", opacity: "0.6" }}
+                      
                       />
                     )}
                   </div>
@@ -353,7 +385,7 @@ const Page = () => {
                       />
                     </div>
                   </div>
-                  <div className="d-flex">
+                  <div className="d-flex flex-column flex-sm-row">
                     <div className="mx-1">
                       {!editAddress && (
                         <button
@@ -385,12 +417,13 @@ const Page = () => {
                   </div>
                 </div>
               ) : (
-                <div className="border p-4 mb-4">
-                  <h4>Please Verify your phone number</h4>
+                <div className=" pb-4 mb-4">
+                  <h6 className="fw-bold mb-4">Please Verify your phone number</h6>
                   <input
                     value={userFormData.phone}
                     className="form-control mb-3"
                     placeholder="Enter number"
+                    required
                     onChange={(e) =>
                       setUserFormData({
                         ...userFormData,
@@ -412,36 +445,44 @@ const Page = () => {
                       }
                     />
                   )}
+                  {errorMessage && <p className="text-danger mt-2">{errorMessage}</p>}
+
                   {showPhoneInput ? (
                     <button
-                      className="btn btn-success w-100  mt-3"
+                      className="btn  w-100  mt-3 text-white"
+                      style={{ backgroundColor: "maroon" }}
                       onClick={() => otpVerifyFunc()}
+                      disabled = {otpLoading}
                     >
-                      Verify OTP
+                     {otpLoading? <span className="spinner-border spinner-border-sm"></span> : "Verify OTP"}
                     </button>
                   ) : (
-                    <button
-                      className="btn btn-primary w-100  mt-2"
-                      onClick={() => sendOtpFunc()}
-                    >
-                      Send OTP
-                    </button>
+                   <button
+  className="btn w-100 mt-2 text-white"
+  style={{ backgroundColor: "maroon" }}
+  onClick={sendOtpFunc}
+  disabled={phoneLoading} 
+>
+  {phoneLoading ? <span className="spinner-border spinner-border-sm"></span> : "Send OTP"}
+</button>
+
                   )}
                 </div>
               )}
 
-              <h5>
-                Total Products:{" "}
-                {cartList?.reduce((total, item) => total + item.quantity, 0)}
-              </h5>
-              <h5>
-                Subtotal: ₹
-                {cartList?.reduce(
-                  (total, item) => total + item.discountedPrice * item.quantity,
-                  0
-                )}
-              </h5>
+              <hr/>
 
+             <div className="d-flex justify-content-between">
+               <h6 className=" fw-bold">  Total Products:{" "} </h6>
+              <p className=" fs-5 fw-bold ">  {cartList?.reduce((total, item) => total + item.quantity, 0)}</p>
+             </div>
+              
+              <div className="d-flex justify-content-between">
+                <h6 className=" fw-bold" > Subtotal:  </h6>
+              <p className=" fs-5 fw-bold " 
+              style={{color: "coral"}} > ₹ {cartList?.reduce( (total, item) => total + item.discountedPrice * item.quantity,  0 )}</p>
+
+              </div>
               {addressForm?.fullName &&
                       addressForm?.phone &&
                       addressForm?.area &&
@@ -464,25 +505,14 @@ const Page = () => {
                       )
                     }
 
-              {/* <button
-                className="btn btn-warning w-100 mt-3"
-                onClick={placeOrder}
-              >
-               Place Order
-              </button> */}
             </div>
           </div>
-          <div className="col-5">
+
+          <div className="col-lg-5 col-12 bg-white order-1 order-lg-2"
+           style={{boxShadow: "rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;"}}>
             <div style={{ fontFamily: "poppins" }}>
               <div className="offcanvas-header">
-                <h5>
-                  Your Cart (
-                  {cartList?.reduce(
-                    (total, item) => total + (item.quantity || 0),
-                    0
-                  )}{" "}
-                  Products)
-                </h5>
+                <h6 className="fw-bold">  Your Cart Items </h6>
                 {/* <button
                 type="button"
                 className="btn-close"
@@ -492,26 +522,37 @@ const Page = () => {
 
               <div className="offcanvas-body">
                 {cartList?.map((item) => (
-                  <div className="d-flex mb-3" key={item.id}>
-                    <img
+                  <div className="d-flex mb-3 justify-content-between p-2 border-bottom " key={item.id}>
+                   <div className="d-flex"> 
+                     <img
                       src={item.productHeroImage}
-                      className="me-3"
+                      className="me-3   cartImg"
                       style={{ width: "80px", height: "80px" }}
+                      
                     />
-                    <div>
-                      <h6>
-                        {item.name} : {item?.quantity}
+                    
+                      <h6 style={{maxWidth: "130px" , color: "#636363;" , fontFamily: "poppins"}} className="cartName">
+                        {item.name} 
                       </h6>
-
-                      <p className="text-muted mt-1">
-                        <del>₹{item?.price}</del> (₹{item?.discountedPrice}*
-                        {item?.quantity})
-                      </p>
                     </div>
+
+                      
+                        
+                        <p className="cartPrice">{item?.quantity}</p>
+
+                       <div style={{minWidth: "75px"}} className=" text-end">
+                         <p className="text-muted mt-1 mb-0 cartPrice">
+                        <del>₹{item?.price}</del>
+                      </p>
+                      <p style={{color:"#e85159"}} className="fw-bold cartPrice"> (₹{item?.discountedPrice}*{item?.quantity})</p>
+                       </div>
+                      
+                      
+                    
                   </div>
                 ))}
 
-                <hr />
+                {/* <hr /> */}
               </div>
             </div>
           </div>
@@ -540,7 +581,7 @@ const Page = () => {
               
             </div>
 
-              <div className="d-flex justify-content-around pb-3">
+              <div className="d-flex justify-content-sm-around justify-content-center pb-3 flex-sm-row  flex-column">
                 <div className="d-flex flex-column align-items-center">
                   <h6 className="mb-3">Scan the QR Code to Pay</h6>
                    <img
@@ -551,8 +592,8 @@ const Page = () => {
                   alt="QR Code" />
 
                 </div>
-                <p className="d-flex align-items-center text-secondary">or</p>
-                <div>
+                <p className="d-flex align-items-center justify-content-center my-4 text-secondary">or</p>
+                <div className="d-flex flex-column align-items-center">
                   <h6 className="mb-4" >pay via Bank Transfer</h6>
                  <div className="ms-3"
                  >

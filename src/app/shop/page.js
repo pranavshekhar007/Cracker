@@ -440,7 +440,7 @@ const Page = () => {
   const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("featured");
-  const [showCount, setShowCount] = useState(10);
+  const [showCount, setShowCount] = useState(15);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const [products, setProductList] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
@@ -450,7 +450,8 @@ const Page = () => {
     setShowLoader(true);
     try {
       let response = await getProductServ();
-      console.log(response?.data);
+      // console.table(response?.data);
+     console.log("All products:", [...response?.data]);
       if (response?.statusCode == "200") {
         setProductList(response?.data);
       }
@@ -517,17 +518,17 @@ console.log("filtered product" + filtered);
     // Filter by search term
     if (searchTerm.trim()) {
       filtered = filtered.filter((p) =>
-        p.description.toLowerCase().includes(searchTerm.toLowerCase())
+        p.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     // Sort products
     switch (sortOption) {
       case "high to low":
-        filtered = filtered.slice().sort((a, b) => b.price2 - a.price2);
+        filtered = filtered.slice().sort((a, b) => b.discountedPrice - a.discountedPrice);
         break;
       case "low to high":
-        filtered = filtered.slice().sort((a, b) => a.price2 - b.price2);
+        filtered = filtered.slice().sort((a, b) => a.discountedPrice - b.discountedPrice);
         break;
       case "release date":
         // Assuming products have a releaseDate field, else skip
@@ -541,7 +542,8 @@ console.log("filtered product" + filtered);
         break;
     }
 
-    return filtered.slice(0, showCount);
+    // return filtered.slice(0, showCount);
+    return filtered;
   }, [selectedCategory, searchTerm, sortOption, showCount , products , categories]);
 
   return (
@@ -549,7 +551,7 @@ console.log("filtered product" + filtered);
       <Navbar />
 
       <div className="shop-page">
-        <div className="shop-sections d-flex">
+        <div className="shop-sections d-flex flex-md-nowrap flex-wrap">
           {/* MOBILE: Filter Toggle Button */}
           <div className="d-md-none mb-3">
             <button
@@ -619,7 +621,7 @@ console.log("filtered product" + filtered);
 
           <div className="item-section">
             {/* product search bar */}
-            <div className="d-flex gap-2 mb-3">
+            <div className="d-flex gap-2 mb-3 flex-sm-nowrap flex-wrap">
               <input
                 className="product-search"
                 placeholder="Search for products"
@@ -627,8 +629,8 @@ console.log("filtered product" + filtered);
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
 
-              <select
-                className="form-select form-select-sm w-auto"
+             <div className="d-flex gap-2">
+               <select  className="form-select form-select-sm  w-auto "
                 value={showCount}
                 onChange={(e) => setShowCount(Number(e.target.value))}
               >
@@ -637,8 +639,7 @@ console.log("filtered product" + filtered);
                 <option value={50}>50</option>
               </select>
 
-              <select
-                className="form-select form-select-sm w-auto"
+              <select  className="form-select form-select-sm w-auto "
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
               >
@@ -648,6 +649,7 @@ console.log("filtered product" + filtered);
                 <option value="release date">Release Date</option>
                 <option value="avg. rating">Avg. Rating</option>
               </select>
+             </div>
             </div>
 
             <p className="product-quantity">
@@ -732,7 +734,7 @@ console.log("filtered product" + filtered);
 
           {categories.map((cat) => (
             <div
-              key={cat}
+              key={cat._id}
               className={`category d-flex justify-content-between ${
                 selectedCategory === cat ? "selected-category" : ""
               }`}
@@ -743,20 +745,20 @@ console.log("filtered product" + filtered);
               style={{
                 cursor: "pointer",
                 backgroundColor:
-                  selectedCategory === cat ? "#6d0d0c" : "transparent",
-                color: selectedCategory === cat ? "white" : "black",
+                  selectedCategory === cat.name ? "#6d0d0c" : "transparent",
+                color: selectedCategory === cat.name ? "white" : "black",
                 padding: "8px 12px",
                 borderRadius: "6px",
                 transition: "background-color 0.3s ease, color 0.3s ease",
                 userSelect: "none",
               }}
             >
-              <p className="mb-0">{cat}</p>
+              <p className="mb-0">{cat.name}</p>
               <img
                 src="https://cdn-icons-png.flaticon.com/128/130/130884.png"
                 alt="arrow icon"
                 style={{
-                  filter: selectedCategory === cat ? "invert(1)" : "none",
+                  filter: selectedCategory === cat.name ? "invert(1)" : "none",
                   transition: "filter 0.3s ease",
                 }}
               />
