@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import { Range } from 'react-range';
 
-const PriceFilter = () => {
+const PriceFilter = ({values , setValues}) => {
   const STEP = 1;
   const MIN = 0;
-  const MAX = 500;
+  const MAX = 2000;
 
-  const [values, setValues] = useState([50, 300]);
+  // const [values, setValues] = useState([50, 300]);
 
   return (
     <div className="price-filter" style={{ width: '100%', maxWidth: '300px', margin: '0 auto' }}>

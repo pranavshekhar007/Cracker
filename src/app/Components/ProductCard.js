@@ -105,7 +105,7 @@ style={{
     >
       <div className="d-flex justify-content-between align-items-center heartIcon pe-2">
         <h6 className="badge border text-dark m-2">
-          {value?.category ? value?.category[0] : "Category"}
+          {value?.categoryId ? value?.categoryId?.[0]?.name : "Category"}
         </h6>
         <img onClick={(e)=>handleAddToWishListLocal(e, value)} alt="wishlist"
          src={ wishList?.find((item) => item._id === value._id) ?"https://cdn-icons-png.flaticon.com/128/18275/18275909.png" : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"} />

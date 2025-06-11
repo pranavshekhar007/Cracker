@@ -9,7 +9,7 @@ export const addressCreate = async (formdata) => {
     const response = await axios.post(BASE_URL + "address/create", formdata);
     return response.data;
   } catch (error) {
-    console.error("Login Error:", error);
+    console.error("Addres create Error:", error);
     throw error;
   }
 };
@@ -22,7 +22,7 @@ export const addressList = async (payload) => {
     const response = await axios.post(BASE_URL + "address/list" , payload);
     return response.data;
   } catch (error) {
-    console.error("Login Error:", error);
+    console.error("Address list Error:", error);
     throw error;
   }
 };

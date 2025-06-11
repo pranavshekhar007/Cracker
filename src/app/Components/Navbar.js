@@ -480,14 +480,14 @@ const Navbar = () => {
           <div className="my-small">Menu</div>
         </div>
 
-        <Link href="/signup" className="text-center">
+        <div  className="text-center" onClick={handleProfileClick}>
           <img
             src="https://cdn-icons-png.flaticon.com/128/847/847969.png"
             alt="User"
             width="18"
           />
           <div className="my-small">Me</div>
-        </Link>
+        </div>
       </div>
 
          {/* Cart Sidebar */}
@@ -528,7 +528,7 @@ const Navbar = () => {
                     <div className="d-flex justify-content-between w-100">
 
                         <p className=" fw-bold mt-1 mb-0">
-                      <del className="text-muted fw-normal">₹{item?.price}</del> ₹{item?.discountedPrice}
+                      <del className="text-muted fw-normal">₹{item?.price}</del>   ₹{item?.discountedPrice ?? item?.pricing?.comboPrice ?? "N/A"}
                     </p> 
 
                       <div className="d-flex counterDiv  rounded-1 ">
@@ -564,10 +564,15 @@ const Navbar = () => {
 
               <h6>
                 SUBTOTAL: ₹ (
-                {cartList?.reduce(
+                {/* {cartList?.reduce(
                   (total, item) => total + item.discountedPrice * item.quantity,
                   0
-                )}
+                )} */}
+                {cartList?.reduce((total, item) => {
+  const price = item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
+  return total + price * (item.quantity || 0);
+}, 0)}
+
                 )
               </h6>
                 

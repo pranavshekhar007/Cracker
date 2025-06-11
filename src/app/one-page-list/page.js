@@ -532,20 +532,21 @@ const Page = () => {
   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   const [products, setProductList] = useState([]);
+   const [priceRange, setPriceRange] = useState([0, 500]);
     // const [showCount, setShowCount] = useState(products.length);
-    const [showLoader, setShowLoader] = useState(false);
-  
+
   
     const getProductList = async () => {
-      setShowLoader(true);
+      const payload = {
+  pageCount: 100
+};
       try {
-        let response = await getProductServ();
+        let response = await getProductServ(payload);
        console.log("response products" + response?.data);
         if (response?.statusCode == "200") {
           setProductList(response?.data);
         }
       } catch (error) {}
-      setShowLoader(false);
     };
   
      const [showLoaderCategory, setShowLoaderCategory] = useState(false);
@@ -629,8 +630,18 @@ const Page = () => {
     }
 
     // return filtered.slice(0, showCount);
+
+       // price filtering
+    if (priceRange.length === 2) {
+  filtered = filtered.filter(
+    (p) => p.discountedPrice >= priceRange[0] && p.discountedPrice <= priceRange[1]
+  );
+}
+
+
+
     return filtered
-  }, [selectedCategory, searchTerm, sortOption, products , categories]);
+  }, [selectedCategory, searchTerm, sortOption, products , categories , priceRange]);
 
 
   const { loggedUserData, cartList, setCartList } =  useContext(LoggedDataContext);
@@ -765,7 +776,7 @@ const Page = () => {
               ))}
             </div>
 
-            <PriceFilter />
+            <PriceFilter values={priceRange} setValues={setPriceRange}  />
           </div>
 
           <div className="item-section">
@@ -777,7 +788,7 @@ const Page = () => {
                     <th>Product Name (Packing)</th>
                     {/* <th>Image</th> */}
                     <th>MRP</th>
-                    <th>Bijili Price</th>
+                    <th>Product Price</th>
                     <th>Quantity</th>
                     <th>Billing Price</th>
                   </tr>
@@ -855,8 +866,8 @@ const Page = () => {
 
                       <td>
                         ₹
-                        {productQty[product._id]
-                          ? (productQty[product._id] * product.discountedPrice).toFixed(2)
+                        {productQty > 0
+                          ? (productQty* product.discountedPrice).toFixed(2)
                           : "0.00"}
                       </td>
                     </tr>

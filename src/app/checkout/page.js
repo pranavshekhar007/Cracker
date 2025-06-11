@@ -479,8 +479,16 @@ const Page = () => {
               
               <div className="d-flex justify-content-between">
                 <h6 className=" fw-bold" > Subtotal:  </h6>
+
               <p className=" fs-5 fw-bold " 
-              style={{color: "coral"}} > ₹ {cartList?.reduce( (total, item) => total + item.discountedPrice * item.quantity,  0 )}</p>
+            
+              style={{color: "coral"}} > ₹ {cartList?.reduce((total, item) => {
+  const price = item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
+  return total + price * (item.quantity || 0);
+}, 0)
+
+              }
+              </p>
 
               </div>
               {addressForm?.fullName &&
@@ -542,9 +550,9 @@ const Page = () => {
 
                        <div style={{minWidth: "75px"}} className=" text-end">
                          <p className="text-muted mt-1 mb-0 cartPrice">
-                        <del>₹{item?.price}</del>
+                        <del>₹{item?.price?? item?.pricing?.offerPrice}</del>
                       </p>
-                      <p style={{color:"#e85159"}} className="fw-bold cartPrice"> (₹{item?.discountedPrice}*{item?.quantity})</p>
+                      <p style={{color:"#e85159"}} className="fw-bold cartPrice"> (₹{item?.discountedPrice?? item?.pricing?.comboPrice}*{item?.quantity})</p>
                        </div>
                       
                       

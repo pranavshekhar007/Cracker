@@ -7,9 +7,9 @@ import { BASE_URL } from ".././utils/api_base_url_configration";
 
 // all products
 
-export const getProductServ = async () => {
+export const getProductServ = async (payload) => {
   try {
-    const response = await axios.post(BASE_URL + "product/list");
+    const response = await axios.post(BASE_URL + "product/list" , payload);
     return response.data;
   } catch (error) {
     console.error("Error fetching product list:", error);
@@ -71,6 +71,20 @@ export const getComboProductServ = async () => {
 };
 
 
+// combo product details
+
+export async function getComboProduct(id) {
+  try {
+    const res = await axios.get(BASE_URL+`combo-product/details/${id}`);
+    //  console.log(res.data.data);
+    return res.data.data;
+   
+  } 
+  catch (error) {
+    throw new Error('Product not found');
+  }
+}
+
 
 // place order
 
@@ -95,5 +109,17 @@ export const uploadPaymentServ = async (formdata) => {
     console.error("payment error:", error);
     throw error;
   }
-  
+};
+
+
+// my orders
+
+export const orderListServ = async (id) => {
+  try {
+    const response = await axios.get(BASE_URL + `booking/details/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Order list Error:", error);
+    throw error;
+  }
 };
