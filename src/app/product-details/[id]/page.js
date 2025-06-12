@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import Navbar from "../../Components/Navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect ,useRef } from "react";
 import { getProduct } from "../../services/product.service";
-import { useParams } from "next/navigation";
+import { useParams  } from "next/navigation";
 import Footer from "../../Components/Footer";
 function page() {
   const { id } = useParams();
@@ -20,6 +20,27 @@ function page() {
   }, [id]);
 
   const [showDetails , setShowDetail] = useState(false);
+
+   const imgRef = useRef();
+
+  const handleMouseMove = (e) => {
+    const img = imgRef.current;
+    const rect = img.getBoundingClientRect();
+
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    img.style.transformOrigin = `${x}% ${y}%`;
+  };
+
+  const handleMouseEnter = () => {
+    imgRef.current.style.transform = 'scale(1.2)';
+  };
+
+  const handleMouseLeave = () => {
+    imgRef.current.style.transform = 'scale(1)';
+  };
+
   return (
     <div>
       <Navbar selectedItem="Shop" />
@@ -41,11 +62,17 @@ function page() {
               })}
             </div>
             <div className="col-md-9 col-12 d-flex justify-content-center align-items-center border order-md-2 order-1 mb-2">
-              <img
-                src={details?.productHeroImage}
-                // className="img-fuild"
-                style={{ height: "300px", width: "300px" }}
+            <div  className="zoomWrapper"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}>
+                <img
+               ref={imgRef}
+        src={details?.productHeroImage}
+        className="zoomImage"
+        alt="Product"
               />
+            </div>
             </div>
             <div className="col-12  p-2 mt-3 order-3 d-md-block d-none">
               <div className="d-flex justify-content-end productDetailsLeftBtnGroup">
@@ -162,6 +189,7 @@ function page() {
   </div>
 )}
       </div>
+      <Footer/>
     </div>
   );
 }

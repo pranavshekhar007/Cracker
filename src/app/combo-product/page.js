@@ -199,6 +199,7 @@ import { getComboProductServ } from "../services/product.service";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Footer from "../Components/Footer";
 
 // const products = [
 //   {
@@ -356,7 +357,7 @@ const page = () => {
             style={{backgroundColor: "#dc5656" ,padding:  "25px" ,borderRadius: "13px"}}>
               {products && products.length > 0? (
                  products.map((product) => (
-                <div className="col-lg-3 col-md-4 col-6 mb-md-4 mb-2">
+                <div className="col-lg-3 col-md-4 col-sm-6 col-12 mb-md-4 mb-2">
                   <ComboProductCard
                     value={product}
                     innerHeight={true}
@@ -404,6 +405,7 @@ const page = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

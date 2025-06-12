@@ -6,16 +6,36 @@ import AccountDetails from '../Components/AccountDetails'
 import { LoggedDataContext } from '../context/context'
 import { orderListServ } from '../services/product.service'
 import { useContext  , useEffect} from 'react'
+import Footer from '../Components/Footer'
+
+const orders = [
+  {
+    id:"#12345",
+    Date:"12 June 2025",
+    price:"150",
+    item: "5",
+    status: "Arriving Today"
+  }
+   ,
+   {
+
+    id:"#12346",
+    Date:"18 June 2025",
+    price:"500",
+    item: "2",
+    status: "Deliverd"
+  }
+]
 
 const page = () => {
 
    const { loggedUserData} =  useContext(LoggedDataContext);
 
    const getOrders = async() => {
-    const id = loggedUserData?._id
-    console.log("Frontend ID being sent:", id);
+    const userId = loggedUserData?._id
+    console.log("Frontend ID sent---", userId);
     try{
-      const res = await orderListServ(id);
+      const res = await orderListServ(userId);
       console.log(res.data)
     }
     catch(error){
@@ -38,13 +58,71 @@ const page = () => {
 
                   <div className="profile-right mt-lg-5 pt-lg-4">
                         <div className="my-details">
+                           <h3>My Orders</h3>
 
+                            <div className='allOrders'>
+                              <div className='row py-3 border-bottom'>
+                              <div className='d-flex gap-3 col-2'>
+                               <p  className='fw-bold' >Order Id</p>
+                              </div>
 
+                              <div className='col-2'>
+                               <h6 className='fw-bold' >Date</h6>
+                              </div>
 
+                              <div className='col-2'>
+                               <h6 className='fw-bold'>Items</h6>
+                              </div>
+                               
+                               <div className='col-2' >
+                                 <p className='fw-bold'>Price</p>
+                              </div>
+
+                               <div className='col-2'>
+                                <h6 className='fw-bold'>Status</h6>
+                              </div>
+
+                            </div>
+                         {orders.map((order) => {
+                            return(
+                              <div key={order.id} className='row py-3 border-bottom'>
+                              <div className='d-flex gap-3 col-2'>
+                               <p style={{color: "#797979"}} >{order.id}</p>
+                              </div>
+
+                              <div className='col-2'>
+                               <h6 style={{color: "#797979"}} >{order.Date}</h6>
+                              </div>
+
+                              <div className='col-2'>
+                               <h6 style={{color: "#797979"}} >Items: {order.item}</h6>
+                              </div>
+                               
+                               <div className='col-2' >
+                                 <p className='fw-bold' style={{color: "#797979"}}>₹{order.price}</p>
+                              </div>
+
+                               <div className='col-2'>
+                                <h6 className='text-success'>{order.status}</h6>
+                              </div>
+
+                                <div className='col-2'>
+                                <btn className='btn  btn-danger fs-6'> View</btn>
+                              </div>
+
+                            </div>
+                            )
+                         })}
+                       </div>
                         </div>
+                       
+                      
+
                   </div>
                </div>
         </div>
+
+        <Footer/>
     </>
   )
 }

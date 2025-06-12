@@ -6,6 +6,7 @@ import AccountDetails from '../Components/AccountDetails'
 import { LoggedDataContext } from '../context/context'
 import { useContext } from 'react'
 import { useRouter } from "next/navigation";
+import Footer from '../Components/Footer'
 
 
 const page = () => {
@@ -55,7 +56,7 @@ const page = () => {
                 </div>
 
         </div>
-      
+      <Footer/>
     </div>
   )
 }

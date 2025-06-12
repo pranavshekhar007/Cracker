@@ -9,6 +9,7 @@ import Footer from "./Components/Footer";
 import SegmentedToggleWithContent from "./Components/SegmentedToggleWithContent";
 import HeroSection from "./Components/HeroSection";
 import { getProductServ } from "./services/product.service";
+import BrandsSlider from "./Components/BrandsSlider";
 
 export default function Home() {
 
@@ -28,6 +29,35 @@ export default function Home() {
 
    useEffect(() => {
     getProductList();
+  }, []);
+
+
+  // popup on first visit
+    
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+
+    const handleProceed = () => {
+    localStorage.setItem("disclaimerAccepted", "true");
+    setShowDisclaimer(false);
+    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
+    };
+
+    useEffect(() => {
+
+        const hasAccepted = localStorage.getItem("disclaimerAccepted");
+  if (!hasAccepted) {
+      setShowDisclaimer(true);
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    }
+}, []);
+
+ useEffect(() => {
+    return () => {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
   }, []);
 
   return (
@@ -55,103 +85,12 @@ export default function Home() {
 
       {/* hero section */}
 
-      {/* <div className="hero-container">
-        <div
-          className="hero-section d-flex flex-column justify-content-center"
-          style={{
-            backgroundImage: `url(${currentImage})`,
-            backgroundSize: "cover",
-          }}
-        >
-        </div>
-        <div className="free-shiping">
-        <div className="services-container">
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/cart.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">Minimum Order Value</p>
-              <p>₹1,999 (TN, BLRE & PY)</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/car.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">HOME DELIVERY</p>
-              <p>(TN, BLRE & PY Only)</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/secure-payment.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">UPTO 80% DISCOUNT</p>
-              <p>with Assured Packing Quality</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div> */}
 
       <div className="hero-container">
          
         <HeroSection/>
+
+        <BrandsSlider/>
        
         <div className="free-shiping">
         <div className="services-container">
@@ -239,15 +178,6 @@ export default function Home() {
       </div>
 
 
-
-      {/* Featured categories */}
-
-      {/* <FeaturedCarousel /> */}
-
-      {/* shop from our farm */}
-
-      {/* feature bottom */}
-
       {/* <div className="featured-bottom ">
         <div className="row">
           <div className="col-lg-6 col-12 mt-3">
@@ -291,14 +221,33 @@ export default function Home() {
          <SegmentedToggleWithContent
        productList={productlist}/>
 
-      {/* <ShopFromFarm /> */}
-
-      {/* testimonals section */}
+    
       <Testimonals />
 
-      {/* <Faq /> */}
 
-      {/* footer */}
+      {showDisclaimer && (
+        <div
+          className="payment-popup position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+          style={{ background: "rgb(49 49 49 / 80%)", zIndex: 9999 }}
+        >
+          <div
+            className=" p-5 text-center bg-white"
+            style={{ width: "500px", maxWidth: "90%", borderRadius: "22px" }}
+          >
+                <h4 className='fw-bold' style={{fontFamily:"poppins"}}>Disclaimer</h4>
+          <p className='mt-3 text-muted' style={{fontFamily:"sans-serif"}}>
+            We respect and follow all Supreme Court guidelines on firecracker sales.
+          </p>
+          <p className="text-muted"  style={{fontFamily:"sans-serif"}}>
+            By clicking “Proceed”, you confirm you are from a region where firecracker delivery is legally permitted.
+          </p>
+          <button className="btn disclaimerBtn border-none text-white mt-3 mb-2 fw-bold" style={{width: "50%" , backgroundColor: "#c01212" , borderRadius:"0"} } onClick={handleProceed}>
+            PROCEED
+          </button>
+           
+          </div>
+        </div>
+      )}
 
       <Footer />
     </>

@@ -6,6 +6,7 @@ import Navbar from "../Components/Navbar";
 import AccountDetails from "../Components/AccountDetails";
 import { addressCreate , addressList , addressDelete , addressUpdate} from '../services/address.service';
 import { toast } from "react-toastify";
+import Footer from "../Components/Footer";
 
 const Page = () => {
   const { loggedUserData } = useContext(LoggedDataContext);
@@ -231,6 +232,8 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Footer/>
     </>
   );
 };

@@ -110,6 +110,7 @@ import { LoggedDataContext } from "../context/context";
 import Navbar from "../Components/Navbar";
 import { toast } from "react-toastify";
 import AccountDetails from "../Components/AccountDetails";
+import Footer from "../Components/Footer";
 
 const Profile = () => {
   const { loggedUserData , updateLoggedUserData  } = useContext(LoggedDataContext);
@@ -268,6 +269,7 @@ const Profile = () => {
 
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

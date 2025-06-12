@@ -9,6 +9,7 @@ import ProductCard from "../Components/ProductCard";
 import { getProductServ , getCategory} from "../services/product.service";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Footer from "../Components/Footer";
 
 
 const Page = () => {
@@ -73,7 +74,6 @@ const payload = {
 
     useEffect(() => {
     getProductList();
-    getCategoryList();
   }, [showCount]);
 
   useEffect(() => {
@@ -146,8 +146,7 @@ const payload = {
 
   return (
     <>
-      <Navbar />
-
+      <Navbar/>
       <div className="shop-page">
         <div className="shop-sections d-flex flex-md-nowrap flex-wrap">
           {/* MOBILE: Filter Toggle Button */}
@@ -231,8 +230,7 @@ const payload = {
              <div className="d-flex gap-2">
                <select  className="form-select form-select-sm  w-auto "
                 value={showCount}
-                onChange={(e) => setShowCount(Number(e.target.value))}
-              >
+                onChange={(e) => setShowCount(Number(e.target.value))} >
                 <option value={10}>Show: 10</option>
                 <option value={20}>20</option>
                 <option value={50}>50</option>
@@ -251,9 +249,10 @@ const payload = {
              </div>
             </div>
 
-            <p className="product-quantity">
+            <p className="product-quantity d-flex gap-2">
               {filteredProducts.length}{" "}
               <span className="quantity-p">Products found</span>
+              <h6 className=" text-danger">{selectedCategory}</h6>
             </p>
 
             {/* product card */}
@@ -368,6 +367,8 @@ const payload = {
           <PriceFilter />
         </div>
       )}
+
+      <Footer/>
     </>
   );
 };

@@ -268,8 +268,8 @@ style={{
          src={ wishList?.find((item) => item._id === value._id) ?"https://cdn-icons-png.flaticon.com/128/18275/18275909.png" : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"} />
       </div>
 
-      <div className="d-flex justify-content-center pb-3 ">
-        <img src={value?.productHeroImage} className="img-fluid rounded" style={{width: "90%"}} />
+      <div className="d-flex justify-content-center pb-3 overflow-hidden">
+        <img src={value?.productHeroImage} className="img-fluid rounded productImage" style={{width: "90%"}} />
       </div>
 
       <div className={`p-2 pt-3 productInner d-flex flex-column justify-content-between ${innerHeight ? 'innerHeight' : ''}`}

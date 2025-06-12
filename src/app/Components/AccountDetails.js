@@ -121,7 +121,7 @@ const AccountDetails = () => {
     { key: "address", label: "My address book", icon: "https://cdn-icons-png.flaticon.com/128/535/535239.png", path: "/my-address" },
     { key: "orders", label: "My orders", icon: "https://cdn-icons-png.flaticon.com/128/1008/1008010.png", path: "/my-orders" },
     { key: "cart", label: "My cart", icon: "https://cdn-icons-png.flaticon.com/128/2838/2838895.png", path: "/cart" },
-    { key: "wishlist", label: "My wishlist", icon: "https://cdn-icons-png.flaticon.com/128/2767/2767018.png", path: "/wishlist" },
+    { key: "wishlist", label: "My wishlist", icon: "https://cdn-icons-png.flaticon.com/128/2767/2767018.png", path: "/my-wishlist" },
     { key: "logout", label: "Log out", icon: "https://cdn-icons-png.flaticon.com/128/10609/10609328.png", path: "/logout" },
   ];
 

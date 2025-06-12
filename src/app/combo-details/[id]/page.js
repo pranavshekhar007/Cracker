@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Navbar from "../../Components/Navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef } from "react";
 import { getComboProduct } from "../../services/product.service";
 import { useParams } from "next/navigation";
 import Footer from "../../Components/Footer";
@@ -21,6 +21,33 @@ function page() {
 
   const [showDetails, setShowDetail] = useState(false);
   const [viewProducts, setViewProduct] = useState(false);
+
+  // image zoom effect
+   
+  const imgRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    const img = imgRef.current;
+    const rect = img.getBoundingClientRect();
+
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    img.style.transformOrigin = `${x}% ${y}%`;
+  };
+
+  const handleMouseEnter = () => {
+    if (imgRef.current) {
+      imgRef.current.style.transform = 'scale(1.2)';
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (imgRef.current) {
+      imgRef.current.style.transform = 'scale(1)';
+    }
+  };
+
   return (
     <div>
       <Navbar selectedItem="Shop" />
@@ -43,11 +70,20 @@ function page() {
                 })}
               </div>
               <div className="col-md-9 col-12 d-flex justify-content-center align-items-center border order-md-2 order-1 mb-2">
-                <img
-                  src={details?.productHeroImage}
+               <div className="zoomWrapper"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}>
+                 <img
+                    ref={imgRef}
+        src={details?.productHeroImage || "https://via.placeholder.com/300"}
+        className="zoomImage"
+        alt="Product"
                   // className="img-fuild"
-                  style={{ height: "300px", width: "300px" }}
+                  // style={{ height: "300px", width: "300px" }}
                 />
+               </div>
+
               </div>
               <div className="col-12  p-2 mt-3 order-3 d-md-block d-none">
                 <div className="d-flex justify-content-center gap-2 productDetailsLeftBtnGroup ">
@@ -149,8 +185,13 @@ function page() {
                   </h5>
                 </div>
               </div>
+
+
               <div className="col-12  p-2 mt-3 order-3 d-md-none d-block">
                 <div className="d-flex justify-content-between productDetailsLeftBtnGroup">
+                  <p onClick={() => setViewProduct(!viewProducts)}>
+                    View Products
+                  </p>
                   <p onClick={() => setShowDetail(!showDetails)}>
                     Product Details
                   </p>
@@ -187,14 +228,16 @@ function page() {
                     className=" p-3 py-4 "
                     style={{ borderBottom: "1px solid #c1c1c1" }}
                   >
-                    <div className="row g-0  gap-4 justify-content-between">
+                    <div className="row g-0  justify-content-between">
                       <div className="col-md-2">
-                        <img
+                       <div className="overflow-hidden">
+                         <img
                           style={{ width: "160px", height: "auto" }}
                           src={item?.product.productHeroImage}
                           alt={item?.product.name}
-                          className="img-fluid rounded-3"
+                          className="img-fluid rounded-3 productImage mb-2 mb-sm-0"
                         />
+                       </div>
                       </div>
                       <div className="col-md-3">
                         <h5 className="card-title mb-1">
@@ -216,11 +259,11 @@ function page() {
                         </p>
                       </div>
 
-                      <div className="col-md-3 text-center">
+                      <div className="col-md-3 text-md-center">
                         <p>Number of Pieces: {item?.product.numberOfPieces}</p>
                       </div>
 
-                      <div className="col-md-3 align-items-center text-center">
+                      <div className="col-md-3 align-items-center text-md-center">
                         <p className=" text-decoration-line-through">
                           ₹{item?.product.price}
                         </p>
@@ -236,6 +279,7 @@ function page() {
           )}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

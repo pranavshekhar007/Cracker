@@ -517,6 +517,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
 import { useRouter } from "next/navigation";
+import Footer from "../Components/Footer";
 
 const Page = () => {
   const params = useParams();
@@ -532,14 +533,18 @@ const Page = () => {
   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   const [products, setProductList] = useState([]);
+  const [showLoader, setShowLoader] = useState(false);
    const [priceRange, setPriceRange] = useState([0, 500]);
-    // const [showCount, setShowCount] = useState(products.length);
+    const [showCount, setShowCount] = useState(10);
 
   
     const getProductList = async () => {
+
+      setShowLoader(true);
+
       const payload = {
-  pageCount: 100
-};
+      pageCount: showCount
+      };
       try {
         let response = await getProductServ(payload);
        console.log("response products" + response?.data);
@@ -547,6 +552,7 @@ const Page = () => {
           setProductList(response?.data);
         }
       } catch (error) {}
+        setShowLoader(false);
     };
   
      const [showLoaderCategory, setShowLoaderCategory] = useState(false);
@@ -571,10 +577,14 @@ const Page = () => {
      
     };
   
-      useEffect(() => {
-      getProductList();
-      getCategoryList();
-    }, []);
+    useEffect(() => {
+    
+        getCategoryList();
+      }, []);
+    
+        useEffect(() => {
+        getProductList();
+      }, [showCount]);
 
   useEffect(() => {
     setSelectedCategory(categoryFromUrl);
@@ -780,6 +790,20 @@ const Page = () => {
           </div>
 
           <div className="item-section">
+            <div className="row gx-0   mb-2">
+              <div className="col-9 p-2 rounded-2" style={{backgroundColor:"#e9e9e9"}}>
+                <h5> {selectedCategory}</h5>
+              </div>
+              <div className="col-3 ps-3 justify-content-end d-flex">
+                    <select  className="form-select form-select-sm  w-100 "
+                value={showCount}
+                onChange={(e) => setShowCount(Number(e.target.value))} >
+                <option value={10}>Show: 10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </select>
+              </div>
+            </div>
             <div className="table-responsive">
               <table className="table table-bordered align-middle">
                 <thead className="table-light">
@@ -794,7 +818,7 @@ const Page = () => {
                   </tr>
                 </thead>
                 <tbody>
-               {showLoaderCategory
+               {showLoader
                                 ? [1, 2, 3, 4 , 5 , 6 , 7 , 8]?.map((v, i) => {
                                     return (
                                     
@@ -945,6 +969,7 @@ const Page = () => {
           <PriceFilter />
         </div>
       )}
+      <Footer/>
     </>
   );
 };
