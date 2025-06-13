@@ -21,8 +21,7 @@ const page = () => {
             <div>
               <h5>ADDRESS</h5>
               <p>
-                Station Club Road, Near Navratan Durga Asthan, NH 31, Purnia -
-                854301 (BR)
+               D.No:4/1993,Kalavthy Nagar, Keelathiruthangal Village, Sivakasi-626124
               </p>
             </div>
           </div>
@@ -31,7 +30,7 @@ const page = () => {
             <img src="assets/mail.png" alt="mail"></img>
             <div>
               <h5>MAIL US</h5>
-              <p>vishal@crackers.com</p>
+              <p>bigbangcrackers7@gmail.com</p>
             </div>
           </div>
 
@@ -39,8 +38,8 @@ const page = () => {
             <img src="assets/call.png"></img>
             <div>
               <h5>CALL US</h5>
-              <p>+91-81000 03505</p>
-              <p>+91-92056 00140,41,42</p>
+              <p>+91 9894047372</p>
+              {/* <p>+91-92056 00140,41,42</p> */}
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ const Footer = () => {
               alt="logo"
               className="img-fluid footer-logo"
             />
-            <p className="text-white mt-4">
+            <p className=" mt-4">
               We’re passionate about lighting up celebrations with vibrant and
               safe fireworks that spark joy and excitement. Our specialty lies
               in crafting stunning cracker assortments that cater to all ages
@@ -61,12 +61,11 @@ const Footer = () => {
             <h6>Contact us</h6>
             <hr></hr>
             <p>
-              Station Club Road, Near Navratan Durga Asthan, N H 31, Purena -
-              854301 (BR)
+            D.No:4/1993,Kalavthy Nagar, Keelathiruthangal Village, Sivakasi-626124
             </p>
-            <p>hello@BingBang.com</p>
-            <p>+91-81000 03505</p>
-            <p>+91-92056 00140,41,42</p>
+            <p>bigbangcrackers7@gmail.com</p>
+            <p>+91 9894047372</p>
+            
           </div>
         </div>
 

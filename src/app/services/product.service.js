@@ -116,7 +116,7 @@ export const uploadPaymentServ = async (formdata) => {
 
 export const orderListServ = async (userId) => {
   try {
-    const response = await axios.get(BASE_URL + `booking/details/${userId}`);
+    const response = await axios.get(BASE_URL + `booking/user/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Order list Error:", error);

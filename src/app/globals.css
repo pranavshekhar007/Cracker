@@ -1355,10 +1355,10 @@ body {
   color: white;
 }  
 .footer-item p{
-  color: white;
+  color: rgb(219, 219, 219);
 }  
 .footer-2 p{
-  color: var(--secondary-color) !important;
+  color: #b73231 !important;
 }
 .footer-2 p , .footer-3 p{
   margin-bottom: 3px;
@@ -1375,7 +1375,7 @@ body {
 }
 .geent-text a{
   text-decoration: none;
-   color: var(--secondary-color);
+   color: #aa3c3b;
 }
 .geent-text a:hover {
   color:#94f5aa
@@ -2136,7 +2136,7 @@ body {
 /* Sign up and login page css */
 .signup-page , .login-page{
   padding: 5%;
-  background-color: #fffcfc;;
+  background-color: #fafafa;
   margin-top: 45px;
 }
 .profile-pic {
@@ -2366,12 +2366,18 @@ flex-direction: column;
 }
 
 .contact-head {
-  margin: 3% 5%;
+  margin: 5% 5%;
   width: 100%;
   padding: 6%;
   background-color: white;
   margin-bottom: 50px;
 }
+@media (max-width:786px) {
+ .contact-head {
+  margin: 18% 5%;
+}
+}
+
 
 .contact-head h1 {
   color: var(--primary-color);
@@ -3043,4 +3049,13 @@ body , html{
     .productCard h6{
       font-size: 9px;
     }
+}
+.allOrders{
+   overflow: hidden;
+}
+
+@media (max-width: 764px) {
+    .allOrders{
+   overflow-x: auto;
+}
 }

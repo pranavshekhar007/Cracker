@@ -207,6 +207,7 @@ const Profile = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 className="editable-input"
+                style={{height: "38px"}}
               />
               <input
                 type="text"
@@ -214,12 +215,13 @@ const Profile = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 className="editable-input"
+                  style={{height: "38px"}}
               />
             </>
           ) : (
             <>
-              <p className="name">{loggedUserData.firstName}</p>
-              <p className="name">{loggedUserData.lastName}</p>
+              <p className="name"   style={{height: "38px"}}>{loggedUserData.firstName}</p>
+              <p className="name"   style={{height: "38px"}}>{loggedUserData.lastName}</p>
             </>
           )}
         </div>
@@ -236,9 +238,10 @@ const Profile = () => {
               value={formData.email}
               onChange={handleChange}
               className="editable-input"
+                style={{height: "38px"}}
             />
           ) : (
-            <p className="name">{loggedUserData.email}</p>
+            <p className="name"   style={{height: "38px"}}>{loggedUserData.email}</p>
           )}
         </div>
       </div>

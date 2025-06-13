@@ -202,7 +202,7 @@
 
 
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext ,  useRef , useEffect} from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { LoggedDataContext } from "../context/context";
@@ -234,7 +234,7 @@ const Navbar = () => {
     if (loggedUserData) {
       router.push("/profile");
     } else {
-      router.push("/login");
+      router.push("/register");
     }
   };
 
@@ -281,39 +281,49 @@ const Navbar = () => {
      router.push("/checkout");
   };
 
-  const initiatePayment = () => {
-    const amount = cartList?.reduce(
-      (total, item) => total + item.discountedPrice * item.quantity,
-      0
-    );
-     const options = {
-      key: "rzp_test_fT349CvRXH2mv0",
-      amount: amount * 100, 
-      currency: "INR",
-      name: "Gustosa Foods",
-      description: "Purchase Transaction",
-      image: "/assets/logo.png",
-      handler: function (response) {
-        console.log(response);
-        alert(
-          "Payment Successful! Payment ID: " + response.razorpay_payment_id
-        );
-        setShowPaymentPopup(false);
-      },
-      prefill: {
-        name: loggedUserData?.name || "Guest User",
-        email: loggedUserData?.email || "guest@example.com",
-        contact: loggedUserData?.mobile || "9996588662",
-      },
-      theme: {
-        color: "#3D9970",
-      },
-    };
+ 
 
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
+//menu close
+
+  const footerMenuRef = useRef(null);
+  const navMenuRef = useRef(null);
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      footerMenuOpen &&
+      footerMenuRef.current &&
+      !footerMenuRef.current.contains(event.target)
+    ) {
+      setfooterMenuOpen(false);
+    }
+
+     if (
+      menuOpen &&
+      navMenuRef.current &&
+      !navMenuRef.current.contains(event.target)
+    ) {
+      setMenuOpen(false);
+    }
+
+     if (
+      mobileSearchOpen &&
+      searchRef.current &&
+      !searchRef.current.contains(event.target)
+    ) {
+      setMobileSearchOpen(false);
+    }
   };
 
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [footerMenuOpen , menuOpen , mobileSearchOpen]);
+
+
+  
   return (
     <>
       {/* Top Navbar */}
@@ -332,6 +342,7 @@ const Navbar = () => {
 
         {/* Collapsible Nav Menu */}
         <ul
+          ref={navMenuRef}
           className={`nav-links  list-unstyled mb-0 ${menuOpen ? "open" : ""} `}
         >
           {/* <li className={pathname === "/" ? "active-link" : ""}>
@@ -435,6 +446,7 @@ const Navbar = () => {
       {/* Full-width mobile search bar */}
       {mobileSearchOpen && (
         <div
+         ref={searchRef}
           className="mobile-search-container d-md-none p-3 bg-white shadow fixed-top"
           style={{ top: "40px", zIndex: 1050 }}
         >
@@ -591,6 +603,7 @@ const Navbar = () => {
       {/* Mobile Bottom Slide-Up Menu */}
 {footerMenuOpen && (
   <div
+    ref={footerMenuRef}
     className={`mobile-bottom-menu d-md-none position-fixed bottom-0 start-0 w-100   p-3`}
     style={{
       zIndex: 1000,

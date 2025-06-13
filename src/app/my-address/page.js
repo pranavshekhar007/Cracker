@@ -116,14 +116,14 @@ const Page = () => {
     try {
       const { _id, createdAt, updatedAt, __v, ...sanitizedData } = editForm;
       const payload = { ...sanitizedData, _id };
-      await addressUpdate(payload);
-      alert("Address updated successfully");
+   const res = await addressUpdate(payload);
+      toast.success(res.message);
       setEditingId(null);
       setEditForm({});
       await fetchAddresses();
     } catch (error) {
       console.error("Error updating address:", error);
-      alert("Failed to update address");
+       toast.error(error.response?.data?.message);
     }
   };
 
@@ -188,7 +188,11 @@ const Page = () => {
 
               {showForm && (
                 <div className="address-form">
-                  <h3>Add new address</h3>
+                  <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h3 className="mb-0 ">Add new address</h3>
+                  <img src="https://cdn-icons-png.flaticon.com/128/1828/1828778.png" onClick={() => setShowForm(!showForm)}
+                   style={{width: "18px" , height: "18px"}} className="mt-3 me-0 me-sm-5"></img>
+                    </div>
                   <form onSubmit={handleSubmit}>
                     <div className="d-flex gap-3">
                       <input name="fullName" placeholder="Full Name" value={form.fullName} onChange={handleChange} />
@@ -224,7 +228,7 @@ const Page = () => {
 
               <div className="add-address" onClick={() => setShowForm(!showForm)} style={{ cursor: 'pointer' }}>
                 <div className="d-flex gap-2">
-                  <img src="https://cdn-icons-png.flaticon.com/128/10015/10015328.png" alt="Add" />
+                  <img src="https://cdn-icons-png.flaticon.com/128/10308/10308038.png" alt="Add" />
                   <p className="mb-0">Add new address</p>
                 </div>
               </div>

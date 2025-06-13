@@ -29,7 +29,7 @@ const page = () => {
      console.log("Logged out...");
         
      
-    router.push("/login");
+    router.push("/register");
  
 
     }
