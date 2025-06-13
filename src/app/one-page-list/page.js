@@ -791,10 +791,10 @@ const Page = () => {
 
           <div className="item-section">
             <div className="row gx-0   mb-2">
-              <div className="col-9 p-2 rounded-2" style={{backgroundColor:"#e9e9e9"}}>
+              <div className="col-sm-9 col-6 p-2 rounded-2" style={{backgroundColor:"#e9e9e9"}}>
                 <h5> {selectedCategory}</h5>
               </div>
-              <div className="col-3 ps-3 justify-content-end d-flex">
+              <div className="col-sm-3 col-6 ps-3 justify-content-end d-flex">
                     <select  className="form-select form-select-sm  w-100 "
                 value={showCount}
                 onChange={(e) => setShowCount(Number(e.target.value))} >
@@ -966,7 +966,8 @@ const Page = () => {
           ))}
 
           <hr className="my-3" />
-          <PriceFilter />
+          <PriceFilter values={priceRange} setValues={setPriceRange} />
+
         </div>
       )}
       <Footer/>

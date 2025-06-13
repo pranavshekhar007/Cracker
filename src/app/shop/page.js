@@ -364,7 +364,8 @@ const payload = {
           ))}
 
           <hr className="my-3" />
-          <PriceFilter />
+         <PriceFilter values={priceRange} setValues={setPriceRange} />
+
         </div>
       )}
 

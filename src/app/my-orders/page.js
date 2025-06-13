@@ -24,6 +24,14 @@ const orders = [
     price:"500",
     item: "2",
     status: "Deliverd"
+  },
+   {
+
+    id:"#12347",
+    Date:"19 June 2025",
+    price:"300",
+    item: "1",
+    status: "Shipped"
   }
 ]
 
@@ -60,8 +68,8 @@ const page = () => {
                         <div className="my-details">
                            <h3>My Orders</h3>
 
-                            <div className='allOrders'>
-                              <div className='row py-3 border-bottom'>
+                            <div className='allOrders' style={{ whiteSpace:"nowrap" , overflowX:"auto" }}>
+                              <div className='row py-3 border-bottom' style={{ minWidth: "650px" }}>
                               <div className='d-flex gap-3 col-2'>
                                <p  className='fw-bold' >Order Id</p>
                               </div>
@@ -85,7 +93,7 @@ const page = () => {
                             </div>
                          {orders.map((order) => {
                             return(
-                              <div key={order.id} className='row py-3 border-bottom'>
+                              <div key={order.id} className='row py-3 border-bottom' style={{ minWidth: "650px" }}>
                               <div className='d-flex gap-3 col-2'>
                                <p style={{color: "#797979"}} >{order.id}</p>
                               </div>

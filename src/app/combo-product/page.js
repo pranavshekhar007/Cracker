@@ -347,17 +347,14 @@ const page = () => {
         <div className="">
           <div>
 
-            {/* <p className="product-quantity">
-               {products.length} <span className="quantity-p">Products found</span>
-            </p> */}
 
             <h2 className="mb-5">Best Combo Offers</h2>
 
-            <div className="row"
-            style={{backgroundColor: "#dc5656" ,padding:  "25px" ,borderRadius: "13px"}}>
+            <div className="row gx-0"
+            style={{backgroundColor: "rgb(246 244 244)" ,padding:  "25px" ,borderRadius: "13px"}}>
               {products && products.length > 0? (
                  products.map((product) => (
-                <div className="col-lg-3 col-md-4 col-sm-6 col-12 mb-md-4 mb-2">
+                <div className="col-lg-3 col-md-4 col-sm-6 col-12 ">
                   <ComboProductCard
                     value={product}
                     innerHeight={true}
@@ -405,6 +402,7 @@ const page = () => {
           </div>
         </div>
       </div>
+
       <Footer/>
     </>
   );

@@ -269,7 +269,7 @@ style={{
       </div>
 
       <div className="d-flex justify-content-center pb-3 overflow-hidden">
-        <img src={value?.productHeroImage} className="img-fluid rounded productImage" style={{width: "90%"}} />
+        <img src={value?.productHeroImage} className="img-fluid rounded productImage comboImage" style={{width: "90%"}} />
       </div>
 
       <div className={`p-2 pt-3 productInner d-flex flex-column justify-content-between ${innerHeight ? 'innerHeight' : ''}`}
@@ -287,7 +287,7 @@ style={{
        </div>
        <div className="d-flex justify-content-between mt-3">
         <p className="fw-bold text-secondary">Combo Price</p>
-        <p className="text-success fw-bold fs-5">  &#8377;{value?.pricing?.comboPrice} Only</p>
+        <p className="text-success fw-bold fs-5 text-end">  &#8377;{value?.pricing?.comboPrice} Only</p>
        </div>
        </div>
       
