@@ -2212,7 +2212,7 @@ body {
 .login-form input:focus {
   outline: none;
   border-color: var(--secondary-color);
-  box-shadow: 0 0 0 0.2rem rgba(71, 157, 120, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(157, 71, 71, 0.163);
 }
 .signup-form form {
     width: 70%;
@@ -2460,7 +2460,7 @@ flex-direction: column;
 .contact-div textarea:focus {
   outline: none;
   border-color: var(--secondary-color);
-  box-shadow: 0 0 0 0.2rem rgba(71, 157, 120, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(157, 71, 71, 0.19);
 }
 
 .contact-main {
@@ -2829,7 +2829,7 @@ body , html{
 
 .editable-input:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(42, 185, 87, 0.2);
+  box-shadow: 0 0 0 2px rgba(185, 42, 42, 0.152);
 }
 @media (max-width: 1024px) {
   .editable-input {
@@ -2837,6 +2837,11 @@ body , html{
   }
   .name {
     width: 45%;
+  }
+}
+@media (max-width: 573px) {
+  .name {
+    width: 100%;
   }
 }
 @media (max-width: 992px) {
@@ -2963,7 +2968,7 @@ body , html{
 .address-form input:focus {
   outline: none;
   border-color: var(--secondary-color);
-  box-shadow: 0 0 0 0.2rem rgba(157, 78, 71, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(157, 78, 71, 0.158);
 }
 .address-card input,
 .address-card select {

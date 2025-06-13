@@ -65,7 +65,7 @@ const page = () => {
     <Navbar/>
     <div className='login-page'>
        <div className='login-sections  d-flex align-items-center flex-wrap flex-md-nowrap'>
-         <div className='login-image d-flex justify-content-center'>
+         <div className='login-image d-flex justify-content-center mb-5'>
             <img src='https://img.freepik.com/free-vector/sign-concept-illustration_114360-28907.jpg?ga=GA1.1.319038510.1738920078&semt=ais_hybrid&w=740'/>
          </div>
          <div className='login-form'>
