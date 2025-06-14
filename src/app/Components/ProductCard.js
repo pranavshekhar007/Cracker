@@ -4,11 +4,10 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
 
-function ProductCard({ value , bgColor , borderRadius  , innerHeight , height}) {
-  const { loggedUserData, cartList, setCartList, wishList, setWishList } =  useContext(LoggedDataContext);
+function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
+  const { loggedUserData, cartList, setCartList, wishList, setWishList } =
+    useContext(LoggedDataContext);
   const router = useRouter();
-
-  
 
   const handleAddToCartLocal = (e, v) => {
     e.preventDefault();
@@ -32,36 +31,33 @@ function ProductCard({ value , bgColor , borderRadius  , innerHeight , height}) 
     }
   };
   const handleAddToWishListLocal = (e, v) => {
-  e.preventDefault();
-  e.stopPropagation();
-  try {
-    let localWishList = JSON.parse(localStorage.getItem("wishList")) || [];
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      let localWishList = JSON.parse(localStorage.getItem("wishList")) || [];
 
-    // Check if product already exists in wishlist
-    const existingProductIndex = localWishList.findIndex(
-      (item) => item._id === v._id
-    );
+      // Check if product already exists in wishlist
+      const existingProductIndex = localWishList.findIndex(
+        (item) => item._id === v._id
+      );
 
-    if (existingProductIndex !== -1) {
-      // If exists, remove it
-      localWishList.splice(existingProductIndex, 1);
-      toast.info("Item Removed From Wishlist");
-    } else {
-      // If not exists, add it
-      localWishList.push(v);
-      toast.success("Item Added To Wishlist");
+      if (existingProductIndex !== -1) {
+        // If exists, remove it
+        localWishList.splice(existingProductIndex, 1);
+        toast.info("Item Removed From Wishlist");
+      } else {
+        // If not exists, add it
+        localWishList.push(v);
+        toast.success("Item Added To Wishlist");
+      }
+
+      // Update localStorage and state
+      localStorage.setItem("wishList", JSON.stringify(localWishList));
+      setWishList(localWishList);
+    } catch (error) {
+      console.log("Something went wrong", error);
     }
-
-    // Update localStorage and state
-    localStorage.setItem("wishList", JSON.stringify(localWishList));
-    setWishList(localWishList);
-
-  } catch (error) {
-    console.log("Something went wrong", error);
-  }
-};
-
-
+  };
 
   const handleIncreaseQty = (e, v) => {
     e.preventDefault();
@@ -96,50 +92,80 @@ function ProductCard({ value , bgColor , borderRadius  , innerHeight , height}) 
 
   return (
     <div
-        className={`productCard shadow-sm border ${height ? 'productHeight' : ''}`}
-style={{
-  ...(bgColor && { backgroundColor: bgColor }),
-  ...(borderRadius && { borderRadius: borderRadius }),
-}}
+      className={`productCard shadow-sm border ${
+        height ? "productHeight" : ""
+      }`}
+      style={{
+        ...(bgColor && { backgroundColor: bgColor }),
+        ...(borderRadius && { borderRadius: borderRadius }),
+      }}
       onClick={() => router.push("/product-details/" + value?._id)}
     >
       <div className="d-flex justify-content-between align-items-center heartIcon pe-2">
         <h6 className="badge border text-dark m-2">
           {value?.categoryId ? value?.categoryId?.[0]?.name : "Category"}
         </h6>
-        <img onClick={(e)=>handleAddToWishListLocal(e, value)} alt="wishlist"
-         src={ wishList?.find((item) => item._id === value._id) ?"https://cdn-icons-png.flaticon.com/128/18275/18275909.png" : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"} />
+        <img
+          onClick={(e) => handleAddToWishListLocal(e, value)}
+          alt="wishlist"
+          src={
+            wishList?.find((item) => item._id === value._id)
+              ? "https://cdn-icons-png.flaticon.com/128/18275/18275909.png"
+              : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"
+          }
+        />
       </div>
 
       <div className="d-flex justify-content-center overflow-hidden">
-        <img src={value?.productHeroImage} className="img-fluid  productImage" />
-         {/* <img src={value?.image} alt={value.description} className="img-fluid" /> */}
+        <img
+          src={value?.productHeroImage}
+          className="img-fluid  productImage"
+        />
+        {/* <img src={value?.image} alt={value.description} className="img-fluid" /> */}
       </div>
 
-      <div className={`p-2 productInner d-flex flex-column justify-content-between ${innerHeight ? 'innerHeight' : ''}`}>
-
-
+      <div
+        className={`p-2 productInner d-flex flex-column justify-content-between ${
+          innerHeight ? "innerHeight" : ""
+        }`}
+      >
         <h4>{value?.name}</h4>
-       <div>
-         {/* <h4 className="fs-6 mb-1 mt-2">{value.category}</h4>
+        <div>
+          {/* <h4 className="fs-6 mb-1 mt-2">{value.category}</h4>
         <h4 className="fw-bold mb-3">{value.description}</h4> */}
-        <p>
-          <s className="text-danger">{value?.price}</s>{" "}
-           <s className="text-danger">{value?.price1}</s>{" "}
-               <span className="fw-bold"> {value?.discountedPrice} &#8377; </span>
-        </p>
-       </div>
-      
+          <p>
+            <s className="text-danger">{value?.price}</s>{" "}
+            <s className="text-danger">{value?.price1}</s>{" "}
+            <span className="fw-bold"> {value?.discountedPrice} &#8377; </span>
+          </p>
+        </div>
 
-        <div className="d-flex justify-content-around align-items-center mt-3" >
+        <div className="d-flex justify-content-around align-items-center mt-3">
           {cartList?.find((item) => item._id === value._id) ? (
-            <div className="d-flex counterDiv  w-100" >
-              <p style={{ backgroundColor: "#6d0d0c"}} className="w-100 text-white" onClick={(e) => handleDecreaseQty(e, value)}>-</p>
-              <p className="w-100" style={{backgroundColor:"#f9f5f5"}}>{cartList.find((item) => item._id === value._id)?.quantity}</p>
-              <p className="w-100 text-white" style={{  backgroundColor: "#6d0d0c"}}  onClick={(e) => handleIncreaseQty(e, value)}>+</p>
+            <div className="d-flex counterDiv  w-100">
+              <p
+                style={{ backgroundColor: "#6d0d0c" }}
+                className="w-100 text-white"
+                onClick={(e) => handleDecreaseQty(e, value)}
+              >
+                -
+              </p>
+              <p className="w-100" style={{ backgroundColor: "#f9f5f5" }}>
+                {cartList.find((item) => item._id === value._id)?.quantity}
+              </p>
+              <p
+                className="w-100 text-white"
+                style={{ backgroundColor: "#6d0d0c" }}
+                onClick={(e) => handleIncreaseQty(e, value)}
+              >
+                +
+              </p>
             </div>
           ) : (
-            <button onClick={(e) => handleAddToCartLocal(e, value)}> Add To Cart </button>
+            <button onClick={(e) => handleAddToCartLocal(e, value)}>
+              {" "}
+              Add To Cart{" "}
+            </button>
           )}
         </div>
       </div>

@@ -123,3 +123,16 @@ export const orderListServ = async (userId) => {
     throw error;
   }
 };
+
+// my order details
+
+export const orderDetailsServ = async (id) => {
+  try {
+    const response = await axios.get(BASE_URL + `booking/details/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Order list Error:", error);
+    throw error;
+  }
+};
+

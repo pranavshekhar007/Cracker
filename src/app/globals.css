@@ -1670,7 +1670,7 @@ body {
   }
 
   .star-rating label {
-    font-size: 1.7rem;
+    font-size: 2rem;
     color: #e6e6e6; /* grey star */
     cursor: pointer;
     transition: color 0.2s;
@@ -1686,8 +1686,8 @@ body {
   }
 
 .upload-box {
-  padding: 40px;
-  border: 1px dashed #dee2e6;
+  padding: 20px;
+  border: 1px dashed #7f7f7f;
   background-color: #f8f9fa;
   color: #6c757d;
   border-radius: 8px;
@@ -1696,8 +1696,8 @@ body {
 }
 
 .upload-box:hover {
-  background-color: #eef2f5;
-  border-color: #ced4da;
+  background-color: #fcf9f9;
+  border-color: #7f7f7f;
 }
 .prdct-4-details{
       gap: 30px !important;
@@ -3058,4 +3058,121 @@ body , html{
     .allOrders{
    overflow-x: auto;
 }
+}
+/* order status  */
+.order-tracker {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 15px;
+  position: relative;
+}
+
+.order-tracker li {
+  position: relative;
+  margin-bottom: 30px;
+  padding-left: 40px;
+}
+
+/* Draw dashed line for all except the last step */
+.order-tracker li:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 32px;
+  bottom: -30px;
+  width: 2px;
+  border-left: 2px dashed #ccc;
+  z-index: 0;
+}
+
+/* Icon circle */
+.order-tracker li .icon {
+  position: absolute;
+  left: -16px;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  background: #e0f7fa;
+  color: #0d6efd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 2px solid #0d6efd;
+  z-index: 1;
+}
+
+/* Status styles */
+.order-tracker li.completed .icon {
+  background-color: #d1f7d6;
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.order-tracker li.pending .icon {
+  background-color: #f0f0f0;
+  color: #999;
+  border-color: #ddd;
+}
+
+.order-tracker li .details {
+  margin-left: 10px;
+}
+
+
+.order-tracker li.active .icon {
+  background-color: #e0f7fa;
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.orderData{
+  color: #4e4e4e;
+  font-size: 14px;
+}
+.orderName{
+  color: #4e4e4e;
+  min-width: 90px;
+  font-size: 14px;
+}
+.order-details h5{
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+   font-size: 18px;
+}
+.order-details p {
+  font-family: poppins;
+}
+.orderHeadingImage{
+  width: 31px;
+    height: 31px;
+    background-color: #f9f0f0;
+    padding: 6px;
+    border-radius: 21%;
+}
+.buyAgain{
+  background-color: #f9f0f0;
+  padding: 5px 20px;
+  border: 1px solid #f5cbcb;
+}
+
+.btn-review {
+  background-color: transparent;
+  color: #D32F2F;
+  border: 1px solid #D32F2F;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn-review:hover {
+  background-color: #fbeaea;
+}
+.review-popup textarea , .review-popup input{
+  border: 1px solid rgb(179, 179, 179);
+}
+.review-popup textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(157, 71, 71, 0.163);
 }
