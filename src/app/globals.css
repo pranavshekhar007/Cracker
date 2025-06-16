@@ -2729,7 +2729,7 @@ body , html{
 .user-profile h2 {
   margin-bottom: 30px;
   font-family: var(--font-secondary);
-  color: var(--primary-color);
+  color: brown;
 }
 
 .loading-div {
@@ -3175,4 +3175,43 @@ body , html{
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 0.2rem rgba(157, 71, 71, 0.163);
+}
+
+.comboContainer{
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+}
+.comboInner{
+  margin-top: -9%;
+}
+
+@media (max-width:1024px) {
+    .comboContainer{
+  border-top-left-radius: 40%;
+  border-top-right-radius: 40%;
+}
+.comboInner{
+  margin-top: -16%;
+}
+
+}
+@media (max-width:746px) {
+    .comboContainer{
+  border-top-left-radius: 30%;
+  border-top-right-radius: 30%;
+}
+.comboInner{
+  margin-top: -16%;
+}
+
+}
+@media (max-width:546px) {
+    .comboContainer{
+  border-top-left-radius: 20%;
+  border-top-right-radius: 20%;
+}
+.comboInner{
+  margin-top: -50%;
+}
+
 }

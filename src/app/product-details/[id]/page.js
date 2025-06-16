@@ -44,10 +44,10 @@ function page() {
   return (
     <div>
       <Navbar selectedItem="Shop" />
-      <div className="container my-md-5 my-4">
-        <div className="d-flex mt-md-5 mt-2 breadcrumb">
-          <p style={{ color: "#5EBC67" }}>Home -</p>
-          <p style={{ color: "#3D9970" }}>Shop -</p>
+      <div className="container my-md-5 my-4 mt-5 pt-2">
+        <div className="d-flex mt-md-5 mt-5 breadcrumb">
+          <p style={{ color: "rgb(188 94 94)" }}>Home -</p>
+          <p style={{ color: "rgb(153 61 61)" }}>Shop -</p>
           <p>{details?.name}</p>
         </div>
         <div className="row px-md-2 px-0 marginLeft0">
@@ -142,31 +142,33 @@ function page() {
                     __html: details?.shortDescription,
                   }}
                 ></div>
-                <u>read more</u>
+                <div className="mb-2"> 
+                  <u>read more</u>
+                </div>
               </div>
-              <div>
-                <h5>
+              <div className="d-flex gap-1">
+                <h5 style={{minWidth: "140px"}}>
                   Product Code :{" "}
-                  <span className="border  px-2 rounded">
+                </h5>
+                <h5 className=" text-secondary">
                     {details?.hsnCode}
-                  </span>
-                </h5>
+                  </h5>
               </div>
-              <div>
-                <h5>
+              <div className="d-flex gap-1">
+                <h5 style={{minWidth: "140px"}}>
                   Stock Quantity :{" "}
-                  <span className="border  px-2 rounded">
-                    {details?.stockQuantity}
-                  </span>
+                </h5>
+                <h5 className="text-secondary">
+                     {details?.stockQuantity}
                 </h5>
               </div>
-              <div>
-                <h5 className="mb-0">
+              <div className="d-flex gap-1">
+                <h5 className="mb-0" style={{minWidth: "140px"}}>
                   Type :{" "}
-                  <span className="border  px-2 rounded">
-                    {details?.productType}
-                  </span>
                 </h5>
+                 <h5 className="text-secondary">
+                    {details?.productType}
+                  </h5>
               </div>
             </div>
             <div className="col-12  p-2 mt-3 order-3 d-md-none d-block">

@@ -137,7 +137,8 @@ const AccountDetails = () => {
 
   return (
        <>
-              <div className="left-menu d-flex flex-lg-column justify-content-lg-start justify-content-between mt-5 mt-lg-0" >
+              <div className="left-menu d-flex flex-lg-column justify-content-lg-start justify-content-between mt-5 mt-lg-0 p-3 "
+               style={{backgroundColor:"white"}}>
                    <h2>My Account</h2>
 
      <div>

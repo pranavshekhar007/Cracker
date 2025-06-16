@@ -1,8 +1,50 @@
+"use client"
 import React from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import { contact } from "../services/support.service";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const page = () => {
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    website: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await contact(formData);
+      console.log("Message sent successfully!");
+         toast.success(res?.message);
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      website: "",
+      message: "",
+    });
+
+    } catch (err) {
+        toast.error(err?.message);
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -56,29 +98,53 @@ const page = () => {
           </div>
           <div className="contact-form">
             <h2>Get In Touch</h2>
-            <form className="d-flex flex-column align-items-center">
+            <form className="d-flex flex-column align-items-center"
+             onSubmit={handleSubmit}>
               <div className="contact-div row gx-0 gap-3">
                 <div className="col">
-                  <input type="text" placeholder="Name" required />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required />
                 </div>
                 <div className="col">
-                  <input type="email" placeholder="Email" required />
+                  <input  type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required />
                 </div>
               </div>
               <div className="contact-div row gx-0 gap-3">
                 <div className="col">
-                  <input type="tel" placeholder="Phone" required />
+                  <input   type="tel"
+                    name="phone"
+                    placeholder="Phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required />
                 </div>
                 <div className="col">
-                  <input type="text" placeholder="Website" required />
+                  <input  type="text"
+                    name="website"
+                    placeholder="Website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    required />
                 </div>
               </div>
               <div className="contact-div">
                 <textarea
+                  name="message"
                   placeholder="Message"
                   rows="3"
+                  value={formData.message}
+                  onChange={handleChange}
                   required
-                  className="your-custom-class"
                 />
               </div>
 

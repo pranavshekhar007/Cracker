@@ -136,3 +136,38 @@ export const orderDetailsServ = async (id) => {
   }
 };
 
+// states api
+
+export const getStatesServ = async () => {
+  try {
+    const response = await axios.post(BASE_URL + "state/list");
+    return response.data;
+  } catch (error) {
+    console.error("state list Error:", error);
+    throw error;
+  }
+};
+
+// city api
+
+export const getCitiesServ = async () => {
+  try {
+    const response = await axios.post(BASE_URL + "city/list");
+    return response.data;
+  } catch (error) {
+    console.error("city list Error:", error);
+    throw error;
+  }
+};
+
+// product review 
+
+export const addReviewServ = async (formdata) => {
+      try {
+    const response = await axios.post(BASE_URL + "rating/create", formdata);
+    return response.data;
+  } catch (error) {
+    console.error("review error:", error);
+    throw error;
+  }
+}

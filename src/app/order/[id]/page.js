@@ -2,13 +2,16 @@
 import Footer from "@/app/Components/Footer";
 import Navbar from "@/app/Components/Navbar";
 import React, { use } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useContext } from "react";
 import { orderDetailsServ } from "@/app/services/product.service";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import Payment from "@/app/Components/Payment";
+import { addReviewServ } from "@/app/services/product.service";
+import { LoggedDataContext } from "@/app/context/context";
+import { toast } from "react-toastify";
 
 const statusFlow = [
   { key: "orderPlaced", icon: "🛒", label: "Order Placed" },
@@ -27,6 +30,8 @@ const page = () => {
     const [showPaymentPopup, setShowPaymentPopup] = useState(false);
     const [orderId, setOrderId] = useState(null);
 
+     const { loggedUserData } = useContext(LoggedDataContext);
+
   const getOrderDetails = async () => {
     try {
       let response = await orderDetailsServ(id);
@@ -43,17 +48,67 @@ const page = () => {
 
    const [imagePreview, setImagePreview] = useState(null);
   
-    const handleImageChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreview(reader.result);
-        };
-        reader.readAsDataURL(file);
+    // const handleImageChange = (e) => {
+    //   const file = e.target.files[0];
+    //   if (file) {
+    //     const reader = new FileReader();
+    //     reader.onloadend = () => {
+    //       setImagePreview(reader.result);
+    //     };
+    //     reader.readAsDataURL(file);
+    //   }
+    // };
+
+    // review api
+
+    const [form, setForm] = useState({
+  rating: "",
+  review: "",
+  image: null,
+});
+
+const handleRatingChange = (e) => {
+  setForm((prev) => ({ ...prev, rating: e.target.value }));
+};
+
+const handleReviewTextChange = (e) => {
+  setForm((prev) => ({ ...prev, review: e.target.value }));
+};
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    setForm((prev) => ({ ...prev, image: file }));
+    setImagePreview(URL.createObjectURL(file));
+  }
+};
+
+
+const handleSubmitReview = async () => {
+  console.log("Review Form:", form);
+
+  const formData = new FormData();
+  formData.append("rating", form.rating);
+  formData.append("review", form.review);
+  if (form.image) formData.append("image", form.image);
+   formData.append("userId", loggedUserData?._id || "");
+  formData.append("productId", id || "");
+   
+   try {
+        const res = await addReviewServ(formData);
+        console.log(res);
+        
+          if (res?.statusCode == "200") {
+                 toast.success(response?.message);
+               
+          }
+           setReviewPopup(false); 
+       
+      } catch (error) {
+        console.error("Error fetching addresses:", error);
+        toast.error(error.response.message)
       }
-    };
   
+};  
 
   return (
     <div>
@@ -188,7 +243,7 @@ const page = () => {
                 <div className="col-12 mb-3">
                   <div className="rounded-3 shadow-sm bg-white p-md-3 px-md-5 p-1">
                     <h5 className="fs-5 mb-4 mt-3">Products</h5>
-                    {details?.product?.length > 0 ? (
+                    {details?.product?.length > 0 && (
                       details.product.map((item, index) => (
                         <div
                           key={item._id}
@@ -228,9 +283,7 @@ const page = () => {
                           </div>
                         </div>
                       ))
-                    ) : (
-                      <p>No products found in this order.</p>
-                    )}
+                    ) }
                   </div>
                 </div>
               </div>
@@ -416,13 +469,14 @@ const page = () => {
 
                     <h6>payment status</h6>
                     
-                                 {details?.paymentSs === "null" ? (
-        <h6 className="text-danger fs-6">Not Completed</h6>
-      ) : (
+                                 {details?.paymentSs && details?.paymentSs !== "null" ? (
+
         <h6 className="text-success fs-6"> Payment Done</h6>
+      ) : (
+                 <h6 className="text-danger fs-6">Not Completed</h6>
       )}
         
-           {details?.paymentSs === "null" && (
+           { !details?.paymentSs && details?.paymentSs !== "null" && (
        <h6 className="btn btn-danger" onClick={() => setShowPaymentPopup(true)}>Pay Now</h6>
 
       ) }
@@ -434,12 +488,16 @@ const page = () => {
                 </div>
 
                 <div className="col-12 mb-3">
-                  <button
+                 {
+                   details?.status === "Deliverd" &&(
+                     <button
                     class="btn-review"
                     onClick={() => setReviewPopup(!showReviewPopup)}
                   >
                     📝 Add Review
                   </button>
+                   )
+                 }
                 </div>
               </div>
             </div>
@@ -464,25 +522,26 @@ const page = () => {
 
                 <div className="d-flex flex-column ">
                      <div class="star-rating mb-3 justify-content-center">
-                <input type="radio" name="rating" id="star5" value="5" />
+                <input type="radio" name="rating" id="star5" value="5" onChange={handleRatingChange} />
                 <label for="star5">★</label>
 
-                <input type="radio" name="rating" id="star4" value="4" />
+                <input type="radio" name="rating" id="star4" value="4" onChange={handleRatingChange} />
                 <label for="star4">★</label>
 
-                <input type="radio" name="rating" id="star3" value="3" />
+                <input type="radio" name="rating" id="star3" value="3"  onChange={handleRatingChange}/>
                 <label for="star3">★</label>
 
-                <input type="radio" name="rating" id="star2" value="2" />
+                <input type="radio" name="rating" id="star2" value="2" onChange={handleRatingChange} />
                 <label for="star2">★</label>
 
-                <input type="radio" name="rating" id="star1" value="1" />
+                <input type="radio" name="rating" id="star1" value="1" onChange={handleRatingChange} />
                 <label for="star1">★</label>
               </div>
 
               <textarea
                 placeholder="Share your thoughts about the product"
                 rows={4}
+                  onChange={handleReviewTextChange}
                 className="w-100 p-2 " style={{borderRadius:"8px"}}
               />
 
@@ -497,7 +556,8 @@ const page = () => {
 
       <label htmlFor="imageUpload" className="upload-box w-100 text-center d-flex align-items-center justify-content-center">
         {imagePreview ? (
-          <img src={imagePreview} alt="Preview" className="img-preview" />
+          <img src={imagePreview} alt="Preview" className="img-preview"  
+            style={{ maxWidth: "70px", maxHeight: "70px", objectFit: "contain", borderRadius: "8px", }}/>
         ) : (
           'Drop files here to upload'
         )}
@@ -531,6 +591,7 @@ const page = () => {
                   backgroundColor: "#c01212",
                   borderRadius: "5px",
                 }}
+                onClick={handleSubmitReview}
               >
                 Submit Review
               </button>
