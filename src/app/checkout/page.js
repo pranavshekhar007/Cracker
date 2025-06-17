@@ -1222,8 +1222,7 @@ const Page = () => {
                   {" "}
                   ₹{" "}
                   {cartList?.reduce((total, item) => {
-                    const price =
-                      item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
+                    const price = item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
                     return total + price * (item.quantity || 0);
                   }, 0)}
                 </p>
@@ -1296,7 +1295,7 @@ const Page = () => {
 
                     <div style={{ minWidth: "75px" }} className=" text-end">
                       <p className="text-muted mt-1 mb-0 cartPrice">
-                        <del>₹{item?.price ?? item?.pricing?.offerPrice}</del>
+                        <del>₹{item?.price ?? item?.pricing?.actualPrice}</del>
                       </p>
                       <p
                         style={{ color: "#e85159" }}

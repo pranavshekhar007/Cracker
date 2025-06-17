@@ -171,7 +171,7 @@ const MostProducts = ({productList}) => {
         <ProductSlider 
 
          title="New Arrivals"
-        subTitle="Discover flavours in demand"
+        subTitle="Explore the newest products"
         textAlignCenter={true}
         productList={productList}     
         />

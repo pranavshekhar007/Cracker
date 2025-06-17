@@ -8,8 +8,10 @@ import ShopFromFarm from "./Components/ShopFromFarm";
 import Footer from "./Components/Footer";
 import SegmentedToggleWithContent from "./Components/SegmentedToggleWithContent";
 import HeroSection from "./Components/HeroSection";
-import { getProductServ } from "./services/product.service";
+import { getProductServ , getComboProductServ } from "./services/product.service";
 import BrandsSlider from "./Components/BrandsSlider";
+import ProductSlider from "./Components/ProductSlider";
+
 
 export default function Home() {
 
@@ -30,6 +32,26 @@ export default function Home() {
    useEffect(() => {
     getProductList();
   }, []);
+
+  // combo prodcucts for slider
+
+   const [comboproducts, setComboProductList] = useState([]);
+  
+    const getComboProductList = async () => {
+     
+      try {
+        let response = await getComboProductServ();
+        console.log(response?.data);
+        if (response?.statusCode == "200") {
+         setComboProductList(response?.data);
+        }
+      } catch (error) {}
+      
+    };
+  
+    useEffect(() => {
+      getComboProductList();
+    }, []);
 
 
   // popup on first visit
@@ -221,6 +243,13 @@ export default function Home() {
          <SegmentedToggleWithContent
        productList={productlist}/>
 
+
+       <ProductSlider
+         title="Combo Offers"
+                subTitle="Best combo deals"
+                textAlignCenter={true}
+                comboProduct={true}
+                productList={comboproducts} />
     
       <Testimonals />
 

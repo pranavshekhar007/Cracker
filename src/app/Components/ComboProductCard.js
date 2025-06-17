@@ -318,8 +318,8 @@
  
 
 "use client";
-import React, { useContext } from "react";
-import { useRouter } from "next/navigation";
+import React, { useContext  , useEffect} from "react";
+import { useRouter  } from "next/navigation";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
 
@@ -328,6 +328,9 @@ function ComboProductCard({ value , bgColor , borderRadius  , innerHeight , heig
   const router = useRouter();
 
   
+   useEffect(() => {
+       console.log("combo product card called")
+    }, [value]);
 
   const handleAddToCartLocal = (e, v) => {
     e.preventDefault();
@@ -413,9 +416,9 @@ function ComboProductCard({ value , bgColor , borderRadius  , innerHeight , heig
     setCartList(localCartList);
   };
 
-  const getDiscountPercentage = (offerPrice, comboPrice) => {
-  if (!offerPrice || !comboPrice) return 0;
-  const discount = ((offerPrice - comboPrice) / offerPrice) * 100;
+  const getDiscountPercentage = (actualPrice, comboPrice) => {
+  if (!actualPrice || !comboPrice) return 0;
+  const discount = ((actualPrice - comboPrice) / actualPrice) * 100;
   return Math.round(discount);
 };
  
@@ -432,7 +435,7 @@ style={{
          onClick={() => router.push("/combo-details/" +  value?._id)}
     >
          <div className=" position-absolute top-0 end-0 shadow-sm p-2 bg-danger" style={{borderBottomLeftRadius:"17px"}}>
-          <h4 className="text-white"> {getDiscountPercentage(value?.pricing?.offerPrice, value?.pricing?.comboPrice)}% off</h4>
+          <h4 className="text-white"> {getDiscountPercentage(value?.pricing?.actualPrice, value?.pricing?.comboPrice)}% off</h4>
          </div>
 
       <div className="d-flex justify-content-center pb-3 overflow-hidden pt-3" style={{backgroundColor:"#f3cccc"}}>
@@ -445,14 +448,14 @@ style={{
         <h5 style={{fontFamily: "sans-serif"}}>{value?.name}</h5>
         <p className="mb-2 fw-bold" style={{color:"#c74848" , fontSize:"13px"}}>Included {value?.productId?.length}  Items</p>
        <div>
-        <p>
+        {/* <p>
           <s className="text-secondary">&#8377;{value?.pricing?.actualPrice}</s>{" "}
-        </p>
-         <div className="d-flex justify-content-between mt-3">
-        <p className="fw-bold text-secondary">Offer Price</p>
-        <p className=" fs-6">  &#8377;{value?.pricing?.offerPrice}</p>
+        </p> */}
+         <div className="d-flex justify-content-between mt-2">
+        <p className="fw-bold text-secondary">Price</p>
+        <p className=" fs-6">  &#8377;{value?.pricing?.actualPrice}</p>
        </div>
-       <div className="d-flex justify-content-between mt-3">
+       <div className="d-flex justify-content-between mt-2">
         <p className="fw-bold text-secondary">Combo Price</p>
         <p className="text-success fw-bold fs-5 text-end">  &#8377;{value?.pricing?.comboPrice} Only</p>
        </div>

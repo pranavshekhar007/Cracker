@@ -158,8 +158,8 @@ const page = () => {
              <p className="">Explore Our Best Combo Deal</p>
            </div>
 
-           <div className="comboContainer position-relative" 
-           style={{backgroundColor: "#bb3e3e" ,padding:  "25px"  , marginTop:"10rem"}}>
+           <div className="comboContainer position-relative p-md-5 p-2" 
+           style={{backgroundColor: "#bb3e3e"  , marginTop:"10rem"}}>
 
            <div className="container comboInner" >
              <div className="row gx-0  ">

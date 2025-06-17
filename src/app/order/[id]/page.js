@@ -12,6 +12,8 @@ import Payment from "@/app/Components/Payment";
 import { addReviewServ } from "@/app/services/product.service";
 import { LoggedDataContext } from "@/app/context/context";
 import { toast } from "react-toastify";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const statusFlow = [
   { key: "orderPlaced", icon: "🛒", label: "Order Placed" },
@@ -24,6 +26,7 @@ const statusFlow = [
 
 const page = () => {
   const [details, setDetails] = useState(null);
+  const[loader , setLoader] = useState(null);
   const { id } = useParams();
   const router = useRouter();
 
@@ -34,10 +37,15 @@ const page = () => {
 
   const getOrderDetails = async () => {
     try {
+      setLoader(true);
       let response = await orderDetailsServ(id);
       setDetails(response.data);
       setOrderId(response.data._id)
-    } catch (error) {}
+     
+    } catch (error) {
+       
+    }
+      setLoader(false);
   };
   useEffect(() => {
     getOrderDetails();
@@ -82,7 +90,6 @@ const handleImageChange = (e) => {
   }
 };
 
-
 const handleSubmitReview = async () => {
   console.log("Review Form:", form);
 
@@ -107,7 +114,6 @@ const handleSubmitReview = async () => {
         console.error("Error fetching addresses:", error);
         toast.error(error.response.message)
       }
-  
 };  
 
   return (
@@ -118,7 +124,7 @@ const handleSubmitReview = async () => {
           <div className="d-flex gap-3 ms-md-5 ms-2 ps-md-4">
             <img
               src="https://cdn-icons-png.flaticon.com/128/11519/11519951.png"
-              style={{ height: "25px", width: "25px" }}
+              style={{ height: "25px", width: "25px"  , cursor:"pointer"}}
               onClick={() => router.push("/my-orders")}
               className="m-2 "
             ></img>
@@ -130,11 +136,56 @@ const handleSubmitReview = async () => {
             </div>
           </div>
 
+
+        {loader
+                          ? 
+                               <div className="container">
+    <div className="row">
+      {/* Left column: Order Status & Products */}
+      <div className="col-lg-8 col-12">
+        <div className="mb-3 p-3 bg-white rounded shadow-sm">
+          <Skeleton height={25} width={150} className="mb-3" />
+          <Skeleton count={5} height={20} className="mb-2" />
+        </div>
+
+        <div className="mb-3 p-3 bg-white rounded shadow-sm">
+          <Skeleton height={25} width={150} className="mb-3" />
+          {[...Array(2)].map((_, idx) => (
+            <div key={idx} className="d-flex align-items-center gap-3 mb-3">
+              <Skeleton height={60} width={60} />
+              <div className="w-100">
+                <Skeleton height={20} width="80%" className="mb-2" />
+                <Skeleton height={15} width="60%" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Right column: Info, Address, Payment */}
+      <div className="col-lg-4 col-12">
+        {[...Array(3)].map((_, idx) => (
+          <div key={idx} className="mb-3 p-3 bg-white rounded shadow-sm">
+            <Skeleton height={25} width={120} className="mb-3" />
+            <Skeleton count={3} height={15} className="mb-2" />
+          </div>
+        ))}
+
+        <div className="mb-3 p-3 bg-white rounded shadow-sm">
+          <Skeleton height={25} width={100} className="mb-3" />
+          <Skeleton count={4} height={15} className="mb-2" />
+          <Skeleton height={30} width={100} className="mt-3" />
+        </div>
+      </div>
+    </div>
+  </div>
+                             
+                          :
           <div className="container ">
             <div className="row">
               <div className="col-lg-8 col-12">
                 <div className="col-12 mb-3">
-                  <div className="rounded-3 shadow-sm bg-white p-3 px-5">
+                  <div className="rounded-3 shadow-sm bg-white p-3 px-sm-5 px-3">
                     <h5 className="fs-5 mb-4 mt-3">Order status</h5>
 
                     {/* Order Status */}
@@ -275,11 +326,26 @@ const handleSubmitReview = async () => {
                               ₹ <strong>{item.totalPrice}</strong>
                             </p>
 
-                            <div>
+                            <div className="d-flex gap-2">
+                              <div>
                               <button className="buyAgain rounded-3 ">
                                 Buy Again
                               </button>
-                            </div>
+                             </div>
+
+                             <div>
+                              {
+                   details?.status === "orderPlaced" &&(
+                     <button
+                    class="btn-review"
+                    onClick={() => setReviewPopup(!showReviewPopup)}
+                  >
+                   Add Review
+                  </button>
+                   )
+                 }
+                              </div>
+                              </div>
                           </div>
                         </div>
                       ))
@@ -315,15 +381,17 @@ const handleSubmitReview = async () => {
                       style={{
                         paddingBottom: "15px",
                         borderBottom: "1px solid rgb(237 237 237)",
-                      }}
-                    >
+                      }}>
+
                       <img
                         src="https://cdn-icons-png.flaticon.com/128/1008/1008014.png"
                         className="orderHeadingImage"
                       ></img>
+
                       <h5 className="mb-0" style={{ color: "#333333" }}>
                         Order Info
                       </h5>
+
                     </div>
                     <div className="d-flex gap-3">
                       <div className="orderName">
@@ -456,7 +524,7 @@ const handleSubmitReview = async () => {
                       <div>
                         <div className="orderData">
                           <p className="mb-2">₹3000</p>
-                          <p className="mb-2">0</p>
+                          <p className="mb-2">₹{details?.deliveryCharge}</p>
                           <p className="mb-3">₹100</p>
                           <p className="mb-2">₹{details?.totalAmount}</p>
                         </div>
@@ -476,7 +544,7 @@ const handleSubmitReview = async () => {
                  <h6 className="text-danger fs-6">Not Completed</h6>
       )}
         
-           { !details?.paymentSs && details?.paymentSs !== "null" && (
+          { (!details?.paymentSs || details?.paymentSs === "null") && (
        <h6 className="btn btn-danger" onClick={() => setShowPaymentPopup(true)}>Pay Now</h6>
 
       ) }
@@ -488,7 +556,7 @@ const handleSubmitReview = async () => {
                 </div>
 
                 <div className="col-12 mb-3">
-                 {
+                 {/* {
                    details?.status === "Deliverd" &&(
                      <button
                     class="btn-review"
@@ -497,11 +565,12 @@ const handleSubmitReview = async () => {
                     📝 Add Review
                   </button>
                    )
-                 }
+                 } */}
                 </div>
               </div>
             </div>
           </div>
+}
         </div>
 
         {/* popup to add review  */}

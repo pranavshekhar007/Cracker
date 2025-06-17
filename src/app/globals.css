@@ -3059,6 +3059,8 @@ body , html{
    overflow-x: auto;
 }
 }
+
+
 /* order status  */
 .order-tracker {
   list-style: none;
@@ -3177,15 +3179,62 @@ body , html{
   box-shadow: 0 0 0 0.2rem rgba(157, 71, 71, 0.163);
 }
 
-.comboContainer{
-  border-top-left-radius: 50%;
-  border-top-right-radius: 50%;
-}
-.comboInner{
-  margin-top: -9%;
+/* combo page */
+.comboContainer {
+  position: relative;
+  background-color: #bb3e3e;
+ 
+  border-top-left-radius: 100% 200px;
+  border-top-right-radius: 100% 200px;
+  /* overflow: hidden; */
 }
 
-@media (max-width:1024px) {
+/* Optional inner margin for curve effect */
+.comboInner {
+  margin-top: -11%;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+  .comboContainer {
+    border-top-left-radius: 100% 120px;
+    border-top-right-radius: 100% 120px;
+  }
+
+  .comboInner {
+    margin-top: -16%;
+  }
+}
+
+@media (max-width: 746px) {
+  .comboContainer {
+    border-top-left-radius: 100% 90px;
+    border-top-right-radius: 100% 90px;
+  }
+
+  .comboInner {
+    margin-top: -16%;
+  }
+}
+
+@media (max-width: 546px) {
+  .comboContainer {
+    border-top-left-radius: 100% 30px;
+    border-top-right-radius: 100% 30px;
+  }
+
+  .comboInner {
+    margin-top: -50%;
+  }
+}
+
+
+/* .comboInner{
+  margin-top: -9%;
+} */
+
+
+/* @media (max-width:1024px) {
     .comboContainer{
   border-top-left-radius: 40%;
   border-top-right-radius: 40%;
@@ -3214,4 +3263,10 @@ body , html{
   margin-top: -50%;
 }
 
+} */
+.selectedTabDetails {
+  font-weight: bold;
+  color: #ff0000 !important;  /* Bootstrap primary color */
+  border: 1px solid #ff0000 !important;
+  cursor: pointer;
 }

@@ -3,8 +3,10 @@ import ProductCard from "./ProductCard";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ComboProductCard from "./ComboProductCard";
+import { useEffect } from "react";
 
-function ProductSlider({title, subTitle, productList , textAlignCenter}) {
+function ProductSlider({title, subTitle, productList , textAlignCenter , comboProduct}) {
  var settings = {
     arrows: true,
     dots: true,
@@ -39,20 +41,40 @@ function ProductSlider({title, subTitle, productList , textAlignCenter}) {
       }
     ]
   };
+
+  useEffect(() => {
+       console.log("product slider called")
+       console.log("combo prudct value is" + comboProduct)
+       if(comboProduct){
+       console.log("combo list:", productList);
+       }
+    }, [productList , comboProduct]);
+
   return (
     <div className="container py-3 py-md-5 productSliderDiv">
-      <h1 className={textAlignCenter ? " text-center" :" "}>{title}</h1>
-      <h5 className={textAlignCenter ? " text-center" :" "}>{subTitle}</h5>
+      <h1 className={` ${textAlignCenter ? "text-center" : ""}`}  >{title}</h1>
+      <h5 className={`mb-4 text-muted ${textAlignCenter ? "text-center" : ""}`}>{subTitle}</h5>
       <div className="row py-3">
         <Slider {...settings}>
           
           {productList?.map((v, i) => {
           return (
             <div className="col-6 col-md-3 px-1 px-md-2 mb-2 mb-md-3">
-              <ProductCard value={v}
+           {
+            comboProduct === true ? (
+                <ComboProductCard
+                      value={v}
+                    innerHeight={true}
+                    height={true}
+                    borderRadius={"10px"}
+                />
+            ):(
+                 <ProductCard value={v}
             innerHeight = {true}
             height = {true}
               />
+            )
+           }
             </div>
           );
         })}
