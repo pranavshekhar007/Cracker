@@ -14,7 +14,9 @@ const page = () => {
     const fetchPolicy = async () => {
       try {
         const res = await getPolicy(); 
-        setPolicyData(res.data); 
+       if(res?.statusCode == 200){
+         setPolicyData(res.data); 
+       }
       } catch (error) {
         console.error("Error fetching policy:", error);
       }

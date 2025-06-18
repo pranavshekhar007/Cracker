@@ -25,6 +25,7 @@ const statusFlow = [
 ];
 
 const page = () => {
+    const { cartList, setCartList } =  useContext(LoggedDataContext);
   const [details, setDetails] = useState(null);
   const[loader , setLoader] = useState(null);
   const { id } = useParams();
@@ -39,8 +40,10 @@ const page = () => {
     try {
       setLoader(true);
       let response = await orderDetailsServ(id);
-      setDetails(response.data);
+     if(response?.statusCode == "200"){
+       setDetails(response.data);
       setOrderId(response.data._id)
+     }
      
     } catch (error) {
        
@@ -51,28 +54,13 @@ const page = () => {
     getOrderDetails();
   }, [id]);
 
-
   const [showReviewPopup, setReviewPopup] = useState(false);
-
-   const [imagePreview, setImagePreview] = useState(null);
-  
-    // const handleImageChange = (e) => {
-    //   const file = e.target.files[0];
-    //   if (file) {
-    //     const reader = new FileReader();
-    //     reader.onloadend = () => {
-    //       setImagePreview(reader.result);
-    //     };
-    //     reader.readAsDataURL(file);
-    //   }
-    // };
-
     // review api
 
     const [form, setForm] = useState({
   rating: "",
   review: "",
-  image: null,
+ 
 });
 
 const handleRatingChange = (e) => {
@@ -82,39 +70,103 @@ const handleRatingChange = (e) => {
 const handleReviewTextChange = (e) => {
   setForm((prev) => ({ ...prev, review: e.target.value }));
 };
-const handleImageChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    setForm((prev) => ({ ...prev, image: file }));
-    setImagePreview(URL.createObjectURL(file));
-  }
-};
+
+const[reviewProductId , setReviewProductId] = useState("");
 
 const handleSubmitReview = async () => {
   console.log("Review Form:", form);
 
-  const formData = new FormData();
-  formData.append("rating", form.rating);
-  formData.append("review", form.review);
-  if (form.image) formData.append("image", form.image);
-   formData.append("userId", loggedUserData?._id || "");
-  formData.append("productId", id || "");
+  const payload = {
+  rating: form.rating,
+  review: form.review,
+  userId: loggedUserData?._id,
+  productId: reviewProductId,
+};
    
    try {
-        const res = await addReviewServ(formData);
+        const res = await addReviewServ(payload);
         console.log(res);
         
           if (res?.statusCode == "200") {
-                 toast.success(response?.message);
-               
+                 toast.success(res?.message);    
           }
            setReviewPopup(false); 
        
       } catch (error) {
         console.error("Error fetching addresses:", error);
-        toast.error(error.response.message)
+        toast.error(error?.response?.data?.message)
       }
 };  
+
+const handleReviewShow = (id) => {
+  
+   setReviewPopup(true)
+   setReviewProductId(id);
+  console.log("product id" , reviewProductId)
+}
+useEffect(() => {
+  if (reviewProductId) {
+    console.log("SET SUCCESSFULLY:", reviewProductId);
+  }
+}, [reviewProductId]);
+
+// add to cart
+
+  const handleAddToCartLocal = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+
+      const existingProduct = localCartList.find((item) => item._id === v._id);
+
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        localCartList.push({ ...v, quantity: 1 });
+      }
+
+      localStorage.setItem("cartList", JSON.stringify(localCartList));
+      setCartList(localCartList);
+      toast.success("Item Added To the cart");
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  };
+
+  const handleIncreaseQty = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+
+    const existingProduct = localCartList.find((item) => item._id === v._id);
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    }
+
+    localStorage.setItem("cartList", JSON.stringify(localCartList));
+    setCartList(localCartList);
+  };
+
+  const handleDecreaseQty = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+
+    const existingProduct = localCartList.find((item) => item._id === v._id);
+    if (existingProduct) {
+      existingProduct.quantity -= 1;
+      if (existingProduct.quantity <= 0) {
+        localCartList = localCartList.filter((item) => item._id !== v._id);
+      }
+    }
+
+    localStorage.setItem("cartList", JSON.stringify(localCartList));
+    setCartList(localCartList);
+  };
+
+
+
 
   return (
     <div>
@@ -328,9 +380,35 @@ const handleSubmitReview = async () => {
 
                             <div className="d-flex gap-2">
                               <div>
-                              <button className="buyAgain rounded-3 ">
+                                 {cartList?.find((item) => item._id === details?._id) ? (
+                  <div className="d-flex align-items-center counterDiv w-100 overflow-hidden" style={{borderRadius: "8px" , height: "41px"}}>
+                    <p
+                      style={{ backgroundColor: "#6d0d0c" , height: "100%"}}
+                      className="w-100 text-white mb-0 d-flex justify-content-center align-items-center "
+                      onClick={(e) => handleDecreaseQty(e, details)}
+                    >
+                      -
+                    </p>
+                    <p className="w-100 mb-0 d-flex justify-content-center align-items-center" style={{ backgroundColor: "#f9f5f5" , height: "100%"}}>
+                      {
+                        cartList.find((item) => item._id === details?._id)
+                          ?.quantity
+                      }
+                    </p>
+                    <p
+                      className="w-100 text-white mb-0 d-flex justify-content-center align-items-center"
+                      style={{ backgroundColor: "#6d0d0c" , height: "100%" }}
+                      onClick={(e) => handleIncreaseQty(e, details)}
+                    >
+                      +
+                    </p>
+                  </div>
+                ) : (
+  <button className="buyAgain rounded-3 " onClick={(e) => handleAddToCartLocal(e, details)}>
                                 Buy Again
                               </button>
+                )}
+                            
                              </div>
 
                              <div>
@@ -338,7 +416,7 @@ const handleSubmitReview = async () => {
                    details?.status === "orderPlaced" &&(
                      <button
                     class="btn-review"
-                    onClick={() => setReviewPopup(!showReviewPopup)}
+                     onClick={() => handleReviewShow(item?.productId?._id)}
                   >
                    Add Review
                   </button>
@@ -581,7 +659,7 @@ const handleSubmitReview = async () => {
             style={{ background: "rgba(0,0,0,0.5)", zIndex: 9999 }}
           >
             <div
-              className="bg-white p-sm-4 px-sm-5 p-3"
+              className="bg-white p-sm-4 px-sm-5 p-3 py-4"
               style={{ width: "500px", maxWidth: "90%" , borderRadius:"3%"}}
             >
               <div className=" text-center align-items-center mb-3">
@@ -614,13 +692,8 @@ const handleSubmitReview = async () => {
                 className="w-100 p-2 " style={{borderRadius:"8px"}}
               />
 
-              {/* <div className="my-sm-4 my-2 w-100 ">
-                <h6 className="mb-sm-3 mb-2">Add a Photo (optional)</h6>
 
-                <input type="file" accept="image/*" className="form-control w-100" />
-              </div> */}
-
-                  <div className="add-review mb-4">
+                  {/* <div className="add-review mb-4">
       <h5>Add a photo or video</h5>
 
       <label htmlFor="imageUpload" className="upload-box w-100 text-center d-flex align-items-center justify-content-center">
@@ -639,9 +712,9 @@ const handleSubmitReview = async () => {
         onChange={handleImageChange}
         className="form-control d-none"
       />
-    </div>
+                  </div> */}
 
-             <div className="d-flex gap-3 w-100">
+             <div className="d-flex gap-3 w-100 mt-3">
               <button
                 className="btn border-none  mt-3 mb-2 fw-bold"
                    onClick={() => setReviewPopup(!showReviewPopup)}

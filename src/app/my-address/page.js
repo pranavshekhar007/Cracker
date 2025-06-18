@@ -56,7 +56,9 @@ const Page = () => {
   const fetchAddresses = async () => {
     try {
       const res = await addressList({userId:loggedUserData?._id});
-      setAddresses(res?.data || []);
+     if(res?.statusCode == 200){
+       setAddresses(res?.data || []);
+     }
     } catch (error) {
       console.error("Error fetching addresses:", error);
     }

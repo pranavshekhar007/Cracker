@@ -612,15 +612,8 @@ import { LoggedDataContext } from "../context/context";
 import Navbar from "../Components/Navbar";
 import { otpSend, otpVerify } from "../services/authentication.service";
 import { toast } from "react-toastify";
-import {
-  addressCreate,
-  addressList,
-} from "../services/address.service";
-import {
-  getCitiesServ,
-  getStatesServ,
-  placeOrderServ,
-} from "../services/product.service";
+import { addressCreate, addressList , addressUpdate} from "../services/address.service";
+import { getCitiesServ,getStatesServ,placeOrderServ} from "../services/product.service";
 import Footer from "../Components/Footer";
 import Payment from "../Components/Payment";
 import axios from "axios";
@@ -629,6 +622,7 @@ const Page = () => {
   const { loggedUserData, cartList, updateLoggedUserData, setCartList } =
     useContext(LoggedDataContext);
   const [editAddress, setEditAddress] = useState(false);
+
   const [addressForm, setAddressForm] = useState({
     phone: "",
     alternatePhone: "",
@@ -736,9 +730,14 @@ const Page = () => {
   useEffect(() => {
     if (!loggedUserData || !cartList) return;
 
+   
+
     const subTotal = cartList.reduce(
-    (total, item) => total + item.discountedPrice * item.quantity,
-    0
+    (total, item) => 
+      {
+         const price = item?.discountedPrice ?? item?.pricing?.comboPrice
+        return total + price * item.quantity
+      }, 0
   );
 
   const minCityPrice = cityPrice || 0
@@ -750,7 +749,7 @@ const Page = () => {
       product: cartList.map((item) => ({
         productId: item._id,
         quantity: item.quantity,
-        totalPrice: item.discountedPrice * item.quantity,
+        totalPrice: item.discountedPrice ?? item.pricing.comboPrice * item.quantity,
         productHeroImage: item.productHeroImage,
       })),
       totalAmount: subTotal,
@@ -777,7 +776,26 @@ const Page = () => {
 
 
   const handleAddressCreate = async (e) => {
+
       e.preventDefault();
+
+       const isAddressDuplicate = addresses.some(addr =>
+    addr.fullName === addressForm.fullName &&
+    addr.phone === addressForm.phone &&
+    addr.alternatePhone === addressForm.alternatePhone &&
+    addr.area === addressForm.area &&
+    addr.city === addressForm.city &&
+    addr.state === addressForm.state &&
+    addr.pincode === addressForm.pincode &&
+    addr.country === addressForm.country &&
+    addr.landmark === addressForm.landmark
+  );
+
+  if (isAddressDuplicate) {
+    toast.info("This address is already saved.");
+    return;
+  }
+
 
         const payload = {
     ...addressForm,
@@ -785,17 +803,40 @@ const Page = () => {
     userId: loggedUserData?._id,
   };
 
+   try {
+    if (payload._id) {
+      const res = await addressUpdate(payload);
+        if(res?.statusCode == "200"){
+            toast.success("Address updated successfully");
+        }
+    } else {
+      
+      const res = await addressCreate(payload);
+       if(res?.statusCode == "200"){
+        toast.success("Address saved successfully");
+       }
+    }
 
-      try {
-        const res = await addressCreate(payload);
-        console.log("address saved")
-        // toast.success(res.message);
-      } catch (error) {
-        console.error("Error creating address:", error);
-        // toast.error(error.response?.data?.message);
-      }
+    fetchAddresses(); // Refresh list
+  } catch (error) {
+    console.error("Address save/update error:", error);
+    toast.error(error?.response?.data?.message || "Address operation failed");
+  }
+
+
+      // try {
+      //   const res = await addressCreate(payload);
+      //   console.log("address saved")
+      //   toast.success(res.message);
+      // } catch (error) {
+      //   console.error("Error creating address:", error);
+      //   toast.error(error.response?.data?.message);
+      // }
     };
 
+    // const handleSaveAddress = () => {
+    //         handleAddressCreate();
+    // }
 
 
   // current loaction get function
@@ -860,8 +901,10 @@ const Page = () => {
   const getStates = async () => {
     try {
       const res = await getStatesServ();
-      console.log(res.data);
+     if(res.statusCode == "200"){
+       console.log(res.data);
       setStateList(res.data);
+     }
     } catch (error) {
       console.log("getting error in state list" + error);
     }
@@ -870,8 +913,10 @@ const Page = () => {
     const getCity = async () => {
     try {
       const res = await getCitiesServ();
-      console.log(res.data);
+   if(res?.statusCode == "200"){
+          console.log(res.data);
       setCityList(res.data);
+   }
     } catch (error) {
       console.log("getting error in city list" + error);
     }
@@ -891,6 +936,14 @@ const Page = () => {
   );
 
   setFilteredCities(filtered);
+  }
+
+  const[showAddress , setShowAddress] = useState(false);
+
+  const handleSelectAdress = (address) => {
+        // setSelectedAddress(address);
+        console.log("selected address is" , address);
+        setAddressForm(address)
   }
 
   return (
@@ -915,9 +968,46 @@ const Page = () => {
                       <img
                         src="https://cdn-icons-png.flaticon.com/128/6364/6364586.png"
                         style={{ height: "15px", opacity: "0.6" }}
+                        onClick={() => setShowAddress(!showAddress)}
                       />
                     )}
                   </div>
+
+
+                   {showAddress && (
+                              <div className="all-address d-flex gap-2 flex-wrap"> 
+                   { addresses.map((address) => {
+                      return(
+                        <div className="address-card w-100 d-flex justify-content-between align-items-end">
+                           <div>
+                              <p className="address-name mb-0">{address.fullName}</p>
+                        <p className="address-phone mb-0">{address.phone}</p>
+                        <p className="address mb-0">
+                          {address.area}, {address.landmark}, {address.city}, {address.state}
+                        </p>
+                        <p className="pincode mb-0">{address.pincode}</p>
+                            </div>
+                        <div className="address-btns d-flex gap-2 mt-3 ">
+                          {
+                            address?._id == addressForm?._id ? (
+                               <button className="text-danger" style={{height:"40px" , backgroundColor:"rgb(253 231 233)" , border: "1px solid rgb(247 213 216)"}} 
+                             onClick={() => handleSelectAdress(address)}
+                            >Selected</button>
+                            ) :(
+                              <button style={{height:"40px" , backgroundColor:"#dc3545"}} 
+                             onClick={() => handleSelectAdress(address)}
+                            >Use Address</button>
+                            )
+                          }
+                            
+                        </div>
+                            </div>
+                      )
+                    })
+                  }
+                  </div>
+                   )
+                   }
 
                   <div className="row m-0 p-0">
                     <div className="col-md-12 col-12 p-0 px-md-2 my-2">
@@ -1132,8 +1222,8 @@ const Page = () => {
                         </button>
                       )}
                     </div>
-                  </div>
-                </div>
+                    </div>
+                     </div>
               ) : (
                 <div className=" pb-4 mb-4">
                   <h6 className="fw-bold mb-4">

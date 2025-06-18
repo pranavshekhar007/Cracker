@@ -162,12 +162,27 @@ export const getCitiesServ = async () => {
 
 // product review 
 
-export const addReviewServ = async (formdata) => {
-      try {
-    const response = await axios.post(BASE_URL + "rating/create", formdata);
+// export const addReviewServ = async (payload) => {
+//       try {
+//     const response = await axios.post(BASE_URL + "rating/create", payload , {
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//     return response.data;
+//   } catch (error) {
+//     console.error("review error:", error);
+//     throw error;
+//   }
+// }
+
+export const addReviewServ = async (payload) => {
+  try {
+    console.log(payload)
+    const response = await axios.post(BASE_URL + "rating/create", payload);
     return response.data;
   } catch (error) {
     console.error("review error:", error);
     throw error;
   }
-}
+};

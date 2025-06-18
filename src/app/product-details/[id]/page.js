@@ -10,23 +10,28 @@ import { useRouter } from "next/navigation";
 
 
 function page() {
-  const { loggedUserData, cartList, setCartList, wishList, setWishList } =
-    useContext(LoggedDataContext);
+  const { cartList, setCartList } =  useContext(LoggedDataContext);
   const { id } = useParams();
   const [details, setDetails] = useState(null);
+  const[ratingList , setRatingList] = useState(null);
   const router = useRouter();
 
   const getProductDetails = async () => {
     try {
       let response = await getProduct(id);
-      setDetails(response);
-    } catch (error) {}
+      setDetails(response?.product);
+      setRatingList(response?.ratingList);
+    } catch (error) {
+
+    }
   };
   useEffect(() => {
     getProductDetails();
   }, [id]);
 
   const [showDetails, setShowDetail] = useState(false);
+   const [showReviews, setShowReviews] = useState(false);
+
 
   const imgRef = useRef();
 
@@ -181,8 +186,16 @@ function page() {
                     }>
                   Product Details
                 </p>
-                <p
-                   onClick={() => setActiveTab("reviews")}
+                <p 
+                  onClick={() => {
+                      if (!showReviews) {
+                        setShowReviews(true);
+                        setActiveTab("reviews");
+                      } else {
+                        setShowReviews(false);
+                        setActiveTab("");
+                      }
+                    }}
                     className={
                       activeTab === "reviews" ? "selectedTabDetails" : ""
                     }
@@ -317,6 +330,49 @@ function page() {
             <p>{details?.description?.replace(/<[^>]*>/g, "")}</p>
           </div>
         )}
+
+        {showReviews && (
+              <div className="productDetailsDiv mt-3 row">
+                <div className="col-12 border">
+                  <div className="  p-2">
+                    <h3 className="mb-0">Peopls Thought's</h3>
+
+                    <div className="row">
+                      {ratingList?.map((v, i) => {
+                        return (
+                          <div className="col-6">
+                            <div className="reviewBox p-2 py-3 shadow-sm mb-3 mt-2">
+                              <div className="d-flex align-items-center">
+                                <div>
+                                  <img src={v?.userId?.profilePic ? v?.userId?.profilePic: "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"} />
+                                </div>
+                                <div className="ms-3">
+                                  <h5>{v?.userId?.firstName +" "+ v?.userId?.lastName}</h5>
+                                  <div className="d-flex starGroup">
+                                    {[...Array(Math.round(Number(v?.rating) || 0))].map(
+                                 (_, i) => (
+                        <img
+                          key={i}
+                          src="https://cdn-icons-png.flaticon.com/128/1828/1828884.png"
+                          style={{ height: "20px", marginRight: "4px" }}
+                        />
+                      )
+                    )}
+                                  </div>
+                                  <p className="mb-0">
+                                   {v?.review}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
       </div>
       <Footer />
     </div>

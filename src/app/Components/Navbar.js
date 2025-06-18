@@ -524,7 +524,15 @@ const Navbar = () => {
                 data-bs-dismiss="offcanvas"
               ></button>
             </div>
+               
+             {(cartList?.length ?? 0) === 0 ? (
+                 <div className="offcanvas-body d-flex flex-column align-items-center">
+                  <img src="https://img.freepik.com/free-vector/supermarket-shopping-cart-concept-illustration_114360-22408.jpg?uid=R195795735&ga=GA1.1.1778899298.1732287368&semt=ais_hybrid&w=740" className="img-fluid" style={{maxWidth: "60%"}}></img>
+                  <h5 className="p-2 text-center">Your Cart is <span className="text-danger">Empty!</span></h5>
+                 </div>
+               ):(
 
+              
             <div className="offcanvas-body">
               {cartList?.map((item) => (
                 <div className="d-flex mb-3" key={item._id}>
@@ -596,6 +604,7 @@ const Navbar = () => {
                 Proceed To Checkout
               </button>
             </div>
+             )}
           </div>
         
     

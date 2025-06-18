@@ -17,7 +17,14 @@ function page() {
   const getProductDetails = async () => {
     try {
       let response = await getComboProduct(id);
-      setDetails(response);
+      
+    //  if(response?.statusCode == 200){
+       setDetails(response);
+       console.log("combo details" ,details)
+    //  }
+    //  else{
+    //   console.log(response?.statusCode)
+    //  }
     } catch (error) {}
   };
   useEffect(() => {

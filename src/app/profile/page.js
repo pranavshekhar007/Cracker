@@ -267,6 +267,24 @@ const Profile = () => {
           </button>
         )}
       </div>
+
+      {/* <a
+  href="https://wa.me/6267023142"  
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{
+    display: "inline-block",
+    backgroundColor: "#25D366",
+    color: "#fff",
+    padding: "10px 15px",
+    borderRadius: "5px",
+    textDecoration: "none",
+    fontWeight: "bold",
+  }}
+>
+  Chat on WhatsApp
+</a> */}
+
             </div>
             </div>
 

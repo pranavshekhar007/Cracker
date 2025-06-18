@@ -52,8 +52,10 @@ const page = () => {
     console.log("Frontend ID sent---", userId);
     try {
       const res = await orderListServ(userId);
-      console.log(res.data);
+      if(res?.statusCode == 200){
+        console.log(res.data);
       setOrders(res.data);
+      }
     } catch (error) {
       console.log(error);
     }

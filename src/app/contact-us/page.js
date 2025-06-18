@@ -29,15 +29,17 @@ const page = () => {
     e.preventDefault();
     try {
       const res = await contact(formData);
-      console.log("Message sent successfully!");
+      if(res?.statusCode == 200){
+        console.log("Message sent successfully!");
          toast.success(res?.message);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      website: "",
-      message: "",
-    });
+         setFormData({
+         name: "",
+         email: "",
+         phone: "",
+         website: "",
+         message: "",
+         });
+      }
 
     } catch (err) {
         toast.error(err?.message);

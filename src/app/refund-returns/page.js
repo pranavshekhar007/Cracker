@@ -11,8 +11,10 @@ const page = () => {
   useEffect(() => {
     const fetchPolicy = async () => {
       try {
-        const res = await getPolicy(); // API call
-        setPolicyData(res.data); // Store only the 'data' part of the response
+        const res = await getPolicy();
+         if(res?.statusCode == "200"){
+          setPolicyData(res.data); 
+         }
       } catch (error) {
         console.error("Error fetching policy:", error);
       }
