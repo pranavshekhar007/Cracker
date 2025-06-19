@@ -76,7 +76,7 @@ const BrandsSlider = () => {
 
   return (
     <div>
-      <div className="mt-3 mb-5 px-3 py-5" style={{backgroundColor:"#efefef"}}>
+      <div className="mt-3 mb-5 px-3 py-sm-5 py-4" style={{backgroundColor:"#efefef"}}>
         <Slider {...settings}>
           {brands.map((brand, index) => (
             <div key={index} className=" mx-5" >
@@ -84,7 +84,7 @@ const BrandsSlider = () => {
                 src={brand.brandImage}
                 alt={`Brand ${index}`}
                 style={{ height: "135px", width: "135px", margin: "0 10px" }}
-                className="rounded-circle"
+                className="rounded-circle brandLogo"
               />
             </div>
           ))}

@@ -58,3 +58,15 @@ export const otpVerify = async (formdata) => {
     throw error;
   }
 };
+
+//otp send api
+
+export const userUpdate = async (payload) => {
+  try {
+    const response = await axios.post(BASE_URL + "user/update", payload);
+    return response.data;
+  } catch (error) {
+    console.error("use update Error:", error);
+    throw error;
+  }
+};

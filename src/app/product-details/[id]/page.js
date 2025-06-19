@@ -138,15 +138,17 @@ function page() {
   return (
     <div>
       <Navbar selectedItem="Shop" />
-      <div className="container my-md-5 my-4 mt-5 pt-2">
+      <div style={{}} className="py-md-5">
+      <div className="container my-md-5 my-4 ">
         <div className="d-flex mt-md-5 mt-5 breadcrumb">
           <p style={{ color: "rgb(188 94 94)" }}>Home -</p>
           <p style={{ color: "rgb(153 61 61)" }}>Shop -</p>
           <p>{details?.name}</p>
         </div>
-        <div className="row px-md-2 px-0 marginLeft0">
-          <div className="col-md-6 col-12 row px-md-2 px-0">
-            <div className="col-md-3 col-12 d-md-block d-flex order-md-1 order-2">
+        <div className="row px-0 px-0  bg-white shadow-sm">
+          <div className="col-md-6 col-12 px-md-2 px-0">
+            <div className="row me-2 p-2">
+               <div className="col-md-3 col-12 d-md-block d-flex order-md-1 order-2">
               {details?.productGallery?.map((v, i) => {
                 return (
                   <div className="border">
@@ -171,11 +173,12 @@ function page() {
               </div>
             </div>
             <div className="col-12  p-2 mt-3 order-3 d-md-block d-none">
-              <div className="d-flex justify-content-end productDetailsLeftBtnGroup gap-2">
+              <div className="d-flex justify-content-end productDetailsLeftBtnGroup gap-3 mx-2 ">
                 <p   onClick={() => {
                       if (!showDetails) {
                         setShowDetail(true);
                         setActiveTab("details");
+                        setShowReviews(false);
                       } else {
                         setShowDetail(false);
                         setActiveTab("");
@@ -191,6 +194,7 @@ function page() {
                       if (!showReviews) {
                         setShowReviews(true);
                         setActiveTab("reviews");
+                        setShowDetail(false);
                       } else {
                         setShowReviews(false);
                         setActiveTab("");
@@ -202,9 +206,10 @@ function page() {
                     >Reviews</p>
               </div>
             </div>
+            </div>
           </div>
-          <div className="col-md-6 col-12 mx-md-2 mx-0 px-md-2 px-0">
-            <div className="border rounded p-4 productDetailsDiv mt-md-0 mt-3">
+          <div className="col-md-6 col-12 px-0">
+            <div className="border rounded p-4 productDetailsDiv mt-md-0 mt-3 ms-2">
               <h5 className="badge" style={{ background: "#e76c6a" }}>
                 Save{" "}
                 {(
@@ -311,24 +316,52 @@ function page() {
             </div>
             <div className="col-12  p-2 mt-3 order-3 d-md-none d-block">
               <div className="d-flex justify-content-between productDetailsLeftBtnGroup">
-                <p onClick={() => setShowDetail(!showDetails)}>
+               <p   onClick={() => {
+                      if (!showDetails) {
+                        setShowDetail(true);
+                        setActiveTab("details");
+                        setShowReviews(false);
+                      } else {
+                        setShowDetail(false);
+                        setActiveTab("");
+                      }
+                    }}
+                    className={
+                      activeTab === "details" ? "selectedTabDetails" : ""
+                    }>
                   Product Details
                 </p>
-                <p>Reviews</p>
-                {/* <p>Nutritional Facts</p> */}
+                <p 
+                  onClick={() => {
+                      if (!showReviews) {
+                        setShowReviews(true);
+                        setActiveTab("reviews");
+                        setShowDetail(false);
+                      } else {
+                        setShowReviews(false);
+                        setActiveTab("");
+                      }
+                    }}
+                    className={
+                      activeTab === "reviews" ? "selectedTabDetails" : ""
+                    }
+                    >Reviews</p>
               </div>
             </div>
           </div>
         </div>
 
+       
         {showDetails && (
-          <div className="mt-4">
-            <h6 className="text-secondary">Product Description</h6>
-            <p>{details?.shortDescription?.replace(/<[^>]*>/g, "")}</p>
+         <div className="bg-white p-4 shadow-sm rounded-3 mt-4 row">
+              <div className="">
+                <h6 className="text-secondary">Product Description</h6>
+                <p>{details?.shortDescription?.replace(/<[^>]*>/g, "")}</p>
 
-            <h6 className="text-secondary">Detailed Overview</h6>
-            <p>{details?.description?.replace(/<[^>]*>/g, "")}</p>
-          </div>
+                <h6 className="text-secondary">Detailed Overview</h6>
+                <p>{details?.description?.replace(/<[^>]*>/g, "")}</p>
+              </div>
+              </div>
         )}
 
         {showReviews && (
@@ -373,6 +406,11 @@ function page() {
                 </div>
               </div>
             )}
+            
+     
+      </div>
+
+      
       </div>
       <Footer />
     </div>

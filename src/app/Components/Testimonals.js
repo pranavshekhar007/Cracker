@@ -168,7 +168,7 @@ const Testimonals = () => {
                 data-bs-slide="prev"
               >
                 <span
-                  className="carousel-control-prev-icon bg-dark rounded-circle p-3"
+                  className="carousel-control-prev-icon bg-dark rounded-circle p-sm-3"
                   aria-hidden="true"
                 ></span>
                 <span className="visually-hidden">Previous</span>
@@ -180,7 +180,7 @@ const Testimonals = () => {
                 data-bs-slide="next"
               >
                 <span
-                  className="carousel-control-next-icon bg-dark rounded-circle p-3"
+                  className="carousel-control-next-icon bg-dark rounded-circle p-sm-3 p-1"
                   aria-hidden="true"
                 ></span>
                 <span className="visually-hidden">Next</span>

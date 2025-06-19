@@ -8,74 +8,76 @@ import ShopFromFarm from "./Components/ShopFromFarm";
 import Footer from "./Components/Footer";
 import SegmentedToggleWithContent from "./Components/SegmentedToggleWithContent";
 import HeroSection from "./Components/HeroSection";
-import { getProductServ , getComboProductServ } from "./services/product.service";
+import { FaWhatsapp } from "react-icons/fa";
+import {
+  getProductServ,
+  getComboProductServ,
+} from "./services/product.service";
 import BrandsSlider from "./Components/BrandsSlider";
 import ProductSlider from "./Components/ProductSlider";
 
-
 export default function Home() {
+  const [productlist, setProductList] = useState([]);
 
-    const [productlist, setProductList] = useState([]);
+  const payload = {
+    pageCount: 20,
+  };
 
   const getProductList = async () => {
     try {
-      let response = await getProductServ();
+      let response = await getProductServ(payload);
       console.log(response?.data);
       if (response?.statusCode == "200") {
         setProductList(response?.data);
       }
     } catch (error) {
-      console.log("getting error in product api")
+      console.log("getting error in product api");
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
     getProductList();
   }, []);
 
   // combo prodcucts for slider
 
-   const [comboproducts, setComboProductList] = useState([]);
-  
-    const getComboProductList = async () => {
-     
-      try {
-        let response = await getComboProductServ();
-        console.log(response?.data);
-        if (response?.statusCode == "200") {
-         setComboProductList(response?.data);
-        }
-      } catch (error) {}
-      
-    };
-  
-    useEffect(() => {
-      getComboProductList();
-    }, []);
+  const [comboproducts, setComboProductList] = useState([]);
 
+  const getComboProductList = async () => {
+    try {
+      let response = await getComboProductServ();
+      console.log(response?.data);
+      if (response?.statusCode == "200") {
+        setComboProductList(response?.data);
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getComboProductList();
+  }, []);
 
   // popup on first visit
-    
+
   const [showDisclaimer, setShowDisclaimer] = useState(false);
 
-    const handleProceed = () => {
+  const handleProceed = () => {
     localStorage.setItem("disclaimerAccepted", "true");
     setShowDisclaimer(false);
     document.body.style.overflow = "auto";
     document.documentElement.style.overflow = "auto";
-    };
+  };
 
-    useEffect(() => {
-
-        const hasAccepted = localStorage.getItem("disclaimerAccepted");
-  if (!hasAccepted) {
+  useEffect(() => {
+    const hasAccepted = localStorage.getItem("disclaimerAccepted");
+    if (!hasAccepted) {
       setShowDisclaimer(true);
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
     }
-}, []);
+  }, []);
 
- useEffect(() => {
+  useEffect(() => {
     return () => {
       document.body.style.overflow = "auto";
       document.documentElement.style.overflow = "auto";
@@ -84,123 +86,122 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
+      <div className=" position-relative">
+        <Navbar />
 
-      {/* ===== Updates Bar Section ===== */}
-      <div className="update-bar d-flex align-items-center shadow-sm rounded">
-        <div className="update-label d-flex align-items-center px-3 py-2 rounded-start">
-          <i className="bi bi-lightning-fill me-2"></i>
-          <strong>UPDATES</strong>
-        </div>
-        <div className="update-text-wrapper py-2 px-2">
-          <div className="update-text">
-            🚨 Over India Except Crackers Banned States. &nbsp; | &nbsp; 🔥 As
-            Per The Supreme Court Order, Online Sale Of Firecrackers Is Not
-            Permitted! &nbsp; | &nbsp; 🎉 Safe & Fast Delivery Options Available
-            Now! &nbsp; | &nbsp; 📢 Celebrate Responsibly — Stay Safe, Stay
-            Happy!
+        {/* ===== Updates Bar Section ===== */}
+        <div className="update-bar d-flex align-items-center shadow-sm rounded">
+          <div className="update-label d-flex align-items-center px-3 py-2 rounded-start">
+            <i className="bi bi-lightning-fill me-2"></i>
+            <strong>UPDATES</strong>
           </div>
-        </div>
-      </div>
-
-
-
-      {/* hero section */}
-
-
-      <div className="hero-container">
-         
-        <HeroSection/>
-
-        <BrandsSlider/>
-       
-        <div className="free-shiping">
-        <div className="services-container">
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/cart.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">Minimum Order Value</p>
-              <p>₹1,999 (TN, BLRE & PY)</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/car.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">HOME DELIVERY</p>
-              <p>(TN, BLRE & PY Only)</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/viber.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">OTHER STATES</p>
-              <p>Minimum Order ₹6,000</p>
-            </div>
-          </div>
-
-          <div className="service-box">
-            <div className="services-icon-wrapper">
-              <img src="/assets/secure-payment.png" className="services-icon" />
-            </div>
-            <div>
-              <p className="mb-0 fw-bold">UPTO 80% DISCOUNT</p>
-              <p>with Assured Packing Quality</p>
+          <div className="update-text-wrapper py-2 px-2">
+            <div className="update-text">
+              🚨 Over India Except Crackers Banned States. &nbsp; | &nbsp; 🔥 As
+              Per The Supreme Court Order, Online Sale Of Firecrackers Is Not
+              Permitted! &nbsp; | &nbsp; 🎉 Safe & Fast Delivery Options
+              Available Now! &nbsp; | &nbsp; 📢 Celebrate Responsibly — Stay
+              Safe, Stay Happy!
             </div>
           </div>
         </div>
-      </div>
-      </div>
 
+        {/* hero section */}
 
-      {/* <div className="featured-bottom ">
+        <div className="hero-container">
+          <HeroSection />
+
+          <BrandsSlider />
+
+          <div className="free-shiping">
+            <div className="services-container">
+              <div className="service-box">
+                <div className="services-icon-wrapper">
+                  <img src="/assets/cart.png" className="services-icon" />
+                </div>
+                <div>
+                  <p className="mb-0 fw-bold">Minimum Order Value</p>
+                  <p>₹1,999 (TN, BLRE & PY)</p>
+                </div>
+              </div>
+
+              <div className="service-box">
+                <div className="services-icon-wrapper">
+                  <img src="/assets/car.png" className="services-icon" />
+                </div>
+                <div>
+                  <p className="mb-0 fw-bold">HOME DELIVERY</p>
+                  <p>(TN, BLRE & PY Only)</p>
+                </div>
+              </div>
+
+              <div className="service-box">
+                <div className="services-icon-wrapper">
+                  <img src="/assets/viber.png" className="services-icon" />
+                </div>
+                <div>
+                  <p className="mb-0 fw-bold">OTHER STATES</p>
+                  <p>Minimum Order ₹6,000</p>
+                </div>
+              </div>
+
+              <div className="service-box">
+                <div className="services-icon-wrapper">
+                  <img src="/assets/viber.png" className="services-icon" />
+                </div>
+                <div>
+                  <p className="mb-0 fw-bold">OTHER STATES</p>
+                  <p>Minimum Order ₹6,000</p>
+                </div>
+              </div>
+
+              <div className="service-box">
+                <div className="services-icon-wrapper">
+                  <img src="/assets/viber.png" className="services-icon" />
+                </div>
+                <div>
+                  <p className="mb-0 fw-bold">OTHER STATES</p>
+                  <p>Minimum Order ₹6,000</p>
+                </div>
+              </div>
+
+              <div className="service-box">
+                <div className="services-icon-wrapper">
+                  <img src="/assets/viber.png" className="services-icon" />
+                </div>
+                <div>
+                  <p className="mb-0 fw-bold">OTHER STATES</p>
+                  <p>Minimum Order ₹6,000</p>
+                </div>
+              </div>
+
+              <div className="service-box">
+                <div className="services-icon-wrapper">
+                  <img src="/assets/viber.png" className="services-icon" />
+                </div>
+                <div>
+                  <p className="mb-0 fw-bold">OTHER STATES</p>
+                  <p>Minimum Order ₹6,000</p>
+                </div>
+              </div>
+
+              <div className="service-box">
+                <div className="services-icon-wrapper">
+                  <img
+                    src="/assets/secure-payment.png"
+                    className="services-icon"
+                  />
+                </div>
+                <div>
+                  <p className="mb-0 fw-bold">UPTO 80% DISCOUNT</p>
+                  <p>with Assured Packing Quality</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="featured-bottom ">
         <div className="row">
           <div className="col-lg-6 col-12 mt-3">
            <div className="feature-card feature-card1  d-flex flex-column justify-content-center">
@@ -224,61 +225,96 @@ export default function Home() {
         </div>
       </div> */}
 
-      {/* Daily best sells section */}
-      {/* <DailySell
+        {/* Daily best sells section */}
+        {/* <DailySell
        productList={productlist}
       /> */}
-      <DailySell 
+        <DailySell
           productList={productlist?.filter((v, i) => {
-          return v?.specialAppearance?.includes("daily sell");
-        })}
-/>
+            return v?.specialAppearance?.includes("daily sell");
+          })}
+        />
 
-      {/* <SegmentedToggleWithContent
+        {/* <SegmentedToggleWithContent
       productList={productlist.filter((v) => 
     v?.specialAppearance?.includes("our shop") &&
     v?.specialAppearance?.includes("new Arrivals")
   )}
       /> */}
-         <SegmentedToggleWithContent
-       productList={productlist}/>
+        <SegmentedToggleWithContent productList={productlist} />
 
+        <ProductSlider
+          title="Combo Offers"
+          subTitle="Best combo deals"
+          textAlignCenter={true}
+          comboProduct={true}
+          productList={comboproducts}
+        />
 
-       <ProductSlider
-         title="Combo Offers"
-                subTitle="Best combo deals"
-                textAlignCenter={true}
-                comboProduct={true}
-                productList={comboproducts} />
-    
-      <Testimonals />
+        <Testimonals />
 
-
-      {showDisclaimer && (
-        <div
-          className="payment-popup position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-          style={{ background: "rgb(49 49 49 / 80%)", zIndex: 9999 }}
-        >
+        {showDisclaimer && (
           <div
-            className=" p-5 text-center bg-white"
-            style={{ width: "500px", maxWidth: "90%", borderRadius: "22px" }}
+            className="payment-popup position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+            style={{ background: "rgb(49 49 49 / 80%)", zIndex: 9999 }}
           >
-                <h4 className='fw-bold' style={{fontFamily:"poppins"}}>Disclaimer</h4>
-          <p className='mt-3 text-muted' style={{fontFamily:"sans-serif"}}>
-            We respect and follow all Supreme Court guidelines on firecracker sales.
-          </p>
-          <p className="text-muted"  style={{fontFamily:"sans-serif"}}>
-            By clicking “Proceed”, you confirm you are from a region where firecracker delivery is legally permitted.
-          </p>
-          <button className="btn disclaimerBtn border-none text-white mt-3 mb-2 fw-bold" style={{width: "50%" , backgroundColor: "#c01212" , borderRadius:"0"} } onClick={handleProceed}>
-            PROCEED
-          </button>
-           
+            <div
+              className=" p-5 text-center bg-white"
+              style={{ width: "500px", maxWidth: "90%", borderRadius: "22px" }}
+            >
+              <h4 className="fw-bold" style={{ fontFamily: "poppins" }}>
+                Disclaimer
+              </h4>
+              <p
+                className="mt-3 text-muted"
+                style={{ fontFamily: "sans-serif" }}
+              >
+                We respect and follow all Supreme Court guidelines on
+                firecracker sales.
+              </p>
+              <p className="text-muted" style={{ fontFamily: "sans-serif" }}>
+                By clicking “Proceed”, you confirm you are from a region where
+                firecracker delivery is legally permitted.
+              </p>
+              <button
+                className="btn disclaimerBtn border-none text-white mt-3 mb-2 fw-bold"
+                style={{
+                  width: "50%",
+                  backgroundColor: "#c01212",
+                  borderRadius: "0",
+                }}
+                onClick={handleProceed}
+              >
+                PROCEED
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <Footer />
+        <Footer />
+         
+         <div className=" position-fixed" style={{bottom:"3%" , right:"3%"}}>
+        <a
+          href="https://wa.me/+919991896640"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            // display: "inline-block",
+            backgroundColor: "#25D366",
+            color: "#fff",
+            padding: "10px 14px",
+            // borderRadius: "25%",
+            textDecoration: "none",
+            fontWeight: "bold",
+
+          }}
+          className=" d-flex justify-content-center align-items-center rounded-pill"
+        >
+          <FaWhatsapp style={{width: "25px" , height: "25px" , marginRight: "4px"}} />
+          Message Us
+        </a>
+        </div>
+      </div>
     </>
   );
 }

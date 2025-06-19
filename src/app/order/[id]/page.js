@@ -434,8 +434,11 @@ useEffect(() => {
 
               <div className="col-lg-4 col-12">
                 <div className="col-12 mb-3">
-                  <div className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between">
-                    <div className="d-flex gap-2  align-items-center ">
+                  <div className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between"
+                   onClick={() => router.push("/orderInvoice/" + details?._id)}
+                     style={{cursor: "pointer"}}
+                   >
+                    <div className="d-flex gap-2  align-items-center " >
                       <img
                         src="https://cdn-icons-png.flaticon.com/128/7939/7939869.png"
                         style={{ width: "20px", height: "20px" }}

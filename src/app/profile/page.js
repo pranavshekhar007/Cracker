@@ -1,118 +1,21 @@
 
-// "use client";
-// import React, { useState, useContext, useEffect } from "react";
-// import { useRouter } from "next/navigation";
-// import { LoggedDataContext } from "../context/Context";
-// import Navbar from "../Components/Navbar";
-// import MyDetails from "./MyDetails";
-// import MyAddress from "./MyAddress";
-// import { toast } from "react-toastify";
-
-// const Profile = () => {
-//   const { loggedUserData , updateLoggedUserData  } = useContext(LoggedDataContext);
-//   const router = useRouter();
-
-//   const [selectedSection, setSelectedSection] = useState("details");
-
-//   // logout 
-
-//     useEffect(() => {
-//     if (selectedSection === "logout") {
-//       updateLoggedUserData(null); 
-//       localStorage.removeItem("user"); 
-//        toast.success("Logged out successfully!");
-//       router.push("/login"); 
-//     }
-//   }, [selectedSection]);
-
-//   useEffect(() => {
-//     if (!loggedUserData) {
-//       const timer = setTimeout(() => {
-//         router.push("/login");
-//       }, 1500);
-//       return () => clearTimeout(timer);
-//     }
-//   }, [loggedUserData, router]);
-
-//   if (!loggedUserData) {
-//     return (
-//       <div className="loading-div">
-//         <p>Loading user data...</p>
-//       </div>
-//     );
-//   }
-
-//   const renderSelectedComponent = () => {
-//     switch (selectedSection) {
-//       case "details":
-//         return <MyDetails />;
-//       case "address":
-//         return <MyAddress/>;
-//       case "orders":
-//         return <p>Orders Component</p>;
-//       case "cart":
-//         return <p>Cart Component</p>;
-//       case "wishlist":
-//         return <p>Wishlist Component</p>;
-//       default:
-//         return <MyDetails />;
-//     }
-//   };
-
-//   const menuItems = [
-//     { key: "details", label: "My details", icon: "https://cdn-icons-png.flaticon.com/128/1144/1144760.png" },
-//     { key: "address", label: "My address book", icon: "https://cdn-icons-png.flaticon.com/128/535/535239.png" },
-//     { key: "orders", label: "My orders", icon: "https://cdn-icons-png.flaticon.com/128/1008/1008010.png" },
-//     { key: "cart", label: "My cart", icon: "https://cdn-icons-png.flaticon.com/128/2838/2838895.png" },
-//     { key: "wishlist", label: "My wishlist", icon: "https://cdn-icons-png.flaticon.com/128/2767/2767018.png" },
-//     { key: "logout", label: "Log out", icon: "https://cdn-icons-png.flaticon.com/128/10609/10609328.png" },
-//   ];
-
-//   return (
-//     <>
-//       <Navbar />
-//       <div className="user-profile">
-//         <h2>My Account</h2>
-//         <div className="profile-section d-flex gap-3">
-          
-//           {/* 🔵 Left Menu */}
-//           <div className="profile-left">
-//             {menuItems.map((item) => (
-//               <div
-//                 key={item.key}
-//                 className={`d-flex  menu-item ${selectedSection === item.key ? "selected-detail" : ""}`}
-//                 onClick={() => setSelectedSection(item.key)}
-//                 style={{ cursor: "pointer" }}
-//               >
-//                 <img src={item.icon} className="profile-icons" />
-//                 <h5 className="mb-0">{item.label}</h5>
-//               </div>
-//             ))}
-//           </div>
-
-//           {/* 🔵 Right Content */}
-//           <div className="profile-right">{renderSelectedComponent()}</div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Profile;
-
-
-
 
 "use client";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
+
 import { useRouter } from "next/navigation";
 import { LoggedDataContext } from "../context/context";
 import Navbar from "../Components/Navbar";
 import { toast } from "react-toastify";
 import AccountDetails from "../Components/AccountDetails";
 import Footer from "../Components/Footer";
+import { userUpdate } from "../services/authentication.service";
 
 const Profile = () => {
+   
+  const [imageSrc, setImageSrc] = useState(null);
+  const fileInputRef = useRef(null);
+
   const { loggedUserData , updateLoggedUserData  } = useContext(LoggedDataContext);
   const router = useRouter();
 
@@ -124,6 +27,7 @@ const Profile = () => {
   firstName: "",
   lastName: "",
   email: "",
+    profileImage: "",
 });
 
 
@@ -133,7 +37,9 @@ const Profile = () => {
       firstName: loggedUserData.firstName || "",
       lastName: loggedUserData.lastName || "",
       email: loggedUserData.email || "",
+      profileImage: loggedUserData.profileImage || "",
     });
+      setImageSrc(loggedUserData.profileImage || "");
   }
 }, [loggedUserData]);
 
@@ -165,9 +71,27 @@ const Profile = () => {
       }));
     };
   
-    const handleSave = () => {
+    const handleSave = async () => {
       updateLoggedUserData({ ...loggedUserData, ...formData });
-      setIsEditing(false);
+     
+      const payload = {
+
+  userId: loggedUserData?._id,
+   firstName: formData.firstName,
+  lastName: formData.lastName,
+  email: formData.email,
+    profileImage: formData.profileImage,
+};
+
+      try{
+        const res = await userUpdate(payload);
+        console.log("updated succesfully" , res);
+          setIsEditing(false);
+      }
+      catch(error){
+        console.log("update erro" , error)
+      }
+    
     };
 
       if (!loggedUserData) {
@@ -177,6 +101,27 @@ const Profile = () => {
       </div>
     );
   }
+     
+    const handleClick = () => {
+    fileInputRef.current.click();
+  };
+
+   const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file && file.type.startsWith("image/")) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImageSrc(reader.result);
+      setFormData((prev) => ({
+        ...prev,
+        profileImage: reader.result,
+      }));
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+
  
 
   return (
@@ -193,7 +138,48 @@ const Profile = () => {
           {/* 🔵 Right Content */}
           <div className="profile-right mt-lg-5 pt-lg-4">
            <div className="my-details">
-      <h3>My details</h3>
+           <h3>My details</h3>
+
+
+          {/* Profile pic Info */}
+          <div className="personal-info">
+          <h5>Profile picture</h5>
+         {/* profile input */}
+              <div className="signup-div d-flex  my-4">
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  onChange={handleImageChange}
+                  className="d-none"
+                     disabled={!isEditing}
+                />
+                <div
+                   onClick={() => {
+        if (isEditing) handleClick();
+      }}
+                  className={`signup-profile rounded-circle border ${
+        isEditing ? "border-success" : "border-secondary"
+      } overflow-hidden`}
+                  style={{
+                    width: "70px",
+                    height: "70px",
+                    cursor: "pointer",
+                    transition: "border 0.3s",
+                  }}
+                >
+                  <img
+                    src={
+                      imageSrc ||
+                      "https://cdn-icons-png.flaticon.com/128/552/552721.png"
+                    }
+                    alt="Profile"
+                    className="w-100 h-100"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+              </div>
+      </div>
 
       {/* Personal Info */}
       <div className="personal-info">
@@ -268,22 +254,7 @@ const Profile = () => {
         )}
       </div>
 
-      {/* <a
-  href="https://wa.me/6267023142"  
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{
-    display: "inline-block",
-    backgroundColor: "#25D366",
-    color: "#fff",
-    padding: "10px 15px",
-    borderRadius: "5px",
-    textDecoration: "none",
-    fontWeight: "bold",
-  }}
->
-  Chat on WhatsApp
-</a> */}
+      
 
             </div>
             </div>

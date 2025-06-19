@@ -8,8 +8,6 @@
 //   const { loggedUserData, cartList, setCartList, wishList, setWishList } =  useContext(LoggedDataContext);
 //   const router = useRouter();
 
-  
-
 //   const handleAddToCartLocal = (e, v) => {
 //     e.preventDefault();
 //     e.stopPropagation();
@@ -60,8 +58,6 @@
 //     console.log("Something went wrong", error);
 //   }
 // };
-
-
 
 //   const handleIncreaseQty = (e, v) => {
 //     e.preventDefault();
@@ -115,7 +111,6 @@
 //       <div className="d-flex justify-content-center">
 //         <img src={value?.productHeroImage} className="img-fluid" />
 //       </div>
-      
 
 //       <div className={`p-2 productInner d-flex flex-column justify-content-between ${innerHeight ? 'innerHeight' : ''}`}
 // >
@@ -130,7 +125,6 @@
 //         <p className="text-success fw-bold fs-5">  &#8377;{value?.pricing?.comboPrice}</p>
 //        </div>
 //        </div>
-      
 
 //         <div className="d-flex justify-content-around align-items-center mt-3" >
 //           {cartList?.find((item) => item._id === value._id) ? (
@@ -150,10 +144,6 @@
 
 // export default ComboProductCard;
 
-
-
-
-
 // "use client";
 // import React, { useContext } from "react";
 // import { useRouter } from "next/navigation";
@@ -163,8 +153,6 @@
 // function ComboProductCard({ value , bgColor , borderRadius  , innerHeight , height}) {
 //   const { loggedUserData, cartList, setCartList, wishList, setWishList } =  useContext(LoggedDataContext);
 //   const router = useRouter();
-
-  
 
 //   const handleAddToCartLocal = (e, v) => {
 //     e.preventDefault();
@@ -217,8 +205,6 @@
 //   }
 // };
 
-
-
 //   const handleIncreaseQty = (e, v) => {
 //     e.preventDefault();
 //     e.stopPropagation();
@@ -249,8 +235,6 @@
 //     localStorage.setItem("cartList", JSON.stringify(localCartList));
 //     setCartList(localCartList);
 //   };
-
- 
 
 //   return (
 //     <div
@@ -293,7 +277,6 @@
 //         <p className="text-success fw-bold fs-5 text-end">  &#8377;{value?.pricing?.comboPrice} Only</p>
 //        </div>
 //        </div>
-      
 
 //         <div className="d-flex justify-content-around align-items-center mt-3 pb-2" >
 //           {cartList?.find((item) => item._id === value._id) ? (
@@ -314,23 +297,26 @@
 
 // export default ComboProductCard;
 
-
- 
-
 "use client";
-import React, { useContext  , useEffect} from "react";
-import { useRouter  } from "next/navigation";
+import React, { useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
 
-function ComboProductCard({ value , bgColor , borderRadius  , innerHeight , height}) {
-  const { loggedUserData, cartList, setCartList, wishList, setWishList } =  useContext(LoggedDataContext);
+function ComboProductCard({
+  value,
+  bgColor,
+  borderRadius,
+  innerHeight,
+  height,
+}) {
+  const { loggedUserData, cartList, setCartList, wishList, setWishList } =
+    useContext(LoggedDataContext);
   const router = useRouter();
 
-  
-   useEffect(() => {
-       console.log("combo product card called")
-    }, [value]);
+  useEffect(() => {
+    console.log("combo product card called");
+  }, [value]);
 
   const handleAddToCartLocal = (e, v) => {
     e.preventDefault();
@@ -354,36 +340,33 @@ function ComboProductCard({ value , bgColor , borderRadius  , innerHeight , heig
     }
   };
   const handleAddToWishListLocal = (e, v) => {
-  e.preventDefault();
-  e.stopPropagation();
-  try {
-    let localWishList = JSON.parse(localStorage.getItem("wishList")) || [];
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      let localWishList = JSON.parse(localStorage.getItem("wishList")) || [];
 
-    // Check if product already exists in wishlist
-    const existingProductIndex = localWishList.findIndex(
-      (item) => item._id === v._id
-    );
+      // Check if product already exists in wishlist
+      const existingProductIndex = localWishList.findIndex(
+        (item) => item._id === v._id
+      );
 
-    if (existingProductIndex !== -1) {
-      // If exists, remove it
-      localWishList.splice(existingProductIndex, 1);
-      toast.info("Item Removed From Wishlist");
-    } else {
-      // If not exists, add it
-      localWishList.push(v);
-      toast.success("Item Added To Wishlist");
+      if (existingProductIndex !== -1) {
+        // If exists, remove it
+        localWishList.splice(existingProductIndex, 1);
+        toast.info("Item Removed From Wishlist");
+      } else {
+        // If not exists, add it
+        localWishList.push(v);
+        toast.success("Item Added To Wishlist");
+      }
+
+      // Update localStorage and state
+      localStorage.setItem("wishList", JSON.stringify(localWishList));
+      setWishList(localWishList);
+    } catch (error) {
+      console.log("Something went wrong", error);
     }
-
-    // Update localStorage and state
-    localStorage.setItem("wishList", JSON.stringify(localWishList));
-    setWishList(localWishList);
-
-  } catch (error) {
-    console.log("Something went wrong", error);
-  }
-};
-
-
+  };
 
   const handleIncreaseQty = (e, v) => {
     e.preventDefault();
@@ -417,71 +400,122 @@ function ComboProductCard({ value , bgColor , borderRadius  , innerHeight , heig
   };
 
   const getDiscountPercentage = (actualPrice, comboPrice) => {
-  if (!actualPrice || !comboPrice) return 0;
-  const discount = ((actualPrice - comboPrice) / actualPrice) * 100;
-  return Math.round(discount);
-};
- 
+    if (!actualPrice || !comboPrice) return 0;
+    const discount = ((actualPrice - comboPrice) / actualPrice) * 100;
+    return Math.round(discount);
+  };
 
   return (
     <div
-        className={`productCard  border bg-white overflow-hidden  position-relative ${height ? 'productHeight' : ''}`}
-style={{
-  ...(bgColor && { backgroundColor: bgColor }),
-  ...(borderRadius && { borderRadius: borderRadius }),
-  // ...(cardHeight && { minHeight: cardHeight }),
-  boxShadow: "rgba(17, 17, 26, 0.1) 0px 0px 16px"
-}}
-         onClick={() => router.push("/combo-details/" +  value?._id)}
+      className={`productCard  border bg-white overflow-hidden  position-relative ${
+        height ? "productHeight" : ""
+      }`}
+      style={{
+        ...(bgColor && { backgroundColor: bgColor }),
+        ...(borderRadius && { borderRadius: borderRadius }),
+        // ...(cardHeight && { minHeight: cardHeight }),
+        boxShadow: "rgba(17, 17, 26, 0.1) 0px 0px 16px",
+      }}
+      onClick={() => router.push("/combo-details/" + value?._id)}
     >
-         <div className=" position-absolute top-0 end-0 shadow-sm p-2 bg-danger" style={{borderBottomLeftRadius:"17px"}}>
-          <h4 className="text-white"> {getDiscountPercentage(value?.pricing?.actualPrice, value?.pricing?.comboPrice)}% off</h4>
-         </div>
-
-      <div className="d-flex justify-content-center pb-3 overflow-hidden pt-3" style={{backgroundColor:"#f3cccc"}}>
-        <img src={value?.productHeroImage} className="img-fluid rounded  comboImage" style={{width: "90%"}} />
+      <div
+        className=" position-absolute top-0 end-0 shadow-sm p-2 bg-danger"
+        style={{ borderBottomLeftRadius: "17px" }}
+      >
+        <h4 className="text-white">
+          {" "}
+          {getDiscountPercentage(
+            value?.pricing?.actualPrice,
+            value?.pricing?.comboPrice
+          )}
+          % off
+        </h4>
       </div>
 
-      <div className={`p-3 pt-3 productInner d-flex flex-column justify-content-between bg-white ${innerHeight ? 'innerHeight' : ''}`}
-       style={{}}
->
-        <h5 style={{fontFamily: "sans-serif"}}>{value?.name}</h5>
-        <p className="mb-2 fw-bold" style={{color:"#c74848" , fontSize:"13px"}}>Included {value?.productId?.length}  Items</p>
-       <div>
-        {/* <p>
+      <div
+        className="d-flex justify-content-center pb-3 overflow-hidden pt-3"
+        style={{ backgroundColor: "#f3cccc" }}
+      >
+        <img
+          src={value?.productHeroImage}
+          className="img-fluid rounded  comboImage"
+          style={{ width: "90%" }}
+        />
+      </div>
+
+      <div
+        className={`p-sm-3 pt-sm-3 p-2  productInner d-flex flex-column justify-content-between bg-white ${
+          innerHeight ? "innerHeight" : ""
+        }`}
+        style={{}}
+      >
+        <h5 style={{ fontFamily: "sans-serif" }}>{value?.name}</h5>
+        <p
+          className="mb-2 fw-bold"
+          style={{ color: "#c74848", fontSize: "13px" }}
+        >
+          Included {value?.productId?.length} Items
+        </p>
+        <div>
+          {/* <p>
           <s className="text-secondary">&#8377;{value?.pricing?.actualPrice}</s>{" "}
         </p> */}
-         <div className="d-flex justify-content-between mt-2">
-        <p className="fw-bold text-secondary">Price</p>
-        <p className=" fs-6">  &#8377;{value?.pricing?.actualPrice}</p>
-       </div>
-       <div className="d-flex justify-content-between mt-2">
-        <p className="fw-bold text-secondary">Combo Price</p>
-        <p className="text-success fw-bold fs-5 text-end">  &#8377;{value?.pricing?.comboPrice} Only</p>
-       </div>
-       </div>
-         
-
-        <div className="d-flex gap-2 align-items-center">
-          <div className="d-flex justify-content-around align-items-center mt-3 pb-2 w-100 " >
-          {cartList?.find((item) => item._id === value._id) ? (
-            <div className="d-flex counterDiv  w-100" >
-              <p style={{ backgroundColor: "#6d0d0c"}} className="w-100 text-white" onClick={(e) => handleDecreaseQty(e, value)}>-</p>
-              <p className="w-100" style={{backgroundColor:"#f9f5f5"}}>{cartList.find((item) => item._id === value._id)?.quantity}</p>
-              <p className="w-100 text-white" style={{  backgroundColor: "#6d0d0c"}}  onClick={(e) => handleIncreaseQty(e, value)}>+</p>
-            </div>
-          ) : (
-            <button onClick={(e) => handleAddToCartLocal(e, value)}> Add To Cart </button>
-          )}
+          <div className="d-flex justify-content-between mt-2">
+            <p className="fw-bold text-secondary">Price</p>
+            <p className=" fs-6"> &#8377;{value?.pricing?.actualPrice}</p>
+          </div>
+          <div className="d-flex justify-content-between mt-2">
+            <p className="fw-bold text-secondary">Combo Price</p>
+            <p className="text-success fw-bold fs-5 text-end">
+              {" "}
+              &#8377;{value?.pricing?.comboPrice} Only
+            </p>
+          </div>
         </div>
-         <img onClick={(e)=>handleAddToWishListLocal(e, value)} alt="wishlist" style={{height:"25px" , width:"25px" , cursor:"pointer"}}
-         src={ wishList?.find((item) => item._id === value._id) ?"https://cdn-icons-png.flaticon.com/128/18275/18275909.png" : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"} />
+
+        <div className="d-flex gap-2 align-items-center heartIcon mt-3 pb-2">
+          <div className="d-flex justify-content-around align-items-center w-100 ">
+            {cartList?.find((item) => item._id === value._id) ? (
+              <div className="d-flex counterDiv  w-100">
+                <p
+                  style={{ backgroundColor: "#6d0d0c" }}
+                  className="w-100 text-white"
+                  onClick={(e) => handleDecreaseQty(e, value)}
+                >
+                  -
+                </p>
+                <p className="w-100" style={{ backgroundColor: "#f9f5f5" }}>
+                  {cartList.find((item) => item._id === value._id)?.quantity}
+                </p>
+                <p
+                  className="w-100 text-white"
+                  style={{ backgroundColor: "#6d0d0c" }}
+                  onClick={(e) => handleIncreaseQty(e, value)}
+                >
+                  +
+                </p>
+              </div>
+            ) : (
+              <button onClick={(e) => handleAddToCartLocal(e, value)}>
+                {" "}
+                Add To Cart{" "}
+              </button>
+            )}
+          </div>
+          <img
+            onClick={(e) => handleAddToWishListLocal(e, value)}
+            alt="wishlist"
+            style={{ height: "25px", width: "25px", cursor: "pointer" }}
+            src={
+              wishList?.find((item) => item._id === value._id)
+                ? "https://cdn-icons-png.flaticon.com/128/18275/18275909.png"
+                : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"
+            }
+          />
         </div>
       </div>
-
     </div>
   );
 }
 
 export default ComboProductCard;
- 

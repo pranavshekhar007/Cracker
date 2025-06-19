@@ -28,12 +28,18 @@ body {
 }
 .logo-img{
   width: 100%;
-  min-width: 80px;
+  min-width: 100px;
 }
 
 .nav-icons img {
   height: 28px;
   width: 28px;
+}
+@media (max-width: 425px) {
+   .nav-icons img {
+    height: 25px;
+    width: 25px;
+  }
 }
 .nav-icon-img{
    height: 28px;
@@ -1065,7 +1071,7 @@ body {
 }
 
 /* 425px–767px: 1 per row */
-@media (min-width: 426px) and (max-width: 768px) {
+@media (min-width: 425px) and (max-width: 768px) {
   .services-container {
     display: flex;
     flex-wrap: wrap;
@@ -1979,12 +1985,23 @@ body {
 .testimonals-section {
   background: linear-gradient(to right, #e76c6a, #6d0d0c);
 }
-@media (max-width:1024px){
-  .testimonals-section{
+@media (max-width:524px){
+  /* .testimonals-section{
   margin-left: 20px;
   margin-right: 20px;
+  } */
+
+  .carousel-control-next-icon, .carousel-control-prev-icon {
+    width: 23px !important;
+    height: 23px !important;
+  }
+  .visually-hidden{
+     width: 10px !important;
+    height: 10px !important;
   }
 }
+
+
 
 .testi-heading {
   font-weight: bold;
@@ -2659,15 +2676,26 @@ productDetailsDiv h1{
   color: white;
 }
 .productDetailsLeftBtnGroup p{
-  font-family: 16px;
+  font-size: 16px;
   font-family: poppins;
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
   text-align: center;
   padding: 8px 14px;
   border-radius: 2px;
   width: 200px;
-  color: gray;
+  color: rgb(60, 60, 60);
   margin-bottom: 0px;
+  cursor: pointer;
+ background-color: rgb(253, 247, 247);
+ border: 1px solid rgb(244, 235, 235);
+}
+.selectedTabDetails {
+  font-weight: bold;
+  /* color: #ff0000 !important;  */
+  /* border: 1px solid #ff0000 !important; */
+  color: rgb(161, 28, 28) !important;
+  background-color: rgb(253, 247, 247);
+  border-bottom: 2px solid rgb(214, 30, 30) !important;
   cursor: pointer;
 }
 .breadcrumb p{
@@ -3264,9 +3292,11 @@ body , html{
 }
 
 } */
-.selectedTabDetails {
-  font-weight: bold;
-  color: #ff0000 !important;  /* Bootstrap primary color */
-  border: 1px solid #ff0000 !important;
-  cursor: pointer;
+
+
+@media (max-width:425px) {
+   .brandLogo{
+  width: 110px !important;
+  height: 110px !important;
+}
 }
