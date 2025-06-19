@@ -50,8 +50,10 @@ const Page = () => {
   }, [loggedUserData, router]);
 
   useEffect(() => {
+  if (loggedUserData?._id) {
     fetchAddresses();
-  }, []);
+  }
+}, [loggedUserData]);
 
   const fetchAddresses = async () => {
     try {
@@ -71,6 +73,7 @@ const Page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("address create data" , form)
       const res = await addressCreate(form);
       setShowForm(false);
       setForm({
@@ -84,7 +87,7 @@ const Page = () => {
         country: "",
         fullName: "",
         type: "",
-        userId: loggedUserData?._id || ""
+        userId: loggedUserData?._id
       });
       await fetchAddresses();
       toast.success(res.message);

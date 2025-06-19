@@ -338,8 +338,6 @@ const Navbar = () => {
           </Link>
         </div>
 
-       
-
         {/* Collapsible Nav Menu */}
         <ul
           ref={navMenuRef}
@@ -379,15 +377,15 @@ const Navbar = () => {
           /> */}
           {/* 🔁 Profile icon with conditional redirect */}
 
-           <div className="d-flex align-items-center ">
+           <div className="d-flex align-items-center" style={{cursor: "pointer"}} >
             <img
               src="https://cdn-icons-png.flaticon.com/128/3514/3514491.png"
-              className="nav-icon-img"
+              className="nav-icon-img "
               alt="notification-icon"
               data-bs-toggle="offcanvas"
               data-bs-target="#cartSidebar"
             />
-            <div className="notificationDiv">
+            <div className="notificationDiv" >
               <p>
                 {cartList?.reduce(
                   (total, item) => total + (item.quantity || 0),

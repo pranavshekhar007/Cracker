@@ -965,9 +965,9 @@ const Page = () => {
                   <div className="d-flex justify-content-between align-items-center mx-2 mb-2">
                     <h6 className="mb-0 fw-bold">Delivery Address</h6>
                     {addresses?.length > 1 && (
-                      <img
+                      <img 
                         src="https://cdn-icons-png.flaticon.com/128/6364/6364586.png"
-                        style={{ height: "15px", opacity: "0.6" }}
+                        style={{ height: "15px", opacity: "0.6" , cursor:"pointer"} }
                         onClick={() => setShowAddress(!showAddress)}
                       />
                     )}
