@@ -3300,3 +3300,22 @@ body , html{
   height: 110px !important;
 }
 }
+ /* .whatsappA{
+      font-size: 13px;
+        padding: "10px 14px";
+    } */
+
+@media (max-width: 770px) {
+    .whatsappBtn{
+      bottom: 11% !important;
+    }
+    .whatsappA{
+      font-size: 13px;
+        padding: "7px 7px" !important;
+    }
+    .whatsappLogo{
+      width: 18px !important;
+      height: 18px !important;
+    }
+    
+}

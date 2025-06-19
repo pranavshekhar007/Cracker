@@ -293,7 +293,7 @@ export default function Home() {
 
         <Footer />
          
-         <div className=" position-fixed" style={{bottom:"3%" , right:"3%"}}>
+         <div className="whatsappBtn position-fixed" style={{bottom:"3%" , right:"3%"}}>
         <a
           href="https://wa.me/+919991896640"
           target="_blank"
@@ -310,7 +310,7 @@ export default function Home() {
           }}
           className=" d-flex justify-content-center align-items-center rounded-pill"
         >
-          <FaWhatsapp style={{width: "25px" , height: "25px" , marginRight: "4px"}} />
+          <FaWhatsapp style={{width: "25px" , height: "25px" , marginRight: "4px"}} className="whatsappLogo" />
           Message Us
         </a>
         </div>
