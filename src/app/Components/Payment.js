@@ -23,6 +23,14 @@ const Payment = ({showPaymentPopup , setShowPaymentPopup , orderId}) => {
          };
        
          const handlePayment = async() => {
+
+          if (!paymentImage) {
+          toast.error("No payment uploaded");
+          router.push("/");
+          return;
+           
+           }
+
            try {
              const formData = new FormData();
            formData.append("paymentSs", paymentImage);
