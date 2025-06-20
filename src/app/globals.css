@@ -3319,3 +3319,6 @@ body , html{
     }
     
 }
+.productDetail h6{
+   min-width:  150px;
+}

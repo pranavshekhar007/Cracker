@@ -727,6 +727,8 @@ const Page = () => {
     address: addressForm,
   });
 
+const[deliveryCharge , setDeliveryCharge] = useState("0");
+
   useEffect(() => {
     if (!loggedUserData || !cartList) return;
 
@@ -742,7 +744,10 @@ const Page = () => {
 
   const minCityPrice = cityPrice || 0
 
+
+
   const deliveryCharge = subTotal >= minCityPrice ? 0 : 100; 
+  setDeliveryCharge(deliveryCharge);
 
     setOrderPayload({
       userId: loggedUserData._id,
@@ -822,22 +827,7 @@ const Page = () => {
     console.error("Address save/update error:", error);
     toast.error(error?.response?.data?.message || "Address operation failed");
   }
-
-
-      // try {
-      //   const res = await addressCreate(payload);
-      //   console.log("address saved")
-      //   toast.success(res.message);
-      // } catch (error) {
-      //   console.error("Error creating address:", error);
-      //   toast.error(error.response?.data?.message);
-      // }
     };
-
-    // const handleSaveAddress = () => {
-    //         handleAddressCreate();
-    // }
-
 
   // current loaction get function
 
@@ -922,9 +912,11 @@ const Page = () => {
     }
   };
 
+  const[selectedState , setSelectedState ] = useState("null")
+
   const handleStateChange = (e) => {
-        const selectedState = e.target.value;
-        
+        // const selectedState = e.target.value;
+        setSelectedState(e.target.value);
          setAddressForm((prev) => ({
     ...prev,
     state: selectedState,
@@ -937,6 +929,7 @@ const Page = () => {
 
   setFilteredCities(filtered);
   }
+  
 
   const[showAddress , setShowAddress] = useState(false);
 
@@ -1303,12 +1296,12 @@ const Page = () => {
                   {" "}
                   {cartList?.reduce((total, item) => total + item.quantity, 0)}
                 </p>
-              </div>
+              </div> 
 
               <div className="d-flex justify-content-between">
-                <h6 className=" fw-bold"> Subtotal: </h6>
+                <h6 className=" fw-bold"> Total: </h6>
 
-                <p className=" fs-5 fw-bold " style={{ color: "coral" }}>
+                <p className=" fs-5 fw-bold " >
                   {" "}
                   ₹{" "}
                   {cartList?.reduce((total, item) => {
@@ -1316,7 +1309,30 @@ const Page = () => {
                     return total + price * (item.quantity || 0);
                   }, 0)}
                 </p>
+              </div> 
+
+               <div className="d-flex justify-content-between">
+                  <h6 className=" fw-bold"> Delivery Charge: </h6>
+                   <p className=" fs-5 fw-bold ">
+                  ₹{deliveryCharge}
+                </p>
+               </div >
+
+              <div className="d-flex justify-content-between">
+                <h6 className=" fw-bold"> Subtotal: </h6>
+
+                <p className="fs-5 fw-bold" style={{ color: "coral" }}>
+  ₹{
+    cartList?.reduce((total, item) => {
+      const price = item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
+      return total + price * (item.quantity || 0);
+    }, 0) + deliveryCharge
+  }
+</p>
+
               </div>
+
+
               {addressForm?.fullName &&
               addressForm?.phone &&
               addressForm?.area &&
