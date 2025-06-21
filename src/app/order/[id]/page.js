@@ -234,8 +234,14 @@ const page = () => {
                       <h5 className="fs-5 mb-4 mt-3">Order status</h5>
 
                       {/* Order Status */}
-
-                      <ul className="order-tracker ">
+                
+                      {details?.status === "pending" ?(
+                        <p>Your order has been placed and is pending confirmation from our team.</p>
+                      ): details?.status === "rejected" ? (
+  <p className="text-danger">
+    Unfortunately, this order could not be processed and has been rejected. Feel free to contact us if you need help.
+  </p>):(
+                        <ul className="order-tracker ">
                         {statusFlow.map((step, idx) => {
                           if (
                             step.key === "cancelled" &&
@@ -333,6 +339,8 @@ const page = () => {
                           );
                         })}
                       </ul>
+                      )
+                      }
                     </div>
                   </div>
 
@@ -456,30 +464,67 @@ const page = () => {
                 </div>
 
                 <div className="col-lg-4 col-12">
+
                   <div className="col-12 mb-3">
-                    <div
-                      className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between"
-                      onClick={() =>
-                        router.push("/orderInvoice/" + details?._id)
-                      }
-                      style={{ cursor: "pointer" }}
-                    >
-                      <div className="d-flex gap-2  align-items-center ">
+                    <div className="rounded-3 shadow-sm bg-white p-3 px-4">
+                      <div
+                        className="d-flex gap-3 mb-3 align-items-center"
+                        style={{
+                          paddingBottom: "15px",
+                          borderBottom: "1px solid rgb(237 237 237)",
+                        }}
+                      >
                         <img
-                          src="https://cdn-icons-png.flaticon.com/128/7939/7939869.png"
-                          style={{ width: "20px", height: "20px" }}
+                          src="https://cdn-icons-png.flaticon.com/128/6519/6519159.png"
+                          className="orderHeadingImage"
                         ></img>
                         <h5 className="mb-0" style={{ color: "#333333" }}>
-                          Download Invoice
+                          Payment
                         </h5>
                       </div>
 
-                      <img
-                        src="https://sa-web-h1a.flixcart.com/mosaic/ss/RightChevron.svg?q=80"
-                        style={{ width: "20px", height: "20px" }}
-                      ></img>
+                      <div className="d-flex gap-3">
+                        <div className="orderName">
+                          <p className="fw-bold  mb-2">Subtotal:</p>
+                          <p className="fw-bold  mb-2">Delivery Charges:</p>
+                          <p className="fw-bold  mb-3">Discount:</p>
+                          <p className="fw-bold  mb-2">Total:</p>
+                        </div>
+                        <div>
+                          <div className="orderData">
+                            <p className="mb-2">₹3000</p>
+                            <p className="mb-2">₹{details?.deliveryCharge}</p>
+                            <p className="mb-3">₹100</p>
+                            <p className="mb-2">₹{details?.totalAmount}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr />
+
+                      <div className="d-flex gap-3 align-items-center">
+                        <h6>payment status</h6>
+
+                        {details?.paymentSs && details?.paymentSs !== "null" ? (
+                          <h6 className="text-success fs-6"> Payment Done</h6>
+                        ) : (
+                          <h6 className="text-danger fs-6">Not Completed</h6>
+                        )}
+
+                        {(!details?.paymentSs ||
+                          details?.paymentSs === "null") && (
+                          <h6
+                            className="btn btn-danger"
+                            onClick={() => setShowPaymentPopup(true)}
+                          >
+                            Pay Now
+                          </h6>
+                        )}
+                      </div>
                     </div>
                   </div>
+
+                  
 
                   <div className="col-12 mb-3">
                     <div className="rounded-3 shadow-sm bg-white p-3 px-4  ">
@@ -602,62 +647,28 @@ const page = () => {
                     </div>
                   </div>
 
-                  <div className="col-12 mb-3">
-                    <div className="rounded-3 shadow-sm bg-white p-3 px-4">
-                      <div
-                        className="d-flex gap-3 mb-3 align-items-center"
-                        style={{
-                          paddingBottom: "15px",
-                          borderBottom: "1px solid rgb(237 237 237)",
-                        }}
-                      >
+                    <div className="col-12 mb-3">
+                    <div
+                      className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between"
+                      onClick={() =>
+                        router.push("/orderInvoice/" + details?._id)
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
+                      <div className="d-flex gap-2  align-items-center ">
                         <img
-                          src="https://cdn-icons-png.flaticon.com/128/6519/6519159.png"
-                          className="orderHeadingImage"
+                          src="https://cdn-icons-png.flaticon.com/128/7939/7939869.png"
+                          style={{ width: "20px", height: "20px" }}
                         ></img>
                         <h5 className="mb-0" style={{ color: "#333333" }}>
-                          Payment
+                          Download Invoice
                         </h5>
                       </div>
 
-                      <div className="d-flex gap-3">
-                        <div className="orderName">
-                          <p className="fw-bold  mb-2">Subtotal:</p>
-                          <p className="fw-bold  mb-2">Delivery Charges:</p>
-                          <p className="fw-bold  mb-3">Discount:</p>
-                          <p className="fw-bold  mb-2">Total:</p>
-                        </div>
-                        <div>
-                          <div className="orderData">
-                            <p className="mb-2">₹3000</p>
-                            <p className="mb-2">₹{details?.deliveryCharge}</p>
-                            <p className="mb-3">₹100</p>
-                            <p className="mb-2">₹{details?.totalAmount}</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <hr />
-
-                      <div className="d-flex gap-3 align-items-center">
-                        <h6>payment status</h6>
-
-                        {details?.paymentSs && details?.paymentSs !== "null" ? (
-                          <h6 className="text-success fs-6"> Payment Done</h6>
-                        ) : (
-                          <h6 className="text-danger fs-6">Not Completed</h6>
-                        )}
-
-                        {(!details?.paymentSs ||
-                          details?.paymentSs === "null") && (
-                          <h6
-                            className="btn btn-danger"
-                            onClick={() => setShowPaymentPopup(true)}
-                          >
-                            Pay Now
-                          </h6>
-                        )}
-                      </div>
+                      <img
+                        src="https://sa-web-h1a.flixcart.com/mosaic/ss/RightChevron.svg?q=80"
+                        style={{ width: "20px", height: "20px" }}
+                      ></img>
                     </div>
                   </div>
 

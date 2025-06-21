@@ -3322,3 +3322,14 @@ body , html{
 .productDetail h6{
    min-width:  150px;
 }
+
+.bulk-btn {
+  background-color: var(--secondary-color);
+  font-family: var(--font-secondary);
+  padding: 6px 20px;
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  justify-self: center;
+  color: white;
+}

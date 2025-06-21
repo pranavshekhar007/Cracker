@@ -88,7 +88,7 @@ const page = () => {
                   style={{ minWidth: "600px" }}
                 >
                   <div className="d-flex gap-3 col-2">
-                    <p className="fw-bold">Order Id</p>
+                    <h6 className="fw-bold">Order Id</h6>
                   </div>
 
                   <div className="col-2">
@@ -100,11 +100,15 @@ const page = () => {
                   </div>
 
                   <div className="col-2">
-                    <p className="fw-bold">Price</p>
+                    <h6 className="fw-bold">Price</h6>
                   </div>
 
                   <div className="col-2">
-                    <h6 className="fw-bold">Delivery Status</h6>
+                    <h6 className="fw-bold">Status</h6>
+                  </div>
+
+                  <div className="col-2" >
+                      <h6 className="fw-bold"> Action</h6>
                   </div>
                 </div>
 

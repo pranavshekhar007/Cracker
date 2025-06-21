@@ -612,13 +612,22 @@ import { LoggedDataContext } from "../context/context";
 import Navbar from "../Components/Navbar";
 import { otpSend, otpVerify } from "../services/authentication.service";
 import { toast } from "react-toastify";
-import { addressCreate, addressList , addressUpdate} from "../services/address.service";
-import { getCitiesServ,getStatesServ,placeOrderServ} from "../services/product.service";
+import {
+  addressCreate,
+  addressList,
+  addressUpdate,
+} from "../services/address.service";
+import {
+  getCitiesServ,
+  getStatesServ,
+  placeOrderServ,
+} from "../services/product.service";
 import Footer from "../Components/Footer";
 import Payment from "../Components/Payment";
 import axios from "axios";
 
 const Page = () => {
+  const router = useRouter();
   const { loggedUserData, cartList, updateLoggedUserData, setCartList } =
     useContext(LoggedDataContext);
   const [editAddress, setEditAddress] = useState(false);
@@ -633,11 +642,14 @@ const Page = () => {
     pincode: "",
     country: "",
     fullName: "",
+   
   });
+
+  
 
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
   const [orderId, setOrderId] = useState(null);
-    const [cityPrice , setCityPrice] = useState(null)
+  const [cityPrice, setCityPrice] = useState(null);
 
   const [addresses, setAddresses] = useState([]);
   const fetchAddresses = async () => {
@@ -711,6 +723,12 @@ const Page = () => {
     setOtpLoading(false);
   };
 
+  const [shipping, setShipping] = useState("homeDelivery");
+
+  const handleShippingChange = (e) => {
+  setShipping(e.target.value);
+};
+
   const [orderPayload, setOrderPayload] = useState({
     userId: loggedUserData?._id || "",
 
@@ -727,41 +745,52 @@ const Page = () => {
     address: addressForm,
   });
 
-const[deliveryCharge , setDeliveryCharge] = useState("0");
+  const [deliveryCharge, setDeliveryCharge] = useState("0");
+  const [amountReached, setAmountReached] = useState(false);
+  const [discount, setDiscount] = useState(0);
+
 
   useEffect(() => {
     if (!loggedUserData || !cartList) return;
 
-   
+    const subTotal = cartList.reduce((total, item) => {
+      const price = item?.discountedPrice ?? item?.pricing?.comboPrice;
+      return total + price * item.quantity;
+    }, 0);
 
-    const subTotal = cartList.reduce(
-    (total, item) => 
-      {
-         const price = item?.discountedPrice ?? item?.pricing?.comboPrice
-        return total + price * item.quantity
-      }, 0
-  );
+     const originalTotal = cartList.reduce((total, item) => {
+    const originalPrice = item?.pricing?.actualPrice  || item?.price || 0;
+    return total + originalPrice * item.quantity;
+  }, 0);
 
-  const minCityPrice = cityPrice || 0
+  const calculatedDiscount = originalTotal - subTotal;
+  setDiscount(calculatedDiscount);
 
+    const minCityPrice = cityPrice || 0;
 
-
-  const deliveryCharge = subTotal >= minCityPrice ? 0 : 100; 
-  setDeliveryCharge(deliveryCharge);
+    const deliveryCharge = subTotal >= minCityPrice ? 0 : 100;
+    setDeliveryCharge(deliveryCharge);
 
     setOrderPayload({
       userId: loggedUserData._id,
       product: cartList.map((item) => ({
         productId: item._id,
         quantity: item.quantity,
-        totalPrice: item.discountedPrice ?? item.pricing.comboPrice * item.quantity,
+        totalPrice:
+          item.discountedPrice ?? item.pricing.comboPrice * item.quantity,
         productHeroImage: item.productHeroImage,
       })),
       totalAmount: subTotal,
       address: addressForm,
-      deliveryCharge: deliveryCharge
+      deliveryCharge: deliveryCharge,
+      shipping: shipping
     });
-  }, [loggedUserData, cartList, addressForm , cityPrice]);
+
+    setAmountReached(subTotal >= minCityPrice);
+
+    console.log("payload", orderPayload);
+    console.log("amount reached", amountReached);
+  }, [loggedUserData, cartList, addressForm, cityPrice , shipping]);
 
   const placeOrderFunc = async () => {
     try {
@@ -779,55 +808,52 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
     }
   };
 
-
   const handleAddressCreate = async (e) => {
+    e.preventDefault();
 
-      e.preventDefault();
+    const isAddressDuplicate = addresses.some(
+      (addr) =>
+        addr.fullName === addressForm.fullName &&
+        addr.phone === addressForm.phone &&
+        addr.alternatePhone === addressForm.alternatePhone &&
+        addr.area === addressForm.area &&
+        addr.city === addressForm.city &&
+        addr.state === addressForm.state &&
+        addr.pincode === addressForm.pincode &&
+        addr.country === addressForm.country &&
+        addr.landmark === addressForm.landmark
+    );
 
-       const isAddressDuplicate = addresses.some(addr =>
-    addr.fullName === addressForm.fullName &&
-    addr.phone === addressForm.phone &&
-    addr.alternatePhone === addressForm.alternatePhone &&
-    addr.area === addressForm.area &&
-    addr.city === addressForm.city &&
-    addr.state === addressForm.state &&
-    addr.pincode === addressForm.pincode &&
-    addr.country === addressForm.country &&
-    addr.landmark === addressForm.landmark
-  );
-
-  if (isAddressDuplicate) {
-    toast.info("This address is already saved.");
-    return;
-  }
-
-
-        const payload = {
-    ...addressForm,
-    type: "home",
-    userId: loggedUserData?._id,
-  };
-
-   try {
-    if (payload._id) {
-      const res = await addressUpdate(payload);
-        if(res?.statusCode == "200"){
-            toast.success("Address updated successfully");
-        }
-    } else {
-      
-      const res = await addressCreate(payload);
-       if(res?.statusCode == "200"){
-        toast.success("Address saved successfully");
-       }
+    if (isAddressDuplicate) {
+      toast.info("This address is already saved.");
+      return;
     }
 
-    fetchAddresses(); // Refresh list
-  } catch (error) {
-    console.error("Address save/update error:", error);
-    toast.error(error?.response?.data?.message || "Address operation failed");
-  }
+    const payload = {
+      ...addressForm,
+      type: "home",
+      userId: loggedUserData?._id,
     };
+
+    try {
+      if (payload._id) {
+        const res = await addressUpdate(payload);
+        if (res?.statusCode == "200") {
+          toast.success("Address updated successfully");
+        }
+      } else {
+        const res = await addressCreate(payload);
+        if (res?.statusCode == "200") {
+          toast.success("Address saved successfully");
+        }
+      }
+
+      fetchAddresses(); // Refresh list
+    } catch (error) {
+      console.error("Address save/update error:", error);
+      toast.error(error?.response?.data?.message || "Address operation failed");
+    }
+  };
 
   // current loaction get function
 
@@ -887,57 +913,55 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
   const [cityList, setCityList] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
 
-
   const getStates = async () => {
     try {
       const res = await getStatesServ();
-     if(res.statusCode == "200"){
-       console.log(res.data);
-      setStateList(res.data);
-     }
+      if (res.statusCode == "200") {
+        console.log(res.data);
+        setStateList(res.data);
+      }
     } catch (error) {
       console.log("getting error in state list" + error);
     }
   };
 
-    const getCity = async () => {
+  const getCity = async () => {
     try {
       const res = await getCitiesServ();
-   if(res?.statusCode == "200"){
-          console.log(res.data);
-      setCityList(res.data);
-   }
+      if (res?.statusCode == "200") {
+        console.log(res.data);
+        setCityList(res.data);
+      }
     } catch (error) {
       console.log("getting error in city list" + error);
     }
   };
 
-  const[selectedState , setSelectedState ] = useState("null")
+  const [selectedState, setSelectedState] = useState("null");
 
   const handleStateChange = (e) => {
-        // const selectedState = e.target.value;
-        setSelectedState(e.target.value);
-         setAddressForm((prev) => ({
-    ...prev,
-    state: selectedState,
-    city: ""
-  }));
+    const selectedState = e.target.value;
+    setSelectedState(selectedState);
+    setAddressForm((prev) => ({
+      ...prev,
+      state: selectedState,
+      city: "",
+    }));
 
-   const filtered = cityList.filter(
-    (city) => city.state.name === selectedState 
-  );
+    const filtered = cityList.filter(
+      (city) => city.state.name === selectedState
+    );
 
-  setFilteredCities(filtered);
-  }
-  
+    setFilteredCities(filtered);
+  };
 
-  const[showAddress , setShowAddress] = useState(false);
+  const [showAddress, setShowAddress] = useState(false);
 
   const handleSelectAdress = (address) => {
-        // setSelectedAddress(address);
-        console.log("selected address is" , address);
-        setAddressForm(address)
-  }
+    // setSelectedAddress(address);
+    console.log("selected address is", address);
+    setAddressForm(address);
+  };
 
   return (
     <div style={{ backgroundColor: "#f6f6f6", minHeight: "100vh" }}>
@@ -958,49 +982,66 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
                   <div className="d-flex justify-content-between align-items-center mx-2 mb-2">
                     <h6 className="mb-0 fw-bold">Delivery Address</h6>
                     {addresses?.length > 1 && (
-                      <img 
+                      <img
                         src="https://cdn-icons-png.flaticon.com/128/6364/6364586.png"
-                        style={{ height: "15px", opacity: "0.6" , cursor:"pointer"} }
+                        style={{
+                          height: "15px",
+                          opacity: "0.6",
+                          cursor: "pointer",
+                        }}
                         onClick={() => setShowAddress(!showAddress)}
                       />
                     )}
                   </div>
 
-
-                   {showAddress && (
-                              <div className="all-address d-flex gap-2 flex-wrap"> 
-                   { addresses.map((address) => {
-                      return(
-                        <div className="address-card w-100 d-flex justify-content-between align-items-end">
-                           <div>
-                              <p className="address-name mb-0">{address.fullName}</p>
-                        <p className="address-phone mb-0">{address.phone}</p>
-                        <p className="address mb-0">
-                          {address.area}, {address.landmark}, {address.city}, {address.state}
-                        </p>
-                        <p className="pincode mb-0">{address.pincode}</p>
+                  {showAddress && (
+                    <div className="all-address d-flex gap-2 flex-wrap">
+                      {addresses.map((address) => {
+                        return (
+                          <div className="address-card w-100 d-flex justify-content-between align-items-end">
+                            <div>
+                              <p className="address-name mb-0">
+                                {address.fullName}
+                              </p>
+                              <p className="address-phone mb-0">
+                                {address.phone}
+                              </p>
+                              <p className="address mb-0">
+                                {address.area}, {address.landmark},{" "}
+                                {address.city}, {address.state}
+                              </p>
+                              <p className="pincode mb-0">{address.pincode}</p>
                             </div>
-                        <div className="address-btns d-flex gap-2 mt-3 ">
-                          {
-                            address?._id == addressForm?._id ? (
-                               <button className="text-danger" style={{height:"40px" , backgroundColor:"rgb(253 231 233)" , border: "1px solid rgb(247 213 216)"}} 
-                             onClick={() => handleSelectAdress(address)}
-                            >Selected</button>
-                            ) :(
-                              <button style={{height:"40px" , backgroundColor:"#dc3545"}} 
-                             onClick={() => handleSelectAdress(address)}
-                            >Use Address</button>
-                            )
-                          }
-                            
-                        </div>
+                            <div className="address-btns d-flex gap-2 mt-3 ">
+                              {address?._id == addressForm?._id ? (
+                                <button
+                                  className="text-danger"
+                                  style={{
+                                    height: "40px",
+                                    backgroundColor: "rgb(253 231 233)",
+                                    border: "1px solid rgb(247 213 216)",
+                                  }}
+                                  onClick={() => handleSelectAdress(address)}
+                                >
+                                  Selected
+                                </button>
+                              ) : (
+                                <button
+                                  style={{
+                                    height: "40px",
+                                    backgroundColor: "#dc3545",
+                                  }}
+                                  onClick={() => handleSelectAdress(address)}
+                                >
+                                  Use Address
+                                </button>
+                              )}
                             </div>
-                      )
-                    })
-                  }
-                  </div>
-                   )
-                   }
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
 
                   <div className="row m-0 p-0">
                     <div className="col-md-12 col-12 p-0 px-md-2 my-2">
@@ -1115,44 +1156,14 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
                         }}
                       />
                     </div>
-                    <div className="col-md-4 col-12 p-0 px-md-2 my-2">
-                      <select
-                        className="form-control "
-                        placeholder="City"
-                        value={addressForm?.city}
-                        disabled={!editAddress}
-                        onChange={(e) => {
-    const selectedCityName = e.target.value;
-    const selectedCityObj = filteredCities.find(city => city.name === selectedCityName);
 
-    setAddressForm(prev => ({
-      ...prev,
-      city: selectedCityName
-    }));
-
-    if (selectedCityObj) {
-      setCityPrice(selectedCityObj.minimumPrice);
-    } else {
-      setCityPrice(null);
-    }
-  }}
-                        style={{
-                          height: "45px",
-                          background: editAddress ? "white" : "whitesmoke",
-                        }}
-                      >
-                        <option value="">Select City</option>
-                        {filteredCities.map((city , index) => (
-                          <option key={index} value={city?.name}>{city?.name}</option>
-                        ))}
-                        </select>
-                    </div>
                     <div className="col-md-4 col-12 p-0 px-md-2 my-2">
                       <select
                         className="form-control"
                         placeholder="State"
                         value={addressForm?.state}
                         disabled={!editAddress}
+                        // onChange={(e) => handleStateChange(e.target.value)}
                         onChange={handleStateChange}
                         style={{
                           height: "45px",
@@ -1167,6 +1178,44 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
                         ))}
                       </select>
                     </div>
+
+                    <div className="col-md-4 col-12 p-0 px-md-2 my-2">
+                      <select
+                        className="form-control "
+                        placeholder="City"
+                        value={addressForm?.city}
+                        disabled={!editAddress}
+                        onChange={(e) => {
+                          const selectedCityName = e.target.value;
+                          const selectedCityObj = filteredCities.find(
+                            (city) => city.name === selectedCityName
+                          );
+
+                          setAddressForm((prev) => ({
+                            ...prev,
+                            city: selectedCityName,
+                          }));
+
+                          if (selectedCityObj) {
+                            setCityPrice(selectedCityObj.minimumPrice);
+                          } else {
+                            setCityPrice(null);
+                          }
+                        }}
+                        style={{
+                          height: "45px",
+                          background: editAddress ? "white" : "whitesmoke",
+                        }}
+                      >
+                        <option value="">Select City</option>
+                        {filteredCities.map((city, index) => (
+                          <option key={index} value={city?.name}>
+                            {city?.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
                     <div className="col-md-4 col-12 p-0 px-md-2 my-2">
                       <input
                         className="form-control"
@@ -1203,7 +1252,10 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
                       addressForm?.area &&
                       addressForm?.pincode &&
                       addressForm?.landmark ? (
-                        <button className="btn btn-danger w-100  mt-2" onClick={handleAddressCreate}>
+                        <button
+                          className="btn btn-danger w-100  mt-2"
+                          onClick={handleAddressCreate}
+                        >
                           Save as delivery address
                         </button>
                       ) : (
@@ -1215,8 +1267,8 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
                         </button>
                       )}
                     </div>
-                    </div>
-                     </div>
+                  </div>
+                </div>
               ) : (
                 <div className=" pb-4 mb-4">
                   <h6 className="fw-bold mb-4">
@@ -1282,13 +1334,45 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
                 </div>
               )}
 
+              <div className="border rounded p-3">
+                <label className=" fw-bold mb-2">
+                  Shipping Method
+                </label>
+                <div className="form-check mb-2">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="homeDelivery"
+                    name="homeDelivery"
+                      value="homeDelivery"
+      checked={shipping === "homeDelivery"}
+      onChange={handleShippingChange}
+                  />
+                  <label className="form-check-label" htmlFor="homeDelivery">
+                    Home Delivery
+                  </label>
+                </div>
+
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="lorryPay"
+                    name="lorryPay"
+                       value="lorryPay"
+      checked={shipping === "lorryPay"}
+      onChange={handleShippingChange}
+                   
+                  />
+                  <label className="form-check-label" htmlFor="lorryPay">
+                    To Pay - Lorry
+                  </label>
+                </div>
+              </div>
+
               <hr />
 
-              {
-                cityPrice && (
-                  <p> Minimum Price for this city: {cityPrice}</p>
-                )
-              }
+              {cityPrice && <p> Minimum Price for this city: {cityPrice}</p>}
 
               <div className="d-flex justify-content-between">
                 <h6 className=" fw-bold"> Total Products: </h6>
@@ -1296,48 +1380,54 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
                   {" "}
                   {cartList?.reduce((total, item) => total + item.quantity, 0)}
                 </p>
-              </div> 
+              </div>
 
               <div className="d-flex justify-content-between">
                 <h6 className=" fw-bold"> Total: </h6>
 
-                <p className=" fs-5 fw-bold " >
+                <p className=" fs-5 fw-bold ">
                   {" "}
                   ₹{" "}
                   {cartList?.reduce((total, item) => {
-                    const price = item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
+                    const price =
+                      item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
                     return total + price * (item.quantity || 0);
                   }, 0)}
                 </p>
-              </div> 
+              </div>
 
-               <div className="d-flex justify-content-between">
-                  <h6 className=" fw-bold"> Delivery Charge: </h6>
-                   <p className=" fs-5 fw-bold ">
-                  ₹{deliveryCharge}
-                </p>
-               </div >
+              <div className="d-flex justify-content-between">
+                <h6 className=" fw-bold"> Delivery Charge: </h6>
+                <p className=" fs-5 fw-bold ">₹{deliveryCharge}</p>
+              </div>
+
+              {discount > 0 && (
+  <p style={{ color: "green", fontWeight: "500"}}>
+    You are saving ₹{discount} on this order!
+  </p>
+)}
 
               <div className="d-flex justify-content-between">
                 <h6 className=" fw-bold"> Subtotal: </h6>
 
                 <p className="fs-5 fw-bold" style={{ color: "coral" }}>
-  ₹{
-    cartList?.reduce((total, item) => {
-      const price = item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
-      return total + price * (item.quantity || 0);
-    }, 0) + deliveryCharge
-  }
-</p>
-
+                  ₹
+                  {cartList?.reduce((total, item) => {
+                    const price =
+                      item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
+                    return total + price * (item.quantity || 0);
+                  }, 0) + deliveryCharge}
+                </p>
               </div>
-
 
               {addressForm?.fullName &&
               addressForm?.phone &&
               addressForm?.area &&
               addressForm?.pincode &&
-              addressForm?.landmark ? (
+              addressForm?.landmark &&
+              addressForm?.city &&
+              addressForm?.state &&
+              amountReached ? (
                 <button
                   className="btn btn-warning w-100 mt-3"
                   onClick={placeOrderFunc}
@@ -1352,6 +1442,27 @@ const[deliveryCharge , setDeliveryCharge] = useState("0");
                   Place Order
                 </button>
               )}
+
+              <div>
+                {amountReached == false ? (
+                  <div
+                    className="alert alert-danger d-flex align-items-center justify-content-between py-2 px-3 rounded mt-3"
+                    style={{ fontSize: "0.875rem" }}
+                  >
+                    <div className="d-flex align-items-center">
+                      <span>Minimum order amount not reached</span>
+                    </div>
+                    <button
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={() => router.push("/")}
+                    >
+                      Continue Shopping
+                    </button>
+                  </div>
+                ) : (
+                  <p></p>
+                )}
+              </div>
             </div>
           </div>
 
