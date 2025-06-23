@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import AccountDetails from "../Components/AccountDetails";
 import Footer from "../Components/Footer";
 import { userUpdateServ } from "../services/authentication.service";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Profile = () => {
   const [imageSrc, setImageSrc] = useState(null);
@@ -47,14 +49,14 @@ const Profile = () => {
       updateLoggedUserData(null);
       localStorage.removeItem("user");
       toast.success("Logged out successfully!");
-      router.push("/login");
+      router.push("/register");
     }
   }, [selectedSection]);
 
   useEffect(() => {
     if (!loggedUserData) {
       const timer = setTimeout(() => {
-        router.push("/login");
+        router.push("/register");
       }, 1500);
       return () => clearTimeout(timer);
     }
@@ -103,13 +105,82 @@ const Profile = () => {
 }, [imageSrc]);
 
 
+  // if (!loggedUserData) {
+  //   return (
+  //     <div className="loading-div">
+  //       <p>Loading user data...</p>
+  //     </div>
+  //   );
+  // }
+ 
   if (!loggedUserData) {
-    return (
-      <div className="loading-div">
-        <p>Loading user data...</p>
+  return (
+    <>
+      <Navbar />
+      <div className="user-profile">
+        <div className="profile-section d-flex gap-3 flex-lg-row flex-column">
+          {/* Left Menu Skeleton */}
+          <div style={{ width: "250px", marginTop: "60px" }} className="d-none d-lg-block">
+            {[1, 2, 3 , 4 , 5].map((_, i) => (
+              <Skeleton
+                key={i}
+                height={40}
+                style={{ marginBottom: "12px", borderRadius: "6px" }}
+              />
+            ))}
+          </div>
+
+          <div className="my-3 d-block d-lg-none">
+            <Skeleton height={40} ></Skeleton>
+          </div>
+
+          {/* Right Content Skeleton */}
+          <div className="profile-right mt-lg-5 pt-lg-4" style={{ flex: 1 }}>
+            <div className="my-details">
+              <Skeleton height={30} width={150} style={{ marginBottom: 24 }} />
+
+              {/* Profile Picture */}
+              <div className="personal-info my-4">
+                <Skeleton
+                  circle
+                  height={70}
+                  width={70}
+                  style={{ marginBottom: 32 }}
+                />
+              </div>
+
+              {/* Name Fields */}
+              <div className="d-flex gap-2 mb-3">
+                <Skeleton height={38} width={120} />
+                <Skeleton height={38} width={120} />
+              </div>
+
+              {/* Email */}
+              <div className="mb-3">
+                <Skeleton height={38} width={250} />
+              </div>
+
+              {/* Phone */}
+              <div className="mb-3">
+                <Skeleton height={38} width={180} />
+              </div>
+
+              {/* Buttons */}
+              <div className="d-flex gap-2 mt-3">
+                <Skeleton height={35} width={120} />
+                <Skeleton height={35} width={80} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    );
-  }
+      <Footer />
+    </>
+  );
+}
+
+
+
 
   const handleClick = () => {
     fileInputRef.current.click();

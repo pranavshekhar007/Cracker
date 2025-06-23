@@ -605,6 +605,7 @@
 
 // export default Page;
 
+
 "use client";
 import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -977,7 +978,8 @@ const Page = () => {
                   "rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;",
               }}
             >
-              {loggedUserData?._id ? (
+              {
+              loggedUserData?._id ? (
                 <div className="border rounded p-3 mb-4">
                   <div className="d-flex justify-content-between align-items-center mx-2 mb-2">
                     <h6 className="mb-0 fw-bold">Delivery Address</h6>
@@ -995,7 +997,7 @@ const Page = () => {
                   </div>
 
                   {showAddress && (
-                    <div className="all-address d-flex gap-2 flex-wrap">
+                    <div className="all-addresses d-flex gap-2 flex-wrap">
                       {addresses.map((address) => {
                         return (
                           <div className="address-card w-100 d-flex justify-content-between align-items-end">
@@ -1017,7 +1019,7 @@ const Page = () => {
                                 <button
                                   className="text-danger"
                                   style={{
-                                    height: "40px",
+                                    // height: "40px",
                                     backgroundColor: "rgb(253 231 233)",
                                     border: "1px solid rgb(247 213 216)",
                                   }}
@@ -1028,7 +1030,7 @@ const Page = () => {
                               ) : (
                                 <button
                                   style={{
-                                    height: "40px",
+                                    // height: "40px",
                                     backgroundColor: "#dc3545",
                                   }}
                                   onClick={() => handleSelectAdress(address)}
@@ -1274,6 +1276,7 @@ const Page = () => {
                   <h6 className="fw-bold mb-4">
                     Please Verify your phone number
                   </h6>
+                  <input className = "form-control mb-3" placeholder="Enter you name"></input>
                   <input
                     value={userFormData.phone}
                     className="form-control mb-3"

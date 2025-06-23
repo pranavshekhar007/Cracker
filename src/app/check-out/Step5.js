@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import {  uploadPaymentServ} from "../services/product.service"
 
 
-const Payment = ({showPaymentPopup , setShowPaymentPopup , orderId}) => {
+const Step5 = ({}) => {
 
     // const [showPaymentPopup, setShowPaymentPopup] = useState(false);
        const [paymentImage, setPaymentImage] = useState(null);
@@ -17,9 +17,7 @@ const Payment = ({showPaymentPopup , setShowPaymentPopup , orderId}) => {
     setPaymentMethod(e.target.value);
   };
 
-        const handleClosePaymentPopup = () => {
-           setShowPaymentPopup(false);
-         };
+       
        
            const handleImageChange = (e) => {
            const file = e.target.files[0];
@@ -63,20 +61,17 @@ const Payment = ({showPaymentPopup , setShowPaymentPopup , orderId}) => {
 
   return (
     <div>
-        {showPaymentPopup && (
+        
         <div
-          className="payment-popup position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-          style={{ background: "rgba(0,0,0,0.5)", zIndex: 9999 }}
+          className="payment-popup   d-flex justify-content-center align-items-center"
+         
         >
           <div
             className=" p-4 rounded"
             style={{ width: "650px", maxWidth: "90%", background:"#fff5f5" }}
           >
             <div className=" d-flex justify-content-end">
-              <button
-                className="btn-close"
-                onClick={handleClosePaymentPopup}
-              ></button>
+              
             </div>
             <div className="d-flex justify-content-center align-items-center ">
               <h5 className="text-end mb-sm-3 mb-2"
@@ -196,9 +191,9 @@ const Payment = ({showPaymentPopup , setShowPaymentPopup , orderId}) => {
             )} */}
           </div>
         </div>
-      )}
+     
     </div>
   )
 }
 
-export default Payment
+export default Step5;

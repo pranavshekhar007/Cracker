@@ -3299,6 +3299,9 @@ body , html{
   width: 110px !important;
   height: 110px !important;
 }
+.all-addresses p , .all-addresses button{
+    font-size: 12px;
+}
 }
  /* .whatsappA{
       font-size: 13px;
@@ -3332,4 +3335,78 @@ body , html{
   display: flex;
   justify-self: center;
   color: white;
+}
+
+
+/* checkout css */
+
+.checkout-steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  z-index: 2;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.step-circle.active {
+  border-color: red;
+  background: white;
+}
+
+.step-circle.done {
+  background: red;
+  color: white;
+  border-color: red;
+}
+
+.step-label {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+.step-line {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: #e0e0e0;
+  z-index: 1;
+}
+
+.step-line.filled {
+  background-color: red;
+}
+
+
+.steps-label {
+    font-size: 14px !important;
+    color: gray !important;
+    margin-left: 4px
 }

@@ -278,7 +278,7 @@ const Navbar = () => {
 
   offcanvas.hide();
 
-     router.push("/checkout");
+     router.push("/check-out");
   };
 
  
@@ -400,7 +400,7 @@ const Navbar = () => {
               src={loggedUserData.profilePic}
               alt="user-profile"
               className="rounded-circle d-none d-md-block"
-              title="Go to Profile"
+              // title="Go to Profile"
               onClick={handleProfileClick}
               style={{
                 cursor: "pointer",
@@ -414,7 +414,7 @@ const Navbar = () => {
             <img
               src="https://cdn-icons-png.flaticon.com/128/15494/15494722.png"
               alt="profile-icon"
-              title="Sign Up / Login"
+              // title="Sign Up / Login"
               className="d-none d-md-block"
               onClick={handleProfileClick}
               style={{ cursor: "pointer", width: "30px", height: "30px" }}

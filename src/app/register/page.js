@@ -16,6 +16,7 @@ const page = () => {
      const [userFormData, setUserFormData] = useState({
         phone: "",
         phoneOtp: "",
+        firstName:""
       });
 
       const [errorMessage, setErrorMessage] = useState("");
@@ -40,6 +41,10 @@ const page = () => {
         setPhoneLoading(true)
           try {
              const { phone } = userFormData;
+            //  const payload = {
+            //   phone : userFormData.phone,
+            //   firstName: userFormData.firstName
+            //  }
              console.log("api called")
             let response = await otpSend(phone);
             if (response?.statusCode == "200") {
@@ -92,6 +97,13 @@ const page = () => {
             <form>
                 <div className=" mb-4">
               <h6 className="fw-bold mb-4 text-center">Please Verify your phone number</h6>
+              <input className = "form-control mb-3" placeholder="Enter you name"
+                onChange={(e) =>
+                    setUserFormData({
+                      ...userFormData,
+                      firstName: e.target.value,
+                    })
+                  }></input>
               <input
                 value={userFormData.phone}
                 className="form-control mb-3"

@@ -1,0 +1,111 @@
+import React from "react";
+
+const Step4 = ({
+  cartList,
+  addressForm,
+  deliveryCharge,
+  discount,
+  cityPrice,
+  amountReached,
+  placeOrderFunc,
+}) => {
+  const totalProducts = cartList?.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  const totalPrice = cartList?.reduce((total, item) => {
+    const price = item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
+    return total + price * (item.quantity || 0);
+  }, 0);
+
+  const subTotal = totalPrice + deliveryCharge;
+
+  
+
+  return (
+
+    <div  className=" p-4 mb-4 bg-white container d-flex flex-column justify-content-center align-items-center"
+     style={{borderRadius:"13px", minHeight:"50vh"}}>
+
+       <div style={{width: "70%"}} >
+    <div className="row">
+      {/* Cart Summary */}
+      <div className=" col-12 mb-4">
+        {cityPrice && <p>Minimum Price for this city: ₹{cityPrice}</p>}
+
+        <div className="d-flex justify-content-between">
+          <h6 className="fw-bold">Total Products:</h6>
+          <p className="fs-5 fw-bold">{totalProducts}</p>
+        </div>
+
+        <div className="d-flex justify-content-between">
+          <h6 className="fw-bold">Total:</h6>
+          <p className="fs-5 fw-bold">₹{totalPrice}</p>
+        </div>
+
+        <div className="d-flex justify-content-between">
+          <h6 className="fw-bold">Delivery Charge:</h6>
+          <p className="fs-5 fw-bold">₹{deliveryCharge}</p>
+        </div>
+
+        {discount > 0 && (
+          <p style={{ color: "green", fontWeight: "500" }}>
+            You are saving ₹{discount} on this order!
+          </p>
+        )}
+
+        <div className="d-flex justify-content-between">
+          <h6 className="fw-bold">Subtotal:</h6>
+          <p className="fs-5 fw-bold" style={{ color: "coral" }}>
+            ₹{subTotal}
+          </p>
+        </div>
+
+        {addressForm?.fullName &&
+        addressForm?.phone &&
+        addressForm?.area &&
+        addressForm?.pincode &&
+        addressForm?.landmark &&
+        addressForm?.city &&
+        addressForm?.state &&
+        amountReached ? (
+          <button
+            className="btn btn-warning w-100 mt-3"
+            onClick={placeOrderFunc}
+          >
+            Place Order
+          </button>
+        ) : (
+          <button
+            className="btn btn-warning w-100 mt-3"
+            style={{ opacity: "0.5", cursor: "not-allowed" }}
+          >
+            Place Order
+          </button>
+        )}
+
+        {!amountReached && (
+          <div
+            className="alert alert-danger d-flex align-items-center justify-content-between py-2 px-3 rounded mt-3"
+            style={{ fontSize: "0.875rem" }}
+          >
+            <span>Minimum order amount not reached</span>
+            <button
+              className="btn btn-sm btn-outline-danger"
+              onClick={() => window.location.href = "/"} 
+            >
+              Continue Shopping
+            </button>
+          </div>
+        )}
+      </div>
+
+     
+    </div>
+    </div>
+    </div>
+  );
+};
+
+export default Step4;

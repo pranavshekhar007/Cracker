@@ -448,7 +448,7 @@ function page() {
                             <div className="d-flex align-items-center">
                               <div>
                                 <img
-                                style={{maxWidth: "200px" , maxHeight:"200px"}}
+                                style={{maxWidth: "128px" , maxHeight:"128px"}}
                                   src={
                                     v?.userId?.profilePic
                                       ? v?.userId?.profilePic
