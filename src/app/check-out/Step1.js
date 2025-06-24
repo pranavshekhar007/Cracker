@@ -20,6 +20,7 @@ const Step1 = ({ next }) => {
   useEffect(() => {
     if (loggedUserData?._id) {
       next();
+     
     }
   }, [loggedUserData, next]);
 

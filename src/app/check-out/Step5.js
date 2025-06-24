@@ -26,27 +26,40 @@ const Step5 = ({orderId}) => {
              setPaymentImage(file);
            }
          };
+
+         const[errorMessage , setErrorMessage] = useState(null);
+         const[showError , setShowError] = useState(false);
        
          const handlePayment = async() => {
 
           if (!paymentImage) {
-          toast.error("No payment uploaded");
-          router.push("/");
+            setErrorMessage("Please upload a payment screenshot first!");
+            setShowError(true);
           return;
            
            }
 
+           if(!paymentMethod){
+             setErrorMessage("Please select a payment method first!");
+              setShowError(true);
+              return;
+           }
+
            try {
-            
+
+
+
        
           const formData = new FormData();
     formData.append("paymentSs", paymentImage);
     formData.append("id", orderId);
     formData.append("paymentMethod", paymentMethod);
 
-
-             let response = await uploadPaymentServ(formData);
+              
+             const response = await uploadPaymentServ(formData);
              if(response?.statusCode=="200"){
+                setShowError(false);
+                
                toast.success(response?.message);
               
                router.push("/");
@@ -162,6 +175,10 @@ const Step5 = ({orderId}) => {
             className="form-control"
              onChange={handleImageChange}
           />
+              </div>
+
+              <div>
+                <p className="text-danger">{errorMessage}</p>
               </div>
              
 

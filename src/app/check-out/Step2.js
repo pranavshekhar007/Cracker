@@ -243,7 +243,9 @@ const [shipping, setShipping] = useState("homeDelivery");
 
   const handleNext = () => {
     next();
-   
+      next();
+      next();
+    
   }
 
   const handleBack = () => {
