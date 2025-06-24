@@ -18,7 +18,7 @@ import {
 
 
 
-const Step2 = ({ next , addressForm, setAddressForm, orderPayload , setOrderPayload }) => {
+const Step2 = ({ next , back , addressForm, setAddressForm, orderPayload , setOrderPayload , cityPrice , setCityPrice}) => {
 
    const { loggedUserData, cartList } =
     useContext(LoggedDataContext);
@@ -30,8 +30,6 @@ const [shipping, setShipping] = useState("homeDelivery");
   setShipping(e.target.value);
 };
   
-
-  const [cityPrice, setCityPrice] = useState(null);
 
   const [addresses, setAddresses] = useState([]);
   const fetchAddresses = async () => {
@@ -172,7 +170,7 @@ const [shipping, setShipping] = useState("homeDelivery");
         }
       }
 
-      fetchAddresses(); // Refresh list
+      fetchAddresses(); 
     } catch (error) {
       console.error("Address save/update error:", error);
       toast.error(error?.response?.data?.message || "Address operation failed");
@@ -248,9 +246,34 @@ const [shipping, setShipping] = useState("homeDelivery");
    
   }
 
+  const handleBack = () => {
+      back();
+  }  
+
+  useEffect(() => {
+  if (addressForm?.state && cityList.length > 0) {
+    const filtered = cityList.filter(
+      (city) => city.state.name === addressForm.state
+    );
+    setFilteredCities(filtered);
+  }
+}, [addressForm?.state, cityList]);
+
+useEffect(() => {
+  if (addressForm?.city && filteredCities.length > 0) {
+    const selected = filteredCities.find((city) => city.name === addressForm.city);
+    if (selected) {
+      setCityPrice(selected.minimumPrice);
+    }
+  }
+}, [addressForm?.city, filteredCities]);
+
+
+
   return (
     <div className=" p-4 mb-4 bg-white container d-flex  flex-column justify-content-center align-items-center" style={{borderRadius:"13px", minHeight:"50vh"}}>
         <div className="border rounded p-3 mb-4"  style={{width: "80%"}}>
+            <h3 className="my-3 text-center">Delivery Details </h3>
                   <div className="d-flex justify-content-between align-items-center mx-2 mb-2 steps">
                     <h6 className="mb-0 fw-bold">Delivery Address</h6>
                     {addresses?.length > 1 && (
@@ -587,11 +610,14 @@ const [shipping, setShipping] = useState("homeDelivery");
                 </div>
               </div>
 
+               <div className="d-flex justify-content-end gap-3 w-100 mt-3">
+              
+        <button onClick={handleNext} className="btn btn-danger px-4" > Continue </button>
+    </div>
+
     </div> 
 
-    <div className="d-flex justify-content-end w-100">
-        <button onClick={handleNext} className="btn btn-danger" > Next </button>
-    </div>
+   
      </div>
   )
 }

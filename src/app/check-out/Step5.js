@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import {  uploadPaymentServ} from "../services/product.service"
 
 
-const Step5 = ({}) => {
+
+const Step5 = ({orderId}) => {
 
     // const [showPaymentPopup, setShowPaymentPopup] = useState(false);
        const [paymentImage, setPaymentImage] = useState(null);
@@ -36,9 +37,7 @@ const Step5 = ({}) => {
            }
 
            try {
-          //    const formData = new FormData();
-          //  formData.append("paymentSs", paymentImage);
-          //      formData.append("id", orderId);
+            
        
           const formData = new FormData();
     formData.append("paymentSs", paymentImage);
@@ -57,27 +56,23 @@ const Step5 = ({}) => {
              console.log(error)
            }
          }
+
+
+         const handleSkip = () => {
+             router.push("/");
+         }
     
 
   return (
-    <div>
+    <div className=" p-4 mb-4 bg-white container d-flex flex-column justify-content-center align-items-center"
+     style={{borderRadius:"13px", minHeight:"50vh"}}>
         
-        <div
-          className="payment-popup   d-flex justify-content-center align-items-center"
-         
-        >
-          <div
-            className=" p-4 rounded"
-            style={{ width: "650px", maxWidth: "90%", background:"#fff5f5" }}
-          >
-            <div className=" d-flex justify-content-end">
-              
-            </div>
-            <div className="d-flex justify-content-center align-items-center ">
-              <h5 className="text-end mb-sm-3 mb-2"
-              >Complete Your Payment</h5>
-              
-            </div>
+        <div className="payment-popup   d-flex flex-column justify-content-center align-items-center" >
+          <h3 className="my-3 text-center mb-4">Complete Payment</h3>
+
+          <div className=" p-4 rounded border" style={{ width: "800px", maxWidth: "90%" }} >
+            
+            
 
               <div className="d-flex justify-content-sm-around justify-content-center pb-sm-3 mb-1 flex-sm-row  flex-column">
                 <div className="d-flex flex-column align-items-center">
@@ -170,11 +165,19 @@ const Step5 = ({}) => {
               </div>
              
 
-              <button className="btn  w-100 text-white fw-bold "
+            <div className="d-flex gap-2">
+               <button className="btn  w-100  fw-bold "
+              style={{ background: "#e2e2e2", border: "none" }}
+              onClick={handleSkip} >
+                Skip Now
+               </button>
+
+                <button className="btn  w-100 text-white fw-bold "
               style={{ background: "brown", border: "none" }}
               onClick={handlePayment} >
               Upload Payment
-               </button>
+               </button>        
+            </div>
                  
             {/* {paymentImage? (
                <button className="btn  w-100 text-white fw-bold "

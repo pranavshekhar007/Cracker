@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Step4 = ({
   cartList,
@@ -8,6 +8,8 @@ const Step4 = ({
   cityPrice,
   amountReached,
   placeOrderFunc,
+  next , 
+  back
 }) => {
   const totalProducts = cartList?.reduce(
     (total, item) => total + item.quantity,
@@ -21,7 +23,19 @@ const Step4 = ({
 
   const subTotal = totalPrice + deliveryCharge;
 
-  
+  const handleBack = () => {
+      back();
+  }  
+
+  const[nextMessage , setNextMessage] = useState("Please place your order first.")
+  const [messageShow , setMessageShow] = useState(false);
+
+   const handleNext = () => {
+     setMessageShow(true);
+    
+  }
+
+
 
   return (
 
@@ -29,6 +43,7 @@ const Step4 = ({
      style={{borderRadius:"13px", minHeight:"50vh"}}>
 
        <div style={{width: "70%"}} >
+        <h3 className="my-3 text-center">Order Summary</h3>
     <div className="row">
       {/* Cart Summary */}
       <div className=" col-12 mb-4">
@@ -102,6 +117,18 @@ const Step4 = ({
       </div>
 
      
+    </div>
+
+       {
+          messageShow && (
+            <p className="text-danger mt-3 text-end">  {nextMessage}</p>
+          )
+        }
+
+      <div className="d-flex justify-content-end gap-3 w-100 mt-3">
+       
+                <button onClick={handleBack} className="btn " style={{backgroundColor: "#ffe6ea" , border: "1px solid #ebcbd0"}}  >Back</button>
+        <button onClick={handleNext} className="btn btn-danger px-4" > Continue </button>
     </div>
     </div>
     </div>

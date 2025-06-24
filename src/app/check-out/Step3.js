@@ -1,16 +1,22 @@
 import React from 'react'
 
-const Step3 = ({next , cartList}) => {
+const Step3 = ({next , cartList , back}) => {
 
      const handleNext = () => {
     next();
+    
   }
+
+  const handleBack = () => {
+      back();
+  }  
 
   return (
     <div  className=" p-4 mb-4 bg-white container d-flex flex-column justify-content-center align-items-center"
      style={{borderRadius:"13px", minHeight:"50vh"}}>
 
         <div style={{width: "70%"}} >
+            <h3 className="my-3 text-center">Cart Items</h3>
       <div 
             className="col-12 bg-white order-1 order-lg-2"
             style={{
@@ -20,7 +26,7 @@ const Step3 = ({next , cartList}) => {
           >
             <div style={{ fontFamily: "poppins" }}>
               <div className="offcanvas-header">
-                <h6 className="fw-bold"> Your Cart Items </h6>
+           
                 {/* <button
                 type="button"
                 className="btn-close"
@@ -53,7 +59,7 @@ const Step3 = ({next , cartList}) => {
                       </h6>
                     </div>
 
-                    <p className="cartPrice">{item?.quantity}</p>
+                    <p className="cartPrice">Items: {item?.quantity}</p>
 
                     <div style={{ minWidth: "75px" }} className=" text-end">
                       <p className="text-muted mt-1 mb-0 cartPrice">
@@ -75,11 +81,14 @@ const Step3 = ({next , cartList}) => {
               </div>
             </div>
           </div>
+         
+            <div className="d-flex justify-content-end gap-3 w-100 mt-3">
+                <button onClick={handleBack} className="btn px-4" style={{backgroundColor: "#ffe6ea" , border: "1px solid #ebcbd0"}}  >Back</button>
+        <button onClick={handleNext} className="btn btn-danger px-4" > Continue </button>
+    </div>
           </div>
 
-          <div className="d-flex justify-content-end w-100">
-        <button onClick={handleNext} className="btn btn-danger" > Next </button>
-    </div>
+         
     </div>
   )
 }

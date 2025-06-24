@@ -13,11 +13,19 @@ import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { LoggedDataContext } from "../context/context";
 import { placeOrderServ } from "../services/product.service";
+import { toast } from "react-toastify";
 
 const Page = () => {
   const { loggedUserData , cartList , setCartList} = useContext(LoggedDataContext);
 
-  const [step, setStep] = useState(1);
+  // const [step, setStep] = useState(1);
+
+
+const [step, setStep] = useState(() => {
+  // If user is logged in, start at Step 2
+  return loggedUserData?._id ? 2 : 1;
+});
+
 
   const [shipping, setShipping] = useState("homeDelivery");
 
@@ -60,7 +68,8 @@ const Page = () => {
       cartList,
       setCartList,
       amountReached,
-      placeOrderFunc
+      placeOrderFunc,
+      orderId
     };
 
     switch (step) {
@@ -140,10 +149,13 @@ const Page = () => {
     console.log("amount reached", amountReached);
   }, [loggedUserData, cartList, addressForm, cityPrice , shipping]);
 
+   const [orderId, setOrderId] = useState(null);
+
   const placeOrderFunc = async () => {
     try {
       let response = await placeOrderServ(orderPayload);
-      if (response?.statusCode == "200") {
+      if (response?.statusCode == 200) {
+      console.log("booking created" , response)
         toast.success(response?.message);
         setCartList([]);
         localStorage.removeItem("cartList");

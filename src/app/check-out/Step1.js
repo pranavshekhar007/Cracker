@@ -30,6 +30,7 @@ const Step1 = ({ next }) => {
    const [otpLoading, setOtpLoading] = useState(false);
  
    const sendOtpFunc = async () => {
+     
      if (!userFormData.phone) {
        setErrorMessage("Please enter your phone number first.");
        return;
@@ -55,10 +56,16 @@ const Step1 = ({ next }) => {
      setPhoneLoading(false);
    };
    const otpVerifyFunc = async () => {
+    
+
      if (!userFormData.phoneOtp) {
        setErrorMessage("Please enter your otp first.");
        return;
      }
+      if(!userFormData.firstName){
+        setErrorMessage("Please enter you name");
+        return
+      }
      setErrorMessage("");
      setOtpLoading(true);
      try {

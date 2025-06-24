@@ -281,6 +281,7 @@ const Navbar = () => {
      router.push("/check-out");
   };
 
+  
  
 
 //menu close
@@ -371,10 +372,13 @@ const Navbar = () => {
 
         {/* Nav Icons */}
         <div className="nav-icons  d-md-flex gap-3 align-items-center">
-          {/* <img
-            src="https://cdn-icons-png.flaticon.com/128/6051/6051092.png"
+         <div className="d-flex gap-md-3 gap-2">
+          <div onClick={() => router.push("/my-wishlist")}>
+           <img
+            src="https://cdn-icons-png.flaticon.com/128/13369/13369080.png"
             alt="icon1"
-          /> */}
+          />
+         </div>
           {/* 🔁 Profile icon with conditional redirect */}
 
            <div className="d-flex align-items-center" style={{cursor: "pointer"}} >
@@ -394,6 +398,7 @@ const Navbar = () => {
               </p>
             </div>
           </div>
+         </div>
 
           {loggedUserData && loggedUserData.profilePic ? (
             <img
