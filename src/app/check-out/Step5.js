@@ -77,17 +77,17 @@ const Step5 = ({orderId}) => {
     
 
   return (
-    <div className=" p-4 mb-4 bg-white container d-flex flex-column justify-content-center align-items-center"
+    <div className=" p-sm-4 p-2 mb-4 bg-white container d-flex flex-column justify-content-center align-items-center"
      style={{borderRadius:"13px", minHeight:"50vh"}}>
         
         <div className="payment-popup   d-flex flex-column justify-content-center align-items-center" >
           <h3 className="my-3 text-center mb-4">Complete Payment</h3>
 
-          <div className=" p-4 rounded border" style={{ width: "800px", maxWidth: "90%" }} >
+          <div className=" p-sm-4 p-2 rounded border stepPage" style={{ width: "800px", maxWidth: "100%" }} >
             
             
 
-              <div className="d-flex justify-content-sm-around justify-content-center pb-sm-3 mb-1 flex-sm-row  flex-column">
+              <div className="d-flex justify-content-sm-around justify-content-center pb-3 mb-3 flex-sm-row  flex-column">
                 <div className="d-flex flex-column align-items-center">
                   <h6 className="mb-sm-3 mb-2">Scan the QR Code to Pay</h6>
                    <img
@@ -114,9 +114,9 @@ const Step5 = ({orderId}) => {
               </div>
                
                    <hr/>
-<div>
+<div className="mb-2">
                     <h6>Select Payment Method:</h6>
-    <div className="d-flex gap-4">
+    <div className="d-flex gap-4 mb-3">
       <div>
         <label>
         <input

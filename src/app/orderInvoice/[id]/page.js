@@ -69,7 +69,7 @@ const OrderInvoice = ({details}) => {
       <div className="mainContainer">
         {/* <TopNav /> */}
         <div className="container-fluid p-lg-4 p-md-3 p-2">
-          <div className="card shadow-sm p-4">
+          <div className="card shadow-sm p-4 mt-5">
             <div ref={invoiceRef} className="p-4" style={{ backgroundColor: "#fff", fontFamily: "Arial, sans-serif" }}>
               <div className="d-flex justify-content-between mb-4">
                 <div>

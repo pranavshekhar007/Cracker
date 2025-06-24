@@ -3410,3 +3410,9 @@ body , html{
     color: gray !important;
     margin-left: 4px
 }
+
+@media (max-width: 600px) {
+  .stepPage{
+    width: 100% !important;
+  }
+}

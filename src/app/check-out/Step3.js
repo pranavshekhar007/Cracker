@@ -4,6 +4,7 @@ const Step3 = ({next , cartList , back}) => {
 
      const handleNext = () => {
     next();
+   
     
   }
 
@@ -12,10 +13,10 @@ const Step3 = ({next , cartList , back}) => {
   }  
 
   return (
-    <div  className=" p-4 mb-4 bg-white container d-flex flex-column justify-content-center align-items-center"
+    <div  className=" p-sm-4 p-1 mb-4 bg-white container d-flex flex-column justify-content-center align-items-center"
      style={{borderRadius:"13px", minHeight:"50vh"}}>
 
-        <div style={{width: "70%"}} >
+        <div style={{width: "70%"}} className="stepPage" >
             <h3 className="my-3 text-center">Cart Items</h3>
       <div 
             className="col-12 bg-white order-1 order-lg-2"
@@ -34,10 +35,10 @@ const Step3 = ({next , cartList , back}) => {
               ></button> */}
               </div>
 
-              <div className="offcanvas-body">
+              <div className="offcanvas-body p-1">
                 {cartList?.map((item) => (
                   <div
-                    className="d-flex mb-3 justify-content-between p-2 border-bottom "
+                    className="d-flex mb-3 justify-content-between p-sm-2 p-1 border-bottom "
                     key={item.id}
                   >
                     <div className="d-flex">

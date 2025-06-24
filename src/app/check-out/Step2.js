@@ -11,6 +11,7 @@ import {
 } from "../services/address.service";
 import {
   getCitiesServ,
+  getPincodeServ,
   getStatesServ,
   placeOrderServ,
 } from "../services/product.service";
@@ -183,6 +184,7 @@ const [shipping, setShipping] = useState("homeDelivery");
     // getLocationAndPincode();
     getStates();
     getCity();
+    getPincodes();
   }, []);
 
   // states list api
@@ -190,6 +192,18 @@ const [shipping, setShipping] = useState("homeDelivery");
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
+
+  const getPincodes = async () => {
+    try {
+      const res = await getPincodeServ();
+      if (res.statusCode == "200") {
+        console.log(res.data);
+        setStateList(res.data);
+      }
+    } catch (error) {
+      console.log("getting error in pincode list" + error);
+    }
+  };
 
   const getStates = async () => {
     try {
@@ -243,8 +257,7 @@ const [shipping, setShipping] = useState("homeDelivery");
 
   const handleNext = () => {
     next();
-      next();
-      next();
+     
     
   }
 
@@ -273,8 +286,8 @@ useEffect(() => {
 
 
   return (
-    <div className=" p-4 mb-4 bg-white container d-flex  flex-column justify-content-center align-items-center" style={{borderRadius:"13px", minHeight:"50vh"}}>
-        <div className="border rounded p-3 mb-4"  style={{width: "80%"}}>
+    <div className=" p-sm-4 p-2 mb-4 bg-white container d-flex  flex-column justify-content-center align-items-center" style={{borderRadius:"13px", minHeight:"50vh"}}>
+        <div className="border rounded p-sm-3 p-2 mb-4 stepPage"  style={{width: "80%"}}>
             <h3 className="my-3 text-center">Delivery Details </h3>
                   <div className="d-flex justify-content-between align-items-center mx-2 mb-2 steps">
                     <h6 className="mb-0 fw-bold">Delivery Address</h6>

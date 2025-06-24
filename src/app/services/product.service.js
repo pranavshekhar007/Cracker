@@ -160,21 +160,20 @@ export const getCitiesServ = async () => {
   }
 };
 
-// product review 
+//pincode api
 
-// export const addReviewServ = async (payload) => {
-//       try {
-//     const response = await axios.post(BASE_URL + "rating/create", payload , {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-//     return response.data;
-//   } catch (error) {
-//     console.error("review error:", error);
-//     throw error;
-//   }
-// }
+export const getPincodeServ = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "pin-code/list");
+    return response.data;
+  } catch (error) {
+    console.error("pincode list Error:", error);
+    throw error;
+  }
+};
+
+
+//product review
 
 export const addReviewServ = async (payload) => {
   try {

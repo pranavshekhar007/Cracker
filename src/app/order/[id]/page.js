@@ -20,7 +20,7 @@ const statusFlow = [
   { key: "orderPacked", icon: "📦", label: "Packed" },
   { key: "shipping", icon: "🚚", label: "Shipping" },
   { key: "outForDelivery", icon: "📍", label: "Out For Delivery" },
-  { key: "delivered", icon: "✅", label: "Delivered" },
+  { key: "completed", icon: "✅", label: "Delivered" },
   { key: "cancelled", icon: "❌", label: "Cancelled" },
 ];
 
@@ -323,7 +323,7 @@ const page = () => {
                                   </div>
                                 )}
 
-                                {step.key === "delivered" && (
+                                {step.key === "completed" && (
                                   <div className="text-muted small">
                                     Order has been delivered successfully.
                                   </div>
@@ -444,7 +444,7 @@ const page = () => {
                                 </div>
 
                                 <div>
-                                  {details?.status === "delivered" && (
+                                  {details?.status === "completed " && (
                                     <button
                                       class="btn-review"
                                       onClick={() =>
@@ -648,7 +648,8 @@ const page = () => {
                   </div>
 
                     <div className="col-12 mb-3">
-                    <div
+                    {details?.status == "completed"?(
+                      <div
                       className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between"
                       onClick={() =>
                         router.push("/orderInvoice/" + details?._id)
@@ -670,6 +671,28 @@ const page = () => {
                         style={{ width: "20px", height: "20px" }}
                       ></img>
                     </div>
+                    ):(
+                      <div
+                      className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between "
+                     
+                      style={{ cursor: "pointer" , opacity:"0.5"  , cursor:"not-allowed"}}
+                    >
+                      <div className="d-flex gap-2  align-items-center ">
+                        <img
+                          src="https://cdn-icons-png.flaticon.com/128/7939/7939869.png"
+                          style={{ width: "20px", height: "20px" }}
+                        ></img>
+                        <h5 className="mb-0" style={{ color: "#333333" }}>
+                          Download Invoice
+                        </h5>
+                      </div>
+
+                      <img
+                        src="https://sa-web-h1a.flixcart.com/mosaic/ss/RightChevron.svg?q=80"
+                        style={{ width: "20px", height: "20px" }}
+                      ></img>
+                    </div>
+                    )}
                   </div>
 
                   <div className="col-12 mb-3">

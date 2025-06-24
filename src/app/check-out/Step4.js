@@ -39,10 +39,10 @@ const Step4 = ({
 
   return (
 
-    <div  className=" p-4 mb-4 bg-white container d-flex flex-column justify-content-center align-items-center"
+    <div  className=" p-sm-4 p-2 mb-4 bg-white container d-flex flex-column justify-content-center align-items-center"
      style={{borderRadius:"13px", minHeight:"50vh"}}>
 
-       <div style={{width: "70%"}} >
+       <div style={{width: "70%"}} className="stepPage" >
         <h3 className="my-3 text-center">Order Summary</h3>
     <div className="row">
       {/* Cart Summary */}

@@ -344,10 +344,10 @@ const Navbar = () => {
           ref={navMenuRef}
           className={`nav-links  list-unstyled mb-0 ${menuOpen ? "open" : ""} `}
         >
-          {/* <li className={pathname === "/" ? "active-link" : ""}>
+           <li className={pathname === "/" ? "active-link" : ""}>
             <Link href="/">Home</Link>
           </li>
-          <li className={pathname === "/shop" ? "active-link" : ""}>
+         {/* <li className={pathname === "/shop" ? "active-link" : ""}>
             <Link href="/shop">Shop</Link>
           </li> */}
           <li className={pathname === "/shop" ? "active-link" : ""}>
@@ -627,9 +627,10 @@ const Navbar = () => {
     <ul
           className={`navLinks list-unstyled mb-0 text-center`}
         >
-          {/* <li className={pathname === "/" ? "active-link" : ""}>
+           <li className={pathname === "/" ? "active-link" : ""}>
             <Link href="/">Home</Link>
           </li>
+          {/*
           <li className={pathname === "/shop" ? "active-link" : ""}>
             <Link href="/shop">Shop</Link>
           </li> */}

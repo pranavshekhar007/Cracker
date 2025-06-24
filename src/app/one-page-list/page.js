@@ -1,158 +1,16 @@
 // "use client";
 
-// import React, { useState, useMemo, useEffect } from "react";
+// import React, { useState, useMemo, useEffect , useContext } from "react";
 // import { useParams } from "next/navigation";
 // import Navbar from "@/app/Components/Navbar";
 // import PriceFilter from "@/app/Components/PriceFilter";
 // import { getProductServ , getCategory} from "../services/product.service";
 // import Skeleton from "react-loading-skeleton";
 // import "react-loading-skeleton/dist/skeleton.css";
-
-// // const products = [
-// //   {
-// //     id: 1,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/chakker.png?resize=600%2C494&ssl=1",
-// //     category: "Ground Chakkar",
-// //     description: "Ground Chakkar Firecracker",
-// //     price1: 250,
-// //     price2: 200,
-// //     inStock: true,
-// //   },
-// //   {
-// //     id: 2,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/Flower-Pot.png?w=1136&ssl=1",
-// //     category: "Flower Pots",
-// //     description: "Beautiful Flower Pots",
-// //     price1: 300,
-// //     price2: 250,
-// //     inStock: true,
-// //   },
-// //   {
-// //     id: 3,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/sound.png?w=1136&ssl=1",
-// //     category: "One Sound",
-// //     description: "Loud One Sound Crackers",
-// //     price1: 350,
-// //     price2: 300,
-// //     inStock: true,
-// //   },
-// //   {
-// //     id: 4,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/sparklers.png?w=1136&ssl=1",
-// //     category: "Sparklers",
-// //     description: "Sparkling Sparklers",
-// //     price1: 150,
-// //     price2: 120,
-// //     inStock: true,
-// //   },
-// //   {
-// //     id: 5,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/Rocket.png?w=1136&ssl=1",
-// //     category: "Novelties",
-// //     description: "Exciting Novelties",
-// //     price1: 400,
-// //     price2: 350,
-// //     inStock: false,
-// //   },
-// //   {
-// //     id: 6,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/kids.png?w=1136&ssl=1",
-// //     category: "New Arrivals",
-// //     description: "Latest New Arrivals",
-// //     price1: 280,
-// //     price2: 230,
-// //     inStock: true,
-// //   },
-// //   {
-// //     id: 7,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fountains.png?w=1136&ssl=1",
-// //     category: "Choice of Fountain",
-// //     description: "Beautiful Fountain Crackers",
-// //     price1: 320,
-// //     price2: 270,
-// //     inStock: false,
-// //   },
-// //   {
-// //     id: 8,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fatafat.png?w=1136&ssl=1",
-// //     category: "Fatafat",
-// //     description: "Quick Fatafat Crackers",
-// //     price1: 200,
-// //     price2: 160,
-// //     inStock: false,
-// //   },
-// //   {
-// //     id: 9,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fancy.png?w=1136&ssl=1",
-// //     category: "Fancy",
-// //     description: "Fancy Crackers",
-// //     price1: 310,
-// //     price2: 260,
-// //     inStock: true,
-// //   },
-// //   {
-// //     id: 10,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/bomb.png?w=1136&ssl=1",
-// //     category: "Bombs",
-// //     description: "Explosive Bombs",
-// //     price1: 400,
-// //     price2: 350,
-// //     inStock: true,
-// //   },
-// //   {
-// //     id: 11,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/bijili.png?w=1136&ssl=1",
-// //     category: "Bijili",
-// //     description: "Bright Bijili Crackers",
-// //     price1: 280,
-// //     price2: 230,
-// //     inStock: false,
-// //   },
-// //   {
-// //     id: 12,
-// //     image:
-// //       "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/30-shots.png?w=1136&ssl=1",
-// //     category: "MultiShots",
-// //     description: "Multi-shot Fireworks",
-// //     price1: 450,
-// //     price2: 400,
-// //     inStock: false,
-// //   },
-// // ];
-
-// // const categories = [
-// //   "All",
-// //   "Bijili",
-// //   "Bombs",
-// //   "Choice of Fountain",
-// //   "Fancy",
-// //   "Fatafat",
-// //   "Flower Pots",
-// //   "Ground Chakkar",
-// //   "Gun Crackling",
-// //   "Mudpot",
-// //   "MultiShots",
-// //   "New Arrivals",
-// //   "Novelties",
-// //   "One Sound",
-// //   "Paper Out",
-// //   "Peacock",
-// //   "Premium Skyshot",
-// //   "Sattai",
-// //   "Sparklers",
-// //   "Uncategorized",
-// // ];
+// import { toast } from "react-toastify";
+// import { LoggedDataContext } from "../context/context";
+// import { useRouter } from "next/navigation";
+// import Footer from "../Components/Footer";
 
 // const Page = () => {
 //   const params = useParams();
@@ -168,20 +26,26 @@
 //   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
 //   const [products, setProductList] = useState([]);
-//     // const [showCount, setShowCount] = useState(products.length);
-//     const [showLoader, setShowLoader] = useState(false);
-  
+//   const [showLoader, setShowLoader] = useState(false);
+//    const [priceRange, setPriceRange] = useState([0, 500]);
+//     const [showCount, setShowCount] = useState(10);
+
   
 //     const getProductList = async () => {
+
 //       setShowLoader(true);
+
+//       const payload = {
+//       pageCount: showCount
+//       };
 //       try {
-//         let response = await getProductServ();
-//         console.log(response?.data);
+//         let response = await getProductServ(payload);
+//        console.log("response products" + response?.data);
 //         if (response?.statusCode == "200") {
 //           setProductList(response?.data);
 //         }
 //       } catch (error) {}
-//       setShowLoader(false);
+//         setShowLoader(false);
 //     };
   
 //      const [showLoaderCategory, setShowLoaderCategory] = useState(false);
@@ -190,7 +54,7 @@
 //       setShowLoaderCategory(true);
 //       try {
 //         let response = await getCategory();
-//         console.log(response?.data);
+//         console.log( response?.data);
 //         if (response?.statusCode == "200") {
   
 //            const allCategory = { name: "All" };
@@ -206,10 +70,14 @@
      
 //     };
   
-//       useEffect(() => {
-//       getProductList();
-//       getCategoryList();
-//     }, []);
+//     useEffect(() => {
+    
+//         getCategoryList();
+//       }, []);
+    
+//         useEffect(() => {
+//         getProductList();
+//       }, [showCount]);
 
 //   useEffect(() => {
 //     setSelectedCategory(categoryFromUrl);
@@ -265,33 +133,79 @@
 //     }
 
 //     // return filtered.slice(0, showCount);
+
+//        // price filtering
+//     if (priceRange.length === 2) {
+//   filtered = filtered.filter(
+//     (p) => p.discountedPrice >= priceRange[0] && p.discountedPrice <= priceRange[1]
+//   );
+// }
+
+
+
 //     return filtered
-//   }, [selectedCategory, searchTerm, sortOption, products , categories]);
+//   }, [selectedCategory, searchTerm, sortOption, products , categories , priceRange]);
 
-//   const [quantities, setQuantities] = useState({});
 
-//   const addToCart = (productId) => {
-//     setQuantities((prev) => ({ ...prev, [productId]: 1 }));
-//   };
-
-//   const incrementQty = (productId) => {
-//     setQuantities((prev) => ({
-//       ...prev,
-//       [productId]: (prev[productId] || 0) + 1,
-//     }));
-//   };
-
-//   const decrementQty = (productId) => {
-//     setQuantities((prev) => {
-//       const newQty = (prev[productId] || 1) - 1;
-//       if (newQty <= 0) {
-//         const updated = { ...prev };
-//         delete updated[productId];
-//         return updated;
+//   const { loggedUserData, cartList, setCartList } =  useContext(LoggedDataContext);
+  
+//     const handleAddToCartLocal = (e, v) => {
+//       e.preventDefault();
+//       e.stopPropagation();
+//       try {
+//         let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+  
+//         const existingProduct = localCartList.find((item) => item._id === v._id);
+  
+//         if (existingProduct) {
+//           existingProduct.quantity += 1;
+//         } else {
+//           localCartList.push({ ...v, quantity: 1 });
+//         }
+  
+//         localStorage.setItem("cartList", JSON.stringify(localCartList));
+//         setCartList(localCartList);
+//         toast.success("Item Added To the cart");
+//       } catch (error) {
+//         console.log("Something went wrong", error);
 //       }
-//       return { ...prev, [productId]: newQty };
-//     });
-//   };
+//     };
+ 
+  
+//     const handleIncreaseQty = (e, v) => {
+//       e.preventDefault();
+//       e.stopPropagation();
+//       let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+  
+//       const existingProduct = localCartList.find((item) => item._id === v._id);
+//       if (existingProduct) {
+//         existingProduct.quantity += 1;
+//       }
+  
+//       localStorage.setItem("cartList", JSON.stringify(localCartList));
+//       setCartList(localCartList);
+//     };
+  
+//     const handleDecreaseQty = (e, v) => {
+//       e.preventDefault();
+//       e.stopPropagation();
+//       let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+  
+//       const existingProduct = localCartList.find((item) => item._id === v._id);
+//       if (existingProduct) {
+//         existingProduct.quantity -= 1;
+//         if (existingProduct.quantity <= 0) {
+//           localCartList = localCartList.filter((item) => item._id !== v._id);
+//         }
+//       }
+  
+//       localStorage.setItem("cartList", JSON.stringify(localCartList));
+//       setCartList(localCartList);
+//     };
+
+// //     const productInCart = cartList?.find((item) => item._id === value._id);
+// // const productQty = productInCart?.quantity || 0;
+
 
 //   return (
 //     <>
@@ -299,7 +213,7 @@
 
 //       <div className="shop-page">
 //       <h1 className="text-center mb-4" style={{ color: '#6d0d0c' }}>Quick Buy</h1>
-//         <div className="shop-sections d-flex">
+//         <div className="shop-sections d-flex flex-md-nowrap flex-wrap">
 //           {/* MOBILE: Filter Toggle Button */}
 //           <div className="d-md-none mb-3">
 //             <button
@@ -319,7 +233,22 @@
 //           <div className="category-section d-none d-md-block">
 //             <h5>Categories</h5>
 //             <div className="all-category mb-5">
-//               {categories.map((cat) => (
+//             {showLoaderCategory
+//                              ? [1, 2, 3, 4 , 5 , 6 , 7 ,8]?.map((v, i) => {
+//                                  return (
+//                                    <div>
+//                                      <div className="d-flex align-items-center px-2  text-light mb-1 shadow-sm rounded border">
+//                                        {/* <Skeleton height={40} width={40}/> */}
+//                                        <div className="m-1 w-100">
+//                                          <Skeleton width="100%" height={40}/>
+//                                          {/* <Skeleton width="100%" height={18}/> */}
+                                         
+//                                        </div>
+//                                      </div>
+//                                    </div>
+//                                  );
+//                                })
+//                              : categories.map((cat) => (
 //                 <div
 //                   key={cat}
 //                   className={`category d-flex justify-content-between align-items-center ${
@@ -350,10 +279,24 @@
 //               ))}
 //             </div>
 
-//             <PriceFilter />
+//             <PriceFilter values={priceRange} setValues={setPriceRange}  />
 //           </div>
 
 //           <div className="item-section">
+//             <div className="row gx-0   mb-2">
+//               <div className="col-sm-9 col-6 p-2 rounded-2" style={{backgroundColor:"#e9e9e9"}}>
+//                 <h5> {selectedCategory}</h5>
+//               </div>
+//               <div className="col-sm-3 col-6 ps-3 justify-content-end d-flex">
+//                     <select  className="form-select form-select-sm  w-100 "
+//                 value={showCount}
+//                 onChange={(e) => setShowCount(Number(e.target.value))} >
+//                 <option value={10}>Show: 10</option>
+//                 <option value={20}>20</option>
+//                 <option value={50}>50</option>
+//               </select>
+//               </div>
+//             </div>
 //             <div className="table-responsive">
 //               <table className="table table-bordered align-middle">
 //                 <thead className="table-light">
@@ -362,13 +305,33 @@
 //                     <th>Product Name (Packing)</th>
 //                     {/* <th>Image</th> */}
 //                     <th>MRP</th>
-//                     <th>Bijili Price</th>
+//                     <th>Product Price</th>
 //                     <th>Quantity</th>
 //                     <th>Billing Price</th>
 //                   </tr>
 //                 </thead>
 //                 <tbody>
-//                   {filteredProducts.map((product, index) => (
+//                {showLoader
+//                                 ? [1, 2, 3, 4 , 5 , 6 , 7 , 8]?.map((v, i) => {
+//                                     return (
+                                    
+//                                           <tr key={`skeleton-${i}`} >
+//                                             <td>  <Skeleton width="100%" height={40}/></td>
+//                                             <td>  <Skeleton width="100%" height={40}/></td>
+//                                             <td>  <Skeleton width="100%" height={40}/></td>
+//                                             <td>  <Skeleton width="100%" height={40}/></td>
+//                                             <td>  <Skeleton width="100%" height={40}/></td>
+//                                             <td>  <Skeleton width="100%" height={40}/></td>
+//                                           </tr>
+                                          
+                                       
+//                                     );
+//                                   })
+//                                 : filteredProducts.map((product, index) => {
+//                     const productInCart = cartList?.find((item) => item._id === product._id);
+//                      const productQty = productInCart?.quantity || 0;                
+//                   return(
+                    
 //                     <tr key={product._id}>
 //                       <td>{product?.hsnCode}</td>
 //                       <td>{product.name} (10pcs/box)</td>
@@ -388,28 +351,30 @@
 
 
 //                       <td>
-//                         {!product.stockQuantity > 0 ? (
+//                         {product.stockQuantity <= 0 ? (
 //                           <span style={{ color: "red" }}>Out of stock</span>
-//                         ) : quantities[product.id] ? (
-//                           <div className="d-flex justify-content-center align-items-center gap-2">
+//                         ): productQty > 0 ? (
+//                           <div className="d-flex justify-content-between align-items-center  counterDiv text-center">
 //                             <button
-//                               className="btn btn-outline-danger btn-sm"
-//                               onClick={() => decrementQty(product.id)}
+//                               className="  w-100 text-danger bg-white"
+//                              onClick={(e) => handleDecreaseQty(e, product)}
+//                              style={{border: "1px solid #dee2e6"}}
 //                             >
 //                               −
 //                             </button>
-//                             <span>{quantities[product.id]}</span>
+//                             <span className="w-100">{productQty}</span>
 //                             <button
-//                               className="btn btn-outline-success btn-sm"
-//                               onClick={() => incrementQty(product.id)}
+//                               className=" w-100  text-success bg-white"
+//                                onClick={(e) => handleIncreaseQty(e, product)}
+//                                 style={{border: "1px solid #dee2e6"}}
 //                             >
 //                               +
 //                             </button>
 //                           </div>
 //                         ) : (
 //                           <button
-//                             className="btn btn-danger btn-sm"
-//                             onClick={() => addToCart(product.id)}
+//                             className="btn btn-danger btn-sm w-100"
+//                              onClick={(e) => handleAddToCartLocal(e, product)}
 //                           >
 //                             Add To Cart
 //                           </button>
@@ -418,12 +383,13 @@
 
 //                       <td>
 //                         ₹
-//                         {quantities[product.id]
-//                           ? (quantities[product.id] * product.discountedPrice).toFixed(2)
+//                         {productQty > 0
+//                           ? (productQty* product.discountedPrice).toFixed(2)
 //                           : "0.00"}
 //                       </td>
 //                     </tr>
-//                   ))}
+//                   )})}
+                 
 //                 </tbody>
 //               </table>
 //             </div>
@@ -461,31 +427,31 @@
 
 //           {categories.map((cat) => (
 //             <div
-//               key={cat}
+//               key={cat._id}
 //               className={`category d-flex justify-content-between ${
-//                 selectedCategory === cat ? "selected-category" : ""
+//                 selectedCategory === cat.name ? "selected-category" : ""
 //               }`}
 //               onClick={() => {
-//                 setSelectedCategory(cat);
+//                 setSelectedCategory(cat.name);
 //                 setShowMobileFilter(false); // Close on selection
 //               }}
 //               style={{
 //                 cursor: "pointer",
 //                 backgroundColor:
-//                   selectedCategory === cat ? "#6d0d0c" : "transparent",
-//                 color: selectedCategory === cat ? "white" : "black",
+//                   selectedCategory === cat.name ? "#6d0d0c" : "transparent",
+//                 color: selectedCategory === cat.name ? "white" : "black",
 //                 padding: "8px 12px",
 //                 borderRadius: "6px",
 //                 transition: "background-color 0.3s ease, color 0.3s ease",
 //                 userSelect: "none",
 //               }}
 //             >
-//               <p className="mb-0">{cat}</p>
+//               <p className="mb-0">{cat.name}</p>
 //               <img
 //                 src="https://cdn-icons-png.flaticon.com/128/130/130884.png"
 //                 alt="arrow icon"
 //                 style={{
-//                   filter: selectedCategory === cat ? "invert(1)" : "none",
+//                   filter: selectedCategory === cat.name ? "invert(1)" : "none",
 //                   transition: "filter 0.3s ease",
 //                 }}
 //               />
@@ -493,15 +459,16 @@
 //           ))}
 
 //           <hr className="my-3" />
-//           <PriceFilter />
+//           <PriceFilter values={priceRange} setValues={setPriceRange} />
+
 //         </div>
 //       )}
+//       <Footer/>
 //     </>
 //   );
 // };
 
 // export default Page;
-
 
 
 

@@ -86,7 +86,7 @@ const Step1 = ({ next }) => {
   return (
      <div className=" p-4 mb-4 bg-white container d-flex justify-content-center align-items-center" style={{borderRadius:"13px", minHeight:"50vh"}}>
            
-            <div style={{width: "50%"}}>
+            <div style={{width: "50%"}} className="stepPage">
                   <h6 className="fw-bold mb-4">
                     Please Verify your phone number
                   </h6>
