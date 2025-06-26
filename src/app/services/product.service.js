@@ -150,21 +150,31 @@ export const getStatesServ = async () => {
 
 // city api
 
-export const getCitiesServ = async () => {
+// export const getCitiesServ = async () => {
+//   try {
+//     const response = await axios.post(BASE_URL + "city/list");
+//     return response.data;
+//   } catch (error) {
+//     console.error("city list Error:", error);
+//     throw error;
+//   }
+// };
+
+export const getCityByStateServ = async (stateId) => {
   try {
-    const response = await axios.post(BASE_URL + "city/list");
-    return response.data;
+    const response = await axios.get(BASE_URL + `city?stateId=${stateId}`);
+    return response;
   } catch (error) {
-    console.error("city list Error:", error);
-    throw error;
-  }
+    console.error("Error fetching cities by state:", error);
+    throw error;
+  }
 };
 
 //pincode api
 
 export const getPincodeServ = async () => {
   try {
-    const response = await axios.get(BASE_URL + "pin-code/list");
+    const response = await axios.post(BASE_URL + "pin-code/list");
     return response.data;
   } catch (error) {
     console.error("pincode list Error:", error);

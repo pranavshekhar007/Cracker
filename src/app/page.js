@@ -111,7 +111,7 @@ export default function Home() {
         <div className="hero-container">
           <HeroSection />
 
-          <BrandsSlider />
+          
 
           <div className="free-shiping">
             <div className="services-container">
@@ -244,13 +244,15 @@ export default function Home() {
         <SegmentedToggleWithContent productList={productlist} />
 
         <ProductSlider
-          title="Combo Offers"
+          title="Combo Packs"
           subTitle="Best combo deals"
           textAlignCenter={true}
           comboProduct={true}
           productList={comboproducts}
         />
-
+        
+        <BrandsSlider />
+    
         <Testimonals />
 
         {showDisclaimer && (

@@ -20,13 +20,7 @@ const Footer = () => {
               unforgettable.
             </p>
 
-            <div className="social-icons d-flex gap-2 mt-4">
-              <img src="/assets/facebook.png" alt="facebook" />
-              <img src="/assets/twitter.png" alt="twitter" />
-              <img src="/assets/linkedin.png" alt="linkedin" />
-              <img src="/assets/instagram.png" alt="instagram" />
-              <img src="/assets/youtube.png" alt="youtube" />
-            </div>
+            
           </div>
 
           <div className="footer-2 footer-item d-flex flex-column align-items-center text-center">
@@ -69,27 +63,25 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="d-flex flex-wrap justify-content-between mt-4 pt-4 pb-5">
-          <p className="mb-0 pb-2 text-light">
+        <div className="d-flex flex-wrap justify-content-between align-items-center mt-4 pt-4 pb-5">
+          <p className="mb-0 pb-2">
             © 2024. All Rights Reserved Bing Bang
           </p>
-          <div className="d-flex gap-3">
-            <img src="/assets/paypal.png" alt="paypal" className="company-img" />
-            <img src="/assets/visa.png" alt="visa" className="company-img" />
-            <img src="/assets/mastercard.png" alt="mastercard" className="company-img" />
-            <img src="/assets/discover.png" alt="discover" className="company-img" />
-            <img src="/assets/JCB.png" alt="JCB" className="company-img" />
-          </div>
+          <div className="social-icons d-flex align-items-center gap-2 ">
+              <img src="https://cdn-icons-png.flaticon.com/128/665/665209.png" alt="facebook" style={{height:"25px" , width:"25px"}} />
+             <a href="https://www.instagram.com/bigbangcrackers?utm_source=qr&igsh=MXh1ZGk3Z2txamZq" target="_blank"> <img src="https://cdn-icons-png.flaticon.com/128/15522/15522253.png" alt="instagram" style={{height:"25px" , width:"25px"}}  /></a>
+              <img src="https://cdn-icons-png.flaticon.com/128/15522/15522333.png" alt="youtube"  style={{height:"25px" , width:"25px"}} />
+            </div>
         </div>
         <div className="d-flex justify-content-center mt-1">
-          <p className="text-light">
+          {/* <p className="">
             Developed by{" "}
             <span className="geent-text">
               <a href="https://dousoft.in/" target="blank">
                 dousoft It Solution Pvt Ltd
               </a>
             </span>{" "}
-          </p>
+          </p> */}
         </div>
       </div>
     </>

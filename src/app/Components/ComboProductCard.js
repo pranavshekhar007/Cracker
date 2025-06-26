@@ -444,6 +444,35 @@ function ComboProductCard({
       </div>
 
       <div
+    className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center text-white fw-bold"
+    style={{
+      backgroundColor: "rgba(0, 0, 0, 0.4)",
+      opacity: 0,
+      transition: "opacity 0.3s",
+    }}
+    onMouseEnter={(e) => (e.currentTarget.style.opacity = 1)}
+    onMouseLeave={(e) => (e.currentTarget.style.opacity = 0)}
+  >
+     <div className="d-flex gap-1">
+      <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" 
+      className=" p-2"
+      style={{height:"36px" , width:"36px" , borderRadius:"50%" , backgroundColor: "#e1e5d9b8"}}></img>
+      <img
+        className=" p-2"
+      style={{height:"36px" , width:"36px", borderRadius:"50%" , backgroundColor: "#e1e5d9b8"}}
+          onClick={(e) => handleAddToWishListLocal(e, value)}
+          alt="wishlist"
+          src={
+            wishList?.find((item) => item._id === value._id)
+              ? "https://cdn-icons-png.flaticon.com/128/18275/18275909.png"
+              : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"
+          }
+        />
+    </div>
+  </div>
+
+
+      <div
         className={`p-sm-3 pt-sm-3 p-2  productInner d-flex flex-column justify-content-between bg-white ${
           innerHeight ? "innerHeight" : ""
         }`}

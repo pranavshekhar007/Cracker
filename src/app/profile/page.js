@@ -257,7 +257,7 @@ const Profile = () => {
 
               {/* Personal Info */}
               <div className="personal-info">
-                <h5>Personal Information</h5>
+                <h5>Name</h5>
                 <div className="d-flex gap-2">
                   {isEditing ? (
                     <>
@@ -269,23 +269,23 @@ const Profile = () => {
                         className="editable-input"
                         style={{ height: "38px" }}
                       />
-                      <input
+                      {/* <input
                         type="text"
                         name="lastName"
                         value={formData.lastName}
                         onChange={handleChange}
                         className="editable-input"
                         style={{ height: "38px" }}
-                      />
+                      /> */}
                     </>
                   ) : (
                     <>
                       <p className="name" style={{ height: "38px" }}>
                         {loggedUserData.firstName}
                       </p>
-                      <p className="name" style={{ height: "38px" }}>
+                      {/* <p className="name" style={{ height: "38px" }}>
                         {loggedUserData.lastName}
-                      </p>
+                      </p> */}
                     </>
                   )}
                 </div>

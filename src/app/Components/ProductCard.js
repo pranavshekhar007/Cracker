@@ -92,12 +92,13 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
 
   return (
     <div
-      className={`productCard shadow-sm border ${
+      className={`productCard shadow-sm border position-relative overflow-hidden ${
         height ? "productHeight" : ""
       }`}
       style={{
         ...(bgColor && { backgroundColor: bgColor }),
         ...(borderRadius && { borderRadius: borderRadius }),
+        cursor:"pointer"
       }}
       onClick={() => router.push("/product-details/" + value?._id)}
     >
@@ -116,13 +117,47 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
         />
       </div>
 
-      <div className="d-flex justify-content-center overflow-hidden">
+      <div className="d-flex justify-content-center overflow-hidden ">
         <img
           src={value?.productHeroImage}
           className="img-fluid  productImage"
         />
+
+        
+
         {/* <img src={value?.image} alt={value.description} className="img-fluid" /> */}
       </div>
+
+        <div
+    className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center text-white fw-bold"
+    style={{
+      backgroundColor: "rgba(0, 0, 0, 0.3)",
+      opacity: 0,
+      transition: "opacity 0.3s",
+    }}
+    onMouseEnter={(e) => (e.currentTarget.style.opacity = 1)}
+    onMouseLeave={(e) => (e.currentTarget.style.opacity = 0)}
+  >
+    {/* Click to View */}
+    <div className="d-flex gap-1">
+      <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" 
+      className=" p-2"
+      style={{height:"36px" , width:"36px" , borderRadius:"50%" , backgroundColor: "#e1e5d9b8"}}></img>
+      <img
+        className=" p-2"
+      style={{height:"36px" , width:"36px", borderRadius:"50%" , backgroundColor: "#e1e5d9b8"}}
+          onClick={(e) => handleAddToWishListLocal(e, value)}
+          alt="wishlist"
+          src={
+            wishList?.find((item) => item._id === value._id)
+              ? "https://cdn-icons-png.flaticon.com/128/18275/18275909.png"
+              : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"
+          }
+        />
+    </div>
+  </div>
+
+      
 
       <div
         className={`p-2 productInner d-flex flex-column justify-content-between ${

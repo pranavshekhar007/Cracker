@@ -96,18 +96,20 @@ import React from "react";
 import ProductCard from "./ProductCard";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useRouter } from "next/navigation";
 
 const DailySell = ({productList}) => {
+  const router = useRouter();
   return (
     <>
       <div className="daily-sells">
-        <h1  className="text-center">Daily Best Sells</h1>
+        <h1  className="text-center">Trending Now</h1>
         <div className="all-sells d-flex gap-4 justify-content-center">
           <div className="daily-sell1 daily-sell ">
             <h3 className="text-white">Ground Chakkar.</h3>
             <p className="text-white">Get the best deal before close.</p>
             <div className="daily-shop d-flex gap-2 align-items-center justify-content-center my-3">
-              <p className="fs-5 mb-0 text-white fs-6">Shop Now</p>
+              <p className="fs-5 mb-0 text-white fs-6" onClick={() => router.push("/shop")} style={{cursor: "pointer"}}>Shop Now</p>
               <img src="/assets/next.png" alt="Next Icon" />
             </div>
           </div>

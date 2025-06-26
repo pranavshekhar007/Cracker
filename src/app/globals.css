@@ -1345,23 +1345,23 @@ body {
   padding-left: 11%;
   padding-right: 11%;
   margin-top: 1px;
-  background-color: #000000;
+  background-color: #f5f5dc;
 }
 .footer-logo{
-     width: 350px;
+     width: 300px;
 }
 .footer-item{
    width: 33%;
 }
 .footer-item hr , .footer-2 hr{
-  color: white;
+  color: rgb(0, 0, 0);
   width: 30%;
 }
 .footer-item h6{
-  color: white;
+  color: rgb(0, 0, 0);
 }  
 .footer-item p{
-  color: rgb(219, 219, 219);
+  color: rgb(54, 54, 54);
 }  
 .footer-2 p{
   color: #b73231 !important;
@@ -3415,4 +3415,32 @@ body , html{
   .stepPage{
     width: 100% !important;
   }
+}
+
+/* //pagination style */
+
+.custom-pagination .page-item .page-link {
+  background-color: #f0f0f0;
+  color: #000;
+  border: none;
+  margin: 0 5px;
+  border-radius: 6px;
+  min-width: 44px;
+  text-align: center;
+}
+
+.custom-pagination .page-item.active .page-link {
+  background-color: #333;
+  color: #fff;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+  color: #bbb;
+  pointer-events: none;
+  background-color: #f0f0f0;
+}
+
+.productImage:hover {
+  transform: scale(1.05);
+  cursor: pointer;
 }
