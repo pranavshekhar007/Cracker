@@ -112,9 +112,12 @@ export default function Home() {
           <HeroSection />
 
           
+          <div className="location-selector">
+
+          </div>
 
           <div className="free-shiping">
-            <div className="services-container">
+            <div className="services-container my-5">
               <div className="service-box">
                 <div className="services-icon-wrapper">
                   <img src="/assets/cart.png" className="services-icon" />
@@ -132,46 +135,6 @@ export default function Home() {
                 <div>
                   <p className="mb-0 fw-bold">HOME DELIVERY</p>
                   <p>(TN, BLRE & PY Only)</p>
-                </div>
-              </div>
-
-              <div className="service-box">
-                <div className="services-icon-wrapper">
-                  <img src="/assets/viber.png" className="services-icon" />
-                </div>
-                <div>
-                  <p className="mb-0 fw-bold">OTHER STATES</p>
-                  <p>Minimum Order ₹6,000</p>
-                </div>
-              </div>
-
-              <div className="service-box">
-                <div className="services-icon-wrapper">
-                  <img src="/assets/viber.png" className="services-icon" />
-                </div>
-                <div>
-                  <p className="mb-0 fw-bold">OTHER STATES</p>
-                  <p>Minimum Order ₹6,000</p>
-                </div>
-              </div>
-
-              <div className="service-box">
-                <div className="services-icon-wrapper">
-                  <img src="/assets/viber.png" className="services-icon" />
-                </div>
-                <div>
-                  <p className="mb-0 fw-bold">OTHER STATES</p>
-                  <p>Minimum Order ₹6,000</p>
-                </div>
-              </div>
-
-              <div className="service-box">
-                <div className="services-icon-wrapper">
-                  <img src="/assets/viber.png" className="services-icon" />
-                </div>
-                <div>
-                  <p className="mb-0 fw-bold">OTHER STATES</p>
-                  <p>Minimum Order ₹6,000</p>
                 </div>
               </div>
 

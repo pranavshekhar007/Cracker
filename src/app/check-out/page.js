@@ -33,12 +33,13 @@ const [step, setStep] = useState(() => {
     phone: "",
     alternatePhone: "",
     landmark: "",
-    area: "",
-    city: "",
-    state: "",
-    pincode: "",
+    areaId: "",
+    cityId: "",
+    stateId: "",
+    pincodeId: "",
     country: "",
     fullName: "",
+    email:""
   });
 
   const [deliveryCharge, setDeliveryCharge] = useState(0);
@@ -125,8 +126,8 @@ const [step, setStep] = useState(() => {
 
     const minCityPrice = cityPrice || 0;
 
-    const deliveryCharge = subTotal >= minCityPrice ? 0 : 100;
-    setDeliveryCharge(deliveryCharge);
+    // const deliveryCharge = subTotal >= minCityPrice ? 0 : 100;
+    // setDeliveryCharge(deliveryCharge);
 
     setOrderPayload({
       userId: loggedUserData._id,

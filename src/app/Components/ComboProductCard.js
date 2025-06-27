@@ -420,7 +420,7 @@ function ComboProductCard({
     >
       <div
         className=" position-absolute top-0 end-0 shadow-sm p-2 bg-danger"
-        style={{ borderBottomLeftRadius: "17px" }}
+        style={{ borderBottomLeftRadius: "17px" , zIndex:"1"}}
       >
         <h4 className="text-white">
           {" "}
@@ -433,7 +433,7 @@ function ComboProductCard({
       </div>
 
       <div
-        className="d-flex justify-content-center pb-3 overflow-hidden pt-3"
+        className="d-flex justify-content-center pb-3 overflow-hidden pt-3 position-relative"
         style={{ backgroundColor: "#f3cccc" }}
       >
         <img
@@ -441,9 +441,8 @@ function ComboProductCard({
           className="img-fluid rounded  comboImage"
           style={{ width: "90%" }}
         />
-      </div>
 
-      <div
+        <div
     className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center text-white fw-bold"
     style={{
       backgroundColor: "rgba(0, 0, 0, 0.4)",
@@ -457,19 +456,34 @@ function ComboProductCard({
       <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" 
       className=" p-2"
       style={{height:"36px" , width:"36px" , borderRadius:"50%" , backgroundColor: "#e1e5d9b8"}}></img>
-      <img
-        className=" p-2"
-      style={{height:"36px" , width:"36px", borderRadius:"50%" , backgroundColor: "#e1e5d9b8"}}
-          onClick={(e) => handleAddToWishListLocal(e, value)}
-          alt="wishlist"
-          src={
-            wishList?.find((item) => item._id === value._id)
-              ? "https://cdn-icons-png.flaticon.com/128/18275/18275909.png"
-              : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"
-          }
-        />
+       <div  style={{
+    height: "36px",
+    width: "36px",
+    borderRadius: "50%",
+    backgroundColor: "#e1e5d9b8",
+    display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden"
+  }}
+>
+  <img
+    style={{
+      height: "60%", 
+      width: "60%",
+      objectFit: "contain",
+    }}
+    onClick={(e) => handleAddToWishListLocal(e, value)}
+    alt="wishlist"
+    src={
+      wishList?.find((item) => item._id === value._id)
+        ? "https://cdn-icons-png.flaticon.com/128/18275/18275909.png"
+        : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"
+    }
+  />
+</div>
     </div>
   </div>
+      </div>
+
+      
 
 
       <div
@@ -520,9 +534,7 @@ function ComboProductCard({
                   className="w-100 text-white"
                   style={{ backgroundColor: "#6d0d0c" }}
                   onClick={(e) => handleIncreaseQty(e, value)}
-                >
-                  +
-                </p>
+                > + </p>
               </div>
             ) : (
               <button onClick={(e) => handleAddToCartLocal(e, value)}>

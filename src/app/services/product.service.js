@@ -150,36 +150,41 @@ export const getStatesServ = async () => {
 
 // city api
 
-// export const getCitiesServ = async () => {
-//   try {
-//     const response = await axios.post(BASE_URL + "city/list");
-//     return response.data;
-//   } catch (error) {
-//     console.error("city list Error:", error);
-//     throw error;
-//   }
-// };
-
 export const getCityByStateServ = async (stateId) => {
+    try {
+      const response = await axios.get(BASE_URL + `city?stateId=${stateId}`);
+      return response;
+    } catch (error) {
+      console.error("Error fetching cities by state:", error);
+      throw error;
+    }
+  }
+
+
+//pincode api
+
+export const getPincodeByCityServ = async (cityId) => {
   try {
-    const response = await axios.get(BASE_URL + `city?stateId=${stateId}`);
+    const response = await axios.post(BASE_URL + "pin-code/get-by-city", {
+      cityId,
+    });
     return response;
   } catch (error) {
-    console.error("Error fetching cities by state:", error);
+    console.error("Error fetching pincodes by city:", error);
     throw error;
   }
 };
 
-//pincode api
+//area api
 
-export const getPincodeServ = async () => {
+export const getAreaServ = async (formData) => {
   try {
-    const response = await axios.post(BASE_URL + "pin-code/list");
-    return response.data;
+    const response = await axios.post(BASE_URL + "area/list", formData);
+    return response;
   } catch (error) {
-    console.error("pincode list Error:", error);
-    throw error;
-  }
+    console.error("Error fetching area list:", error);
+    throw error;
+  }
 };
 
 

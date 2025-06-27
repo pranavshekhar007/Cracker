@@ -77,13 +77,14 @@ const Step4 = ({
           </p>
         </div>
 
-        {addressForm?.fullName &&
-        addressForm?.phone &&
-        addressForm?.area &&
-        addressForm?.pincode &&
-        addressForm?.landmark &&
-        addressForm?.city &&
-        addressForm?.state &&
+        {
+        // addressForm?.fullName &&
+        // addressForm?.phone &&
+        // addressForm?.area &&
+        // addressForm?.pincode &&
+        // addressForm?.landmark &&
+        // addressForm?.city &&
+        // addressForm?.state &&
         amountReached ? (
           <button
             className="btn btn-warning w-100 mt-3"

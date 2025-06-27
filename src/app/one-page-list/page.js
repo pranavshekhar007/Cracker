@@ -525,7 +525,7 @@ const Page = () => {
       if (response?.documentCount?.totalCount) {
         const pages = Math.ceil(response.documentCount.totalCount / payload.pageCount);
         setTotalPages(pages);
-        setStatics(response.documentCount); // ✅ Move this after response is available
+        setStatics(response.documentCount); 
       // }
     }
   } catch (error) {
@@ -794,7 +794,7 @@ const Page = () => {
 
           <div className="item-section">
             <div className="row gx-0   mb-2">
-              <div className="col-sm-9 col-6 p-2 rounded-2" style={{backgroundColor:"#e9e9e9"}}>
+              <div className="col-sm-12 col-12 p-2 rounded-2" style={{backgroundColor:"#e9e9e9"}}>
                 <h5> {selectedCategory}</h5>
               </div>
               {/* <div className="col-sm-3 col-6 ps-3 justify-content-end d-flex">
@@ -905,7 +905,7 @@ const Page = () => {
             </div>
 
             {/* pagination  start  .. */}
-               <div className="d-flex flex-column flex-md-row justify-content-center align-items-center gap-5 px-3 py-3 mt-4">
+               <div className="d-flex flex-column flex-md-row justify-content-end align-items-center gap-5 px-3 py-3 mt-4">
                   <div className="d-flex align-items-center gap-2">
                     <span className="fw-semibold text-secondary">Show</span>
                     <select

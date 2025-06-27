@@ -12,6 +12,7 @@ function page() {
   const { cartList, setCartList } = useContext(LoggedDataContext);
   const { id } = useParams();
   const [details, setDetails] = useState(null);
+  const [ratingList, setRatingList] = useState(null);
   const router = useRouter();
 
   const getProductDetails = async () => {
@@ -20,6 +21,7 @@ function page() {
 
       //  if(response?.statusCode == 200){
       setDetails(response);
+      setRatingList(response?.ratingList);
       console.log("combo details", details);
       //  }
       //  else{
@@ -33,6 +35,7 @@ function page() {
 
   const [showDetails, setShowDetail] = useState(false);
   const [viewProducts, setViewProduct] = useState(true);
+  const [showReviews, setShowReviews] = useState(false);
 
   // image zoom effect
 
@@ -193,6 +196,7 @@ function page() {
                         if (!viewProducts) {
                           setViewProduct(true);
                           setShowDetail(false);
+                            setShowReviews(false);
                           setActiveTab("view");
                         } else {
                           setViewProduct(false);
@@ -210,6 +214,7 @@ function page() {
                         if (!showDetails) {
                           setShowDetail(true);
                           setViewProduct(false);
+                            setShowReviews(false);
                           setActiveTab("details");
                         } else {
                           setShowDetail(false);
@@ -222,14 +227,24 @@ function page() {
                     >
                       Product Details
                     </p>
-                    <p
-                      onClick={() => setActiveTab("reviews")}
-                      className={
-                        activeTab === "reviews" ? "selectedTabDetails" : ""
+                  <p
+                    onClick={() => {
+                      if (!showReviews) {
+                        setShowReviews(true);
+                        setActiveTab("reviews");
+                         setViewProduct(false);
+                        setShowDetail(false);
+                      } else {
+                        setShowReviews(false);
+                        setActiveTab("");
                       }
-                    >
-                      Reviews
-                    </p>
+                    }}
+                    className={
+                      activeTab === "reviews" ? "selectedTabDetails" : ""
+                    }
+                  >
+                    Reviews
+                  </p>
                   </div>
                 </div>
               </div>
@@ -362,11 +377,9 @@ function page() {
                       if (!viewProducts) {
                         setViewProduct(true);
                         setShowDetail(false);
+                        setShowReviews(false);
                         setActiveTab("view");
-                      } else {
-                        setViewProduct(false);
-                        setActiveTab("");
-                      }
+                      } 
                     }}
                     className={activeTab === "view" ? "selectedTabDetails" : ""}
                   >
@@ -375,13 +388,12 @@ function page() {
                   <p
                     onClick={() => {
                       if (!showDetails) {
+                        setShowReviews(false);
                         setShowDetail(true);
                         setViewProduct(false);
+                         
                         setActiveTab("details");
-                      } else {
-                        setShowDetail(false);
-                        setActiveTab("");
-                      }
+                      } 
                     }}
                     className={
                       activeTab === "details" ? "selectedTabDetails" : ""
@@ -389,8 +401,15 @@ function page() {
                   >
                     Product Details
                   </p>
-                  <p
-                    onClick={() => setActiveTab("reviews")}
+                <p
+                    onClick={() => {
+                      if (!showReviews) {
+                        setShowReviews(true);
+                        setActiveTab("reviews");
+                        setShowDetail(false);
+                         setViewProduct(false);
+                      } 
+                    }}
                     className={
                       activeTab === "reviews" ? "selectedTabDetails" : ""
                     }
@@ -415,7 +434,76 @@ function page() {
               </div>
             </div>
           )}
+         
+           {/* show reviews */}
 
+            {showReviews && (
+                <div className="productDetailsDiv mt-3 row">
+                  <div className="col-12 ">
+                    <div className="  p-2">
+                      <h3 className="mb-3">Peopls Thought's</h3>
+
+                      <div className="row">
+                        
+                        
+                           {ratingList?.length === 0 || ratingList == null ? (
+    <div className="col-12">
+      <p className="text-center text-muted my-5">No reviews yet.</p>
+    </div>
+  ) : (ratingList?.map((v, i) => {
+                          return (
+                            <div className="col-12 ">
+                              <div className="reviewBox p-1 py-3 shadow-sm mb-3 mt-2 border">
+                                <div className="d-flex align-items-center">
+                                  <div>
+                                    <img
+                                      style={{
+                                        maxWidth: "118px",
+                                        maxHeight: "118px",
+                                      }}
+                                      src={
+                                        v?.userId?.profilePic
+                                          ? v?.userId?.profilePic
+                                          : "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"
+                                      }
+                                    />
+                                  </div>
+                                  <div className="ms-3">
+                                    <h5>
+                                      {v?.userId?.firstName +
+                                        " " +
+                                        v?.userId?.lastName}
+                                    </h5>
+                                    <div className="d-flex starGroup">
+                                      {[
+                                        ...Array(
+                                          Math.round(Number(v?.rating) || 0)
+                                        ),
+                                      ].map((_, i) => (
+                                        <img
+                                          key={i}
+                                          src="https://cdn-icons-png.flaticon.com/128/1828/1828884.png"
+                                          style={{
+                                            height: "20px",
+                                            marginRight: "4px",
+                                          }}
+                                        />
+                                      ))}
+                                    </div>
+                                    <p className="mb-0">{v?.review}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      )
+                    }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
           {/* sub products of combo */}
         </div>
 
