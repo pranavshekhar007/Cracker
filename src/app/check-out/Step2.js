@@ -874,7 +874,6 @@ const Step2 = ({
 
   useEffect(() => {
     getStates();
-    getPincodes();
   }, []);
 
   useEffect(() => {
@@ -886,17 +885,6 @@ const Step2 = ({
   // const [cityList, setCityList] = useState([]);
   const [pincodes, setPincodes] = useState([]);
 
-  const getPincodes = async () => {
-    try {
-      const res = await getPincodeServ();
-      if (res.statusCode == "200") {
-        console.log(res.data);
-        setPincodes(res.data);
-      }
-    } catch (error) {
-      console.log("getting error in pincode list" + error);
-    }
-  };
 
   const getStates = async () => {
     try {
@@ -986,20 +974,38 @@ const Step2 = ({
 
   // set deliverycharge and minimum price
 
+  useEffect(() => {
+  if (stateList.length && addressForm?.state) {
+    const matchedState = stateList.find(
+      (item) => item.name === addressForm.state
+    );
+
+     setAreaPayload((prev) => ({
+        ...prev,
+        stateId: matchedState.stateId,
+      }));
+
+    console.log("matched state", matchedState);
+
+  }
+}, [stateList, addressForm?.state]);
+
+
 useEffect(() => {
   if (list.length && addressForm?.area) {
     const matchedArea = list.find(
       (areaItem) => areaItem.areaId === Number(addressForm.area)
     );
-
+     
     if (matchedArea) {
       setDeliveryCharge(matchedArea.deliveryCharge);
       setCityPrice(matchedArea.minimumPrice);
     }
 
     console.log("matched area", matchedArea);
+
   }
-}, [list, addressForm.area]); 
+}, [list, addressForm?.area]); 
 
 
 
@@ -1213,8 +1219,8 @@ useEffect(() => {
                 }
               }}
             >
-              {addressForm.state ? (
-                <option value="">{addressForm.state}</option>
+              {addressForm?.state ? (
+                <option value="">{addressForm?.state}</option>
               ) : (
                 <option value="">Select State</option>
               )}
@@ -1258,7 +1264,7 @@ useEffect(() => {
               }}
             >
               {addressForm?.city ? (
-                <option value="">{addressForm.city}</option>
+                <option value="">{addressForm?.city}</option>
               ) : (
                 <option value="">Select City</option>
               )}
@@ -1291,7 +1297,7 @@ useEffect(() => {
               }}
             >
               {addressForm?.pincode ? (
-                <option value="">{addressForm.pincode}</option>
+                <option value="">{addressForm?.pincode}</option>
               ) : (
                 <option value="">Select Pincode</option>
               )}
@@ -1367,6 +1373,7 @@ useEffect(() => {
             />
           </div>
         </div>
+
         <div className="d-flex flex-column flex-sm-row">
           <div className="mx-1">
             {!editAddress && (
@@ -1386,7 +1393,8 @@ useEffect(() => {
             addressForm?.landmark &&
             addressForm?.city &&
             addressForm?.email &&
-            addressForm?.state ? (
+            addressForm?.state
+             ? (
               <button
                 className="btn btn-danger w-100  mt-2"
                 onClick={handleAddressCreate}
