@@ -1066,8 +1066,8 @@ useEffect(() => {
                         setAddressForm({
                           ...addressForm,
                           stateId: stateId,
-                          city: "",
-                          pincode: "",
+                          cityId: "",
+                          pincodeId: "",
                         });
                         await handleGetCityByState(stateId);
                         setPincodes([]);
@@ -1104,7 +1104,7 @@ useEffect(() => {
                           minimumPrice: selectedCity
                             ? selectedCity.minimumPrice
                             : "",
-                          pincode: "",
+                          pincodeId: "",
                         });
 
                         // setSelectedCityMinimumPrice(
@@ -1131,12 +1131,12 @@ useEffect(() => {
             <select
               className="form-control "
               placeholder="Pincode"
-              value={addressForm?.pincode}
+              value={addressForm?.pincodeId}
               disabled={!editAddress}
               onChange={(e) =>
                 setAddressForm({
                   ...addressForm,
-                  pincode: e?.target.value,
+                  pincodeId: e?.target.value,
                 })
               }
               style={{
@@ -1160,13 +1160,13 @@ useEffect(() => {
             <select
               className="form-control "
               placeholder="area"
-              value={addressForm?.area}
+              value={addressForm?.areaId}
               disabled={!editAddress}
                onChange={(e) => {
     const selectedArea = list.find((item) => item.name === e.target.value);
     setAddressForm({
       ...addressForm,
-      area: e.target.value,
+      areaId: e.target.value,
     });
    
       console.log("slected area" , selectedArea)
@@ -1181,7 +1181,7 @@ useEffect(() => {
             >
               <option value="">Select Area</option>
               {list.map((item, index) => (
-                <option key={index} value={item?.name}>
+                <option key={index} value={item?.areaId}>
                   {item?.name}
                 </option>
               ))}
@@ -1224,10 +1224,13 @@ useEffect(() => {
           </div>
           <div className="mx-1">
             {addressForm?.fullName &&
-            addressForm?.phone &&
-            addressForm?.area &&
-            addressForm?.pincode &&
-            addressForm?.landmark ? (
+         addressForm?.phone &&
+         addressForm?.areaId &&
+         addressForm?.pincodeId &&
+         addressForm?.landmark &&
+         addressForm?.cityId &&
+         addressForm?.email &&
+        addressForm?.stateId ? (
               <button
                 className="btn btn-danger w-100  mt-2"
                 onClick={handleAddressCreate}
@@ -1279,10 +1282,27 @@ useEffect(() => {
         </div>
 
         <div className="d-flex justify-content-end gap-3 w-100 mt-3">
-          <button onClick={handleNext} className="btn btn-danger px-4">
+          {
+           addressForm?.fullName &&
+         addressForm?.phone &&
+         addressForm?.areaId &&
+         addressForm?.pincodeId &&
+         addressForm?.landmark &&
+         addressForm?.cityId &&
+         addressForm?.email &&
+        addressForm?.stateId ?(
+             <button onClick={handleNext} className="btn btn-danger px-4">
             {" "}
             Continue{" "}
           </button>
+        ):(
+            <button  className="btn btn-danger px-4 " disabled style={{cursor:"not-allowed"}}>
+            {" "}
+            Continue{" "}
+          </button>
+        )
+        }
+          
         </div>
       </div>
     </div>

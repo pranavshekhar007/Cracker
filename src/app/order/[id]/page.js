@@ -872,12 +872,13 @@ import { LoggedDataContext } from "@/app/context/context";
 import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
+import { getAreaServ } from "@/app/services/product.service";
 
 const page = () => {
   const { cartList, setCartList } = useContext(LoggedDataContext);
   const [details, setDetails] = useState(null);
   const [loader, setLoader] = useState(null);
+ 
   const { id } = useParams();
   const router = useRouter();
 
@@ -1064,6 +1065,45 @@ const page = () => {
       date: moment(log.updatedAt).format("ddd, DD MMM YYYY - h:mmA"),
     }));
   
+
+    // state and city name logic
+
+     const [areaPayload, setAreaPayload] = useState({
+        searchKey: "",
+        stateId: "",
+        pageNo: 1,
+        pageCount: 10,
+      });
+        
+    const[list , setList] = useState([])
+    
+      const handleGetArea = async () => {
+        try {
+          const res = await getAreaServ(areaPayload);
+          setList(res.data.data);
+          console.log("area list get according")
+          // setStatics(res.data.documentCount);
+        } catch (error) {
+          toast.error("Failed to load Area");
+        }
+      };
+    
+    useEffect(() => {
+      if (details?.address?.stateId) {
+        setAreaPayload((prev) => ({
+          ...prev,
+          stateId: details?.address?.stateId,
+        }));
+      }
+    }, [details]);
+    
+    useEffect(() => {
+      if (areaPayload.stateId) {
+        handleGetArea();
+      }
+    }, [areaPayload]);
+    
+    
 
   return (
     <div>
