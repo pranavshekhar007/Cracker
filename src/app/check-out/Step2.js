@@ -1,4 +1,5 @@
 
+
 // "use client";
 // import React, { useState, useContext, useEffect } from "react";
 // import { useRouter } from "next/navigation";
@@ -11,11 +12,10 @@
 //   addressUpdate,
 // } from "../services/address.service";
 // import {
-//   getCitiesServ,
+//   getAreaServ,
 //   getCityByStateServ,
-//   getPincodeServ,
+//   getPincodeByCityServ,
 //   getStatesServ,
-//   placeOrderServ,
 // } from "../services/product.service";
 
 // const Step2 = ({
@@ -27,6 +27,8 @@
 //   setOrderPayload,
 //   cityPrice,
 //   setCityPrice,
+//   deliveryCharge,
+//   setDeliveryCharge,
 // }) => {
 //   const { loggedUserData, cartList } = useContext(LoggedDataContext);
 //   const [editAddress, setEditAddress] = useState(false);
@@ -83,8 +85,6 @@
 //       const price = item?.discountedPrice ?? item?.pricing?.comboPrice;
 //       return total + price * item.quantity;
 //     }, 0);
-
-//     const deliveryCharge = subTotal >= cityPrice ? 0 : 100;
 
 //     setOrderPayload({
 //       userId: loggedUserData._id,
@@ -156,6 +156,9 @@
 //     getPincodes();
 //   }, []);
 
+//   useEffect(() => {
+//     console.log("address form ", addressForm);
+//   }, [addressForm]);
 //   // states list api
 
 //   const [stateList, setStateList] = useState([]);
@@ -186,6 +189,7 @@
 //     }
 //   };
 
+//   const [minimumPrice, setSelectedCityMinimumPrice] = useState(null);
 //   const [cities, setCities] = useState([]);
 //   const [showAddress, setShowAddress] = useState(false);
 
@@ -199,34 +203,65 @@
 //     next();
 //   };
 
-//  useEffect(() => {
-//   const fetchCities = async () => {
-//     if (addressForm?.state && cities.length === 0) {
-//       try {
-//         const res = await getCityByStateServ(addressForm.state);
-//         setCities(res.data.data);
-//         console.log("Cities fetched");
-//       } catch (err) {
-//         toast.error("Failed to load cities for selected state");
-//       }
-//     } 
+//   const handleGetCityByState = async (stateId) => {
+//     if (!stateId) return setCities([]);
+//     try {
+//       const res = await getCityByStateServ(stateId);
+//       setCities(res.data.data);
+//     } catch (error) {
+//       toast.error("Failed to load cities for selected state");
+//     }
 //   };
 
-//   fetchCities();
-// }, [addressForm?.state , addressForm]);
+//   const handleGetPincodeByCity = async (cityId) => {
+//     if (!cityId) return setPincodes([]);
+//     try {
+//       const res = await getPincodeByCityServ(cityId);
+//       setPincodes(res.data.data);
+//     } catch (error) {
+//       toast.error("Failed to load pincodes for selected city");
+//     }
+//   };
 
+//   // useEffect(() => {
+//   //    setCityPrice(minimumPrice);
+//   // },[minimumPrice])
+
+//   // area api
+
+//   const [areaPayload, setAreaPayload] = useState({
+//     searchKey: "",
+//     stateId: addressForm?.stateId,
+//     pageNo: 1,
+//     pageCount: 10,
+//   });
+
+//   const [list, setList] = useState([]);
+
+//   const handleGetArea = async () => {
+//     try {
+//       const res = await getAreaServ(areaPayload);
+//       setList(res.data.data);
+//       // setStatics(res.data.documentCount);
+//     } catch (error) {
+//       toast.error("Failed to load Area");
+//     }
+//   };
 
 //   useEffect(() => {
-//     if (addressForm?.city && cities.length > 0) {
-//       const selected = cities.find(
-//         (city) => city.name === addressForm.city
-//       );
-//       if (selected) {
-//         setCityPrice(selected.minimumPrice);
-//         console.log("selected city" , addressForm.city)
-//       }
+//     if (addressForm?.stateId) {
+//       setAreaPayload((prev) => ({
+//         ...prev,
+//         stateId: addressForm.stateId,
+//       }));
 //     }
-//   }, [addressForm?.city, cities]);
+//   }, [addressForm?.stateId]);
+
+//   useEffect(() => {
+//     if (areaPayload.stateId) {
+//       handleGetArea();
+//     }
+//   }, [areaPayload]);
 
 //   return (
 //     <div
@@ -240,7 +275,7 @@
 //         <h3 className="my-3 text-center">Delivery Details </h3>
 //         <div className="d-flex justify-content-between align-items-center mx-2 mb-2 steps">
 //           <h6 className="mb-0 fw-bold">Delivery Address</h6>
-//           {addresses?.length > 1 && (
+//           {addresses?.length >= 1 && (
 //             <img
 //               src="https://cdn-icons-png.flaticon.com/128/6364/6364586.png"
 //               style={{
@@ -308,7 +343,7 @@
 //         )}
 
 //         <div className="row m-0 p-0">
-//           <div className="col-md-12 col-12 p-0 px-md-2 my-2">
+//           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
 //             <label className="steps-label">Name</label>
 //             <input
 //               className="form-control"
@@ -327,6 +362,27 @@
 //               }}
 //             />
 //           </div>
+
+//           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
+//             <label className="steps-label">Email</label>
+//             <input
+//               className="form-control"
+//               placeholder="Enter email"
+//               value={addressForm?.email}
+//               readOnly={!editAddress}
+//               onChange={(e) =>
+//                 setAddressForm({
+//                   ...addressForm,
+//                   email: e?.target.value,
+//                 })
+//               }
+//               style={{
+//                 height: "45px",
+//                 background: editAddress ? "white" : "whitesmoke",
+//               }}
+//             />
+//           </div>
+
 //           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
 //             <label className="steps-label">Phone</label>
 //             <input
@@ -368,17 +424,18 @@
 //           </div>
 //         </div>
 //         <div className="row m-0 p-0">
+//           {/* country */}
 //           <div className="col-md-12 col-12 p-0 px-md-2 my-2">
-//             <label className="steps-label">Area</label>
-//             <textarea
-//               className="form-control "
-//               placeholder="Area"
-//               value={addressForm?.area}
+//             <label className="steps-label">Country</label>
+//             <input
+//               className="form-control"
+//               placeholder="Country"
+//               value={addressForm?.country}
 //               readOnly={!editAddress}
 //               onChange={(e) =>
 //                 setAddressForm({
 //                   ...addressForm,
-//                   area: e?.target.value,
+//                   country: e?.target.value,
 //                 })
 //               }
 //               style={{
@@ -388,26 +445,93 @@
 //             />
 //           </div>
 
-//           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
-//             <label className="steps-label">Landmark</label>
-//             <input
-//               className="form-control "
-//               placeholder="Landmark"
-//               value={addressForm?.landmark}
-//               readOnly={!editAddress}
-//               onChange={(e) =>
+//           {/* state */}
+//           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
+//             <label className="steps-label">State</label>
+//             <select
+//               className="form-control"
+//               value={addressForm?.stateId || ""}
+//               disabled={!editAddress}
+//               onChange={async (e) => {
+//                 const selectedStateId = e.target.value;
+//                 const selectedState = stateList.find(
+//                   (state) => state.stateId.toString() === selectedStateId
+//                 );
+
+//                 if (selectedState) {
+//                   setAddressForm({
+//                     ...addressForm,
+//                     state: selectedState.name,
+//                     stateId: selectedState.stateId,
+//                     city: "",
+//                     pincode: "",
+//                   });
+
+//                   await handleGetCityByState(selectedState.stateId);
+//                   setPincodes([]);
+//                 }
+//               }}
+//             >
+//               {addressForm.state ? (
+//                 <option value="">{addressForm.state}</option>
+//               ) : (
+//                 <option value="">Select State</option>
+//               )}
+//               {stateList.map((state) => (
+//                 <option key={state.stateId} value={state.stateId}>
+//                   {state.name}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
+
+//           {/* city */}
+//           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
+//             <label className="steps-label">City</label>
+//             <select
+//               className="form-control"
+//               value={addressForm?.cityId}
+//               disabled={!editAddress}
+//               onChange={async (e) => {
+//                 const cityId = e.target.value;
+
+//                 // Find selected city from state
+//                 const selectedCity = cities.find(
+//                   (city) => city.cityId === parseInt(cityId)
+//                 );
+
 //                 setAddressForm({
 //                   ...addressForm,
-//                   landmark: e?.target.value,
-//                 })
-//               }
-//               style={{
-//                 height: "45px",
-//                 background: editAddress ? "white" : "whitesmoke",
+//                   city: selectedCity.name,
+//                   cityId: selectedCity.cityId,
+//                   minimumPrice: selectedCity ? selectedCity.minimumPrice : "",
+//                   pincode: "",
+//                 });
+
+//                 // setSelectedCityMinimumPrice(
+//                 //   selectedCity ? selectedCity.minimumPrice : ""
+//                 // );
+//                 //  console.log("sleceted city" , minimumPrice)
+
+//                 await handleGetPincodeByCity(cityId);
 //               }}
-//             />
+//             >
+//               {addressForm?.city ? (
+//                 <option value="">{addressForm.city}</option>
+//               ) : (
+//                 <option value="">Select City</option>
+//               )}
+//               {cities.map((city) => (
+//                 <option key={city.cityId} value={city.cityId}>
+//                   {city.name}
+//                 </option>
+//               ))}
+//                      
+//             </select>
 //           </div>
-//           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
+
+//           {/* pincode */}
+//           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
 //             <label className="steps-label">Pincode</label>
 //             <select
 //               className="form-control "
@@ -425,7 +549,11 @@
 //                 background: editAddress ? "white" : "whitesmoke",
 //               }}
 //             >
-//               <option value="">Select Pincode</option>
+//               {addressForm?.pincode ? (
+//                 <option value="">{addressForm.pincode}</option>
+//               ) : (
+//                 <option value="">Select Pincode</option>
+//               )}
 //               {pincodes.map((code, index) => (
 //                 <option key={index} value={code?.pincode}>
 //                   {code?.pincode}
@@ -434,77 +562,55 @@
 //             </select>
 //           </div>
 
-//           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
-//             <label className="steps-label">State</label>
+//           {/* area */}
+//           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
+//             <label className="steps-label">Area</label>
 //             <select
-//               className="form-control"
-//               placeholder="State"
-//               value={addressForm?.state}
+//               className="form-control "
+//               placeholder="area"
+//               value={addressForm?.area}
 //               disabled={!editAddress}
-//               onChange={async (e) => {
-//                 const stateId = e.target.value;
+//               onChange={(e) => {
+//                 const selectedAreaId = Number(e.target.value);
+//                 const selectedArea = list.find(
+//                   (item) => item.areaId === selectedAreaId
+//                 );
+
 //                 setAddressForm({
 //                   ...addressForm,
-//                   state: stateId,
-//                   city: "", // reset city when state changes
+//                   area: e.target.value,
 //                 });
 
-//                 if (stateId) {
-//                   try {
-//                     const res = await getCityByStateServ(stateId);
-//                     setCities(res.data.data);
-//                   } catch (err) {
-//                     toast.error("Failed to load cities for selected state");
-//                   }
-//                 } else {
-//                   setCities([]);
-//                 }
+//                 console.log("slected area", selectedArea);
+//                 setDeliveryCharge(selectedArea.deliveryCharge);
+//                 setCityPrice(selectedArea.minimumPrice);
+//               }}
+//               style={{
+//                 height: "45px",
+//                 background: editAddress ? "white" : "whitesmoke",
 //               }}
 //             >
-//               <option value="">Select State</option>
-//               {stateList.map((state) => (
-//                 <option key={state?._id} value={state?._id}>
-//                   {state.name}
+//               <option value="">Select Area</option>
+//               {list.map((item, index) => (
+//                 <option key={index} value={item?.areaId}>
+//                   {item?.name}
 //                 </option>
 //               ))}
-//                      
 //             </select>
 //           </div>
 
-//           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
-//             <label className="steps-label">City</label>
-//             <select
-//               className="form-control"
-//               value={addressForm.city}
-//               disabled={!editAddress}
-//               onChange={(e) =>
-//                 setAddressForm({
-//                   ...addressForm,
-//                   city: e.target.value,
-//                 })
-//               }
-//             >
-//               <option value="">Select City</option>
-//               {cities.map((city) => (
-//                 <option key={city._id} value={city.name}>
-//                   {city.name}
-//                 </option>
-//               ))}
-//                     
-//             </select>
-//           </div>
-
-//           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
-//             <label className="steps-label">Country</label>
+//           {/* landmark */}
+//           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
+//             <label className="steps-label">Landmark</label>
 //             <input
-//               className="form-control"
-//               placeholder="Country"
-//               value={addressForm?.country}
+//               className="form-control "
+//               placeholder="Landmark"
+//               value={addressForm?.landmark}
 //               readOnly={!editAddress}
 //               onChange={(e) =>
 //                 setAddressForm({
 //                   ...addressForm,
-//                   country: e?.target.value,
+//                   landmark: e?.target.value,
 //                 })
 //               }
 //               style={{
@@ -530,7 +636,10 @@
 //             addressForm?.phone &&
 //             addressForm?.area &&
 //             addressForm?.pincode &&
-//             addressForm?.landmark ? (
+//             addressForm?.landmark &&
+//             addressForm?.city &&
+//             addressForm?.email &&
+//             addressForm?.state ? (
 //               <button
 //                 className="btn btn-danger w-100  mt-2"
 //                 onClick={handleAddressCreate}
@@ -582,10 +691,28 @@
 //         </div>
 
 //         <div className="d-flex justify-content-end gap-3 w-100 mt-3">
-//           <button onClick={handleNext} className="btn btn-danger px-4">
-//             {" "}
-//             Continue{" "}
-//           </button>
+//           {addressForm?.fullName &&
+//           addressForm?.phone &&
+//           addressForm?.area &&
+//           addressForm?.pincode &&
+//           addressForm?.landmark &&
+//           addressForm?.city &&
+//           addressForm?.email &&
+//           addressForm?.state ? (
+//             <button onClick={handleNext} className="btn btn-danger px-4">
+//               {" "}
+//               Continue{" "}
+//             </button>
+//           ) : (
+//             <button
+//               className="btn btn-danger px-4 "
+//               style={{ cursor: "not-allowed" }}
+//               disabled
+//             >
+//               {" "}
+//               Continue{" "}
+//             </button>
+//           )}
 //         </div>
 //       </div>
 //     </div>
@@ -593,6 +720,8 @@
 // };
 
 // export default Step2;
+
+
 
 
 
@@ -612,7 +741,6 @@ import {
   getCityByStateServ,
   getPincodeByCityServ,
   getStatesServ,
-
 } from "../services/product.service";
 
 const Step2 = ({
@@ -625,7 +753,7 @@ const Step2 = ({
   cityPrice,
   setCityPrice,
   deliveryCharge,
-  setDeliveryCharge
+  setDeliveryCharge,
 }) => {
   const { loggedUserData, cartList } = useContext(LoggedDataContext);
   const [editAddress, setEditAddress] = useState(false);
@@ -654,7 +782,6 @@ const Step2 = ({
 
   const [amountReached, setAmountReached] = useState(false);
 
-  
   useEffect(() => {
     if (!loggedUserData || !cartList) return;
 
@@ -663,14 +790,10 @@ const Step2 = ({
       return total + price * item.quantity;
     }, 0);
 
-    const originalTotal = cartList.reduce((total, item) => {
-      const originalPrice = item?.pricing?.actualPrice || item?.price || 0;
-      return total + originalPrice * item.quantity;
-    }, 0);
 
-    const minCityPrice = cityPrice || 0;
+    // const minCityPrice = cityPrice || 0;
 
-    setAmountReached(subTotal >= minCityPrice);
+    // setAmountReached(subTotal >= minCityPrice);
 
     console.log("payload", orderPayload);
     console.log("amount reached", amountReached);
@@ -683,8 +806,6 @@ const Step2 = ({
       const price = item?.discountedPrice ?? item?.pricing?.comboPrice;
       return total + price * item.quantity;
     }, 0);
-
-    
 
     setOrderPayload({
       userId: loggedUserData._id,
@@ -756,6 +877,9 @@ const Step2 = ({
     getPincodes();
   }, []);
 
+  useEffect(() => {
+    console.log("address form ", addressForm);
+  }, [addressForm]);
   // states list api
 
   const [stateList, setStateList] = useState([]);
@@ -786,7 +910,7 @@ const Step2 = ({
     }
   };
 
-  const[minimumPrice , setSelectedCityMinimumPrice] = useState(null)
+  const [minimumPrice, setSelectedCityMinimumPrice] = useState(null);
   const [cities, setCities] = useState([]);
   const [showAddress, setShowAddress] = useState(false);
 
@@ -817,9 +941,8 @@ const Step2 = ({
       setPincodes(res.data.data);
     } catch (error) {
       toast.error("Failed to load pincodes for selected city");
-    }
-  };
-
+    }
+  };
 
   // useEffect(() => {
   //    setCityPrice(minimumPrice);
@@ -831,15 +954,12 @@ const Step2 = ({
     searchKey: "",
     stateId: addressForm?.stateId,
     pageNo: 1,
-    pageCount: 10,
-  });
+    pageCount: 10,
+  });
 
-
-
-const[list , setList] = useState([])
+  const [list, setList] = useState([]);
 
   const handleGetArea = async () => {
-     
     try {
       const res = await getAreaServ(areaPayload);
       setList(res.data.data);
@@ -847,23 +967,39 @@ const[list , setList] = useState([])
     } catch (error) {
       toast.error("Failed to load Area");
     }
-    
-  };
+  };
+
+  useEffect(() => {
+    if (addressForm?.stateId) {
+      setAreaPayload((prev) => ({
+        ...prev,
+        stateId: addressForm.stateId,
+      }));
+    }
+  }, [addressForm?.stateId]);
+
+  useEffect(() => {
+    if (areaPayload.stateId) {
+      handleGetArea();
+    }
+  }, [areaPayload]);
+
+  // set deliverycharge and minimum price
 
 useEffect(() => {
-  if (addressForm?.stateId) {
-    setAreaPayload((prev) => ({
-      ...prev,
-      stateId: addressForm.stateId,
-    }));
-  }
-}, [addressForm?.stateId]);
+  if (list.length && addressForm?.area) {
+    const matchedArea = list.find(
+      (areaItem) => areaItem.areaId === Number(addressForm.area)
+    );
 
-useEffect(() => {
-  if (areaPayload.stateId) {
-    handleGetArea();
+    if (matchedArea) {
+      setDeliveryCharge(matchedArea.deliveryCharge);
+      setCityPrice(matchedArea.minimumPrice);
+    }
+
+    console.log("matched area", matchedArea);
   }
-}, [areaPayload]);
+}, [list, addressForm.area]); 
 
 
 
@@ -879,7 +1015,7 @@ useEffect(() => {
         <h3 className="my-3 text-center">Delivery Details </h3>
         <div className="d-flex justify-content-between align-items-center mx-2 mb-2 steps">
           <h6 className="mb-0 fw-bold">Delivery Address</h6>
-          {addresses?.length > 1 && (
+          {addresses?.length >= 1 && (
             <img
               src="https://cdn-icons-png.flaticon.com/128/6364/6364586.png"
               style={{
@@ -967,7 +1103,7 @@ useEffect(() => {
             />
           </div>
 
-           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
+          <div className="col-md-6 col-12 p-0 px-md-2 my-2">
             <label className="steps-label">Email</label>
             <input
               className="form-control"
@@ -1026,12 +1162,9 @@ useEffect(() => {
               }}
             />
           </div>
-
-
         </div>
-        <div className="row m-0 p-0"> 
-
-            {/* country */}
+        <div className="row m-0 p-0">
+          {/* country */}
           <div className="col-md-12 col-12 p-0 px-md-2 my-2">
             <label className="steps-label">Country</label>
             <input
@@ -1052,91 +1185,104 @@ useEffect(() => {
             />
           </div>
 
-           {/* state */}
+          {/* state */}
           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
-
             <label className="steps-label">State</label>
-                    <select
-                      className="form-control"
-              placeholder="State"
-              value={addressForm?.stateId}
+            <select
+              className="form-control"
+              value={addressForm?.stateId || ""}
               disabled={!editAddress}
-                      onChange={async (e) => {
-                        const stateId = e.target.value;
-                        setAddressForm({
-                          ...addressForm,
-                          stateId: stateId,
-                          cityId: "",
-                          pincodeId: "",
-                        });
-                        await handleGetCityByState(stateId);
-                        setPincodes([]);
-                      }}
-                    >
-                      <option value="">Select State</option>
-                      {stateList.map((state) => (
-                        <option key={state.stateId} value={state.stateId}>
-                          {state.name}
-                        </option>
-                      ))}
-                    </select>
+              onChange={async (e) => {
+                const selectedStateId = e.target.value;
+                const selectedState = stateList.find(
+                  (state) => state.stateId.toString() === selectedStateId
+                );
+
+                if (selectedState) {
+                  setAddressForm({
+                    ...addressForm,
+                    state: selectedState.name,
+                    stateId: selectedState.stateId,
+                    city: "",
+                    pincode: "",
+                    area:"",
+                  });
+
+                  await handleGetCityByState(selectedState.stateId);
+                  setPincodes([]);
+                }
+              }}
+            >
+              {addressForm.state ? (
+                <option value="">{addressForm.state}</option>
+              ) : (
+                <option value="">Select State</option>
+              )}
+              {stateList.map((state) => (
+                <option key={state.stateId} value={state.stateId}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-            {/* city */}
+          {/* city */}
           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
+            <label className="steps-label">City</label>
+            <select
+              className="form-control"
+              value={addressForm?.cityId}
+              disabled={!editAddress}
+              onChange={async (e) => {
+                const cityId = e.target.value;
 
-               <label  className="steps-label">City</label>
-                    <select
-                      className="form-control"
-                      value={addressForm?.cityId}
-                      disabled={!editAddress}
-                      onChange={async (e) => {
-                        const cityId = e.target.value;
+                // Find selected city from state
+                const selectedCity = cities.find(
+                  (city) => city.cityId === parseInt(cityId)
+                );
 
-                        // Find selected city from state
-                        const selectedCity = cities.find(
-                          (city) => city.cityId === parseInt(cityId)
-                        );
+                setAddressForm({
+                  ...addressForm,
+                  city: selectedCity.name,
+                  cityId: selectedCity.cityId,
+                  minimumPrice: selectedCity ? selectedCity.minimumPrice : "",
+                  pincode: "",
+                });
 
-                        setAddressForm({
-                          ...addressForm,
-                          cityId: cityId,
-                          minimumPrice: selectedCity
-                            ? selectedCity.minimumPrice
-                            : "",
-                          pincodeId: "",
-                        });
+                // setSelectedCityMinimumPrice(
+                //   selectedCity ? selectedCity.minimumPrice : ""
+                // );
+                //  console.log("sleceted city" , minimumPrice)
 
-                        // setSelectedCityMinimumPrice(
-                        //   selectedCity ? selectedCity.minimumPrice : ""
-                        // );
-                          //  console.log("sleceted city" , minimumPrice)
-                       
-
-                        await handleGetPincodeByCity(cityId);
-                      }}
-                    >
-                      <option value="">Select City</option>
-                      {cities.map((city) => (
-                        <option key={city.cityId} value={city.cityId}>
-                          {city.name}
-                        </option>
-                      ))}
-                    </select>
+                await handleGetPincodeByCity(cityId);
+              }}
+            >
+              {addressForm?.city ? (
+                <option value="">{addressForm.city}</option>
+              ) : (
+                <option value="">Select City</option>
+              )}
+              {cities.map((city) => (
+                <option key={city.cityId} value={city.cityId}>
+                  {city.name}
+                </option>
+              ))}
+                     
+            </select>
           </div>
 
-           {/* pincode */}
+          {/* pincode */}
           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
             <label className="steps-label">Pincode</label>
             <select
               className="form-control "
               placeholder="Pincode"
-              value={addressForm?.pincodeId}
+              value={addressForm?.pincode}
               disabled={!editAddress}
               onChange={(e) =>
                 setAddressForm({
                   ...addressForm,
-                  pincodeId: e?.target.value,
+                  pincode: e?.target.value,
                 })
               }
               style={{
@@ -1144,7 +1290,11 @@ useEffect(() => {
                 background: editAddress ? "white" : "whitesmoke",
               }}
             >
-              <option value="">Select Pincode</option>
+              {addressForm?.pincode ? (
+                <option value="">{addressForm.pincode}</option>
+              ) : (
+                <option value="">Select Pincode</option>
+              )}
               {pincodes.map((code, index) => (
                 <option key={index} value={code?.pincode}>
                   {code?.pincode}
@@ -1152,7 +1302,6 @@ useEffect(() => {
               ))}
             </select>
           </div>
-            
 
           {/* area */}
           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
@@ -1160,26 +1309,35 @@ useEffect(() => {
             <select
               className="form-control "
               placeholder="area"
-              value={addressForm?.areaId}
+              value={addressForm?.area}
               disabled={!editAddress}
-               onChange={(e) => {
-    const selectedArea = list.find((item) => item.name === e.target.value);
-    setAddressForm({
-      ...addressForm,
-      areaId: e.target.value,
-    });
-   
-      console.log("slected area" , selectedArea)
-      setDeliveryCharge(selectedArea.deliveryCharge); 
-      setCityPrice(selectedArea.minimumPrice)
-   
-  }}
+              onChange={(e) => {
+                const selectedAreaId = Number(e.target.value);
+                const selectedArea = list.find(
+                  (item) => item.areaId === selectedAreaId
+                );
+
+                setAddressForm({
+                  ...addressForm,
+                  area: e.target.value,
+                });
+
+                console.log("slected area", selectedArea);
+                setDeliveryCharge(selectedArea.deliveryCharge);
+                setCityPrice(selectedArea.minimumPrice);
+              }}
               style={{
                 height: "45px",
                 background: editAddress ? "white" : "whitesmoke",
               }}
             >
-              <option value="">Select Area</option>
+             {
+              addressForm?.area ?(
+                 <option value="">{addressForm?.area}</option>
+              ):(
+                 <option value="">Select Area</option>
+              )
+             }
               {list.map((item, index) => (
                 <option key={index} value={item?.areaId}>
                   {item?.name}
@@ -1188,7 +1346,7 @@ useEffect(() => {
             </select>
           </div>
 
-           {/* landmark */}
+          {/* landmark */}
           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
             <label className="steps-label">Landmark</label>
             <input
@@ -1208,8 +1366,6 @@ useEffect(() => {
               }}
             />
           </div>
-              
-
         </div>
         <div className="d-flex flex-column flex-sm-row">
           <div className="mx-1">
@@ -1224,13 +1380,13 @@ useEffect(() => {
           </div>
           <div className="mx-1">
             {addressForm?.fullName &&
-         addressForm?.phone &&
-         addressForm?.areaId &&
-         addressForm?.pincodeId &&
-         addressForm?.landmark &&
-         addressForm?.cityId &&
-         addressForm?.email &&
-        addressForm?.stateId ? (
+            addressForm?.phone &&
+            addressForm?.area &&
+            addressForm?.pincode &&
+            addressForm?.landmark &&
+            addressForm?.city &&
+            addressForm?.email &&
+            addressForm?.state ? (
               <button
                 className="btn btn-danger w-100  mt-2"
                 onClick={handleAddressCreate}
@@ -1282,27 +1438,28 @@ useEffect(() => {
         </div>
 
         <div className="d-flex justify-content-end gap-3 w-100 mt-3">
-          {
-           addressForm?.fullName &&
-         addressForm?.phone &&
-         addressForm?.areaId &&
-         addressForm?.pincodeId &&
-         addressForm?.landmark &&
-         addressForm?.cityId &&
-         addressForm?.email &&
-        addressForm?.stateId ?(
-             <button onClick={handleNext} className="btn btn-danger px-4">
-            {" "}
-            Continue{" "}
-          </button>
-        ):(
-            <button  className="btn btn-danger px-4 " disabled style={{cursor:"not-allowed"}}>
-            {" "}
-            Continue{" "}
-          </button>
-        )
-        }
-          
+          {addressForm?.fullName &&
+          addressForm?.phone &&
+          addressForm?.area &&
+          addressForm?.pincode &&
+          addressForm?.landmark &&
+          addressForm?.city &&
+          addressForm?.email &&
+          addressForm?.state ? (
+            <button onClick={handleNext} className="btn btn-danger px-4">
+              {" "}
+              Continue{" "}
+            </button>
+          ) : (
+            <button
+              className="btn btn-danger px-4 "
+              style={{ cursor: "not-allowed" }}
+              disabled
+            >
+              {" "}
+              Continue{" "}
+            </button>
+          )}
         </div>
       </div>
     </div>

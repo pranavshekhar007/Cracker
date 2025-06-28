@@ -87,6 +87,7 @@ const Page = () => {
         country: "",
         fullName: "",
         type: "",
+        email:"",
         userId: loggedUserData?._id
       });
       await fetchAddresses();
@@ -205,7 +206,11 @@ const Page = () => {
                     </div>
                     <div className="d-flex gap-3">
                       <input name="alternatePhone" placeholder="Alternate Phone" value={form.alternatePhone} onChange={handleChange} />
-                      <input name="landmark" placeholder="Landmark" value={form.landmark} onChange={handleChange} />
+                       <input name="email" placeholder="Email" value={form.email} onChange={handleChange} />
+                    </div>
+                     <div className="d-flex gap-3">
+                     
+                        <input name="landmark" placeholder="Landmark" value={form.landmark} onChange={handleChange} />
                     </div>
                     <div className="d-flex gap-3">
                       <input name="area" placeholder="Area" value={form.area} onChange={handleChange} />

@@ -1066,44 +1066,7 @@ const page = () => {
     }));
   
 
-    // state and city name logic
-
-     const [areaPayload, setAreaPayload] = useState({
-        searchKey: "",
-        stateId: "",
-        pageNo: 1,
-        pageCount: 10,
-      });
-        
-    const[list , setList] = useState([])
-    
-      const handleGetArea = async () => {
-        try {
-          const res = await getAreaServ(areaPayload);
-          setList(res.data.data);
-          console.log("area list get according")
-          // setStatics(res.data.documentCount);
-        } catch (error) {
-          toast.error("Failed to load Area");
-        }
-      };
-    
-    useEffect(() => {
-      if (details?.address?.stateId) {
-        setAreaPayload((prev) => ({
-          ...prev,
-          stateId: details?.address?.stateId,
-        }));
-      }
-    }, [details]);
-    
-    useEffect(() => {
-      if (areaPayload.stateId) {
-        handleGetArea();
-      }
-    }, [areaPayload]);
-    
-    
+  
 
   return (
     <div>
