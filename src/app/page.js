@@ -15,6 +15,7 @@ import {
 } from "./services/product.service";
 import BrandsSlider from "./Components/BrandsSlider";
 import ProductSlider from "./Components/ProductSlider";
+import LocationSelector from "./Components/LocationSelector";
 
 export default function Home() {
   const [productlist, setProductList] = useState([]);
@@ -112,11 +113,12 @@ export default function Home() {
           <HeroSection />
 
           
-          <div className="location-selector">
+         
 
-          </div>
 
-          <div className="free-shiping">
+          {/* services */}
+
+          {/* <div className="free-shiping">
             <div className="services-container my-5">
               <div className="service-box">
                 <div className="services-icon-wrapper">
@@ -161,8 +163,10 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
+
+         {/* <LocationSelector/> */}
 
         {/* <div className="featured-bottom ">
         <div className="row">
@@ -247,11 +251,7 @@ export default function Home() {
                   width: "50%",
                   backgroundColor: "#c01212",
                   borderRadius: "0",
-                }}
-                onClick={handleProceed}
-              >
-                PROCEED
-              </button>
+                }} onClick={handleProceed} >PROCEED </button>
             </div>
           </div>
         )}
@@ -273,8 +273,7 @@ export default function Home() {
             fontWeight: "bold",
 
           }}
-          className=" d-flex justify-content-center align-items-center rounded-pill"
-        >
+          className=" d-flex justify-content-center align-items-center rounded-pill">
           <FaWhatsapp style={{width: "25px" , height: "25px" , marginRight: "4px"}} className="whatsappLogo" />
           Message Us
         </a>

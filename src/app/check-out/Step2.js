@@ -1,5 +1,3 @@
-
-
 // "use client";
 // import React, { useState, useContext, useEffect } from "react";
 // import { useRouter } from "next/navigation";
@@ -526,7 +524,7 @@
 //                   {city.name}
 //                 </option>
 //               ))}
-//                      
+//
 //             </select>
 //           </div>
 
@@ -721,10 +719,6 @@
 
 // export default Step2;
 
-
-
-
-
 "use client";
 import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -790,7 +784,6 @@ const Step2 = ({
       return total + price * item.quantity;
     }, 0);
 
-
     // const minCityPrice = cityPrice || 0;
 
     // setAmountReached(subTotal >= minCityPrice);
@@ -833,12 +826,13 @@ const Step2 = ({
         addr.fullName === addressForm.fullName &&
         addr.phone === addressForm.phone &&
         addr.alternatePhone === addressForm.alternatePhone &&
-        addr.area === addressForm.area &&
+       addr.area?.toString() === addressForm.area?.toString() &&
         addr.city === addressForm.city &&
         addr.state === addressForm.state &&
         addr.pincode === addressForm.pincode &&
         addr.country === addressForm.country &&
-        addr.landmark === addressForm.landmark
+        addr.landmark === addressForm.landmark &&
+        addr.email === addressForm.email
     );
 
     if (isAddressDuplicate) {
@@ -846,11 +840,30 @@ const Step2 = ({
       return;
     }
 
-    const payload = {
-      ...addressForm,
-      type: "home",
-      userId: loggedUserData?._id,
-    };
+    // const payload = {
+    //   ...addressForm,
+    //   type: "home",
+    //   userId: loggedUserData?._id,
+    // };
+
+//     const { area, ...restOfAddressForm } = addressForm;
+
+// const payload = {
+//   ...restOfAddressForm,
+//   type: "home",
+//   userId: loggedUserData?._id,
+// };
+
+
+const { areaId, ...restOfAddressForm } = addressForm;
+
+const payload = {
+  ...restOfAddressForm,
+  area: areaId, // areaId ki value area me store kar di
+  type: "home",
+  userId: loggedUserData?._id,
+};
+
 
     try {
       if (payload._id) {
@@ -885,7 +898,6 @@ const Step2 = ({
   // const [cityList, setCityList] = useState([]);
   const [pincodes, setPincodes] = useState([]);
 
-
   const getStates = async () => {
     try {
       const res = await getStatesServ();
@@ -898,7 +910,6 @@ const Step2 = ({
     }
   };
 
-  const [minimumPrice, setSelectedCityMinimumPrice] = useState(null);
   const [cities, setCities] = useState([]);
   const [showAddress, setShowAddress] = useState(false);
 
@@ -975,39 +986,33 @@ const Step2 = ({
   // set deliverycharge and minimum price
 
   useEffect(() => {
-  if (stateList.length && addressForm?.state) {
-    const matchedState = stateList.find(
-      (item) => item.name === addressForm.state
-    );
+    if (stateList.length && addressForm?.state) {
+      const matchedState = stateList.find(
+        (item) => item.name === addressForm.state
+      );
 
-     setAreaPayload((prev) => ({
+      setAreaPayload((prev) => ({
         ...prev,
         stateId: matchedState.stateId,
       }));
 
-    console.log("matched state", matchedState);
-
-  }
-}, [stateList, addressForm?.state]);
-
-
-useEffect(() => {
-  if (list.length && addressForm?.area) {
-    const matchedArea = list.find(
-      (areaItem) => areaItem.areaId === Number(addressForm.area)
-    );
-     
-    if (matchedArea) {
-      setDeliveryCharge(matchedArea.deliveryCharge);
-      setCityPrice(matchedArea.minimumPrice);
+      console.log("matched state", matchedState);
     }
+  }, [stateList, addressForm?.state]);
 
-    console.log("matched area", matchedArea);
+  useEffect(() => {
+    if (list.length && addressForm?.area) {
+      const matchedArea = list.find(
+        a => a.areaId === addressForm.areaId)
 
-  }
-}, [list, addressForm?.area]); 
+      if (matchedArea) {
+        setDeliveryCharge(matchedArea.deliveryCharge);
+        setCityPrice(matchedArea.minimumPrice);
+      }
 
-
+      console.log("matched area", matchedArea);
+    }
+  }, [list, addressForm?.area , addressForm?.areaId]);
 
   return (
     <div
@@ -1047,7 +1052,7 @@ useEffect(() => {
                                 {address.city}, {address.state}
                               </p> */}
                     <p className="address mb-0">
-                      {address.area}, {address.landmark},{" "}
+                      {address?.area?.name}, {address.landmark},{" "}
                       {cities.find((c) => c._id === address.city)?.name ||
                         address.city}
                       ,{" "}
@@ -1211,7 +1216,7 @@ useEffect(() => {
                     stateId: selectedState.stateId,
                     city: "",
                     pincode: "",
-                    area:"",
+                    area: "",
                   });
 
                   await handleGetCityByState(selectedState.stateId);
@@ -1315,39 +1320,40 @@ useEffect(() => {
             <select
               className="form-control "
               placeholder="area"
-              value={addressForm?.area}
+             value={addressForm?.area || ""}
               disabled={!editAddress}
-              onChange={(e) => {
-                const selectedAreaId = Number(e.target.value);
-                const selectedArea = list.find(
-                  (item) => item.areaId === selectedAreaId
-                );
+             onChange={(e) => {
+  const selectedAreaId = parseInt(e.target.value);
+  const selectedArea = list.find(
+    (item) => item.areaId === selectedAreaId
+  );
 
-                setAddressForm({
-                  ...addressForm,
-                  area: e.target.value,
-                });
+  if (selectedArea) {
+    setAddressForm({
+      ...addressForm,
+      area: selectedArea.areaId, // ✅ store as number (areaId)
+    });
 
-                console.log("slected area", selectedArea);
-                setDeliveryCharge(selectedArea.deliveryCharge);
-                setCityPrice(selectedArea.minimumPrice);
-              }}
+    console.log("selected area", selectedArea);
+    setDeliveryCharge(selectedArea.deliveryCharge);
+    setCityPrice(selectedArea.minimumPrice);
+  }
+}}
+
               style={{
                 height: "45px",
                 background: editAddress ? "white" : "whitesmoke",
               }}
             >
-             {
-              addressForm?.area ?(
-                 <option value="">{addressForm?.area}</option>
-              ):(
-                 <option value="">Select Area</option>
-              )
-             }
+              {addressForm?.area ? (
+                <option value="">{addressForm?.area?.name}</option>
+              ) : (
+                <option value="">Select Area</option>
+              )}
               {list.map((item, index) => (
-                <option key={index} value={item?.areaId}>
-                  {item?.name}
-                </option>
+               <option key={index} value={item?.areaId}>
+  {item?.name}
+</option>
               ))}
             </select>
           </div>
@@ -1388,13 +1394,12 @@ useEffect(() => {
           <div className="mx-1">
             {addressForm?.fullName &&
             addressForm?.phone &&
-            addressForm?.area &&
+            // addressForm?.area &&
             addressForm?.pincode &&
             addressForm?.landmark &&
             addressForm?.city &&
             addressForm?.email &&
-            addressForm?.state
-             ? (
+            addressForm?.state ? (
               <button
                 className="btn btn-danger w-100  mt-2"
                 onClick={handleAddressCreate}
@@ -1448,7 +1453,7 @@ useEffect(() => {
         <div className="d-flex justify-content-end gap-3 w-100 mt-3">
           {addressForm?.fullName &&
           addressForm?.phone &&
-          addressForm?.area &&
+          // addressForm?.area &&
           addressForm?.pincode &&
           addressForm?.landmark &&
           addressForm?.city &&
@@ -1475,4 +1480,3 @@ useEffect(() => {
 };
 
 export default Step2;
-
