@@ -840,26 +840,12 @@ const Step2 = ({
       return;
     }
 
-    // const payload = {
-    //   ...addressForm,
-    //   type: "home",
-    //   userId: loggedUserData?._id,
-    // };
-
-//     const { area, ...restOfAddressForm } = addressForm;
-
-// const payload = {
-//   ...restOfAddressForm,
-//   type: "home",
-//   userId: loggedUserData?._id,
-// };
-
 
 const { areaId, ...restOfAddressForm } = addressForm;
 
 const payload = {
   ...restOfAddressForm,
-  area: areaId, // areaId ki value area me store kar di
+  area: areaId, 
   type: "home",
   userId: loggedUserData?._id,
 };

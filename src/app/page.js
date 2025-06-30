@@ -168,29 +168,7 @@ export default function Home() {
 
          {/* <LocationSelector/> */}
 
-        {/* <div className="featured-bottom ">
-        <div className="row">
-          <div className="col-lg-6 col-12 mt-3">
-           <div className="feature-card feature-card1  d-flex flex-column justify-content-center">
-           <h3 className=" fw-bold">Fruits & Vegetables</h3>
-            <p>Get Upto 30% Off</p>
-            <button className="shop-btn">
-              Shop Now
-            </button>
-           </div>
-          </div>
 
-          <div className="col-lg-6 col-12 mt-3 ">
-           <div className=" feature-card feature-card2  d-flex flex-column justify-content-center">
-           <h3 className=" fw-bold">Freshly Baked Buns</h3>
-            <p>Get Upto 25% Off</p>
-            <button className="shop-btn">
-              Shop Now
-            </button>
-           </div>
-          </div>
-        </div>
-      </div> */}
 
         {/* Daily best sells section */}
         {/* <DailySell
@@ -271,7 +249,6 @@ export default function Home() {
             // borderRadius: "25%",
             textDecoration: "none",
             fontWeight: "bold",
-
           }}
           className=" d-flex justify-content-center align-items-center rounded-pill">
           <FaWhatsapp style={{width: "25px" , height: "25px" , marginRight: "4px"}} className="whatsappLogo" />

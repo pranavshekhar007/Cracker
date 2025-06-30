@@ -135,7 +135,7 @@ const [step, setStep] = useState(() => {
         productId: item._id,
         quantity: item.quantity,
         totalPrice:
-          item.discountedPrice ?? item.pricing.comboPrice * item.quantity,
+          item.discountedPrice ?? item?.pricing?.comboPrice * item.quantity,
         productHeroImage: item.productHeroImage,
       })),
       totalAmount: subTotal,
