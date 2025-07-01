@@ -177,9 +177,11 @@ export const getPincodeByCityServ = async (cityId) => {
 
 //area api
 
-export const getAreaServ = async (formData) => {
+export const getAreaByPincodeServ = async (pincodeId) => {
   try {
-    const response = await axios.post(BASE_URL + "area/list", formData);
+    const response = await axios.post(BASE_URL + "area/get-by-pincode", {
+      pincodeId,
+    });
     return response;
   } catch (error) {
     console.error("Error fetching area list:", error);

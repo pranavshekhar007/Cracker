@@ -16,7 +16,7 @@ import { placeOrderServ } from "../services/product.service";
 import { toast } from "react-toastify";
 
 const Page = () => {
-  const { loggedUserData , cartList , setCartList} = useContext(LoggedDataContext);
+  const { loggedUserData , cartList , setCartList , comboCartList , setComboCartist} = useContext(LoggedDataContext);
 
   // const [step, setStep] = useState(1);
 
@@ -68,6 +68,8 @@ const [step, setStep] = useState(() => {
       setCityPrice,
       cartList,
       setCartList,
+      comboCartList ,
+       setComboCartist,
       amountReached,
       placeOrderFunc,
       orderId
@@ -92,12 +94,24 @@ const [step, setStep] = useState(() => {
   const [orderPayload, setOrderPayload] = useState({
       userId: loggedUserData?._id || "",
   
-      product: cartList?.map((item) => ({
-        productId: item._id,
-        quantity: item.quantity,
-        totalPrice: item.discountedPrice * item.quantity,
-        productHeroImage: item.productHeroImage,
-      })),
+ product: [
+  ...(Array.isArray(cartList) ? cartList.map((item) => ({
+    productId: item._id,
+    quantity: item.quantity,
+    totalPrice: item.discountedPrice * item.quantity,
+    productHeroImage: item.productHeroImage,
+  })) : []),
+
+  ...(Array.isArray(comboCartList) ? comboCartList.map((item) => ({
+    productId: item._id,
+    quantity: item.quantity,
+    totalPrice: item.pricing?.comboPrice * item.quantity,
+    productHeroImage: item.productHeroImage,
+    isCombo: true,
+  })) : []),
+],
+
+
       totalAmount: cartList?.reduce(
         (total, item) => total + item.discountedPrice * item.quantity,
         0
@@ -111,15 +125,25 @@ const [step, setStep] = useState(() => {
  useEffect(() => {
     if (!loggedUserData || !cartList) return;
 
-    const subTotal = cartList.reduce((total, item) => {
-      const price = item?.discountedPrice ?? item?.pricing?.comboPrice;
+    const subTotal = 
+    (cartList.reduce((total, item) => {
+      const price = item?.discountedPrice;
       return total + price * item.quantity;
-    }, 0);
+    }, 0)) +
+    (comboCartList.reduce((total, item) => {
+      const price = item?.pricing?.comboPrice;
+      return total + price * item.quantity;
+    }, 0))
 
-     const originalTotal = cartList.reduce((total, item) => {
-    const originalPrice = item?.pricing?.actualPrice  || item?.price || 0;
+     const originalTotal =
+     ( cartList.reduce((total, item) => {
+    const originalPrice =  item?.price || 0;
     return total + originalPrice * item.quantity;
-  }, 0);
+  }, 0))+
+  ( comboCartList.reduce((total, item) => {
+    const originalPrice = item?.pricing?.actualPrice || 0;
+    return total + originalPrice * item.quantity;
+  }, 0))
 
   const calculatedDiscount = originalTotal - subTotal;
   setDiscount(calculatedDiscount);
@@ -131,13 +155,22 @@ const [step, setStep] = useState(() => {
 
     setOrderPayload({
       userId: loggedUserData._id,
-      product: cartList.map((item) => ({
-        productId: item._id,
-        quantity: item.quantity,
-        totalPrice:
-          item.discountedPrice ?? item?.pricing?.comboPrice * item.quantity,
-        productHeroImage: item.productHeroImage,
-      })),
+      product: [
+  ...(Array.isArray(cartList) ? cartList.map((item) => ({
+    productId: item._id,
+    quantity: item.quantity,
+    totalPrice: item.discountedPrice * item.quantity,
+    productHeroImage: item.productHeroImage,
+  })) : []),
+
+  ...(Array.isArray(comboCartList) ? comboCartList.map((item) => ({
+    productId: item._id,
+    quantity: item.quantity,
+    totalPrice: item.pricing?.comboPrice * item.quantity,
+    productHeroImage: item.productHeroImage,
+    isCombo: true,
+  })) : []),
+],
       totalAmount: subTotal,
       address: addressForm,
       deliveryCharge: deliveryCharge,
@@ -147,8 +180,10 @@ const [step, setStep] = useState(() => {
     setAmountReached(subTotal >= minCityPrice);
 
     console.log("payload", orderPayload);
+    console.log("comboCartList" , comboCartList) 
+    console.log("CartList" , cartList) 
     console.log("amount reached", amountReached);
-  }, [loggedUserData, cartList, addressForm, cityPrice , shipping]);
+  }, [loggedUserData, cartList, comboCartList,  addressForm, cityPrice , shipping]);
 
    const [orderId, setOrderId] = useState(null);
 
@@ -159,7 +194,9 @@ const [step, setStep] = useState(() => {
       console.log("booking created" , response)
         toast.success(response?.message);
         setCartList([]);
+        setComboCartist([]);
         localStorage.removeItem("cartList");
+        localStorage.removeItem("comboCartList");
         // router.push("/");
 
         setOrderId(response?.data?._id);

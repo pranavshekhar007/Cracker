@@ -11,14 +11,14 @@ import Footer from '../Components/Footer'
 
 const page = () => {
     const router = useRouter();
-    const { setLoggedUserData, setCartList, setWishList } = useContext(LoggedDataContext);
+    const { setLoggedUserData, updateLoggedUserData , setCartList, setWishList } = useContext(LoggedDataContext);
 
 
     const handleLogOut = () => {
 
          console.log("Logging out...");
      
-         setLoggedUserData();
+         updateLoggedUserData(null);
          setCartList([]);
          setWishList([]);
 

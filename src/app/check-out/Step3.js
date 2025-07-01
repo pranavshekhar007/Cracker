@@ -1,11 +1,9 @@
 import React from 'react'
 
-const Step3 = ({next , cartList , back}) => {
+const Step3 = ({next , cartList , back , comboCartList}) => {
 
      const handleNext = () => {
-    next();
-   
-    
+    next(); 
   }
 
   const handleBack = () => {
@@ -37,6 +35,47 @@ const Step3 = ({next , cartList , back}) => {
 
               <div className="offcanvas-body p-1">
                 {cartList?.map((item) => (
+                  <div
+                    className="d-flex mb-3 justify-content-between p-sm-2 p-1 border-bottom "
+                    key={item.id}
+                  >
+                    <div className="d-flex">
+                      <img
+                        src={item.productHeroImage}
+                        className="me-3   cartImg"
+                        style={{ width: "80px", height: "80px" }}
+                      />
+
+                      <h6
+                        style={{
+                          maxWidth: "130px",
+                          color: "#636363;",
+                          fontFamily: "poppins",
+                        }}
+                        className="cartName"
+                      >
+                        {item.name}
+                      </h6>
+                    </div>
+
+                    <p className="cartPrice">Items: {item?.quantity}</p>
+
+                    <div style={{ minWidth: "75px" }} className=" text-end">
+                      <p className="text-muted mt-1 mb-0 cartPrice">
+                        <del>₹{item?.price ?? item?.pricing?.actualPrice}</del>
+                      </p>
+                      <p
+                        style={{ color: "#e85159" }}
+                        className="fw-bold cartPrice"
+                      >
+                        {" "}
+                        (₹{item?.discountedPrice ?? item?.pricing?.comboPrice}*
+                        {item?.quantity})
+                      </p>
+                    </div>
+                  </div>
+                ))}
+                {comboCartList?.map((item) => (
                   <div
                     className="d-flex mb-3 justify-content-between p-sm-2 p-1 border-bottom "
                     key={item.id}

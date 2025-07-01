@@ -214,7 +214,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [footerMenuOpen, setfooterMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const { loggedUserData, cartList, setCartList } = useContext(LoggedDataContext);
+  const { loggedUserData, comboCartList, setComboCartList , cartList , setCartList } = useContext(LoggedDataContext);
   const router = useRouter();
 
   const toggleMenu = () => {
@@ -281,9 +281,6 @@ const Navbar = () => {
      router.push("/check-out");
   };
 
-  
- 
-
 //menu close
 
   const footerMenuRef = useRef(null);
@@ -323,7 +320,38 @@ const Navbar = () => {
   };
 }, [footerMenuOpen , menuOpen , mobileSearchOpen]);
 
+//combo cart
 
+ const handleIncreaseComboQty = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let localComboCartList = JSON.parse(localStorage.getItem("comboCartList")) || [];
+
+    const existingProduct = localComboCartList.find((item) => item._id === v._id);
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    }
+
+    localStorage.setItem("comboCartList", JSON.stringify(localComboCartList));
+    setComboCartList(localComboCartList);
+  };
+
+  const handleDecreaseComboQty = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let localComboCartList = JSON.parse(localStorage.getItem("comboCartList")) || [];
+
+    const existingProduct = localComboCartList.find((item) => item._id === v._id);
+    if (existingProduct) {
+      existingProduct.quantity -= 1;
+      if (existingProduct.quantity <= 0) {
+        localComboCartList = localComboCartList.filter((item) => item._id !== v._id);
+      }
+    }
+
+    localStorage.setItem("comboCartList", JSON.stringify(localComboCartList));
+    setComboCartList(localComboCartList);
+  };
   
   return (
     <>
@@ -391,10 +419,13 @@ const Navbar = () => {
             />
             <div className="notificationDiv" >
               <p>
-                {cartList?.reduce(
+                  {cartList?.reduce(
                   (total, item) => total + (item.quantity || 0),
                   0
-                )}
+                ) + comboCartList?.reduce(
+                  (total, item) => total + (item.quantity || 0),
+                  0
+                )} 
               </p>
             </div>
           </div>
@@ -518,6 +549,9 @@ const Navbar = () => {
                 {cartList?.reduce(
                   (total, item) => total + (item.quantity || 0),
                   0
+                ) + comboCartList?.reduce(
+                  (total, item) => total + (item.quantity || 0),
+                  0
                 )}{" "}
                 Products)
               </h5>
@@ -528,15 +562,14 @@ const Navbar = () => {
               ></button>
             </div>
                
-             {(cartList?.length ?? 0) === 0 ? (
+            {(cartList?.length <= 0 && comboCartList?.length <= 0) ? (
                  <div className="offcanvas-body d-flex flex-column align-items-center">
                   <img src="https://img.freepik.com/free-vector/supermarket-shopping-cart-concept-illustration_114360-22408.jpg?uid=R195795735&ga=GA1.1.1778899298.1732287368&semt=ais_hybrid&w=740" className="img-fluid" style={{maxWidth: "60%"}}></img>
                   <h5 className="p-2 text-center">Your Cart is <span className="text-danger">Empty!</span></h5>
                  </div>
                ):(
-
               
-            <div className="offcanvas-body">
+             <div className="offcanvas-body">
               {cartList?.map((item) => (
                 <div className="d-flex mb-3" key={item._id}>
                   <img
@@ -582,20 +615,63 @@ const Navbar = () => {
                   </div>
                 </div>
               ))}
+               {comboCartList?.map((item) => (
+                <div className="d-flex mb-3" key={item._id}>
+                  <img
+                    src={item.productHeroImage}
+                    alt={item.description}
+                    className="me-3"
+                    style={{ width: "80px", height: "80px" }}
+                  />
+                  <div className="w-100">
+                    <h6>{item.name}</h6>
+
+                    <div className="d-flex justify-content-between w-100">
+
+                        <p className=" fw-bold mt-1 mb-0">
+                      <del className="text-muted fw-normal">₹{item?.pricing?.actualPrice}</del>   ₹{item?.discountedPrice ?? item?.pricing?.comboPrice ?? "N/A"}
+                    </p> 
+
+                      <div className="d-flex counterDiv  rounded-1 ">
+                      <p
+                       className="mb-0 text-secondary"
+                        style={{ borderColor: "red"  , cursor:"pointer" }}
+                        onClick={(e) => handleDecreaseComboQty(e, item)}
+                      >
+                        -
+                      </p>
+                      <p  className="mb-0">
+                        {/* {
+                          cartList.find((cartitem) => cartitem._id === item._id)
+                            ?.quantity
+                        } */}
+                        {item?.quantity}
+                      </p>
+                      <p
+                        className="mb-0 text-secondary "
+                        style={{ borderColor: "green" , cursor:"pointer" }}
+                        onClick={(e) => handleIncreaseComboQty(e, item)}
+                      >
+                        +
+                      </p>
+                    </div>
+                  
+                    </div>
+                  </div>
+                </div>
+              ))}
 
               <hr />
 
               <h6>
                 SUBTOTAL: ₹ (
-                {/* {cartList?.reduce(
-                  (total, item) => total + item.discountedPrice * item.quantity,
+                {cartList?.reduce(
+                  (total, item) => total + item?.discountedPrice * item.quantity,
                   0
-                )} */}
-                {cartList?.reduce((total, item) => {
-  const price = item?.discountedPrice ?? item?.pricing?.comboPrice ?? 0;
-  return total + price * (item.quantity || 0);
-}, 0)}
-
+                ) + comboCartList?.reduce(
+                  (total, item) => total + item?.pricing?.comboPrice * item.quantity,
+                  0
+                )}
                 )
               </h6>
                 
@@ -606,7 +682,7 @@ const Navbar = () => {
               >
                 Proceed To Checkout
               </button>
-            </div>
+              </div>
              )}
           </div>
         

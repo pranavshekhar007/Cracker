@@ -85,6 +85,8 @@ export default function Home() {
     };
   }, []);
 
+  const [isChecked, setIsChecked] = useState(false);
+
   return (
     <>
       <div className=" position-relative">
@@ -201,38 +203,128 @@ export default function Home() {
         <Testimonals />
 
         {showDisclaimer && (
-          <div
-            className="payment-popup position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-            style={{ background: "rgb(49 49 49 / 80%)", zIndex: 9999 }}
+       <div
+      className="payment-popup position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+      style={{ background: "rgb(49 49 49 / 80%)", zIndex: 9999 }}
+    >
+      <div
+        className="p-4 bg-white shadow "
+        style={{ width: "700px", maxWidth: "90%", borderRadius: "22px" }}
+      >
+        <h4
+          className="fw-bold mb-3 text-dark text-center"
+          style={{ fontFamily: "Poppins, sans-serif", fontSize: "1.5rem" }}
+        >
+          Disclaimer
+        </h4>
+
+        <p
+          className="text-muted"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            fontSize: "0.95rem",
+            lineHeight: "1.6",
+          }}
+        >
+          Big Bang Crackers is based in Tamil Nadu and operates in compliance
+          with local laws. We do not sell firecrackers online to banned areas.
+          This website is intended for order inquiries and checkout from
+          customers in legally permitted regions only.
+        </p>
+
+        <p
+          className="text-muted mt-3"
+          style={{ fontFamily: "Inter, sans-serif", fontSize: "0.95rem" }}
+        >
+          Deliveries are made via:
+        </p>
+        <ul
+          style={{
+            fontFamily: "Inter, sans-serif",
+            fontSize: "0.95rem",
+            color: "#6c757d",
+            paddingLeft: "20px",
+            marginBottom: "1rem",
+            textAlign: "left",
+            display: "inline-block",
+          }}
+        >
+          <li>Door delivery: Tamil Nadu, Pondicherry, and Bangalore</li>
+          <li>To-pay lorry transport: All other legally allowed cities</li>
+        </ul>
+
+        <p
+          className="text-muted"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            fontSize: "0.95rem",
+            marginBottom: "0.8rem",
+          }}
+        >
+          We do not deliver to restricted zones, and do not use courier services
+          (e.g., DTDC, India Post).
+        </p>
+        <p
+          className="text-muted"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            fontSize: "0.95rem",
+            marginBottom: "0.8rem",
+          }}
+        >
+          Only licensed green crackers are provided where required by law.
+        </p>
+        <p
+          className="text-muted"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            fontSize: "0.95rem",
+            marginBottom: "1.2rem",
+          }}
+        >
+          Orders from restricted areas will be canceled and refunded without
+          exception.
+        </p>
+
+        <div className="d-flex gap-2 align-items-start mb-3">
+          <input
+            type="checkbox"
+            style={{ height: "20px", marginTop: "3px" }}
+            checked={isChecked}
+            onChange={(e) => setIsChecked(e.target.checked)}
+          />
+          <p
+            className="mb-0 text-muted"
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontSize: "0.9rem",
+              lineHeight: "1.5",
+              textAlign: "left",
+              maxWidth: "500px",
+            }}
           >
-            <div
-              className=" p-5 text-center bg-white"
-              style={{ width: "500px", maxWidth: "90%", borderRadius: "22px" }}
-            >
-              <h4 className="fw-bold" style={{ fontFamily: "poppins" }}>
-                Disclaimer
-              </h4>
-              <p
-                className="mt-3 text-muted"
-                style={{ fontFamily: "sans-serif" }}
-              >
-                We respect and follow all Supreme Court guidelines on
-                firecracker sales.
-              </p>
-              <p className="text-muted" style={{ fontFamily: "sans-serif" }}>
-                By clicking “Proceed”, you confirm you are from a region where
-                firecracker delivery is legally permitted.
-              </p>
-              <button
-                className="btn disclaimerBtn border-none text-white mt-3 mb-2 fw-bold"
-                style={{
-                  width: "50%",
-                  backgroundColor: "#c01212",
-                  borderRadius: "0",
-                }} onClick={handleProceed} >PROCEED </button>
-            </div>
-          </div>
-        )}
+            I confirm my location legally permits the purchase and delivery of
+            fireworks, and I agree to the terms.
+          </p>
+        </div>
+
+        <div className="d-flex justify-content-center">
+          <button
+          className="btn disclaimerBtn border-none text-white mt-2 fw-bold "
+          style={{
+            width: "50%",
+            backgroundColor: "#c01212",
+            borderRadius: "0",
+          }}
+          onClick={handleProceed}
+          disabled={!isChecked}
+        >
+          PROCEED
+        </button>
+        </div>
+      </div>
+    </div>
+         )} 
 
         <Footer />
          

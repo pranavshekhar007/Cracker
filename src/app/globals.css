@@ -2773,7 +2773,7 @@ body , html{
 
 .user-profile {
   background-color: #f7f8fa;
-  padding: 4% 7%;
+  padding: 7% 7%;
   min-height: 100vh;
   height: 100%;
 }
@@ -3245,7 +3245,7 @@ body , html{
   margin-top: -11%;
 }
 
-/* Responsive tweaks */
+/* Responsive  */
 @media (max-width: 1024px) {
   .comboContainer {
     border-top-left-radius: 100% 120px;

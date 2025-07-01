@@ -949,6 +949,7 @@ const page = () => {
     setReviewProductId(id);
     console.log("product id", reviewProductId);
   };
+  
   useEffect(() => {
     if (reviewProductId) {
       console.log("SET SUCCESSFULLY:", reviewProductId);
