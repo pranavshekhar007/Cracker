@@ -1671,6 +1671,8 @@ const page = () => {
         showPaymentPopup={showPaymentPopup}
         setShowPaymentPopup={setShowPaymentPopup}
         orderId={orderId}
+        route = {"order"}
+        getOrderDetails={getOrderDetails}
       />
 
       <Footer />

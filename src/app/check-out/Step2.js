@@ -949,10 +949,14 @@ const payload = {
   };
 
   const handleGetAreaByPincode = async (pincodeId) => {
+    
     if(!pincodeId) return setAreas([]);
+
+   
     try{
       const res = await getAreaByPincodeServ(pincodeId);
       setAreas(res.data.data);
+      console.log("area response" , res.data.data)
     } catch(error){
        toast.error("Failed to load Areas for selected Pincode");
     }
@@ -997,20 +1001,52 @@ const payload = {
 
   // set deliverycharge and minimum price
 
-  // useEffect(() => {
-  //   if (stateList.length && addressForm?.state) {
-  //     const matchedState = stateList.find(
-  //       (item) => item.name === addressForm.state
-  //     );
+  useEffect(() => {
+    if (stateList.length && addressForm?.state) {
+      const matchedState = stateList.find(
+        (item) => item.name === addressForm.state
+      );
+     
+      handleGetCityByState(matchedState.stateId);
+      
+      console.log("matched state", matchedState);
+    }
+  }, [stateList, addressForm?.state]);
 
-  //     setAreaPayload((prev) => ({
-  //       ...prev,
-  //       stateId: matchedState.stateId,
-  //     }));
+  useEffect(() => {
+    if (cities.length && addressForm?.city) {
+      const matchedCity = cities.find(
+        (item) => item.name === addressForm.city
+      );
 
-  //     console.log("matched state", matchedState);
-  //   }
-  // }, [stateList, addressForm?.state]);
+      handleGetPincodeByCity(matchedCity.cityId);
+
+      console.log("matched city", matchedCity);
+    }
+  }, [cities, addressForm?.city]);
+
+   useEffect(() => {
+    if (pincodes.length && addressForm?.pincode) {
+      const matchedPincode = pincodes.find(
+        (item) => item.pincode === addressForm.pincode
+      );
+
+      handleGetAreaByPincode(matchedPincode.pincodeId);
+
+      console.log("matched pincode", matchedPincode);
+    }
+  }, [pincodes, addressForm?.pincode]);
+
+  useEffect(() => {
+    if (areas.length && addressForm?.area) {
+      console.log("areas", areas)
+      const matchedArea = areas.find(
+        (item) => item.area === addressForm.area
+      );
+
+      console.log("matched area", matchedArea);
+    }
+  }, [areas, addressForm?.area]);
 
   // useEffect(() => {
   //   if (list.length && addressForm?.area) {
@@ -1185,6 +1221,7 @@ const payload = {
               }}
             />
           </div>
+
         </div>
         <div className="row m-0 p-0">
           {/* country */}

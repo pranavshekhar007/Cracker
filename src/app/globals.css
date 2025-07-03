@@ -3090,11 +3090,11 @@ body , html{
   transition: transform 0.3s ease;
 }
 
-.disclaimerBtn:hover{
+/* .disclaimerBtn:hover{
    background-color: rgb(243, 225, 225) !important;
    color: #000000 !important;
    border: 1px solid rgb(161, 6, 6) !important;
-}
+} */
 
 @media (max-width:380px) {
     .productCard h6{

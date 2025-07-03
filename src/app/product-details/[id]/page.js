@@ -791,7 +791,7 @@ function page() {
                     }}
                   ></div>
                   <div className="mb-2 mt-2">
-                    <u>read more</u>
+                    <u>Read more</u>
                   </div>
                 </div>
                 <div className="d-flex gap-1">

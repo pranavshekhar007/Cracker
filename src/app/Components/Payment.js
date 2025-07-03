@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import {  uploadPaymentServ} from "../services/product.service"
 
 
-const Payment = ({showPaymentPopup , setShowPaymentPopup , orderId}) => {
+const Payment = ({showPaymentPopup , setShowPaymentPopup , orderId , getOrderDetails }) => {
 
     // const [showPaymentPopup, setShowPaymentPopup] = useState(false);
        const [paymentImage, setPaymentImage] = useState(null);
@@ -51,9 +51,9 @@ const Payment = ({showPaymentPopup , setShowPaymentPopup , orderId}) => {
              let response = await uploadPaymentServ(formData);
              if(response?.statusCode=="200"){
                toast.success(response?.message);
-              
-               router.push("/");
-               // setShowPaymentPopup(true)
+                setShowPaymentPopup(false)
+               getOrderDetails();
+             
              }
            } catch (error) {
              console.log(error)
