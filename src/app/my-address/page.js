@@ -1,4 +1,3 @@
-
 // "use client";
 // import React, { useState, useContext, useEffect } from "react";
 // import { useRouter } from "next/navigation";
@@ -451,7 +450,7 @@
 //                             {city.name}
 //                           </option>
 //                         ))}
-//                                
+//
 //                       </select>
 //                     </div>
 //                     <div className="d-flex gap-3">
@@ -573,7 +572,6 @@
 
 // export default Page;
 
-
 "use client";
 import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -589,6 +587,7 @@ import {
 import { toast } from "react-toastify";
 import Footer from "../Components/Footer";
 import {
+  getAreaByPincodeServ,
   getAreaServ,
   getCityByStateServ,
   getPincodeByCityServ,
@@ -604,13 +603,17 @@ const Page = () => {
     alternatePhone: "",
     landmark: "",
     area: "",
+    areaId: "",
     city: "",
+    cityId: "",
     state: "",
+    stateId: "",
     pincode: "",
+    pincodeId: "",
     country: "",
     fullName: "",
     type: "",
-    userId: "",
+    userId: loggedUserData?._id
   });
 
   const [showForm, setShowForm] = useState(false);
@@ -661,35 +664,38 @@ const Page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(isEditMode == true){
+    if (isEditMode == true) {
       handleUpdate();
+    } else {
+      try {
+        console.log("address create data", form);
+        const res = await addressCreate(form);
+        setShowForm(false);
+        setForm({
+          phone: "",
+          alternatePhone: "",
+          landmark: "",
+          area: "",
+          areaId: "",
+          city: "",
+          cityId: "",
+          state: "",
+          stateId: "",
+          pincode: "",
+          pincodeId: "",
+          country: "",
+          fullName: "",
+          type: "",
+          email: "",
+          userId: loggedUserData?._id,
+        });
+        await fetchAddresses();
+        toast.success(res.message);
+      } catch (error) {
+        console.error("Error creating address:", error);
+        toast.error(error.response?.data?.message);
+      }
     }
-   else{
-     try {
-      console.log("address create data", form);
-      const res = await addressCreate(form);
-      setShowForm(false);
-      setForm({
-        phone: "",
-        alternatePhone: "",
-        landmark: "",
-        area: "",
-        city: "",
-        state: "",
-        pincode: "",
-        country: "",
-        fullName: "",
-        type: "",
-        email: "",
-        userId: loggedUserData?._id,
-      });
-      await fetchAddresses();
-      toast.success(res.message);
-    } catch (error) {
-      console.error("Error creating address:", error);
-      toast.error(error.response?.data?.message);
-    }
-   }
   };
 
   const handleDelete = async (id) => {
@@ -703,71 +709,71 @@ const Page = () => {
     }
   };
 
- const handleEdit = (address) => {
-  setForm({
-    fullName: address.fullName,
-    phone: address.phone,
-    alternatePhone: address.alternatePhone,
-    email: address.email,
-    landmark: address.landmark,
-  area: address.areaId || address.area?._id || address.area,
-    state: address.state,
-    stateId: address.stateId,
-    city: address.city,
-    cityId: address.cityId,
-    pincode: address.pincode,
-    country: address.country,
-    type: address.type,
-  });
+  const handleEdit = (address) => {
+    setForm({
+      fullName: address.fullName,
+      phone: address.phone,
+      alternatePhone: address.alternatePhone,
+      email: address.email,
+      landmark: address.landmark,
+      area: address.areaId || address.area?._id || address.area,
+      state: address.state,
+      stateId: address.stateId,
+      city: address.city,
+      cityId: address.cityId,
+      pincode: address.pincode,
+      country: address.country,
+      type: address.type,
+    });
 
-  setEditingId(address._id);
-  setIsEditMode(true);
-   setEditForm({ ...address });
-  setShowForm(true);
-};
-
+    setEditingId(address._id);
+    setIsEditMode(true);
+    setEditForm({ ...address });
+    setShowForm(true);
+  };
 
   const handleEditChange = (e) => {
     setEditForm({ ...editForm, [e.target.name]: e.target.value });
   };
 
   const handleUpdate = async () => {
-  try {
-    const { _id, createdAt, updatedAt, __v, ...sanitizedData } = form; 
-    const payload = { ...sanitizedData, _id: editingId }; 
-    const res = await addressUpdate(payload);
-    toast.success(res.message);
-    setEditingId(null);
-    setForm({ 
-      phone: "",
-      alternatePhone: "",
-      landmark: "",
-      area: "",
-      city: "",
-      state: "",
-      pincode: "",
-      country: "",
-      fullName: "",
-      type: "",
-      email: "",
-      userId: loggedUserData?._id,
-    });
-    await fetchAddresses();
-  } catch (error) {
-    console.error("Error updating address:", error);
-    toast.error(error.response?.data?.message);
-  }
-  setIsEditMode(false);
-  setShowForm(false);
-};
-
+    try {
+      const { _id, createdAt, updatedAt, __v, ...sanitizedData } = form;
+      const payload = { ...sanitizedData, _id: editingId };
+      const res = await addressUpdate(payload);
+      toast.success(res.message);
+      setEditingId(null);
+      setForm({
+        phone: "",
+        alternatePhone: "",
+        landmark: "",
+        area: "",
+        areaId: "",
+        city: "",
+        cityId: "",
+        state: "",
+        stateId: "",
+        pincode: "",
+        pincodeId: "",
+        country: "",
+        fullName: "",
+        type: "",
+        email: "",
+        userId: loggedUserData?._id,
+      });
+      await fetchAddresses();
+    } catch (error) {
+      console.error("Error updating address:", error);
+      toast.error(error.response?.data?.message);
+    }
+    setIsEditMode(false);
+    setShowForm(false);
+  };
 
   const [stateList, setStateList] = useState([]);
-
   const [pincodes, setPincodes] = useState([]);
-
+  const [areas, setAreas] = useState([]);
   const [cities, setCities] = useState([]);
-
 
   useEffect(() => {
     getStates();
@@ -805,39 +811,17 @@ const Page = () => {
     }
   };
 
-  const [areaPayload, setAreaPayload] = useState({
-    searchKey: "",
-    stateId: form?.stateId,
-    pageNo: 1,
-    pageCount: 10,
-  });
+  const handleGetAreaByPincode = async (pincodeId) => {
+    if (!pincodeId) return setAreas([]);
 
-  const [list, setList] = useState([]);
-
-  const handleGetArea = async () => {
     try {
-      const res = await getAreaServ(areaPayload);
-      setList(res.data.data);
-      // setStatics(res.data.documentCount);
+      const res = await getAreaByPincodeServ(pincodeId);
+      setAreas(res.data.data);
+      console.log("area response", res.data.data);
     } catch (error) {
-      toast.error("Failed to load Area");
+      toast.error("Failed to load Areas for selected Pincode");
     }
   };
-
-  useEffect(() => {
-    if (form?.stateId) {
-      setAreaPayload((prev) => ({
-        ...prev,
-        stateId: form.stateId,
-      }));
-    }
-  }, [form?.stateId]);
-
-  useEffect(() => {
-    if (areaPayload.stateId) {
-      handleGetArea();
-    }
-  }, [areaPayload]);
 
   if (!loggedUserData) {
     return (
@@ -848,24 +832,26 @@ const Page = () => {
   }
 
   const handleShowForm = () => {
-      setShowForm(!showForm)
-       setForm({ 
+    setShowForm(!showForm);
+    setForm({
       phone: "",
       alternatePhone: "",
       landmark: "",
       area: "",
+      areaId: "",
       city: "",
+      cityId: "",
       state: "",
+      stateId: "",
       pincode: "",
+      pincodeId: "",
       country: "",
       fullName: "",
       type: "",
       email: "",
-      userId: "",
+      userId: loggedUserData?._id,
     });
-
-  }
-
+  };
 
   return (
     <>
@@ -881,28 +867,22 @@ const Page = () => {
               <div className="all-address d-flex gap-2 flex-wrap">
                 {addresses.map((address) => (
                   <div key={address._id} className="address-card">
-                   
-                     
-                        <p className="address-name mb-0">{address.fullName}</p>
-                        <p className="address-phone mb-0">{address.phone}</p>
-                        <p className="address mb-0">
-                          {address.area?.name}, {address.landmark},{" "}
-                          {address.city}, {address.state}
-                        </p>
-                        <p className="pincode mb-0">{address.pincode}</p>
-                        <div className="address-btns d-flex gap-2 mt-3">
-                          <button onClick={() => handleEdit(address)}>
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDelete(address._id)}
-                            className="remove-btn"
-                          >
-                            Remove
-                          </button>
-                        </div>
-                    
-                   
+                    <p className="address-name mb-0">{address.fullName}</p>
+                    <p className="address-phone mb-0">{address.phone}</p>
+                    <p className="address mb-0">
+                      {address.area?.name}, {address.landmark}, {address.city},{" "}
+                      {address.state}
+                    </p>
+                    <p className="pincode mb-0">{address.pincode}</p>
+                    <div className="address-btns d-flex gap-2 mt-3">
+                      <button onClick={() => handleEdit(address)}>Edit</button>
+                      <button
+                        onClick={() => handleDelete(address._id)}
+                        className="remove-btn"
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -910,12 +890,14 @@ const Page = () => {
               {showForm && (
                 <div className="address-form">
                   <div className="d-flex justify-content-between align-items-center mb-4">
-                  <h3 className="mb-0 "> {isEditMode ? 'Update address' : 'Add new address'}</h3>
+                    <h3 className="mb-0 ">
+                      {" "}
+                      {isEditMode ? "Update address" : "Add new address"}
+                    </h3>
                     <img
                       src="https://cdn-icons-png.flaticon.com/128/1828/1828778.png"
                       onClick={() => (
-                        setShowForm(!showForm),
-                        setIsEditMode(false)
+                        setShowForm(!showForm), setIsEditMode(false)
                       )}
                       style={{ width: "18px", height: "18px" }}
                       className="mt-3 me-0 me-sm-5"
@@ -1037,13 +1019,23 @@ const Page = () => {
                       <select
                         className="form-control "
                         placeholder="Pincode"
-                        value={form?.pincode}
-                        onChange={(e) =>
+                        value={form?.pincodeId}
+                        onChange={async (e) => {
+                          const pincodeId = e.target.value;
+                          // Find selected pincode from city
+                          const selectedPincode = pincodes.find(
+                            (pincode) =>
+                              pincode.pincodeId === parseInt(pincodeId)
+                          );
+
                           setForm({
                             ...form,
-                            pincode: e?.target.value,
-                          })
-                        }
+                            pincode: selectedPincode.pincode,
+                            pincodeId: selectedPincode.pincodeId,
+                            area: "",
+                          });
+                          await handleGetAreaByPincode(pincodeId);
+                        }}
                       >
                         {form?.pincode ? (
                           <option value="">{form?.pincode}</option>
@@ -1051,7 +1043,7 @@ const Page = () => {
                           <option value="">Select Pincode</option>
                         )}
                         {pincodes.map((code, index) => (
-                          <option key={index} value={code?.pincode}>
+                          <option key={index} value={code?.pincodeId}>
                             {code?.pincode}
                           </option>
                         ))}
@@ -1061,17 +1053,17 @@ const Page = () => {
                       <select
                         className="form-control "
                         placeholder="area"
-                        value={form?.area || ""}
+                        value={form?.area || ""}
                         onChange={(e) => {
                           const selectedAreaId = parseInt(e.target.value);
-                          const selectedArea = list.find(
+                          const selectedArea = areas.find(
                             (item) => item.areaId === selectedAreaId
                           );
 
                           if (selectedArea) {
                             setForm({
                               ...form,
-                              area: selectedArea.areaId, // ✅ store as number (areaId)
+                              area: selectedArea.areaId,
                             });
 
                             console.log("selected area", selectedArea);
@@ -1081,15 +1073,20 @@ const Page = () => {
                         }}
                       >
                         {form?.area ? (
-                          <option value="">{form?.area}</option>
+                          <option value="">{form?.area?.name}</option>
                         ) : (
                           <option value="">Select Area</option>
                         )}
-                        {list.map((item, index) => (
-                          <option key={index} value={item?.areaId}>
-                            {item?.name}
-                          </option>
-                        ))}
+                        {areas.map(
+                          (
+                            item,
+                            index
+                          ) => (
+                            <option key={index} value={item?.areaId}>
+                              {item?.name}
+                            </option>
+                          )
+                        )}
                       </select>
                     </div>
                     <div className="d-flex gap-3">
@@ -1120,17 +1117,16 @@ const Page = () => {
                         onChange={handleChange}
                       />
                     </div>
-                   <button type="submit">
-  {isEditMode ? "Update" : "Save"}
-</button>
-
+                    <button type="submit">
+                      {isEditMode ? "Update" : "Save"}
+                    </button>
                   </form>
                 </div>
               )}
 
               <div
                 className="add-address"
-               onClick={handleShowForm}
+                onClick={handleShowForm}
                 style={{ cursor: "pointer" }}
               >
                 <div className="d-flex gap-2">

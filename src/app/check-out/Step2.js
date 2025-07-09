@@ -119,16 +119,14 @@
 //       return;
 //     }
 
-
 // const { areaId, ...restOfAddressForm } = addressForm;
 
 // const payload = {
 //   ...restOfAddressForm,
-//   area: areaId, 
+//   area: areaId,
 //   type: "home",
 //   userId: loggedUserData?._id,
 // };
-
 
 //     try {
 //       if (payload._id) {
@@ -543,7 +541,7 @@
 //                   {city.name}
 //                 </option>
 //               ))}
-//                      
+//
 //             </select>
 //           </div>
 
@@ -746,14 +744,23 @@
 
 // export default Step2;
 
-
 "use client";
 import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { LoggedDataContext } from "../context/context";
 import { toast } from "react-toastify";
-import {addressCreate,addressList,addressUpdate} from "../services/address.service";
-import {getAreaByPincodeServ, getAreaServ, getCityByStateServ, getPincodeByCityServ, getStatesServ} from "../services/product.service";
+import {
+  addressCreate,
+  addressList,
+  addressUpdate,
+} from "../services/address.service";
+import {
+  getAreaByPincodeServ,
+  getAreaServ,
+  getCityByStateServ,
+  getPincodeByCityServ,
+  getStatesServ,
+} from "../services/product.service";
 
 const Step2 = ({
   next,
@@ -844,7 +851,7 @@ const Step2 = ({
         addr.fullName === addressForm.fullName &&
         addr.phone === addressForm.phone &&
         addr.alternatePhone === addressForm.alternatePhone &&
-       addr.area?.toString() === addressForm.area?.toString() &&
+        addr.area?.toString() === addressForm.area?.toString() &&
         addr.city === addressForm.city &&
         addr.state === addressForm.state &&
         addr.pincode === addressForm.pincode &&
@@ -858,16 +865,12 @@ const Step2 = ({
       return;
     }
 
-
-const { areaId, ...restOfAddressForm } = addressForm;
-
-const payload = {
-  ...restOfAddressForm,
-  area: areaId, 
-  type: "home",
-  userId: loggedUserData?._id,
-};
-
+    const payload = {
+      ...addressForm,
+      area: addressForm.area,
+      type: "home",
+      userId: loggedUserData?._id,
+    };
 
     try {
       if (payload._id) {
@@ -915,7 +918,7 @@ const payload = {
   };
 
   const [cities, setCities] = useState([]);
-  const[areas , setAreas] = useState([]);
+  const [areas, setAreas] = useState([]);
   const [showAddress, setShowAddress] = useState(false);
 
   const handleSelectAdress = (address) => {
@@ -949,19 +952,16 @@ const payload = {
   };
 
   const handleGetAreaByPincode = async (pincodeId) => {
-    
-    if(!pincodeId) return setAreas([]);
+    if (!pincodeId) return setAreas([]);
 
-   
-    try{
+    try {
       const res = await getAreaByPincodeServ(pincodeId);
       setAreas(res.data.data);
-      console.log("area response" , res.data.data)
-    } catch(error){
-       toast.error("Failed to load Areas for selected Pincode");
+      console.log("area response", res.data.data);
+    } catch (error) {
+      toast.error("Failed to load Areas for selected Pincode");
     }
-  }
-  
+  };
 
   // area api
 
@@ -1006,18 +1006,16 @@ const payload = {
       const matchedState = stateList.find(
         (item) => item.name === addressForm.state
       );
-     
+
       handleGetCityByState(matchedState.stateId);
-      
+
       console.log("matched state", matchedState);
     }
   }, [stateList, addressForm?.state]);
 
   useEffect(() => {
     if (cities.length && addressForm?.city) {
-      const matchedCity = cities.find(
-        (item) => item.name === addressForm.city
-      );
+      const matchedCity = cities.find((item) => item.name === addressForm.city);
 
       handleGetPincodeByCity(matchedCity.cityId);
 
@@ -1025,7 +1023,7 @@ const payload = {
     }
   }, [cities, addressForm?.city]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (pincodes.length && addressForm?.pincode) {
       const matchedPincode = pincodes.find(
         (item) => item.pincode === addressForm.pincode
@@ -1039,10 +1037,8 @@ const payload = {
 
   useEffect(() => {
     if (areas.length && addressForm?.area) {
-      console.log("areas", areas)
-      const matchedArea = areas.find(
-        (item) => item.area === addressForm.area
-      );
+      console.log("areas", areas);
+      const matchedArea = areas.find((item) => item.area === addressForm.area);
 
       console.log("matched area", matchedArea);
     }
@@ -1221,7 +1217,6 @@ const payload = {
               }}
             />
           </div>
-
         </div>
         <div className="row m-0 p-0">
           {/* country */}
@@ -1377,26 +1372,25 @@ const payload = {
             <select
               className="form-control "
               placeholder="area"
-             value={addressForm?.area || ""}
+              value={addressForm?.area || ""}
               disabled={!editAddress}
-             onChange={(e) => {
-  const selectedAreaId = parseInt(e.target.value);
-  const selectedArea = areas.find(
-    (item) => item.areaId === selectedAreaId
-  );
+              onChange={(e) => {
+                const selectedAreaId = parseInt(e.target.value);
+                const selectedArea = areas.find(
+                  (item) => item.areaId === selectedAreaId
+                );
 
-  if (selectedArea) {
-    setAddressForm({
-      ...addressForm,
-      area: selectedArea.areaId, // ✅ store as number (areaId)
-    });
+                if (selectedArea) {
+                  setAddressForm({
+                    ...addressForm,
+                    area: selectedArea.areaId,
+                  });
 
-    console.log("selected area", selectedArea);
-    setDeliveryCharge(selectedArea.deliveryCharge);
-    setCityPrice(selectedArea.minimumPrice);
-  }
-}}
-
+                  console.log("selected area", selectedArea);
+                  setDeliveryCharge(selectedArea.deliveryCharge);
+                  setCityPrice(selectedArea.minimumPrice);
+                }
+              }}
               style={{
                 height: "45px",
                 background: editAddress ? "white" : "whitesmoke",
@@ -1408,9 +1402,9 @@ const payload = {
                 <option value="">Select Area</option>
               )}
               {areas.map((item, index) => (
-               <option key={index} value={item?.areaId}>
-  {item?.name}
-</option>
+                <option key={index} value={item?.areaId}>
+                  {item?.name}
+                </option>
               ))}
             </select>
           </div>

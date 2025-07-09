@@ -171,8 +171,8 @@ export const getPincodeByCityServ = async (cityId) => {
     return response;
   } catch (error) {
     console.error("Error fetching pincodes by city:", error);
-    throw error;
-  }
+    throw error;
+  }
 };
 
 //area api
@@ -185,8 +185,8 @@ export const getAreaByPincodeServ = async (pincodeId) => {
     return response;
   } catch (error) {
     console.error("Error fetching area list:", error);
-    throw error;
-  }
+    throw error;
+  }
 };
 
 
