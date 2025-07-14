@@ -16,7 +16,7 @@ import { placeOrderServ } from "../services/product.service";
 import { toast } from "react-toastify";
 
 const Page = () => {
-  const { loggedUserData , cartList , setCartList , comboCartList , setComboCartist} = useContext(LoggedDataContext);
+  const { loggedUserData , cartList , setCartList , comboCartList , setComboCartList} = useContext(LoggedDataContext);
 
   // const [step, setStep] = useState(1);
 
@@ -69,7 +69,7 @@ const [step, setStep] = useState(() => {
       cartList,
       setCartList,
       comboCartList ,
-       setComboCartist,
+       setComboCartList,
       amountReached,
       placeOrderFunc,
       orderId
@@ -94,22 +94,18 @@ const [step, setStep] = useState(() => {
   const [orderPayload, setOrderPayload] = useState({
       userId: loggedUserData?._id || "",
   
- product: [
-  ...(Array.isArray(cartList) ? cartList.map((item) => ({
-    productId: item._id,
-    quantity: item.quantity,
-    totalPrice: item.discountedPrice * item.quantity,
-    productHeroImage: item.productHeroImage,
-  })) : []),
+     product: Array.isArray(cartList)
+      ? cartList.map((item) => ({
+      productId: item._id,
+      quantity: item.quantity,
+      totalPrice: item.discountedPrice * item.quantity,
+      productHeroImage: item.productHeroImage, })): [],
 
-  ...(Array.isArray(comboCartList) ? comboCartList.map((item) => ({
-    productId: item._id,
-    quantity: item.quantity,
-    totalPrice: item.pricing?.comboPrice * item.quantity,
-    productHeroImage: item.productHeroImage,
-    isCombo: true,
-  })) : []),
-],
+      comboProducts: Array.isArray(comboCartList) ? comboCartList.map((item) => ({
+      productId: item._id,
+      quantity: item.quantity,
+      totalPrice: item.comboPrice * item.quantity,
+      productHeroImage: item.productHeroImage,})): [],
 
 
       totalAmount: cartList?.reduce(
@@ -155,22 +151,19 @@ const [step, setStep] = useState(() => {
 
     setOrderPayload({
       userId: loggedUserData._id,
-      product: [
-  ...(Array.isArray(cartList) ? cartList.map((item) => ({
-    productId: item._id,
-    quantity: item.quantity,
-    totalPrice: item.discountedPrice * item.quantity,
-    productHeroImage: item.productHeroImage,
-  })) : []),
+       product: Array.isArray(cartList)
+      ? cartList.map((item) => ({
+      productId: item._id,
+      quantity: item.quantity,
+      totalPrice: item.discountedPrice * item.quantity,
+      productHeroImage: item.productHeroImage, })): [],
 
-  ...(Array.isArray(comboCartList) ? comboCartList.map((item) => ({
-    productId: item._id,
-    quantity: item.quantity,
-    totalPrice: item.pricing?.comboPrice * item.quantity,
-    productHeroImage: item.productHeroImage,
-    isCombo: true,
-  })) : []),
-],
+      comboProducts: Array.isArray(comboCartList) ? comboCartList.map((item) => ({
+      productId: item._id,
+      quantity: item.quantity,
+      totalPrice: item.comboPrice * item.quantity,
+      productHeroImage: item.productHeroImage,})): [],
+
       totalAmount: subTotal,
       address: addressForm,
       deliveryCharge: deliveryCharge,
@@ -194,7 +187,7 @@ const [step, setStep] = useState(() => {
       console.log("booking created" , response)
         toast.success(response?.message);
         setCartList([]);
-        setComboCartist([]);
+        setComboCartList([]);
         localStorage.removeItem("cartList");
         localStorage.removeItem("comboCartList");
         // router.push("/");
