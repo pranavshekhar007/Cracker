@@ -16,8 +16,20 @@ import {
 import BrandsSlider from "./Components/BrandsSlider";
 import ProductSlider from "./Components/ProductSlider";
 import LocationSelector from "./Components/LocationSelector";
+import { generateToken, messaging } from "./notifications/firebase";
+import { onMessage } from "firebase/messaging";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Home() {
+
+  useEffect(() => {
+    generateToken();
+    onMessage(messaging, (payload) => {
+      console.log(payload);
+      toast(payload.notification.body);
+    })
+  },[]);
+
   const [productlist, setProductList] = useState([]);
 
   const payload = {
@@ -90,6 +102,7 @@ export default function Home() {
   return (
     <>
       <div className=" position-relative">
+      <Toaster />
         <Navbar />
 
         {/* ===== Updates Bar Section ===== */}
