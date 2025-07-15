@@ -275,8 +275,8 @@ const Step4 = ({
           >
             Back
           </button>
-          <button onClick={handleNext} className="btn btn-danger px-4">
-            Continue
+          <button onClick={() => (window.location.href = "/")} className="btn btn-danger px-4">
+            More Shopping
           </button>
         </div>
       </div>

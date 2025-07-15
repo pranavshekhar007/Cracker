@@ -754,13 +754,7 @@ import {
   addressList,
   addressUpdate,
 } from "../services/address.service";
-import {
-  getAreaByPincodeServ,
-  getAreaServ,
-  getCityByStateServ,
-  getPincodeByCityServ,
-  getStatesServ,
-} from "../services/product.service";
+import { getCityByStateServ, getStatesServ } from "../services/product.service";
 
 const Step2 = ({
   next,
@@ -851,7 +845,7 @@ const Step2 = ({
         addr.fullName === addressForm.fullName &&
         addr.phone === addressForm.phone &&
         addr.alternatePhone === addressForm.alternatePhone &&
-        addr.area?.toString() === addressForm.area?.toString() &&
+        addr.area === addressForm.area &&
         addr.city === addressForm.city &&
         addr.state === addressForm.state &&
         addr.pincode === addressForm.pincode &&
@@ -918,7 +912,6 @@ const Step2 = ({
   };
 
   const [cities, setCities] = useState([]);
-  const [areas, setAreas] = useState([]);
   const [showAddress, setShowAddress] = useState(false);
 
   const handleSelectAdress = (address) => {
@@ -938,28 +931,6 @@ const Step2 = ({
       setCities(res.data.data);
     } catch (error) {
       toast.error("Failed to load cities for selected state");
-    }
-  };
-
-  const handleGetPincodeByCity = async (cityId) => {
-    if (!cityId) return setPincodes([]);
-    try {
-      const res = await getPincodeByCityServ(cityId);
-      setPincodes(res.data.data);
-    } catch (error) {
-      toast.error("Failed to load pincodes for selected city");
-    }
-  };
-
-  const handleGetAreaByPincode = async (pincodeId) => {
-    if (!pincodeId) return setAreas([]);
-
-    try {
-      const res = await getAreaByPincodeServ(pincodeId);
-      setAreas(res.data.data);
-      console.log("area response", res.data.data);
-    } catch (error) {
-      toast.error("Failed to load Areas for selected Pincode");
     }
   };
 
@@ -1019,47 +990,13 @@ const Step2 = ({
 
       if (matchedCity) {
         setCityPrice(matchedCity.minimumPrice);
-        handleGetPincodeByCity(matchedCity.cityId);
+        setDeliveryCharge(matchedCity.deliveryCharge);
         console.log("matched city", matchedCity);
       } else {
         console.log("No matched city found for:", addressForm.city);
       }
     }
   }, [cities, addressForm?.city]);
-
-  useEffect(() => {
-    if (pincodes.length && addressForm?.pincode) {
-      const matchedPincode = pincodes.find(
-        (item) => item.pincode === addressForm.pincode
-      );
-
-      if (matchedPincode) {
-        handleGetAreaByPincode(matchedPincode.pincodeId);
-        console.log("matched pincode", matchedPincode);
-      } else {
-        console.log("No matched pincode found for:", addressForm.pincode);
-      }
-    }
-  }, [pincodes, addressForm?.pincode]);
-
-  useEffect(() => {
-    if (areas.length && addressForm?.area) {
-      console.log("areas", areas);
-      const matchedArea = areas.find(
-        (item) =>
-          item.area === addressForm.area || item.areaId === addressForm.areaId
-      );
-
-      if (matchedArea) {
-        setDeliveryCharge(matchedArea.deliveryCharge);
-        console.log("matched area", matchedArea);
-      } else {
-        console.log("No matched area found for:", addressForm.area);
-      }
-    }
-  }, [areas, addressForm?.area]);
-
-
 
   return (
     <div
@@ -1099,7 +1036,7 @@ const Step2 = ({
                                 {address.city}, {address.state}
                               </p> */}
                     <p className="address mb-0">
-                      {address?.area?.name}, {address.landmark},{" "}
+                      {address?.area}, {address.landmark},{" "}
                       {cities.find((c) => c._id === address.city)?.name ||
                         address.city}
                       ,{" "}
@@ -1222,27 +1159,6 @@ const Step2 = ({
           </div>
         </div>
         <div className="row m-0 p-0">
-          {/* country */}
-          <div className="col-md-12 col-12 p-0 px-md-2 my-2">
-            <label className="steps-label">Country</label>
-            <input
-              className="form-control"
-              placeholder="Country"
-              value={addressForm?.country}
-              readOnly={!editAddress}
-              onChange={(e) =>
-                setAddressForm({
-                  ...addressForm,
-                  country: e?.target.value,
-                })
-              }
-              style={{
-                height: "45px",
-                background: editAddress ? "white" : "whitesmoke",
-              }}
-            />
-          </div>
-
           {/* state */}
           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
             <label className="steps-label">State</label>
@@ -1262,12 +1178,9 @@ const Step2 = ({
                     state: selectedState.name,
                     stateId: selectedState.stateId,
                     city: "",
-                    pincode: "",
-                    area: "",
                   });
 
                   await handleGetCityByState(selectedState.stateId);
-                  setPincodes([]);
                 }
               }}
             >
@@ -1303,15 +1216,10 @@ const Step2 = ({
                   city: selectedCity.name,
                   cityId: selectedCity.cityId,
                   minimumPrice: selectedCity ? selectedCity.minimumPrice : "",
-                  pincode: "",
+                  deliveryCharge: selectedCity
+                    ? selectedCity.deliveryCharge
+                    : "",
                 });
-
-                // setSelectedCityMinimumPrice(
-                //   selectedCity ? selectedCity.minimumPrice : ""
-                // );
-                //  console.log("sleceted city" , minimumPrice)
-
-                await handleGetPincodeByCity(cityId);
               }}
             >
               {addressForm?.city ? (
@@ -1324,92 +1232,49 @@ const Step2 = ({
                   {city.name}
                 </option>
               ))}
-                     
             </select>
           </div>
 
           {/* pincode */}
           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
             <label className="steps-label">Pincode</label>
-            <select
-              className="form-control "
-              placeholder="Pincode"
-              value={addressForm?.pincodeId}
-              disabled={!editAddress}
-              onChange={async (e) => {
-                const pincodeId = e.target.value;
-                // Find selected pincode from city
-                const selectedPincode = pincodes.find(
-                  (pincode) => pincode.pincodeId === parseInt(pincodeId)
-                );
-
+            <input
+              className="form-control"
+              placeholder="Enter Pincode"
+              value={addressForm?.pincode || ""}
+              readOnly={!editAddress}
+              onChange={(e) =>
                 setAddressForm({
                   ...addressForm,
-                  pincode: selectedPincode.pincode,
-                  pincodeId: selectedPincode.pincodeId,
-                  area: "",
-                });
-                await handleGetAreaByPincode(pincodeId);
-              }}
+                  pincode: e.target.value,
+                })
+              }
               style={{
                 height: "45px",
                 background: editAddress ? "white" : "whitesmoke",
               }}
-            >
-              {addressForm?.pincode ? (
-                <option value="">{addressForm?.pincode}</option>
-              ) : (
-                <option value="">Select Pincode</option>
-              )}
-              {pincodes.map((code, index) => (
-                <option key={index} value={code?.pincodeId}>
-                  {code?.pincode}
-                </option>
-              ))}
-            </select>
+            />
           </div>
 
           {/* area */}
           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
             <label className="steps-label">Area</label>
-            <select
-              className="form-control "
-              placeholder="area"
+            <input
+              className="form-control"
+              placeholder="Enter Area"
               value={addressForm?.area || ""}
-              disabled={!editAddress}
-              onChange={(e) => {
-                const selectedAreaId = parseInt(e.target.value);
-                const selectedArea = areas.find(
-                  (item) => item.areaId === selectedAreaId
-                );
-
-                if (selectedArea) {
-                  setAddressForm({
-                    ...addressForm,
-                    area: selectedArea.areaId,
-                  });
-
-                  console.log("selected area", selectedArea);
-                  setDeliveryCharge(selectedArea.deliveryCharge);
-                  setCityPrice(selectedArea.minimumPrice);
-                }
-              }}
+              readOnly={!editAddress}
+              onChange={(e) =>
+                setAddressForm({
+                  ...addressForm,
+                  area: e.target.value,
+                })
+              }
               style={{
                 height: "45px",
                 background: editAddress ? "white" : "whitesmoke",
               }}
-            >
-              {addressForm?.area ? (
-                <option value="">{addressForm?.area?.name}</option>
-              ) : (
-                <option value="">Select Area</option>
-              )}
-              {areas.map((item, index) => (
-                <option key={index} value={item?.areaId}>
-                  {item?.name}
-                </option>
-              ))}
-            </select>
+            />
           </div>
 
           {/* landmark */}
@@ -1429,6 +1294,20 @@ const Step2 = ({
               style={{
                 height: "45px",
                 background: editAddress ? "white" : "whitesmoke",
+              }}
+            />
+          </div>
+          {/* country */}
+          <div className="col-md-12 col-12 p-0 px-md-2 my-2">
+            <label className="steps-label">Country</label>
+            <input
+              className="form-control"
+              placeholder="Country"
+              value={addressForm.country}
+              readOnly
+              style={{
+                height: "45px",
+                background: "whitesmoke",
               }}
             />
           </div>

@@ -586,13 +586,7 @@ import {
 } from "../services/address.service";
 import { toast } from "react-toastify";
 import Footer from "../Components/Footer";
-import {
-  getAreaByPincodeServ,
-  getAreaServ,
-  getCityByStateServ,
-  getPincodeByCityServ,
-  getStatesServ,
-} from "../services/product.service";
+import { getCityByStateServ, getStatesServ } from "../services/product.service";
 
 const Page = () => {
   const { loggedUserData } = useContext(LoggedDataContext);
@@ -610,10 +604,10 @@ const Page = () => {
     stateId: "",
     pincode: "",
     pincodeId: "",
-    country: "",
+    country: "India",
     fullName: "",
     type: "",
-    userId: loggedUserData?._id
+    userId: loggedUserData?._id,
   });
 
   const [showForm, setShowForm] = useState(false);
@@ -683,7 +677,7 @@ const Page = () => {
           stateId: "",
           pincode: "",
           pincodeId: "",
-          country: "",
+          country: "India",
           fullName: "",
           type: "",
           email: "",
@@ -755,7 +749,9 @@ const Page = () => {
         stateId: "",
         pincode: "",
         pincodeId: "",
-        country: "",
+        minimumPrice: "",
+        deliveryCharge: "",
+        country: "India",
         fullName: "",
         type: "",
         email: "",
@@ -771,8 +767,6 @@ const Page = () => {
   };
 
   const [stateList, setStateList] = useState([]);
-  const [pincodes, setPincodes] = useState([]);
-  const [areas, setAreas] = useState([]);
   const [cities, setCities] = useState([]);
 
   useEffect(() => {
@@ -801,28 +795,6 @@ const Page = () => {
     }
   };
 
-  const handleGetPincodeByCity = async (cityId) => {
-    if (!cityId) return setPincodes([]);
-    try {
-      const res = await getPincodeByCityServ(cityId);
-      setPincodes(res.data.data);
-    } catch (error) {
-      toast.error("Failed to load pincodes for selected city");
-    }
-  };
-
-  const handleGetAreaByPincode = async (pincodeId) => {
-    if (!pincodeId) return setAreas([]);
-
-    try {
-      const res = await getAreaByPincodeServ(pincodeId);
-      setAreas(res.data.data);
-      console.log("area response", res.data.data);
-    } catch (error) {
-      toast.error("Failed to load Areas for selected Pincode");
-    }
-  };
-
   if (!loggedUserData) {
     return (
       <div className="loading-div">
@@ -838,14 +810,12 @@ const Page = () => {
       alternatePhone: "",
       landmark: "",
       area: "",
-      areaId: "",
       city: "",
       cityId: "",
       state: "",
       stateId: "",
       pincode: "",
-      pincodeId: "",
-      country: "",
+      country: "India",
       fullName: "",
       type: "",
       email: "",
@@ -870,7 +840,7 @@ const Page = () => {
                     <p className="address-name mb-0">{address.fullName}</p>
                     <p className="address-phone mb-0">{address.phone}</p>
                     <p className="address mb-0">
-                      {address.area?.name}, {address.landmark}, {address.city},{" "}
+                      {address.area}, {address.landmark}, {address.city},{" "}
                       {address.state}
                     </p>
                     <p className="pincode mb-0">{address.pincode}</p>
@@ -910,12 +880,14 @@ const Page = () => {
                         placeholder="Full Name"
                         value={form.fullName}
                         onChange={handleChange}
+                        required
                       />
                       <input
                         name="phone"
                         placeholder="Phone"
                         value={form.phone}
                         onChange={handleChange}
+                        required
                       />
                     </div>
                     <div className="d-flex gap-3">
@@ -924,6 +896,14 @@ const Page = () => {
                         placeholder="Alternate Phone"
                         value={form.alternatePhone}
                         onChange={handleChange}
+                      />
+                      {/* area */}
+                      <input
+                        name="area"
+                        placeholder="Area"
+                        value={form.area}
+                        onChange={handleChange}
+                        required
                       />
                       <input
                         name="email"
@@ -936,6 +916,7 @@ const Page = () => {
                       <select
                         className="form-control"
                         value={form?.stateId || ""}
+                        required
                         onChange={async (e) => {
                           const selectedStateId = e.target.value;
                           const selectedState = stateList.find(
@@ -949,12 +930,9 @@ const Page = () => {
                               state: selectedState.name,
                               stateId: selectedState.stateId,
                               city: "",
-                              pincode: "",
-                              area: "",
                             });
 
                             await handleGetCityByState(selectedState.stateId);
-                            setPincodes([]);
                           }
                         }}
                       >
@@ -974,6 +952,7 @@ const Page = () => {
                       <select
                         className="form-control"
                         value={form?.cityId}
+                        required
                         onChange={async (e) => {
                           const cityId = e.target.value;
 
@@ -989,15 +968,10 @@ const Page = () => {
                             minimumPrice: selectedCity
                               ? selectedCity.minimumPrice
                               : "",
-                            pincode: "",
+                            deliveryCharge: selectedCity
+                              ? selectedCity.deliveryCharge
+                              : "",
                           });
-
-                          // setSelectedCityMinimumPrice(
-                          //   selectedCity ? selectedCity.minimumPrice : ""
-                          // );
-                          //  console.log("sleceted city" , minimumPrice)
-
-                          await handleGetPincodeByCity(cityId);
                         }}
                       >
                         {form?.city ? (
@@ -1015,79 +989,13 @@ const Page = () => {
                     </div>
                     <div className="d-flex gap-3">
                       {/* pincode */}
-
-                      <select
-                        className="form-control "
+                      <input
+                        name="pincode"
                         placeholder="Pincode"
-                        value={form?.pincodeId}
-                        onChange={async (e) => {
-                          const pincodeId = e.target.value;
-                          // Find selected pincode from city
-                          const selectedPincode = pincodes.find(
-                            (pincode) =>
-                              pincode.pincodeId === parseInt(pincodeId)
-                          );
-
-                          setForm({
-                            ...form,
-                            pincode: selectedPincode.pincode,
-                            pincodeId: selectedPincode.pincodeId,
-                            area: "",
-                          });
-                          await handleGetAreaByPincode(pincodeId);
-                        }}
-                      >
-                        {form?.pincode ? (
-                          <option value="">{form?.pincode}</option>
-                        ) : (
-                          <option value="">Select Pincode</option>
-                        )}
-                        {pincodes.map((code, index) => (
-                          <option key={index} value={code?.pincodeId}>
-                            {code?.pincode}
-                          </option>
-                        ))}
-                      </select>
-
-                      {/* area */}
-                      <select
-                        className="form-control "
-                        placeholder="area"
-                        value={form?.area || ""}
-                        onChange={(e) => {
-                          const selectedAreaId = parseInt(e.target.value);
-                          const selectedArea = areas.find(
-                            (item) => item.areaId === selectedAreaId
-                          );
-
-                          if (selectedArea) {
-                            setForm({
-                              ...form,
-                              area: selectedArea.areaId,
-                            });
-
-                            console.log("selected area", selectedArea);
-                            setDeliveryCharge(selectedArea.deliveryCharge);
-                            setCityPrice(selectedArea.minimumPrice);
-                          }
-                        }}
-                      >
-                        {form?.area ? (
-                          <option value="">{form?.area?.name}</option>
-                        ) : (
-                          <option value="">Select Area</option>
-                        )}
-                        {areas.map(
-                          (
-                            item,
-                            index
-                          ) => (
-                            <option key={index} value={item?.areaId}>
-                              {item?.name}
-                            </option>
-                          )
-                        )}
-                      </select>
+                        value={form.pincode}
+                        onChange={handleChange}
+                        required
+                      />
                     </div>
                     <div className="d-flex gap-3">
                       <input
@@ -1110,12 +1018,7 @@ const Page = () => {
                       </select>
                     </div>
                     <div>
-                      <input
-                        name="country"
-                        placeholder="Country"
-                        value={form.country}
-                        onChange={handleChange}
-                      />
+                      <input name="country" value={form.country} readOnly />
                     </div>
                     <button type="submit">
                       {isEditMode ? "Update" : "Save"}

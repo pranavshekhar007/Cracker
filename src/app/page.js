@@ -21,6 +21,10 @@ import { onMessage } from "firebase/messaging";
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function Home() {
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
   useEffect(() => {
     generateToken();
@@ -178,8 +182,40 @@ export default function Home() {
         </div>
 
         <div className="container my-4">
-            <LocationSelector />
+      <button className="btn btn-danger" onClick={openModal}>
+        Select Location
+      </button>
+
+      {showModal && (
+        <div
+          className="modal fade show"
+          style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Select Location</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={closeModal}
+                ></button>
+              </div>
+
+              <div className="modal-body">
+                <LocationSelector />
+              </div>
+
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={closeModal}>
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      )}
+    </div>
 
         {/* Daily best sells section */}
         {/* <DailySell
