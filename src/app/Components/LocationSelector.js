@@ -293,8 +293,7 @@ import React, { useState, useEffect } from "react";
 import {
   getStatesServ,
   getCityByStateServ,
-  getPincodeByCityServ,
-  getAreaByPincodeServ,
+ 
 } from "../services/product.service";
 
 const LocationSelector = () => {
@@ -303,18 +302,11 @@ const LocationSelector = () => {
     stateId: "",
     city: "",
     cityId: "",
-    pincode: "",
-    pincodeId: "",
-    area: "",
-    areaId: "",
     minimumPrice: "",
-    shipping: "homeDelivery",
   });
 
   const [stateList, setStateList] = useState([]);
   const [cities, setCities] = useState([]);
-  const [pincodes, setPincodes] = useState([]);
-  const [areas, setAreas] = useState([]);
   const [pickupMode, setPickupMode] = useState(false);
   const [selectedCityMinimumPrice, setSelectedCityMinimumPrice] = useState("");
 
@@ -342,26 +334,6 @@ const LocationSelector = () => {
     }
   };
 
-  // const handleGetPincodeByCity = async (cityId) => {
-  //   if (!cityId) return setPincodes([]);
-  //   try {
-  //     const res = await getPincodeByCityServ(cityId);
-  //     setPincodes(res.data.data);
-  //   } catch (error) {
-  //     console.error("Failed to load pincodes:", error);
-  //   }
-  // };
-
-  // const handleGetAreaByPincode = async (pincodeId) => {
-  //   if (!pincodeId) return setAreas([]);
-  //   try {
-  //     const res = await getAreaByPincodeServ(pincodeId);
-  //     setAreas(res.data.data);
-  //   } catch (error) {
-  //     console.error("Failed to load areas:", error);
-  //   }
-  // };
-
   const handleSaveAddress = () => {
     console.log("Address saved:", addressForm);
     setPickupMode(false);
@@ -370,9 +342,11 @@ const LocationSelector = () => {
   return (
     <div className="card shadow rounded  mb-4" style={{borderLeft:"5px solid #ffdede" , borderRight:"5px solid #ffdede"}}>
       <h5 className="fw-bold mb-4 text-danger text-center pt-4 pb-4" style={{ backgroundColor: "#f5f5f5" , borderBottom: "1px solid #ffffff"}}>
-        Hi, For Crackers Purchase  Select your city
-        {/* <br /> */}
-       
+         Hi, For Crackers Purchase – Select your city{" "}
+        <br />
+        <span className="text-muted" style={{ fontSize: "0.9rem" }}>
+          (Check if delivery services are available in your location)
+        </span>
       </h5>
 
       <div className="row p-4">
@@ -459,108 +433,17 @@ const LocationSelector = () => {
                 </option>
               ))}
             </select>
-
-            {selectedCityMinimumPrice !== "" && (
-              <div className="mt-2 text-center">
-                <small className="text-muted">
-                  Minimum Order Value for this city: ₹{selectedCityMinimumPrice}
-                </small>
-              </div>
-            )}
           </div>
         )}
       </div>
 
-      {/* <div className="row">
-        {pincodes.length > 0 && (
-          <div className={`col-${pickupMode ? "6" : "6"} mb-3`}>
-            <select
-              className="form-select"
-              value={addressForm.pincodeId}
-              onChange={async (e) => {
-                const pincodeId = e.target.value;
-                const selectedPincode = pincodes.find(
-                  (p) => p.pincodeId === parseInt(pincodeId)
-                );
-                setAddressForm({
-                  ...addressForm,
-                  pincode: selectedPincode?.pincode || "",
-                  pincodeId,
-                  area: "",
-                  areaId: "",
-                });
-                await handleGetAreaByPincode(pincodeId);
-              }}
-            >
-              <option value="">Select Pincode</option>
-              {pincodes.map((p) => (
-                <option key={p.pincodeId} value={p.pincodeId}>
-                  {p.pincode}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-
-        {pickupMode && (
-          <div className="col-6 mb-3">
-            <select
-              className="form-select"
-              value={addressForm.areaId}
-              onChange={(e) => {
-                const areaId = e.target.value;
-                const selectedArea = areas.find(
-                  (a) => a.areaId === parseInt(areaId)
-                );
-                setAddressForm({
-                  ...addressForm,
-                  area: selectedArea?.name || "",
-                  areaId,
-                });
-              }}
-            >
-              <option value="">Select PickUp Point</option>
-              {areas.map((a) => (
-                <option key={a.areaId} value={a.areaId}>
-                  {a.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-      </div> */}
-
-      {/* {!pickupMode && (
-        <div className="d-flex gap-2 col-6 mb-3">
-          <button
-            className={`btn ${
-              addressForm.pincodeId ? "btn-danger" : "btn-secondary disabled"
-            } w-50`}
-            onClick={() => setPickupMode(true)}
-            disabled={!addressForm.pincodeId}
-          >
-            PickUp Location
-          </button>
-
-          <button className="btn btn-secondary w-50 disabled" disabled>
-            Home Delivery
-          </button>
-        </div>
-      )} */}
-
+      
       {pickupMode && (
         <div className="px-2 pb-4">
-          <p className="text-muted text-center">
-            You have chosen Tatkal option. Your crackers will be delivered at
-            the chosen Pickup Location in 4 - 5 Days
-          </p>
-
+          
           <div className="mt-3 text-center">
             <p className="mb-0 text-success fw-bold">
               Minimum Order Value: ₹{selectedCityMinimumPrice}
-            </p>
-            <p className="mb-0 text-success">
-              Shipping Charges to be directly paid to Transport Company
             </p>
           </div>
 

@@ -37,7 +37,7 @@ const [step, setStep] = useState(() => {
     city: "",
     state: "",
     pincode: "",
-    country: "",
+    country: "India",
     fullName: "",
     email:""
   });

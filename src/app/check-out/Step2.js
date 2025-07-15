@@ -1017,9 +1017,13 @@ const Step2 = ({
     if (cities.length && addressForm?.city) {
       const matchedCity = cities.find((item) => item.name === addressForm.city);
 
-      handleGetPincodeByCity(matchedCity.cityId);
-
-      console.log("matched city", matchedCity);
+      if (matchedCity) {
+        setCityPrice(matchedCity.minimumPrice);
+        handleGetPincodeByCity(matchedCity.cityId);
+        console.log("matched city", matchedCity);
+      } else {
+        console.log("No matched city found for:", addressForm.city);
+      }
     }
   }, [cities, addressForm?.city]);
 
@@ -1029,34 +1033,33 @@ const Step2 = ({
         (item) => item.pincode === addressForm.pincode
       );
 
-      handleGetAreaByPincode(matchedPincode.pincodeId);
-
-      console.log("matched pincode", matchedPincode);
+      if (matchedPincode) {
+        handleGetAreaByPincode(matchedPincode.pincodeId);
+        console.log("matched pincode", matchedPincode);
+      } else {
+        console.log("No matched pincode found for:", addressForm.pincode);
+      }
     }
   }, [pincodes, addressForm?.pincode]);
 
   useEffect(() => {
     if (areas.length && addressForm?.area) {
       console.log("areas", areas);
-      const matchedArea = areas.find((item) => item.area === addressForm.area);
+      const matchedArea = areas.find(
+        (item) =>
+          item.area === addressForm.area || item.areaId === addressForm.areaId
+      );
 
-      console.log("matched area", matchedArea);
+      if (matchedArea) {
+        setDeliveryCharge(matchedArea.deliveryCharge);
+        console.log("matched area", matchedArea);
+      } else {
+        console.log("No matched area found for:", addressForm.area);
+      }
     }
   }, [areas, addressForm?.area]);
 
-  // useEffect(() => {
-  //   if (list.length && addressForm?.area) {
-  //     const matchedArea = list.find(
-  //       a => a.areaId === addressForm.areaId)
 
-  //     if (matchedArea) {
-  //       setDeliveryCharge(matchedArea.deliveryCharge);
-  //       setCityPrice(matchedArea.minimumPrice);
-  //     }
-
-  //     console.log("matched area", matchedArea);
-  //   }
-  // }, [list, addressForm?.area , addressForm?.areaId]);
 
   return (
     <div

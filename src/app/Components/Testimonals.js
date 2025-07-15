@@ -91,24 +91,42 @@
 
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getGoogleReviews } from "../services/googleReview.service";
 
+const Testimonials = () => {
+  const [reviews, setReviews] = useState([]);
 
-const Testimonals = () => {
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const data = await getGoogleReviews();
+        setReviews(data.Reviews); // Adjust based on your API response structure
+      } catch (err) {
+        console.error("Error fetching Google Reviews:", err);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
   return (
-    <div className="testimonals-section py-5 px-3">
+    <div className="testimonials-section py-5 px-3">
       <div className="container">
         <div className="row d-flex align-items-center">
           {/* Heading Section */}
           <div className="col-md-5 col-12 mb-4 mb-md-0">
-            {/* <h1 className="text-white mb-2">Testimonials</h1> */}
-            <h2 className="testi-heading"
-            style={{
-              fontFamily: "'Playball', cursive",
-              fontSize: "3.5rem",
-              textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
-              fontWeight: 600,
-            }}>What Our Customers Say</h2>
+            <h2
+              className="testi-heading"
+              style={{
+                fontFamily: "'Playball', cursive",
+                fontSize: "3.5rem",
+                textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
+                fontWeight: 600,
+              }}
+            >
+              What Our Customers Say
+            </h2>
           </div>
 
           {/* Carousel Section */}
@@ -119,72 +137,74 @@ const Testimonals = () => {
               data-bs-ride="carousel"
             >
               <div className="carousel-inner">
-                {/* Slide 1 */}
-                <div className="carousel-item active">
-                  <div className="card testi-card text-center p-4">
-                    <p className="testi-content mb-3">
-                      “Absolutely loved the sparkle shots from Crackle Fest!
-                      The packaging was safe, and the bursts were stunning.
-                      Made our Diwali unforgettable. Highly recommend!”
-                    </p>
-                    <div className="testi-footer alt">
-                      <img
-                        src="/assets/Buffett.jpg"
-                        alt="user1"
-                        className="testi-img"
-                      />
-                      <h5 className="text-dark">Buffet</h5>
-                      <small className="text-muted">Business Owner</small>
+                {reviews && reviews.length > 0 ? (
+                  reviews.map((review, index) => (
+                    <div
+                      key={index}
+                      className={`carousel-item ${
+                        index === 0 ? "active" : ""
+                      }`}
+                    >
+                      <div className="card testi-card text-center p-4">
+                        <p className="testi-content mb-3">“{review.text}”</p>
+                        <div className="testi-footer alt">
+                          <img
+                            src={
+                              review.profile_photo_url
+                                ? review.profile_photo_url
+                                : "/assets/default-user.png"
+                            }
+                            alt={review.author_name}
+                            className="testi-img"
+                          />
+                          <h5 className="text-dark">{review.author_name}</h5>
+                          <small className="text-muted">
+                            {review.relative_time_description}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="carousel-item active">
+                    <div className="card testi-card text-center p-4">
+                      <p className="testi-content mb-3">
+                        “No reviews available at the moment.”
+                      </p>
                     </div>
                   </div>
-                </div>
-
-                {/* Slide 2 */}
-                <div className="carousel-item">
-                  <div className="card testi-card text-center p-4">
-                    <p className="testi-content mb-3">
-                      “These are the safest and brightest crackers I’ve ever
-                      used. My kids had so much fun, and I felt confident
-                      knowing everything was top quality Too good and eco-friendly.”
-                    </p>
-                    <div className="testi-footer alt">
-                      <img
-                        src="/assets/Bill_Gates.jpg"
-                        alt="user2"
-                        className="testi-img"
-                      />
-                      <h5 className="text-dark">Bill Gates</h5>
-                      <small className="text-muted">Buiseness man</small>
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Carousel Controls */}
-              <button
-                className="carousel-control-prev"
-                type="button"
-                data-bs-target="#testimonialCarousel"
-                data-bs-slide="prev"
-              >
-                <span
-                  className="carousel-control-prev-icon bg-dark rounded-circle p-sm-3"
-                  aria-hidden="true"
-                ></span>
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button
-                className="carousel-control-next"
-                type="button"
-                data-bs-target="#testimonialCarousel"
-                data-bs-slide="next"
-              >
-                <span
-                  className="carousel-control-next-icon bg-dark rounded-circle p-sm-3 p-1"
-                  aria-hidden="true"
-                ></span>
-                <span className="visually-hidden">Next</span>
-              </button>
+              {reviews && reviews.length > 1 && (
+                <>
+                  <button
+                    className="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#testimonialCarousel"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      className="carousel-control-prev-icon bg-dark rounded-circle p-sm-3"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    className="carousel-control-next"
+                    type="button"
+                    data-bs-target="#testimonialCarousel"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      className="carousel-control-next-icon bg-dark rounded-circle p-sm-3 p-1"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Next</span>
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -193,4 +213,4 @@ const Testimonals = () => {
   );
 };
 
-export default Testimonals;
+export default Testimonials;
