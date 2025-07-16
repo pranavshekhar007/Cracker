@@ -234,7 +234,7 @@
 //                       <h5 className="fs-5 mb-4 mt-3">Order status</h5>
 
 //                       {/* Order Status */}
-                
+
 //                       {details?.status === "pending" ?(
 //                         <p>Your order has been placed and is pending confirmation from our team.</p>
 //                       ): details?.status === "rejected" ? (
@@ -524,8 +524,6 @@
 //                     </div>
 //                   </div>
 
-                  
-
 //                   <div className="col-12 mb-3">
 //                     <div className="rounded-3 shadow-sm bg-white p-3 px-4  ">
 //                       <div
@@ -674,7 +672,7 @@
 //                     ):(
 //                       <div
 //                       className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between "
-                     
+
 //                       style={{ cursor: "pointer" , opacity:"0.5"  , cursor:"not-allowed"}}
 //                     >
 //                       <div className="d-flex gap-2  align-items-center ">
@@ -792,7 +790,7 @@
 
 //       <label htmlFor="imageUpload" className="upload-box w-100 text-center d-flex align-items-center justify-content-center">
 //         {imagePreview ? (
-//           <img src={imagePreview} alt="Preview" className="img-preview"  
+//           <img src={imagePreview} alt="Preview" className="img-preview"
 //             style={{ maxWidth: "70px", maxHeight: "70px", objectFit: "contain", borderRadius: "8px", }}/>
 //         ) : (
 //           'Drop files here to upload'
@@ -852,8 +850,6 @@
 
 // export default page;
 
-
-
 // order status dynamic
 
 "use client";
@@ -875,10 +871,11 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { getAreaServ } from "@/app/services/product.service";
 
 const page = () => {
-  const { cartList, setCartList } = useContext(LoggedDataContext);
+  const { cartList, setCartList, comboCartList, setComboCartList } =
+    useContext(LoggedDataContext);
   const [details, setDetails] = useState(null);
   const [loader, setLoader] = useState(null);
- 
+
   const { id } = useParams();
   const router = useRouter();
 
@@ -949,7 +946,7 @@ const page = () => {
     setReviewProductId(id);
     console.log("product id", reviewProductId);
   };
-  
+
   useEffect(() => {
     if (reviewProductId) {
       console.log("SET SUCCESSFULLY:", reviewProductId);
@@ -961,12 +958,14 @@ const page = () => {
   const handleAddToCartLocal = (e, v) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("added item" , v.productId)
-    const value = v.productId
+    console.log("added item", v.productId);
+    const value = v.productId;
     try {
       let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
 
-      const existingProduct = localCartList.find((item) => item._id === value._id);
+      const existingProduct = localCartList.find(
+        (item) => item._id === value._id
+      );
 
       if (existingProduct) {
         existingProduct.quantity += 1;
@@ -985,10 +984,12 @@ const page = () => {
   const handleIncreaseQty = (e, v) => {
     e.preventDefault();
     e.stopPropagation();
-     const value = v.productId
+    const value = v.productId;
     let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
 
-    const existingProduct = localCartList.find((item) => item._id === value._id);
+    const existingProduct = localCartList.find(
+      (item) => item._id === value._id
+    );
     if (existingProduct) {
       existingProduct.quantity += 1;
     }
@@ -1000,10 +1001,12 @@ const page = () => {
   const handleDecreaseQty = (e, v) => {
     e.preventDefault();
     e.stopPropagation();
-     const value = v.productId
+    const value = v.productId;
     let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
 
-    const existingProduct = localCartList.find((item) => item._id === value._id);
+    const existingProduct = localCartList.find(
+      (item) => item._id === value._id
+    );
     if (existingProduct) {
       existingProduct.quantity -= 1;
       if (existingProduct.quantity <= 0) {
@@ -1015,71 +1018,139 @@ const page = () => {
     setCartList(localCartList);
   };
 
-   const formattedStatusFlow = details?.statusHistory?.map((log) => ({
-      key: log.status,
-      icon:
-        log.status === "pending"
-          ? "🕓"
-          : log.status === "ssRejected"
-          ? "❗"
-          : log.status === "approved"
-          ? "💳"
-          : log.status === "orderPlaced"
-          ? "🛒"
-          : log.status === "orderPacked"
-          ? "📦"
-          : log.status === "shipping"
-          ? "🚚"
-          : log.status === "homeDelivery"
-          ? "🏠"
-          : log.status === "lorryPay"
-          ? "🛻"
-          : log.status === "outForDelivery"
-          ? "📍"
-          : log.status === "completed"
-          ? "✅"
-          : log.status === "cancelled"
-          ? "❌"
-          : "⏳",
-      label:
-        log.status === "ssRejected"
-          ? "Rejected"
-          : log.status === "approved"
-          ? "Approved"
-          : log.status === "orderPlaced"
-          ? "Order Placed"
-          : log.status === "orderPacked"
-          ? "Packed"
-          : log.status === "shipping"
-          ? "Shipping"
-          : log.status === "homeDelivery"
-          ? "Home Delivery"
-          : log.status === "lorryPay"
-          ? "Lorry Pay"
-          : log.status === "outForDelivery"
-          ? "Out for Delivery"
-          : log.status === "completed"
-          ? "Completed"
-          : log.status === "cancelled"
-          ? "Cancelled"
-          : "Pending",
-      date: moment(log.updatedAt).format("ddd, DD MMM YYYY - h:mmA"),
-    }));
-  
+  //   combo add to cart
 
-  
+  const handleAddToCartComboLocal = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("added item", v.comboProductId);
+    const value = v.comboProductId;
+    try {
+      let localCartList =
+        JSON.parse(localStorage.getItem("comboCartList")) || [];
+
+      const existingProduct = localCartList.find(
+        (item) => item._id === value._id
+      );
+
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        localCartList.push({ ...value, quantity: 1 });
+      }
+
+      localStorage.setItem("comboCartList", JSON.stringify(localCartList));
+      setComboCartList(localCartList);
+      toast.success("Item Added To the cart");
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  };
+
+  const handleIncreaseComboQty = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const value = v.comboProductId;
+    let localComboCartList =
+      JSON.parse(localStorage.getItem("comboCartList")) || [];
+
+    const existingProduct = localComboCartList.find(
+      (item) => item._id === value._id
+    );
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    }
+
+    localStorage.setItem("comboCartList", JSON.stringify(localComboCartList));
+    setComboCartList(localComboCartList);
+  };
+
+  const handleDecreaseComboQty = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const value = v.comboProductId;
+    let localComboCartList =
+      JSON.parse(localStorage.getItem("comboCartList")) || [];
+
+    const existingProduct = localComboCartList.find(
+      (item) => item._id === value._id
+    );
+    if (existingProduct) {
+      existingProduct.quantity -= 1;
+      if (existingProduct.quantity <= 0) {
+        localComboCartList = localComboCartList.filter(
+          (item) => item._id !== value._id
+        );
+      }
+    }
+
+    localStorage.setItem("comboCartList", JSON.stringify(localComboCartList));
+    setComboCartList(localComboCartList);
+  };
+
+  const formattedStatusFlow = details?.statusHistory?.map((log) => ({
+    key: log.status,
+    icon:
+      log.status === "pending"
+        ? "🕓"
+        : log.status === "ssRejected"
+        ? "❗"
+        : log.status === "approved"
+        ? "💳"
+        : log.status === "orderPlaced"
+        ? "🛒"
+        : log.status === "orderPacked"
+        ? "📦"
+        : log.status === "shipping"
+        ? "🚚"
+        : log.status === "homeDelivery"
+        ? "🏠"
+        : log.status === "lorryPay"
+        ? "🛻"
+        : log.status === "outForDelivery"
+        ? "📍"
+        : log.status === "completed"
+        ? "✅"
+        : log.status === "cancelled"
+        ? "❌"
+        : "⏳",
+    label:
+      log.status === "ssRejected"
+        ? "Rejected"
+        : log.status === "approved"
+        ? "Approved"
+        : log.status === "orderPlaced"
+        ? "Order Placed"
+        : log.status === "orderPacked"
+        ? "Packed"
+        : log.status === "shipping"
+        ? "Shipping"
+        : log.status === "homeDelivery"
+        ? "Home Delivery"
+        : log.status === "lorryPay"
+        ? "Lorry Pay"
+        : log.status === "outForDelivery"
+        ? "Out for Delivery"
+        : log.status === "completed"
+        ? "Completed"
+        : log.status === "cancelled"
+        ? "Cancelled"
+        : "Pending",
+    date: moment(log.updatedAt).format("ddd, DD MMM YYYY - h:mmA"),
+  }));
 
   return (
     <div>
-        <Navbar/>
-        <div className="order-details " style={{ backgroundColor: "#f9f9f9" }}>
+      <Navbar />
+      <div className="order-details " style={{ backgroundColor: "#f9f9f9" }}>
         <div className="my-5 py-5">
           <div className="d-flex gap-3 ms-md-5 ms-2 ps-md-4">
             <img
               src="https://cdn-icons-png.flaticon.com/128/11519/11519951.png"
               style={{ height: "25px", width: "25px", cursor: "pointer" }}
               onClick={() => router.push("/my-orders")}
-              className="m-2 "  ></img>
+              className="m-2 "
+            ></img>
             <div>
               <h1 className="text-danger fs-3 mt-1">Your Order Details</h1>
               <p className="mb-4">
@@ -1144,23 +1215,27 @@ const page = () => {
                       <h5 className="fs-5 mb-4 mt-3">Order status</h5>
 
                       {/* Order Status */}
-                  
-                   {details?.status === "pending" &&
-                        <p>Your order has been placed and is pending confirmation from our team.</p>
-                   }
-                  
-                <ul className="order-tracker ps-0">
-                  {formattedStatusFlow?.map((step, idx) => (
-                    <li key={idx} className="completed">
-                      <div className="icon">{step.icon}</div>
-                      <div className="details">
-                        <strong>{step.label}</strong>
-                        <div className="text-muted small">{step.date}</div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-             
+
+                      {details?.status === "pending" && (
+                        <p>
+                          Your order has been placed and is pending confirmation
+                          from our team.
+                        </p>
+                      )}
+
+                      <ul className="order-tracker ps-0">
+                        {formattedStatusFlow?.map((step, idx) => (
+                          <li key={idx} className="completed">
+                            <div className="icon">{step.icon}</div>
+                            <div className="details">
+                              <strong>{step.label}</strong>
+                              <div className="text-muted small">
+                                {step.date}
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
 
@@ -1169,7 +1244,6 @@ const page = () => {
                       <h5 className="fs-5 mb-4 mt-3">Products</h5>
                       {details?.product?.length > 0 &&
                         details.product.map((item, index) => (
-                        
                           <div
                             key={item._id}
                             className="d-flex flex-sm-nowrap flex-wrap gap-4 mb-4 border p-3 align-items-center"
@@ -1235,7 +1309,8 @@ const page = () => {
                                       >
                                         {
                                           cartList.find(
-                                            (obj) => obj._id === item?.productId._id
+                                            (obj) =>
+                                              obj._id === item?.productId._id
                                           )?.quantity
                                         }
                                       </p>
@@ -1256,7 +1331,7 @@ const page = () => {
                                     <button
                                       className="buyAgain rounded-3 "
                                       onClick={(e) =>
-                                        handleAddToCartLocal(e , item)
+                                        handleAddToCartLocal(e, item)
                                       }
                                     >
                                       Buy Again
@@ -1280,12 +1355,129 @@ const page = () => {
                             </div>
                           </div>
                         ))}
+
+                      {details?.comboProduct?.length > 0 &&
+                        details.comboProduct.map((item, index) => (
+                          <div
+                            key={item._id}
+                            className="d-flex flex-sm-nowrap flex-wrap gap-4 mb-4 border p-3 align-items-center"
+                            style={{ borderRadius: "10px" }}
+                          >
+                            <img
+                              src={
+                                item?.productHeroImage ||
+                                item?.comboProductId?.productHeroImage
+                              }
+                              alt={item?.comboProductId?.name}
+                              style={{
+                                width: "80px",
+                                height: "80px",
+                                objectFit: "cover",
+                                borderRadius: "7px",
+                              }}
+                            />
+                            <div className="d-flex flex-sm-nowrap flex-wrap justify-content-between w-100">
+                              <div>
+                                <h6 className="mb-1 orderProductName">
+                                  {item?.comboProductId?.name}
+                                </h6>
+                                <p className="mb-1 text-muted">
+                                  Quantity: <strong>{item.quantity}</strong>
+                                </p>
+                              </div>
+
+                              <p className="mb-3 " style={{ color: "brown" }}>
+                                ₹ <strong>{item.totalPrice}</strong>
+                              </p>
+
+                              <div className="d-flex gap-2">
+                                <div>
+                                  {comboCartList?.find(
+                                    (obj) =>
+                                      obj._id === item?.comboProductId?._id
+                                  ) ? (
+                                    <div
+                                      className="d-flex align-items-center counterDiv w-100 overflow-hidden"
+                                      style={{
+                                        borderRadius: "8px",
+                                        height: "41px",
+                                      }}
+                                    >
+                                      <p
+                                        style={{
+                                          backgroundColor: "#3d9970",
+                                          height: "100%",
+                                        }}
+                                        className="w-100 text-white mb-0 d-flex justify-content-center align-items-center "
+                                        onClick={(e) =>
+                                          handleDecreaseComboQty(e, item)
+                                        }
+                                      >
+                                        -
+                                      </p>
+                                      <p
+                                        className="w-100 mb-0 d-flex justify-content-center align-items-center"
+                                        style={{
+                                          backgroundColor: "#f9f5f5",
+                                          height: "100%",
+                                        }}
+                                      >
+                                        {
+                                          comboCartList.find(
+                                            (obj) =>
+                                              obj._id ===
+                                              item?.comboProductId._id
+                                          )?.quantity
+                                        }
+                                      </p>
+                                      <p
+                                        className="w-100 text-white mb-0 d-flex justify-content-center align-items-center"
+                                        style={{
+                                          backgroundColor: "#3d9970",
+                                          height: "100%",
+                                        }}
+                                        onClick={(e) =>
+                                          handleIncreaseComboQty(e, item)
+                                        }
+                                      >
+                                        +
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      className="buyAgain rounded-3 "
+                                      onClick={(e) =>
+                                        handleAddToCartComboLocal(e, item)
+                                      }
+                                    >
+                                      Buy Again
+                                    </button>
+                                  )}
+                                </div>
+
+                                <div>
+                                  {details?.status === "completed" && (
+                                    <button
+                                      class="btn-review"
+                                      onClick={() =>
+                                        handleReviewShow(
+                                          item?.comboProductId?._id
+                                        )
+                                      }
+                                    >
+                                      Add Review
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                     </div>
                   </div>
                 </div>
 
                 <div className="col-lg-4 col-12">
-
                   <div className="col-12 mb-3">
                     <div className="rounded-3 shadow-sm bg-white p-3 px-4">
                       <div
@@ -1306,17 +1498,19 @@ const page = () => {
 
                       <div className="d-flex gap-3">
                         <div className="orderName">
-                          <p className="fw-bold  mb-2">Subtotal:</p>
-                          <p className="fw-bold  mb-2">Delivery Charges:</p>
-                          <p className="fw-bold  mb-3">Discount:</p>
                           <p className="fw-bold  mb-2">Total:</p>
+                          <p className="fw-bold  mb-2">Delivery Charges:</p>
+                          <p className="fw-bold  mb-2">Subtotal:</p>
                         </div>
                         <div>
                           <div className="orderData">
-                            <p className="mb-2">₹3000</p>
-                            <p className="mb-2">₹{details?.deliveryCharge}</p>
-                            <p className="mb-3">₹100</p>
                             <p className="mb-2">₹{details?.totalAmount}</p>
+                            <p className="mb-2">₹{details?.deliveryCharge}</p>
+                            <p className="mb-2">
+                              ₹
+                              {Number(details?.totalAmount) +
+                                Number(details?.deliveryCharge)}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -1329,12 +1523,16 @@ const page = () => {
                         {details?.paymentSs && details?.paymentSs !== "null" ? (
                           // <h6 className="text-success fs-6"> Payment Done</h6>
                           details?.orderStatus === "ssRejected" ? (
-    <h6 className="text-danger fs-6">Payment Rejected</h6>
-  ) : details?.orderStatus?.payment === "approved" ? (
-    <h6 className="text-success fs-6">Payment Approved</h6>
-  ) : (
-    <h6 className="text-success fs-6">Payment Done</h6>
-  )
+                            <h6 className="text-danger fs-6">
+                              Payment Rejected
+                            </h6>
+                          ) : details?.orderStatus?.payment === "approved" ? (
+                            <h6 className="text-success fs-6">
+                              Payment Approved
+                            </h6>
+                          ) : (
+                            <h6 className="text-success fs-6">Payment Done</h6>
+                          )
                         ) : (
                           <h6 className="text-danger fs-6">Not Completed</h6>
                         )}
@@ -1351,8 +1549,6 @@ const page = () => {
                       </div>
                     </div>
                   </div>
-
-                  
 
                   <div className="col-12 mb-3">
                     <div className="rounded-3 shadow-sm bg-white p-3 px-4  ">
@@ -1459,7 +1655,7 @@ const page = () => {
                             <p className="mb-2">
                               {details?.address?.landmark +
                                 ", " +
-                                details?.address?.area +
+                                details?.address?.area?.name +
                                 ", " +
                                 details?.address?.city +
                                 ", " +
@@ -1475,51 +1671,54 @@ const page = () => {
                     </div>
                   </div>
 
-                    <div className="col-12 mb-3">
-                    {details?.status == "completed"?(
+                  <div className="col-12 mb-3">
+                    {details?.status == "completed" ? (
                       <div
-                      className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between"
-                      onClick={() =>
-                        router.push("/orderInvoice/" + details?._id)
-                      }
-                      style={{ cursor: "pointer" }}
-                    >
-                      <div className="d-flex gap-2  align-items-center ">
+                        className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between"
+                        onClick={() =>
+                          router.push("/orderInvoice/" + details?._id)
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        <div className="d-flex gap-2  align-items-center ">
+                          <img
+                            src="https://cdn-icons-png.flaticon.com/128/7939/7939869.png"
+                            style={{ width: "20px", height: "20px" }}
+                          ></img>
+                          <h5 className="mb-0" style={{ color: "#333333" }}>
+                            Download Invoice
+                          </h5>
+                        </div>
+
                         <img
-                          src="https://cdn-icons-png.flaticon.com/128/7939/7939869.png"
+                          src="https://sa-web-h1a.flixcart.com/mosaic/ss/RightChevron.svg?q=80"
                           style={{ width: "20px", height: "20px" }}
                         ></img>
-                        <h5 className="mb-0" style={{ color: "#333333" }}>
-                          Download Invoice
-                        </h5>
                       </div>
-
-                      <img
-                        src="https://sa-web-h1a.flixcart.com/mosaic/ss/RightChevron.svg?q=80"
-                        style={{ width: "20px", height: "20px" }}
-                      ></img>
-                    </div>
-                    ):(
+                    ) : (
                       <div
-                      className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between "
-                     
-                      style={{ cursor: "pointer" , opacity:"0.5"  , cursor:"not-allowed"}}
-                    >
-                      <div className="d-flex gap-2  align-items-center ">
+                        className="rounded-3 shadow-sm bg-white p-3 px-4 d-flex justify-content-between "
+                        style={{
+                          cursor: "pointer",
+                          opacity: "0.5",
+                          cursor: "not-allowed",
+                        }}
+                      >
+                        <div className="d-flex gap-2  align-items-center ">
+                          <img
+                            src="https://cdn-icons-png.flaticon.com/128/7939/7939869.png"
+                            style={{ width: "20px", height: "20px" }}
+                          ></img>
+                          <h5 className="mb-0" style={{ color: "#333333" }}>
+                            Download Invoice
+                          </h5>
+                        </div>
+
                         <img
-                          src="https://cdn-icons-png.flaticon.com/128/7939/7939869.png"
+                          src="https://sa-web-h1a.flixcart.com/mosaic/ss/RightChevron.svg?q=80"
                           style={{ width: "20px", height: "20px" }}
                         ></img>
-                        <h5 className="mb-0" style={{ color: "#333333" }}>
-                          Download Invoice
-                        </h5>
                       </div>
-
-                      <img
-                        src="https://sa-web-h1a.flixcart.com/mosaic/ss/RightChevron.svg?q=80"
-                        style={{ width: "20px", height: "20px" }}
-                      ></img>
-                    </div>
                     )}
                   </div>
 
@@ -1671,7 +1870,7 @@ const page = () => {
         showPaymentPopup={showPaymentPopup}
         setShowPaymentPopup={setShowPaymentPopup}
         orderId={orderId}
-        route = {"order"}
+        route={"order"}
         getOrderDetails={getOrderDetails}
       />
 

@@ -92,23 +92,23 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getGoogleReviews } from "../services/googleReview.service";
+// import { getGoogleReviews } from "../services/googleReview.service";
 
 const Testimonials = () => {
   const [reviews, setReviews] = useState([]);
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const data = await getGoogleReviews();
-        setReviews(data.Reviews); // Adjust based on your API response structure
-      } catch (err) {
-        console.error("Error fetching Google Reviews:", err);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchReviews = async () => {
+  //     try {
+  //       const data = await getGoogleReviews();
+  //       setReviews(data.Reviews); 
+  //     } catch (err) {
+  //       console.error("Error fetching Google Reviews:", err);
+  //     }
+  //   };
 
-    fetchReviews();
-  }, []);
+  //   fetchReviews();
+  // }, []);
 
   return (
     <div className="testimonials-section py-5 px-3">

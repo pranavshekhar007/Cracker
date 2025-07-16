@@ -30,7 +30,7 @@ export default function SegmentedToggleWithContent({ productList }) {
           className={`toggle-option ${active === "cloud" ? "active" : ""}`}
           onClick={() => handleToggle("cloud")}
         >
-          Kids Collection
+          Our Shop
         </div>
       </div>
 

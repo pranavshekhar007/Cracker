@@ -101,11 +101,13 @@ const [step, setStep] = useState(() => {
       totalPrice: item.discountedPrice * item.quantity,
       productHeroImage: item.productHeroImage, })): [],
 
-      comboProducts: Array.isArray(comboCartList) ? comboCartList.map((item) => ({
-      productId: item._id,
+      comboProduct: Array.isArray(comboCartList) ? comboCartList.map((item) => ({
+      comboProductId: item._id,
       quantity: item.quantity,
-      totalPrice: item.comboPrice * item.quantity,
-      productHeroImage: item.productHeroImage,})): [],
+      totalPrice: item.pricing.comboPrice * item.quantity,
+      productHeroImage: item.productHeroImage,
+      productName: item.name || item.title || "" })): [],
+      
 
 
       totalAmount: cartList?.reduce(
@@ -158,11 +160,12 @@ const [step, setStep] = useState(() => {
       totalPrice: item.discountedPrice * item.quantity,
       productHeroImage: item.productHeroImage, })): [],
 
-      comboProducts: Array.isArray(comboCartList) ? comboCartList.map((item) => ({
-      productId: item._id,
+      comboProduct: Array.isArray(comboCartList) ? comboCartList.map((item) => ({
+      comboProductId: item._id,
       quantity: item.quantity,
-      totalPrice: item.comboPrice * item.quantity,
-      productHeroImage: item.productHeroImage,})): [],
+      totalPrice: item.pricing.comboPrice * item.quantity,
+      productHeroImage: item.productHeroImage,
+      productName: item.name || item.title || "" })): [],
 
       totalAmount: subTotal,
       address: addressForm,

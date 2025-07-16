@@ -166,7 +166,7 @@ const page = () => {
 
                           <div className="col-2">
                             <h6 style={{ color: "#797979" }}>
-                              Items: {order.product.length}
+                              Items: {order.product.length + order.comboProduct.length}
                             </h6>
                           </div>
 
