@@ -313,14 +313,15 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
       style={{
         ...(bgColor && { backgroundColor: bgColor }),
         ...(borderRadius && { borderRadius: borderRadius }),
-        cursor:"pointer"
+        cursor:"pointer",
+        backgroundColor: "white",
       }}
       onClick={() => router.push("/product-details/" + value?._id)}
     >
       <div className="d-flex justify-content-between align-items-center heartIcon pe-2  position-absolute " style={{zIndex:"99"}} >
-       <h6 className="badge  text-white  bg-danger p-sm-2 ">
+       {/* <h6 className="badge  text-white  bg-danger p-sm-2 ">
   {value?.categoryId?.length > 0 ? value.categoryId[0].name : "Category"}
-</h6>
+</h6> */}
 
       </div>
 
@@ -386,7 +387,7 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
         }`}
       >
         <h4 className="fw-bold">{value?.name}</h4>
-        <p className=" fs-6 fst-italic fw-semibold text-danger">{value?.productType}</p>
+        <p className="fw-semibold text-danger">{value?.productType}</p>
         <div>
           {/* <h4 className="fs-6 mb-1 mt-2">{value.category}</h4>
         <h4 className="fw-bold mb-3">{value.description}</h4> */}

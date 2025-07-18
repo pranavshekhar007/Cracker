@@ -287,14 +287,10 @@
 
 // export default LocationSelector;
 
-
 "use client";
 import React, { useState, useEffect } from "react";
 import { FaMapMarkerAlt, FaTruck, FaCity } from "react-icons/fa";
-import {
-  getStatesServ,
-  getCityByStateServ,
-} from "../services/product.service";
+import { getStatesServ, getCityByStateServ } from "../services/product.service";
 
 const LocationSelector = () => {
   const [addressForm, setAddressForm] = useState({
@@ -309,6 +305,7 @@ const LocationSelector = () => {
   const [cities, setCities] = useState([]);
   const [pickupMode, setPickupMode] = useState(false);
   const [selectedCityMinimumPrice, setSelectedCityMinimumPrice] = useState("");
+  const [confirmedLocation, setConfirmedLocation] = useState(null);
 
   const getStates = async () => {
     try {
@@ -337,6 +334,10 @@ const LocationSelector = () => {
 
   const handleSaveAddress = () => {
     console.log("Address saved:", addressForm);
+    setConfirmedLocation({
+      state: addressForm.state,
+      city: addressForm.city,
+    });
     setPickupMode(false);
   };
 
@@ -357,6 +358,14 @@ const LocationSelector = () => {
         }}
       >
         <FaMapMarkerAlt size={30} className="mb-2" />
+
+        {/* Show confirmed location if exists */}
+        {confirmedLocation && (
+          <p className="mb-0 mt-2 fw-bold">
+            {confirmedLocation.city}, {confirmedLocation.state}
+          </p>
+        )}
+
         <h5 className="fw-bold mb-0">
           For Crackers Purchase – Select Your City
         </h5>
@@ -451,19 +460,7 @@ const LocationSelector = () => {
               Minimum Order Value: ₹{selectedCityMinimumPrice}
             </div>
 
-            <p className="text-muted small text-center">
-              Deliveries are made via:
-              <br />
-              <span className="fw-bold text-dark">
-                Door delivery: Tamil Nadu, Pondicherry, Bangalore.
-              </span>
-              <br />
-              <span className="fw-bold text-dark">
-                To-pay lorry transport: Other legally allowed cities.
-              </span>
-              <br />
-              We do not deliver to restricted zones.
-            </p>
+      
 
             <div className="text-center">
               <button

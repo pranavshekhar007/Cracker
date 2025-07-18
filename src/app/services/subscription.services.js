@@ -15,7 +15,7 @@ export const addSubscriptionServ = async (formData) => {
 // List Subscription Chits
 export const getSubscriptionListServ = async (formData) => {
   try {
-    const response = await axios.post(BASE_URL + "subscription/list", formData);
+    const response = await axios.post(BASE_URL + "subscription/subscription-users/list", formData);
     return response;
   } catch (error) {
     console.error("Error fetching subscription chit list:", error);
@@ -52,6 +52,39 @@ export const deleteSubscriptionServ = async (id) => {
     return response;
   } catch (error) {
     console.error("Error deleting subscription chit:", error);
+    throw error;
+  }
+};
+
+// Sign Up for Subscription Chit
+export const signUpSubscriptionServ = async (formData) => {
+  try {
+    const response = await axios.post(BASE_URL + "subscription/signup", formData);
+    return response;
+  } catch (error) {
+    console.error("Error signing up for subscription chit:", error);
+    throw error;
+  }
+};
+
+// Login Subscription Chit User
+export const loginSubscriptionServ = async (formData) => {
+  try {
+    const response = await axios.post(BASE_URL + "subscription/login", formData);
+    return response;
+  } catch (error) {
+    console.error("Error logging in subscription chit user:", error);
+    throw error;
+  }
+};
+
+// Get My Subscriptions (for logged chit user)
+export const getMyChitSubscriptionsServ = async (formData) => {
+  try {
+    const response = await axios.post(BASE_URL + "subscription/my-subscriptions", formData);
+    return response;
+  } catch (error) {
+    console.error("Error fetching my subscriptions:", error);
     throw error;
   }
 };

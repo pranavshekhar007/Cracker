@@ -848,7 +848,7 @@ function page() {
                     <span className="discountedPrice">
                       R.s {details?.pricing?.comboPrice}
                     </span>{" "}
-                    ({details?.tax}) included
+                    {/* ({details?.tax}) included */}
                   </h5>
                 </div>
 
@@ -1056,9 +1056,9 @@ function page() {
                     </div>
                     <div className="col-md-3">
                       <h5 className="card-title mb-1">{item?.product.name}</h5>
-                      <div className="tags">
+                      <div className="tags badge bg-danger text-white fw-bold rounded-pill me-2 mb-2">
                         {item?.product.tags.map((tag, index) => (
-                          <span key={index} className="tag">
+                          <span key={index} className="tag ">
                             {tag}
                           </span>
                         ))}

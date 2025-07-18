@@ -1,8 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans&display=swap');
 
+/* Typography */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-color);
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+button, .btn {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
 
 *{
   margin: 0;
@@ -421,7 +434,8 @@ body {
   cursor: pointer;
   font-size: 15px;
   font-weight: 500;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
 }
 
 .most-popular{
@@ -435,7 +449,8 @@ body {
   font-size: 40px;
   margin-top: 10px;
   margin-bottom: 35px;
-  font-family: cursive;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
 }
 .price {
   display: flex;
@@ -453,7 +468,7 @@ body {
 }
 .product-descrip{
   font-size: 18px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .wishlist-icon {
@@ -1187,7 +1202,8 @@ body {
   border-radius: 20px;
 }
 .daily-sells h1, h3{
-  font-family: cursive;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
 }
 
 .daily-shop{
@@ -1758,7 +1774,7 @@ body {
 .nav-links li a{
   text-decoration: none;
   color: #000000;
-  font-family: cursive;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 700;
 }
 
@@ -1781,7 +1797,7 @@ body {
   border-radius: 8px;
   text-decoration: none;
   color: black;
-    font-family: cursive;
+    font-family: 'Open Sans', sans-serif;
     margin-bottom: 3%;
 }
 .navLinks li {
@@ -1925,7 +1941,8 @@ body {
   max-width: 1350px;
   margin: 85px auto 1px;
   background-color: rgb(232, 229, 229);;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 15px;
   color: #333;
   border: 1px solid #ff614f;
@@ -1959,7 +1976,7 @@ body {
   white-space: nowrap;
   animation: scroll-left 25s linear infinite;
   padding-left: 100%;
-  font-family: cursive;
+  font-family: 'Montserrat', sans-serif;
 }
 
 @keyframes scroll-left {
@@ -2091,7 +2108,8 @@ body {
 }
 
 .faq-section h2 {
-  font-family: 'Playball', cursive;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 3rem;
   color: #d32f2f;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
@@ -2227,7 +2245,8 @@ body {
   width: 50%;
 }
 .signup-form h2 , .login-form h2{
-  font-family: var(--font-secondary);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 .signup-form  input , .login-form  input{
@@ -2236,7 +2255,8 @@ body {
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 16px;
-  font-family: var(--font-secondary);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
 }
 .signup-form input:focus,
 .login-form input:focus {
@@ -2274,7 +2294,8 @@ body {
     border-radius: 6px;
     width: 100%;
     font-size: 16px;
-    font-family: var(--font-secondary);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
 }
 .signin-option{
   color: var(--primary-color);
@@ -2283,7 +2304,7 @@ body {
 .signup-p{
   margin-top: 15px;
   font-size: 15px;
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
  
 }
 
@@ -2346,11 +2367,12 @@ policy css */
   width: 90%;
 }
 .policy-head h1 {
-  font-family: var(--font-primary);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   color: var(--primary-color);
 }
 .policy-head p {
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
 
 }
 .all-policies{
@@ -2362,11 +2384,11 @@ policy css */
   border-bottom: 1px solid rgb(241, 241, 241);
 }
 .policy h3{
-   font-family: var(--font-secondary);
+   font-family: 'Montserrat', sans-serif;
    color: #1e1e1e;
 }
 .policy p {
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   margin-left: 4px;
   margin-bottom: 4px;
@@ -2411,13 +2433,13 @@ flex-direction: column;
 
 .contact-head h1 {
   color: var(--primary-color);
-  font-family: var(--font-secondary);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 55px;
-  font-weight: 500;
 }
 
 .contact-head p {
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
   font-size: 20px;
   font-weight: 500;
 }
@@ -2438,17 +2460,18 @@ flex-direction: column;
 }
 
 .contact-detail h3 {
-  font-family: var(--font-primary);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
 }
 
 .contact-detail p {
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
 }
 
 .contact-detail img {
   width: 50px;
   height: 50px;
-  background-color: var(--primary-color);
+  background-color: 'Open Sans', sans-serif;
   padding: 8px;
   border-radius: 50%;
   margin-bottom: 20px;
@@ -2462,7 +2485,7 @@ flex-direction: column;
   width: 50%;
   padding: 5%;
   background-color: white;
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
 }
 
 .contact-map {
@@ -2488,7 +2511,7 @@ flex-direction: column;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 16px;
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
   margin-bottom: 15px;
 }
 
@@ -2579,18 +2602,21 @@ flex-direction: column;
   width: 100%;
 }
 .productCard h6 {
-  font-family: cursive;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   margin-bottom: 0;
   /* opacity: 0.6; */
 }
 .productCard h4 {
-  font-family: poppins;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
    /* margin-bottom: 0px; */
   margin: 8px 0px;
   font-size: 16px;
 }
 .productCard p {
-  font-family: poppins;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-color);
   margin-bottom: 0px;
   font-size: 16px;
 }
@@ -2598,7 +2624,8 @@ flex-direction: column;
   width: 1000%;
   background-color: var(--secondary-color);
   padding: 6px 0px;
-  font-family: poppins;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   border: none;
   border-radius: 6px;
   color: white;
@@ -2659,14 +2686,15 @@ flex-direction: column;
 
 /* .product details */
 productDetailsDiv h1{
-  font-family: poppins;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 30px;
-  font-weight: 600;
   /* color: #3D9970; */
   color:gray
 }
 .reviewDiv a{
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-color);
 }
 .productDetailsDiv h5{
   /* font-family: poppins; */
@@ -2677,11 +2705,12 @@ productDetailsDiv h1{
 .varientDiv span{
   border: 1px solid green;
   border-radius: 2px;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-color);
 }
 .counterDiv p{
-  font-family: 16px;
-  font-family: monospace;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-color);
   border: 1px solid gray;
   text-align: center;
   padding: 4px 14px;
@@ -2693,14 +2722,15 @@ productDetailsDiv h1{
   width: 48%;
   background-color: var(--secondary-color);
   padding: 8px 0px;
-  font-family: poppins;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   border: none;
   border-radius: 6px;
   color: white;
 }
 .productDetailsLeftBtnGroup p{
   font-size: 16px;
-  font-family: poppins;
+  font-family: 'Open Sans', sans-serif;
   /* border: 1px solid gray; */
   text-align: center;
   padding: 8px 14px;
@@ -2722,7 +2752,7 @@ productDetailsDiv h1{
   cursor: pointer;
 }
 .breadcrumb p{
-  font-family: poppins;
+  font-family: 'Open Sans', sans-serif;
   margin-right: 8px;
 }
 .discountedPrice{
@@ -2753,11 +2783,11 @@ body , html{
   text-align: center;
   color: #fff;
   font-weight: 500;
-  font-family: monospace;
+  font-family: 'Open Sans', sans-serif;
 }
 .counterDiv p{
   font-family: 16px;
-  font-family: monospace;
+  font-family: 'Open Sans', sans-serif;
 
   text-align: center;
   padding: 4px 14px;
@@ -2779,7 +2809,8 @@ body , html{
 }
 .user-profile h2 {
   margin-bottom: 30px;
-  font-family: var(--font-secondary);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   color: brown;
 }
 
@@ -2819,7 +2850,8 @@ body , html{
   border-radius: 2px;
 }
 .profile-left h5 {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 18px !important;
 }
 .profile-left > div:hover .profile-left h5 {
@@ -2833,7 +2865,8 @@ body , html{
 }
 .my-details h3,
 .my-address h3 {
-  font-family: var(--font-secondary);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 .menu-item h5 {
@@ -2853,7 +2886,8 @@ body , html{
   margin-bottom: 15px;
 }
 .personal-info h5 {
-  font-family: var(--font-secondary);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-weight: 500;
 }
 .change-password {
@@ -2968,7 +3002,7 @@ body , html{
   margin-bottom: 15px;
 }
 .address-card p {
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
 }
 .address-name {
   font-weight: 600;
@@ -2994,7 +3028,7 @@ body , html{
 }
 .add-address p {
   color: var(--primary-color);
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
   font-size: 19px;
 }
 .add-address {
@@ -3019,7 +3053,7 @@ body , html{
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 16px;
-  font-family: var(--font-secondary);
+  font-family: 'Open Sans', sans-serif;
 }
 
 .address-form input:focus {
@@ -3190,11 +3224,12 @@ body , html{
   font-size: 14px;
 }
 .order-details h5{
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
    font-size: 18px;
 }
 .order-details p {
-  font-family: poppins;
+  font-family: 'Open Sans', sans-serif;
 }
 .orderHeadingImage{
   width: 31px;
@@ -3351,7 +3386,8 @@ body , html{
 
 .bulk-btn {
   background-color: var(--secondary-color);
-  font-family: var(--font-secondary);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   padding: 6px 20px;
   border-radius: 6px;
   border: none;
@@ -3468,6 +3504,13 @@ body , html{
   cursor: pointer;
 }
 
+/* subscription-signUp page  */
+.subscription-page{
+  margin-top: 40px;
+    padding-left: 7%;
+    padding-right: 7%;
+    padding-top: 5%;
+    padding-bottom: 8%;
+}
 
-/* product details page scroll */
 

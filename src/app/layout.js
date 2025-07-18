@@ -3,6 +3,7 @@ import "./globals.css";
 import { LoggedDataProvider } from "./context/context";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { ChitLoggedDataProvider } from "./context/context2";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <LoggedDataProvider>
+        <ChitLoggedDataProvider>
           {children}
 
           <ToastContainer position="top-right" autoClose={4000} />
@@ -54,6 +56,7 @@ export default function RootLayout({ children }) {
             integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
             crossorigin="anonymous"
           ></script>
+          </ChitLoggedDataProvider>
         </LoggedDataProvider>
       </body>
     </html>

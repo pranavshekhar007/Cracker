@@ -48,6 +48,10 @@ const Footer = () => {
                 {" "}
               <p>Contact Us</p>{" "}
               </Link>
+              <Link href="/subscription-signup">
+                {" "}
+              <p>Chit Subscription</p>{" "}
+              </Link>
             </div>
           </div>
 
