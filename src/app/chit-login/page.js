@@ -88,13 +88,13 @@ const ChitLoginPage = () => {
               </div>
             </form>
             <p className="signup-p">
-              You don't have an account?{" "}
+              You don't have an Chit account?{" "}
               <span
                 className="signin-option fw-bold"
                 onClick={handleSignup}
                 style={{ cursor: "pointer" }}
               >
-                Sign Up
+                Register First
               </span>
             </p>
           </div>
