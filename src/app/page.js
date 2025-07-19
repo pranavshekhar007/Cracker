@@ -18,8 +18,7 @@ import ProductSlider from "./Components/ProductSlider";
 import LocationSelector from "./Components/LocationSelector";
 import { generateToken, messaging } from "./notifications/firebase";
 import { onMessage } from "firebase/messaging";
-import toast, { Toaster } from "react-hot-toast";
-import ChitSubscriptionOverview from "./Components/chitSubscriptionOverView";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -32,8 +31,8 @@ export default function Home() {
     onMessage(messaging, (payload) => {
       console.log(payload);
       toast(payload.notification.body);
-    });
-  }, []);
+    })
+  },[]);
 
   const [productlist, setProductList] = useState([]);
 
@@ -107,7 +106,7 @@ export default function Home() {
   return (
     <>
       <div className=" position-relative">
-        <Toaster />
+      <Toaster />
         <Navbar />
 
         {/* ===== Updates Bar Section ===== */}
@@ -182,43 +181,41 @@ export default function Home() {
           </div> */}
         </div>
 
-        {/* <div className="container my-4">
-          <button className="btn btn-danger" onClick={openModal}>
-            Select Location
-          </button>
+        <div className="container my-4">
+      <button className="btn btn-danger" onClick={openModal}>
+        Select Location
+      </button>
 
-          {showModal && (
-            <div
-              className="modal fade show"
-              style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
-            >
-              <div className="modal-dialog modal-dialog-centered modal-lg">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title">Select Location</h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      onClick={closeModal}
-                    ></button>
-                  </div>
+      {showModal && (
+        <div
+          className="modal fade show"
+          style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Select Location</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={closeModal}
+                ></button>
+              </div>
 
-                  <div className="modal-body">
-                    <LocationSelector />
-                  </div>
+              <div className="modal-body">
+                <LocationSelector />
+              </div>
 
-                  <div className="modal-footer">
-                    <button className="btn btn-secondary" onClick={closeModal}>
-                      Close
-                    </button>
-                  </div>
-                </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={closeModal}>
+                  Close
+                </button>
               </div>
             </div>
-          )}
-        </div> */}
-
-        {/* <ChitSubscriptionOverview/> */}
+          </div>
+        </div>
+      )}
+    </div>
 
         {/* Daily best sells section */}
         {/* <DailySell
@@ -380,52 +377,6 @@ export default function Home() {
         )}
 
         <Footer />
-
-        <div
-          className="locationBtn position-fixed"
-          style={{ bottom: "10%", right: "3%" }} // place it above whatsapp button
-        >
-          <button
-            className="btn btn-danger rounded-pill"
-            onClick={openModal}
-            style={{
-              padding: "10px 14px",
-              fontWeight: "bold",
-            }}
-          >
-            Select Location
-          </button>
-
-          {showModal && (
-            <div
-              className="modal fade show"
-              style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
-            >
-              <div className="modal-dialog modal-dialog-centered modal-lg">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title">Select Location</h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      onClick={closeModal}
-                    ></button>
-                  </div>
-
-                  <div className="modal-body">
-                    <LocationSelector />
-                  </div>
-
-                  <div className="modal-footer">
-                    <button className="btn btn-secondary" onClick={closeModal}>
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
 
         <div
           className="whatsappBtn position-fixed"
