@@ -5,9 +5,11 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import { signUpSubscriptionServ } from "../services/subscription.services";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const SubscriptionRegistrationPage = () => {
   const { loggedUserData } = useContext(LoggedDataContext);
+  const router = useRouter();
 
   const [form, setForm] = useState({
     // installment: "",
@@ -54,6 +56,7 @@ const SubscriptionRegistrationPage = () => {
         email: "",
         location: "",
       });
+      router.push("/chit-login");
     } catch (error) {
       console.error("Error registering:", error);
       toast.error(error.response?.data?.message || "Registration failed");
@@ -73,11 +76,52 @@ const SubscriptionRegistrationPage = () => {
               className="img-fluid"
             />
 
+            <div className="mt-4">
+              <h5>Big Bang Crackers Chit Subscription Plan – Overview</h5>
+              <p>
+                We have introduced a Chit Subscription Plan to help our regular
+                customers and bulk buyers plan and save easily for the Diwali
+                season. This is a smart savings scheme where customers can
+                contribute monthly and enjoy benefits such as priority booking,
+                exclusive discounts, and zero last-minute stress.
+              </p>
+
+              <h6>Key Features:</h6>
+              <ul>
+                <li>
+                  <strong>Monthly Payment:</strong> Customers contribute a fixed
+                  amount every month.
+                </li>
+                <li>
+                  <strong>Flexible Tenure:</strong> Chits can be subscribed for
+                  3 or 10 months before Diwali.
+                </li>
+                <li>
+                  <strong>Redeemable Value:</strong> The full value, along with
+                  bonus benefits, can be redeemed for firecracker purchases
+                  during Diwali.
+                </li>
+                <li>
+                  <strong>Priority Delivery:</strong> Subscribers will get their
+                  orders packed and dispatched ahead of regular buyers.
+                </li>
+                <li>
+                  <strong>Attractive Discounts:</strong> Special offers and
+                  discounted bundles will be available only for chit
+                  subscribers.
+                </li>
+                <li>
+                  <strong>Safe & Transparent:</strong> Entire process is
+                  documented and receipts are provided monthly.
+                </li>
+              </ul>
+            </div>
+
             <div className="terms mt-4">
               <h5>Terms & Conditions</h5>
               <p>
-                • The months scheme starts from after diwali and ends in
-                before diwali.
+                • The months scheme starts from after diwali and ends in before
+                diwali.
               </p>
               <p>
                 • Customers get easy payment options (Google Pay, PhonePe,

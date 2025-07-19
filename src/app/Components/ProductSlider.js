@@ -51,7 +51,7 @@ function ProductSlider({title, subTitle, productList , textAlignCenter , comboPr
     }, [productList , comboProduct]);
 
   return (
-    <div className="container py-3 py-md-5 productSliderDiv">
+    <div className="container productSliderDiv">
       <h1 className={` ${textAlignCenter ? "text-center" : ""}`}  >{title}</h1>
       <h5 className={`mb-4 text-muted ${textAlignCenter ? "text-center" : ""}`}>{subTitle}</h5>
       <div className="row py-3">

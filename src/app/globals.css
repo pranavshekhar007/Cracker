@@ -2440,6 +2440,12 @@ flex-direction: column;
 
 }
 
+.text-shop{
+  color: #6c757d !important;
+  font-size: 19px;
+  font-weight: 500;
+}
+
 .contact-detail {
   width: 25%;
   padding: 3%;

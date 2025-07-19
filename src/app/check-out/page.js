@@ -106,7 +106,7 @@ const [step, setStep] = useState(() => {
       quantity: item.quantity,
       totalPrice: item.pricing.comboPrice * item.quantity,
       productHeroImage: item.productHeroImage,
-      productName: item.name || item.title || "" })): [],
+      productName: item.name || item.title || ""})): [],
       
 
 
@@ -165,7 +165,7 @@ const [step, setStep] = useState(() => {
       quantity: item.quantity,
       totalPrice: item.pricing.comboPrice * item.quantity,
       productHeroImage: item.productHeroImage,
-      productName: item.name || item.title || "" })): [],
+      productName: item.name || item.title || "",})): [],
 
       totalAmount: subTotal,
       address: addressForm,
