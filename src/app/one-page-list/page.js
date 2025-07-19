@@ -1,3 +1,5 @@
+
+
 // "use client";
 
 // import React, { useState, useMemo, useEffect , useContext } from "react";
@@ -28,26 +30,42 @@
 //   const [products, setProductList] = useState([]);
 //   const [showLoader, setShowLoader] = useState(false);
 //    const [priceRange, setPriceRange] = useState([0, 500]);
-//     const [showCount, setShowCount] = useState(10);
+//     // const [showCount, setShowCount] = useState(10);
+
+//     const [payload, setPayload] = useState({ pageCount: 10, pageNo: 1 });
+//     const [statics, setStatics] = useState({ totalCount: 0 });
 
   
-//     const getProductList = async () => {
+//   const getProductList = async () => {
+//   setShowLoader(true); 
+//       console.log("inside get product list")
+//   try {
+//     const response = await getProductServ({
+//       pageCount: payload.pageCount,
+//       pageNo: payload.pageNo,
+//     });
 
-//       setShowLoader(true);
+//      console.log("all product" , response?.data)
+//     // if (response?.statusCode === "200") {
+//       setProductList(response?.data);
+//       console.log("all product" , response?.data)
+      
+//       if (response?.documentCount?.totalCount) {
+//         const pages = Math.ceil(response.documentCount.totalCount / payload.pageCount);
+//         setTotalPages(pages);
+//         setStatics(response.documentCount); 
+//       // }
+//     }
+//   } catch (error) {
+//     console.error("Error fetching products", error);
+//   }
 
-//       const payload = {
-//       pageCount: showCount
-//       };
-//       try {
-//         let response = await getProductServ(payload);
-//        console.log("response products" + response?.data);
-//         if (response?.statusCode == "200") {
-//           setProductList(response?.data);
-//         }
-//       } catch (error) {}
-//         setShowLoader(false);
-//     };
-  
+//   setShowLoader(false); // disable loader after request
+// };
+
+
+
+
 //      const [showLoaderCategory, setShowLoaderCategory] = useState(false);
 //     const [categories, setCategoryList] = useState([]);
 //     const getCategoryList = async () => {
@@ -75,9 +93,15 @@
 //         getCategoryList();
 //       }, []);
     
-//         useEffect(() => {
-//         getProductList();
-//       }, [showCount]);
+        
+
+//       useEffect(() => {
+//   getProductList();
+// }, [payload]);
+
+//   useEffect(() => {
+//   getProductList();
+// }, []);
 
 //   useEffect(() => {
 //     setSelectedCategory(categoryFromUrl);
@@ -87,12 +111,7 @@
 //   const filteredProducts = useMemo(() => {
 //     let filtered = products;
 
-//     // Filter by category
-//     // if (selectedCategory !== "All") {
-//     //   filtered = filtered.filter(
-//     //     (p) => p.category.toLowerCase() === selectedCategory.toLowerCase()
-//     //   );
-//     // }
+//     console.log("all product filters" , products)
 
 //     if(selectedCategory !== "All"){
 //         filtered = filtered.filter((p) =>
@@ -142,9 +161,9 @@
 // }
 
 
-
+    
 //     return filtered
-//   }, [selectedCategory, searchTerm, sortOption, products , categories , priceRange]);
+//   }, [selectedCategory, searchTerm, sortOption, products , categories , priceRange , payload ]);
 
 
 //   const { loggedUserData, cartList, setCartList } =  useContext(LoggedDataContext);
@@ -206,6 +225,25 @@
 // //     const productInCart = cartList?.find((item) => item._id === value._id);
 // // const productQty = productInCart?.quantity || 0;
 
+
+// // pagination
+  
+
+
+//  const [totalPages, setTotalPages] = useState(1);
+
+//   useEffect(() => {
+//     if (statics?.totalCount && payload.pageCount) {
+//       const pages = Math.ceil(statics.totalCount / payload.pageCount);
+//       setTotalPages(pages);
+//     }
+//   }, [statics, payload.pageCount]);
+
+//   const handlePageChange = (newPage) => {
+//     if (newPage >= 1 && newPage <= totalPages) {
+//       setPayload({ ...payload, pageNo: newPage });
+//     }
+//   }
 
 //   return (
 //     <>
@@ -284,10 +322,10 @@
 
 //           <div className="item-section">
 //             <div className="row gx-0   mb-2">
-//               <div className="col-sm-9 col-6 p-2 rounded-2" style={{backgroundColor:"#e9e9e9"}}>
+//               <div className="col-sm-12 col-12 p-2 rounded-2" style={{backgroundColor:"#e9e9e9"}}>
 //                 <h5> {selectedCategory}</h5>
 //               </div>
-//               <div className="col-sm-3 col-6 ps-3 justify-content-end d-flex">
+//               {/* <div className="col-sm-3 col-6 ps-3 justify-content-end d-flex">
 //                     <select  className="form-select form-select-sm  w-100 "
 //                 value={showCount}
 //                 onChange={(e) => setShowCount(Number(e.target.value))} >
@@ -295,7 +333,7 @@
 //                 <option value={20}>20</option>
 //                 <option value={50}>50</option>
 //               </select>
-//               </div>
+//               </div> */}
 //             </div>
 //             <div className="table-responsive">
 //               <table className="table table-bordered align-middle">
@@ -393,6 +431,97 @@
 //                 </tbody>
 //               </table>
 //             </div>
+
+//             {/* pagination  start  .. */}
+//                <div className="d-flex flex-column flex-md-row justify-content-end align-items-center gap-5 px-3 py-3 mt-4">
+//                   <div className="d-flex align-items-center gap-2">
+//                     <span className="fw-semibold text-secondary">Show</span>
+//                     <select
+//                       className="form-select form-select-sm custom-select"
+//                       value={payload.pageCount}
+//                       onChange={(e) =>
+//                         setPayload({
+//                           ...payload,
+//                           pageCount: parseInt(e.target.value),
+//                           pageNo: 1,
+//                         })
+//                       }
+//                     >
+//                       {[10, 25, 50, 100].map((v) => (
+//                         <option key={v} value={v}>
+//                           {v}
+//                         </option>
+//                       ))}
+//                     </select>
+//                   </div>
+
+//                   <nav>
+//                     <ul className="pagination pagination-sm mb-0 custom-pagination">
+//                       <li
+//                         className={`page-item ${
+//                           payload.pageNo === 1 ? "disabled" : ""
+//                         }`}
+//                       >
+//                         <button
+//                           className="page-link"
+//                           onClick={() => handlePageChange(payload.pageNo - 1)}
+//                         >
+//                           &lt;
+//                         </button>
+//                       </li>
+
+//                       {[...Array(totalPages)].map((_, i) => {
+//                         const page = i + 1;
+//                         if (
+//                           page === 1 ||
+//                           page === totalPages ||
+//                           (page >= payload.pageNo - 1 &&
+//                             page <= payload.pageNo + 1)
+//                         ) {
+//                           return (
+//                             <li
+//                               key={page}
+//                               className={`page-item ${
+//                                 payload.pageNo === page ? "active" : ""
+//                               }`}
+//                             >
+//                               <button
+//                                 className="page-link"
+//                                 onClick={() => handlePageChange(page)}
+//                               >
+//                                 {page}
+//                               </button>
+//                             </li>
+//                           );
+//                         } else if (
+//                           (page === payload.pageNo - 2 && page > 2) ||
+//                           (page === payload.pageNo + 2 && page < totalPages - 1)
+//                         ) {
+//                           return (
+//                             <li key={page} className="page-item disabled">
+//                               <span className="page-link">...</span>
+//                             </li>
+//                           );
+//                         }
+//                         return null;
+//                       })}
+
+//                       <li
+//                         className={`page-item ${
+//                           payload.pageNo === totalPages ? "disabled" : ""
+//                         }`}
+//                       >
+//                         <button
+//                           className="page-link"
+//                           onClick={() => handlePageChange(payload.pageNo + 1)}
+//                         >
+//                           &gt;
+//                         </button>
+//                       </li>
+//                     </ul>
+//                   </nav>
+//                 </div>
+//             {/* pagination end ... */}
 //           </div>
 //         </div>
 //       </div>
@@ -471,6 +600,8 @@
 // export default Page;
 
 
+// pagination added from frontend
+
 
 "use client";
 
@@ -504,30 +635,25 @@ const Page = () => {
    const [priceRange, setPriceRange] = useState([0, 500]);
     // const [showCount, setShowCount] = useState(10);
 
-    const [payload, setPayload] = useState({ pageCount: 10, pageNo: 1 });
-    const [statics, setStatics] = useState({ totalCount: 0 });
-
+   const [currentPage, setCurrentPage] = useState(1);
+     const [itemsPerPage, setItemsPerPage] = useState(10);
+       const [totalPages, setTotalPages] = useState(1);
   
   const getProductList = async () => {
   setShowLoader(true); 
       console.log("inside get product list")
   try {
-    const response = await getProductServ({
-      pageCount: payload.pageCount,
-      pageNo: payload.pageNo,
-    });
+     const response = await getProductServ({
+            pageCount: 1000,
+            pageNo: 1,
+          });
 
      console.log("all product" , response?.data)
     // if (response?.statusCode === "200") {
       setProductList(response?.data);
       console.log("all product" , response?.data)
       
-      if (response?.documentCount?.totalCount) {
-        const pages = Math.ceil(response.documentCount.totalCount / payload.pageCount);
-        setTotalPages(pages);
-        setStatics(response.documentCount); 
-      // }
-    }
+      
   } catch (error) {
     console.error("Error fetching products", error);
   }
@@ -569,7 +695,7 @@ const Page = () => {
 
       useEffect(() => {
   getProductList();
-}, [payload]);
+}, []);
 
   useEffect(() => {
   getProductList();
@@ -635,7 +761,7 @@ const Page = () => {
 
     
     return filtered
-  }, [selectedCategory, searchTerm, sortOption, products , categories , priceRange , payload ]);
+  }, [selectedCategory, searchTerm, sortOption, products , categories , priceRange ]);
 
 
   const { loggedUserData, cartList, setCartList } =  useContext(LoggedDataContext);
@@ -699,23 +825,23 @@ const Page = () => {
 
 
 // pagination
-  
-
-
- const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    if (statics?.totalCount && payload.pageCount) {
-      const pages = Math.ceil(statics.totalCount / payload.pageCount);
-      setTotalPages(pages);
-    }
-  }, [statics, payload.pageCount]);
-
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setPayload({ ...payload, pageNo: newPage });
-    }
-  }
+      setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
+    }, [filteredProducts, itemsPerPage]);
+  
+    const paginatedProducts = useMemo(() => {
+      const startIdx = (currentPage - 1) * itemsPerPage;
+      const endIdx = startIdx + itemsPerPage;
+      return filteredProducts.slice(startIdx, endIdx);
+    }, [filteredProducts, currentPage, itemsPerPage]);
+  
+    const handlePageChange = (newPage) => {
+      if (newPage >= 1 && newPage <= totalPages) {
+        setCurrentPage(newPage);
+      }
+    };
+  
 
   return (
     <>
@@ -837,7 +963,7 @@ const Page = () => {
                                        
                                     );
                                   })
-                                : filteredProducts.map((product, index) => {
+                                : paginatedProducts.map((product, index) => {
                     const productInCart = cartList?.find((item) => item._id === product._id);
                      const productQty = productInCart?.quantity || 0;                
                   return(
@@ -905,94 +1031,90 @@ const Page = () => {
             </div>
 
             {/* pagination  start  .. */}
-               <div className="d-flex flex-column flex-md-row justify-content-end align-items-center gap-5 px-3 py-3 mt-4">
-                  <div className="d-flex align-items-center gap-2">
-                    <span className="fw-semibold text-secondary">Show</span>
-                    <select
-                      className="form-select form-select-sm custom-select"
-                      value={payload.pageCount}
-                      onChange={(e) =>
-                        setPayload({
-                          ...payload,
-                          pageCount: parseInt(e.target.value),
-                          pageNo: 1,
-                        })
-                      }
+            <div className="d-flex flex-column flex-md-row justify-content-end align-items-center gap-5 px-3 py-3 mt-4">
+              <div className="d-flex align-items-center gap-2">
+                <span className="fw-semibold text-secondary">Show</span>
+                <select
+                  className="form-select form-select-sm custom-select"
+                  value={itemsPerPage}
+                  onChange={(e) => {
+                    setItemsPerPage(parseInt(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                >
+                  {[10, 25, 50, 100].map((v) => (
+                    <option key={v} value={v}>
+                      {v}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <nav>
+                <ul className="pagination pagination-sm mb-0 custom-pagination">
+                  <li
+                    className={`page-item ${
+                      currentPage === 1 ? "disabled" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(currentPage - 1)}
                     >
-                      {[10, 25, 50, 100].map((v) => (
-                        <option key={v} value={v}>
-                          {v}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                      &lt;
+                    </button>
+                  </li>
 
-                  <nav>
-                    <ul className="pagination pagination-sm mb-0 custom-pagination">
-                      <li
-                        className={`page-item ${
-                          payload.pageNo === 1 ? "disabled" : ""
-                        }`}
-                      >
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(payload.pageNo - 1)}
+                  {[...Array(totalPages)].map((_, i) => {
+                    const page = i + 1;
+                    if (
+                      page === 1 ||
+                      page === totalPages ||
+                      (page >= currentPage - 1 && page <= currentPage + 1)
+                    ) {
+                      return (
+                        <li
+                          key={page}
+                          className={`page-item ${
+                            currentPage === page ? "active" : ""
+                          }`}
                         >
-                          &lt;
-                        </button>
-                      </li>
+                          <button
+                            className="page-link"
+                            onClick={() => handlePageChange(page)}
+                          >
+                            {page}
+                          </button>
+                        </li>
+                      );
+                    } else if (
+                      (page === currentPage - 2 && page > 2) ||
+                      (page === currentPage + 2 && page < totalPages - 1)
+                    ) {
+                      return (
+                        <li key={page} className="page-item disabled">
+                          <span className="page-link">...</span>
+                        </li>
+                      );
+                    }
+                    return null;
+                  })}
 
-                      {[...Array(totalPages)].map((_, i) => {
-                        const page = i + 1;
-                        if (
-                          page === 1 ||
-                          page === totalPages ||
-                          (page >= payload.pageNo - 1 &&
-                            page <= payload.pageNo + 1)
-                        ) {
-                          return (
-                            <li
-                              key={page}
-                              className={`page-item ${
-                                payload.pageNo === page ? "active" : ""
-                              }`}
-                            >
-                              <button
-                                className="page-link"
-                                onClick={() => handlePageChange(page)}
-                              >
-                                {page}
-                              </button>
-                            </li>
-                          );
-                        } else if (
-                          (page === payload.pageNo - 2 && page > 2) ||
-                          (page === payload.pageNo + 2 && page < totalPages - 1)
-                        ) {
-                          return (
-                            <li key={page} className="page-item disabled">
-                              <span className="page-link">...</span>
-                            </li>
-                          );
-                        }
-                        return null;
-                      })}
-
-                      <li
-                        className={`page-item ${
-                          payload.pageNo === totalPages ? "disabled" : ""
-                        }`}
-                      >
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(payload.pageNo + 1)}
-                        >
-                          &gt;
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
+                  <li
+                    className={`page-item ${
+                      currentPage === totalPages ? "disabled" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      &gt;
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
             {/* pagination end ... */}
           </div>
         </div>

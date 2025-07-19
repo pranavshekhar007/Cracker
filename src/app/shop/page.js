@@ -534,11 +534,7 @@ const Page = () => {
      console.log("All products:", [...response?.data]);
       // if (response?.statusCode == "200") {
         setProductList(response?.data);
-        if (response?.documentCount?.totalCount) {
-        const pages = Math.ceil(response.documentCount.totalCount / payload.pageCount);
-        setTotalPages(pages);
-        setStatics(response.documentCount); 
-        }
+      
       // }
     } catch (error) {}
     setShowLoader(false);
