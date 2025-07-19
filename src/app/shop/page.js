@@ -26,21 +26,28 @@
 //   const [showLoader, setShowLoader] = useState(false);
 //  const [priceRange, setPriceRange] = useState([0, 500]);
 
+//      const [payload, setPayload] = useState({ pageCount: 10, pageNo: 1 });
+//      const [statics, setStatics] = useState({ totalCount: 0 });
+
 
 //   const getProductList = async () => {
 //     setShowLoader(true);
 
-// const payload = {
-//   pageCount: showCount
-// };
-
 //     try {
-//       let response = await getProductServ(payload);
+//       const response = await getProductServ({
+//            pageCount: payload.pageCount,
+//            pageNo: payload.pageNo,
+//          });
 //       // console.table(response?.data);
 //      console.log("All products:", [...response?.data]);
-//       if (response?.statusCode == "200") {
+//       // if (response?.statusCode == "200") {
 //         setProductList(response?.data);
-//       }
+//         if (response?.documentCount?.totalCount) {
+//         const pages = Math.ceil(response.documentCount.totalCount / payload.pageCount);
+//         setTotalPages(pages);
+//         setStatics(response.documentCount); 
+//         }
+//       // }
 //     } catch (error) {}
 //     setShowLoader(false);
 //   };
@@ -72,9 +79,9 @@
 //     getCategoryList();
 //   }, []);
 
-//     useEffect(() => {
-//     getProductList();
-//   }, [showCount]);
+//         useEffect(() => {
+//       getProductList();
+//     }, [payload]);
 
 //   useEffect(() => {
 //     setSelectedCategory(categoryFromUrl);
@@ -134,6 +141,25 @@
 //     // return filtered.slice(0, showCount);
 //     return filtered;
 //   }, [selectedCategory, searchTerm, sortOption, showCount , products , categories , priceRange]);
+
+
+//   // pagination
+  
+//    const [totalPages, setTotalPages] = useState(1);
+  
+//     useEffect(() => {
+//       if (statics?.totalCount && payload.pageCount) {
+//         const pages = Math.ceil(statics.totalCount / payload.pageCount);
+//         setTotalPages(pages);
+//       }
+//     }, [statics, payload.pageCount]);
+  
+//     const handlePageChange = (newPage) => {
+//       if (newPage >= 1 && newPage <= totalPages) {
+//         setPayload({ ...payload, pageNo: newPage });
+//       }
+//     }
+  
 
 //   return (
 //     <>
@@ -219,13 +245,13 @@
 //               />
 
 //              <div className="d-flex gap-2">
-//                <select  className="form-select form-select-sm  w-auto "
+//                {/* <select  className="form-select form-select-sm  w-auto "
 //                 value={showCount}
 //                 onChange={(e) => setShowCount(Number(e.target.value))} >
 //                 <option value={10}>Show: 10</option>
 //                 <option value={20}>20</option>
 //                 <option value={50}>50</option>
-//               </select>
+//               </select> */}
 
 //               <select  className="form-select form-select-sm w-auto "
 //                 value={sortOption}
@@ -289,6 +315,97 @@
 //                 </div>
 //               ))}
 //             </div>
+
+//              {/* pagination  start  .. */}
+//                <div className="d-flex flex-column flex-md-row justify-content-end align-items-center gap-5 px-3 py-3 mt-4">
+//                   <div className="d-flex align-items-center gap-2">
+//                     <span className="fw-semibold text-secondary">Show</span>
+//                     <select
+//                       className="form-select form-select-sm custom-select"
+//                       value={payload.pageCount}
+//                       onChange={(e) =>
+//                         setPayload({
+//                           ...payload,
+//                           pageCount: parseInt(e.target.value),
+//                           pageNo: 1,
+//                         })
+//                       }
+//                     >
+//                       {[10, 25, 50, 100].map((v) => (
+//                         <option key={v} value={v}>
+//                           {v}
+//                         </option>
+//                       ))}
+//                     </select>
+//                   </div>
+
+//                   <nav>
+//                     <ul className="pagination pagination-sm mb-0 custom-pagination">
+//                       <li
+//                         className={`page-item ${
+//                           payload.pageNo === 1 ? "disabled" : ""
+//                         }`}
+//                       >
+//                         <button
+//                           className="page-link"
+//                           onClick={() => handlePageChange(payload.pageNo - 1)}
+//                         >
+//                           &lt;
+//                         </button>
+//                       </li>
+
+//                       {[...Array(totalPages)].map((_, i) => {
+//                         const page = i + 1;
+//                         if (
+//                           page === 1 ||
+//                           page === totalPages ||
+//                           (page >= payload.pageNo - 1 &&
+//                             page <= payload.pageNo + 1)
+//                         ) {
+//                           return (
+//                             <li
+//                               key={page}
+//                               className={`page-item ${
+//                                 payload.pageNo === page ? "active" : ""
+//                               }`}
+//                             >
+//                               <button
+//                                 className="page-link"
+//                                 onClick={() => handlePageChange(page)}
+//                               >
+//                                 {page}
+//                               </button>
+//                             </li>
+//                           );
+//                         } else if (
+//                           (page === payload.pageNo - 2 && page > 2) ||
+//                           (page === payload.pageNo + 2 && page < totalPages - 1)
+//                         ) {
+//                           return (
+//                             <li key={page} className="page-item disabled">
+//                               <span className="page-link">...</span>
+//                             </li>
+//                           );
+//                         }
+//                         return null;
+//                       })}
+
+//                       <li
+//                         className={`page-item ${
+//                           payload.pageNo === totalPages ? "disabled" : ""
+//                         }`}
+//                       >
+//                         <button
+//                           className="page-link"
+//                           onClick={() => handlePageChange(payload.pageNo + 1)}
+//                         >
+//                           &gt;
+//                         </button>
+//                       </li>
+//                     </ul>
+//                   </nav>
+//                 </div>
+//             {/* pagination end ... */}
 //           </div>
 //         </div>
 //       </div>
@@ -369,6 +486,8 @@
 
 
 
+// pagination from frontend
+
 
 "use client";
 
@@ -397,18 +516,20 @@ const Page = () => {
   const [showLoader, setShowLoader] = useState(false);
  const [priceRange, setPriceRange] = useState([0, 500]);
 
-     const [payload, setPayload] = useState({ pageCount: 10, pageNo: 1 });
-     const [statics, setStatics] = useState({ totalCount: 0 });
+      const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [totalPages, setTotalPages] = useState(1);
+
 
 
   const getProductList = async () => {
     setShowLoader(true);
 
     try {
-      const response = await getProductServ({
-           pageCount: payload.pageCount,
-           pageNo: payload.pageNo,
-         });
+       const response = await getProductServ({
+        pageCount: 1000,
+        pageNo: 1,
+      });
       // console.table(response?.data);
      console.log("All products:", [...response?.data]);
       // if (response?.statusCode == "200") {
@@ -452,7 +573,7 @@ const Page = () => {
 
         useEffect(() => {
       getProductList();
-    }, [payload]);
+    }, []);
 
   useEffect(() => {
     setSelectedCategory(categoryFromUrl);
@@ -515,22 +636,23 @@ const Page = () => {
 
 
   // pagination
+
   
-   const [totalPages, setTotalPages] = useState(1);
-  
-    useEffect(() => {
-      if (statics?.totalCount && payload.pageCount) {
-        const pages = Math.ceil(statics.totalCount / payload.pageCount);
-        setTotalPages(pages);
-      }
-    }, [statics, payload.pageCount]);
-  
-    const handlePageChange = (newPage) => {
-      if (newPage >= 1 && newPage <= totalPages) {
-        setPayload({ ...payload, pageNo: newPage });
-      }
+   useEffect(() => {
+    setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
+  }, [filteredProducts, itemsPerPage]);
+
+  const paginatedProducts = useMemo(() => {
+    const startIdx = (currentPage - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    return filteredProducts.slice(startIdx, endIdx);
+  }, [filteredProducts, currentPage, itemsPerPage]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
     }
-  
+  };
 
   return (
     <>
@@ -678,7 +800,7 @@ const Page = () => {
                       </div>
                     );
                   })
-                  :filteredProducts.map((v , i) => (
+                  :paginatedProducts.map((v , i) => (
                
                  <div className="col-md-4 col-6 mb-3"> 
                   <ProductCard value={v}/>
@@ -688,94 +810,90 @@ const Page = () => {
             </div>
 
              {/* pagination  start  .. */}
-               <div className="d-flex flex-column flex-md-row justify-content-end align-items-center gap-5 px-3 py-3 mt-4">
-                  <div className="d-flex align-items-center gap-2">
-                    <span className="fw-semibold text-secondary">Show</span>
-                    <select
-                      className="form-select form-select-sm custom-select"
-                      value={payload.pageCount}
-                      onChange={(e) =>
-                        setPayload({
-                          ...payload,
-                          pageCount: parseInt(e.target.value),
-                          pageNo: 1,
-                        })
-                      }
+            <div className="d-flex flex-column flex-md-row justify-content-end align-items-center gap-5 px-3 py-3 mt-4">
+              <div className="d-flex align-items-center gap-2">
+                <span className="fw-semibold text-secondary">Show</span>
+                <select
+                  className="form-select form-select-sm custom-select"
+                  value={itemsPerPage}
+                  onChange={(e) => {
+                    setItemsPerPage(parseInt(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                >
+                  {[10, 25, 50, 100].map((v) => (
+                    <option key={v} value={v}>
+                      {v}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <nav>
+                <ul className="pagination pagination-sm mb-0 custom-pagination">
+                  <li
+                    className={`page-item ${
+                      currentPage === 1 ? "disabled" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(currentPage - 1)}
                     >
-                      {[10, 25, 50, 100].map((v) => (
-                        <option key={v} value={v}>
-                          {v}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                      &lt;
+                    </button>
+                  </li>
 
-                  <nav>
-                    <ul className="pagination pagination-sm mb-0 custom-pagination">
-                      <li
-                        className={`page-item ${
-                          payload.pageNo === 1 ? "disabled" : ""
-                        }`}
-                      >
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(payload.pageNo - 1)}
+                  {[...Array(totalPages)].map((_, i) => {
+                    const page = i + 1;
+                    if (
+                      page === 1 ||
+                      page === totalPages ||
+                      (page >= currentPage - 1 && page <= currentPage + 1)
+                    ) {
+                      return (
+                        <li
+                          key={page}
+                          className={`page-item ${
+                            currentPage === page ? "active" : ""
+                          }`}
                         >
-                          &lt;
-                        </button>
-                      </li>
+                          <button
+                            className="page-link"
+                            onClick={() => handlePageChange(page)}
+                          >
+                            {page}
+                          </button>
+                        </li>
+                      );
+                    } else if (
+                      (page === currentPage - 2 && page > 2) ||
+                      (page === currentPage + 2 && page < totalPages - 1)
+                    ) {
+                      return (
+                        <li key={page} className="page-item disabled">
+                          <span className="page-link">...</span>
+                        </li>
+                      );
+                    }
+                    return null;
+                  })}
 
-                      {[...Array(totalPages)].map((_, i) => {
-                        const page = i + 1;
-                        if (
-                          page === 1 ||
-                          page === totalPages ||
-                          (page >= payload.pageNo - 1 &&
-                            page <= payload.pageNo + 1)
-                        ) {
-                          return (
-                            <li
-                              key={page}
-                              className={`page-item ${
-                                payload.pageNo === page ? "active" : ""
-                              }`}
-                            >
-                              <button
-                                className="page-link"
-                                onClick={() => handlePageChange(page)}
-                              >
-                                {page}
-                              </button>
-                            </li>
-                          );
-                        } else if (
-                          (page === payload.pageNo - 2 && page > 2) ||
-                          (page === payload.pageNo + 2 && page < totalPages - 1)
-                        ) {
-                          return (
-                            <li key={page} className="page-item disabled">
-                              <span className="page-link">...</span>
-                            </li>
-                          );
-                        }
-                        return null;
-                      })}
-
-                      <li
-                        className={`page-item ${
-                          payload.pageNo === totalPages ? "disabled" : ""
-                        }`}
-                      >
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(payload.pageNo + 1)}
-                        >
-                          &gt;
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
+                  <li
+                    className={`page-item ${
+                      currentPage === totalPages ? "disabled" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      &gt;
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
             {/* pagination end ... */}
           </div>
         </div>
