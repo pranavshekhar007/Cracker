@@ -143,7 +143,7 @@ const SubscriptionPageContent = () => {
                       </div>
 
                       <div>
-                        <h6>Remaining Months</h6>
+                        <h6>Paid Months</h6>
                         <div className="table-responsive">
                           <table className="table table-bordered">
                             <thead>
