@@ -12,7 +12,7 @@ const SubscriptionRegistrationPage = () => {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    // installment: "",
+    totalAmount: "",
     name: "",
     phone: "",
     email: "",
@@ -43,14 +43,14 @@ const SubscriptionRegistrationPage = () => {
       phone: form.phone,
       email: form.email,
       location: form.location,
-      //   installment: form.installment,
+      totalAmount: form.totalAmount,
     };
 
     try {
       const res = await signUpSubscriptionServ(payload);
       toast.success(res?.data?.message || "Registered successfully!");
       setForm({
-        // installment: "",
+        totalAmount: "",
         name: "",
         phone: "",
         email: "",
@@ -149,21 +149,7 @@ const SubscriptionRegistrationPage = () => {
             <div className="enquiry-form card p-4">
               <h5 className="mb-3">ENQUIRY FORM</h5>
               <form onSubmit={handleSubmit}>
-                {/* <div className="mb-3">
-                  <select
-                    name="installment"
-                    value={form.installment}
-                    onChange={handleChange}
-                    className="form-control"
-                    required
-                  >
-                    <option value="">Select Installment</option>
-                    <option value="₹700 x 3 Months">₹700 x 3 Months</option>
-                    <option value="₹800 x 3 Months">₹800 x 3 Months</option>
-                    <option value="₹1000 x 3 Months">₹1000 x 3 Months</option>
-                    
-                  </select>
-                </div> */}
+              
 
                 <div className="mb-3">
                   <input
@@ -204,6 +190,18 @@ const SubscriptionRegistrationPage = () => {
                     value={form.location}
                     onChange={handleChange}
                     placeholder="Location*"
+                    className="form-control"
+                    required
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <input
+                    type="number"
+                    name="totalAmount"
+                    value={form.totalAmount}
+                    onChange={handleChange}
+                    placeholder="Total Amount*"
                     className="form-control"
                     required
                   />

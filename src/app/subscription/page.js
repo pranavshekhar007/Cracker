@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useRouter } from "next/navigation";
+import ChitPayment from "../Components/ChitPayment";
 
 const SubscriptionPageContent = () => {
   const { chitLoggedUserData } = useContext(ChitLoggedDataContext);
@@ -23,6 +24,10 @@ const SubscriptionPageContent = () => {
 
   const [subscriptions, setSubscriptions] = useState([]);
   const [showLoaderSubs, setShowLoaderSubs] = useState(false);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+  const [selectedChitId, setSelectedChitId] = useState(null);
+  const [selectedMonthNumber, setSelectedMonthNumber] = useState(null);
+  const [selectedMonthYear, setSelectedMonthYear] = useState(null);
 
   useEffect(() => {
     if (!chitLoggedUserData) {
@@ -56,17 +61,49 @@ const SubscriptionPageContent = () => {
     return (
       <div className="loading-div">
         <p>
-          Please login with your chit subscription account to view your
-          subscriptions.
+          Please login with your chit subscription account to view your subscriptions.
         </p>
       </div>
     );
   }
 
-  // ✅ filter subscriptions by loggedUserData._id
   const filteredSubscriptions = subscriptions.filter(
     (sub) => sub.userId && sub.userId._id === loggedUserData._id
   );
+
+  const getRemainingMonths = (enrolmentDate, schemeEndDate, paidMonths) => {
+    const months = [];
+    let current = new Date(
+      enrolmentDate.getFullYear(),
+      enrolmentDate.getMonth(),
+      1
+    );
+    const end = new Date(
+      schemeEndDate.getFullYear(),
+      schemeEndDate.getMonth(),
+      1
+    );
+
+    while (current <= end) {
+      const monthName = current.toLocaleString("default", { month: "long" });
+      const year = current.getFullYear().toString();
+
+      const paidEntry = paidMonths.find(
+        (pm) => pm.monthNumber === monthName && pm.monthYear === year
+      );
+
+      months.push({
+        monthName,
+        year,
+        isPaid: !!paidEntry,
+        status: paidEntry ? paidEntry.status : null,
+      });
+
+      current.setMonth(current.getMonth() + 1);
+    }
+
+    return months;
+  };
 
   return (
     <>
@@ -82,82 +119,105 @@ const SubscriptionPageContent = () => {
               {showLoaderSubs ? (
                 <Skeleton count={5} />
               ) : filteredSubscriptions.length > 0 ? (
-                filteredSubscriptions.map((sub) => (
-                  <div key={sub._id} className="mb-4">
-                    <div className="border p-3 mb-3">
-                      <h5>Basic Details</h5>
-                      <p>
-                        <strong>Name:</strong> {sub.name}
-                      </p>
-                      <p>
-                        <strong>Phone:</strong> {sub.phone}
-                      </p>
-                      <p>
-                        <strong>Scheme Start:</strong>{" "}
-                        {sub.schemeStartDate
-                          ? format(new Date(sub.schemeStartDate), "dd MMM yyyy")
-                          : "N/A"}
-                      </p>
-                      <p>
-                        <strong>Scheme End:</strong>{" "}
-                        {sub.schemeEndDate
-                          ? format(new Date(sub.schemeEndDate), "dd MMM yyyy")
-                          : "N/A"}
-                      </p>
-                      <p>
-                        <strong>Enrolment Date:</strong>{" "}
-                        {sub.enrolmentDate
-                          ? format(new Date(sub.enrolmentDate), "dd MMM yyyy")
-                          : "N/A"}
-                      </p>
-                      <p>
-                        <strong>Total Amount:</strong> ₹{sub.totalAmount}
-                      </p>
-                      <p>
-                        <strong>Total Months:</strong> {sub.totalMonths}
-                      </p>
-                    </div>
+                filteredSubscriptions.map((sub) => {
+                  const enrolmentDate = new Date(sub.enrolmentDate);
+                  const schemeEndDate = new Date(sub.schemeEndDate);
 
-                    <div>
-                      <h6>Paid Months</h6>
-                      <div className="table-responsive">
-                        <table className="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th>Month</th>
-                              <th>Year</th>
-                              <th>Payment Date</th>
-                              <th>Monthly Amount</th>
-                              <th>Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {sub.paidMonths && sub.paidMonths.length > 0 ? (
-                              sub.paidMonths.map((pm) => (
-                                <tr key={pm._id}>
-                                  <td>{pm.monthNumber}</td>
-                                  <td>{pm.monthYear}</td>
+                  const remainingMonths = getRemainingMonths(
+                    enrolmentDate,
+                    schemeEndDate,
+                    sub.paidMonths || []
+                  );
+
+                  return (
+                    <div key={sub._id} className="mb-4">
+                      <div className="border p-3 mb-3">
+                        <h5>Basic Details</h5>
+                        <p><strong>Name:</strong> {sub.name}</p>
+                        <p><strong>Phone:</strong> {sub.phone}</p>
+                        <p><strong>Scheme Start:</strong> {format(new Date(sub.schemeStartDate), "MMMM yyyy")}</p>
+                        <p><strong>Scheme End:</strong> {format(new Date(sub.schemeEndDate), "MMMM yyyy")}</p>
+                        <p><strong>Enrolment Month:</strong> {format(new Date(sub.enrolmentDate), "MMMM yyyy")}</p>
+                        <p><strong>Total Amount:</strong> ₹{sub.totalAmount}</p>
+                        <p><strong>Total Months:</strong> {sub.totalMonths}</p>
+                      </div>
+
+                      <div>
+                        <h6>Remaining Months</h6>
+                        <div className="table-responsive">
+                          <table className="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Month</th>
+                                <th>Year</th>
+                                <th>Monthly Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {remainingMonths.map((month) => (
+                                <tr key={month.monthName + month.year}>
+                                  <td>{month.monthName}</td>
+                                  <td>{month.year}</td>
+                                  <td>₹{sub.monthlyAmount}</td>
                                   <td>
-                                    {format(
-                                      new Date(pm.paymentDate),
-                                      "dd MMM yyyy"
+                                    {month.isPaid ? (
+                                      month.status === "approved" ? (
+                                        <span className="text-success">Paid</span>
+                                      ) : month.status === "rejected" ? (
+                                        <span className="text-danger">Rejected</span>
+                                      ) : (
+                                        <span className="text-warning">Pending Approval</span>
+                                      )
+                                    ) : (
+                                      <span className="text-danger">Pending</span>
                                     )}
                                   </td>
-                                  <td>₹{sub.monthlyAmount}</td>
-                                  <td>{pm.status}</td>
+                                  <td>
+                                    {month.isPaid ? (
+                                      month.status === "approved" ? (
+                                        <button className="btn btn-success btn-sm" disabled>
+                                          Paid
+                                        </button>
+                                      ) : month.status === "rejected" ? (
+                                        <button
+                                          className="btn btn-primary btn-sm"
+                                          onClick={() => {
+                                            setSelectedChitId(sub._id);
+                                            setSelectedMonthNumber(month.monthName);
+                                            setSelectedMonthYear(month.year);
+                                            setShowPaymentPopup(true);
+                                          }}
+                                        >
+                                          Pay Now
+                                        </button>
+                                      ) : (
+                                        <span className="text-warning">Waiting for approval</span>
+                                      )
+                                    ) : (
+                                      <button
+                                        className="btn btn-primary btn-sm"
+                                        onClick={() => {
+                                          setSelectedChitId(sub._id);
+                                          setSelectedMonthNumber(month.monthName);
+                                          setSelectedMonthYear(month.year);
+                                          setShowPaymentPopup(true);
+                                        }}
+                                      >
+                                        Pay Now
+                                      </button>
+                                    )}
+                                  </td>
                                 </tr>
-                              ))
-                            ) : (
-                              <tr>
-                                <td colSpan="5">No paid months yet</td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <div className="d-flex justify-content-center align-items-center my-5">
                   <div
@@ -182,8 +242,7 @@ const SubscriptionPageContent = () => {
                       No Active Subscriptions
                     </h4>
                     <p className="text-muted">
-                      You don’t have any active subscriptions right now. Sign in
-                      to explore and subscribe easily.
+                      You don’t have any active subscriptions right now. Sign in to explore and subscribe easily.
                     </p>
                     <button
                       className="btn btn-primary mt-3 px-4 py-2"
@@ -199,6 +258,16 @@ const SubscriptionPageContent = () => {
           </div>
         </div>
       </div>
+
+      <ChitPayment
+        showPaymentPopup={showPaymentPopup}
+        setShowPaymentPopup={setShowPaymentPopup}
+        chitId={selectedChitId}
+        monthNumber={selectedMonthNumber}
+        monthYear={selectedMonthYear}
+        refreshFunction={getSubscriptions}
+      />
+
       <Footer />
     </>
   );
