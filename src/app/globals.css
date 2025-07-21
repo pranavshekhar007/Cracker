@@ -3384,14 +3384,14 @@ body , html{
     }
     
     .locationBtn {
-      margin-top: 75px;
+      margin-top: 85px;
       padding: 10px 23px;
       font-weight: bold;
     }
 
     @media (max-width: 1095px) {    
       .locationBtn {
-        margin-top: 65px;
+        margin-top: 70px;
       }
     }
 
