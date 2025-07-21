@@ -89,20 +89,20 @@ import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
-const products = [
-  { id: 1, name: "Ground Chakkar", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/chakker.png?resize=600%2C494&ssl=1" },
-  { id: 2, name: "Flower Pots", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/Flower-Pot.png?w=1136&ssl=1" },
-  { id: 3, name: "One Sound", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/sound.png?w=1136&ssl=1" },
-  { id: 4, name: "Sparklers", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/sparklers.png?w=1136&ssl=1" },
-  { id: 5, name: "Novelties", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/Rocket.png?w=1136&ssl=1" },
-  { id: 6, name: "New Arrivals", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/kids.png?w=1136&ssl=1" },
-  { id: 7, name: "Choice of Fountain", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fountains.png?w=1136&ssl=1" },
-  { id: 8, name: "Fatafat", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fatafat.png?w=1136&ssl=1" },
-  { id: 9, name: "Fancy", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fancy.png?w=1136&ssl=1" },
-  { id: 10, name: "Bombs", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/bomb.png?w=1136&ssl=1" },
-  { id: 11, name: "Bijili", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/bijili.png?w=1136&ssl=1" },
-  { id: 12, name: "Multishots", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/30-shots.png?w=1136&ssl=1" },
-];
+// const products = [
+//   { id: 1, name: "Ground Chakkar", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/chakker.png?resize=600%2C494&ssl=1" },
+//   { id: 2, name: "Flower Pots", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/Flower-Pot.png?w=1136&ssl=1" },
+//   { id: 3, name: "One Sound", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/sound.png?w=1136&ssl=1" },
+//   { id: 4, name: "Sparklers", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/sparklers.png?w=1136&ssl=1" },
+//   { id: 5, name: "Novelties", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/Rocket.png?w=1136&ssl=1" },
+//   { id: 6, name: "New Arrivals", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/kids.png?w=1136&ssl=1" },
+//   { id: 7, name: "Choice of Fountain", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fountains.png?w=1136&ssl=1" },
+//   { id: 8, name: "Fatafat", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fatafat.png?w=1136&ssl=1" },
+//   { id: 9, name: "Fancy", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/fancy.png?w=1136&ssl=1" },
+//   { id: 10, name: "Bombs", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/bomb.png?w=1136&ssl=1" },
+//   { id: 11, name: "Bijili", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/bijili.png?w=1136&ssl=1" },
+//   { id: 12, name: "Multishots", image: "https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/30-shots.png?w=1136&ssl=1" },
+// ];
 
 const FeaturedCarousel = () => {
   const router = useRouter();

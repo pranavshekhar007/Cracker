@@ -91,78 +91,77 @@
 
 // export default DailySell;
 
-
 import React from "react";
 import ProductCard from "./ProductCard";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useRouter } from "next/navigation";
 
-const DailySell = ({productList}) => {
+const DailySell = ({ productList }) => {
   const router = useRouter();
   return (
     <>
       <div className="daily-sells">
-        <h1  className="text-center">Trending Now</h1>
+        <h1 className="text-center">Trending Now</h1>
         <div className="all-sells d-flex gap-4 justify-content-center">
-          <div className="daily-sell1 daily-sell ">
-            <h3 className="text-white">Ground Chakkar.</h3>
-            <p className="text-white">Get the best deal before close.</p>
+          <div className="daily-sell1 daily-sell">
+            <h3>Ground Chakkar.</h3>
+            <p>Get the best deal before close.</p>
             <div className="daily-shop d-flex gap-2 align-items-center justify-content-center my-3">
-              <p className="fs-5 mb-0 text-white fs-6" onClick={() => router.push("/shop")} style={{cursor: "pointer"}}>Shop Now</p>
+              <p
+                className="fs-5 mb-0 text-white fs-6"
+                onClick={() => router.push("/shop")}
+                style={{ cursor: "pointer" }}
+              >
+                Shop Now
+              </p>
               <img src="/assets/next.png" alt="Next Icon" />
             </div>
           </div>
 
-          {productList && productList.length > 0 ? (
-             productList.slice(0,3).map((product) => (
-        
-          <div className="daily-sell">
-            <ProductCard value={product}
-            bgColor = {'#f0d0d0'}
-            borderRadius = {'15px'}
-            innerHeight = {true}
-             height = {true}
-          />
-            </div>
+          {productList && productList.length > 0
+            ? productList.slice(0, 3).map((product) => (
+                <div className="daily-sell">
+                  <ProductCard
+                    value={product}
+                    bgColor={"#f0d0d0"}
+                    borderRadius={"15px"}
+                    innerHeight={true}
+                    height={true}
+                  />
+                </div>
+              ))
+            : [1, 2, 3]?.map((v, i) => {
+                return (
+                  <div className="col-md-3 col-6 mb-3 daily-sell ">
+                    <div className="productCard shadow-sm border ">
+                      <div className="d-flex justify-content-between align-items-center heartIcon pe-2">
+                        <h6 className="badge border text-dark m-2">
+                          <Skeleton height={20} width={100} />
+                        </h6>
+                        <Skeleton height={20} width={20} />
+                      </div>
 
-          ))
-          ):(
-             [1, 2, 3]?.map((v, i) => {
-                    return (
-                      <div className="col-md-3 col-6 mb-3 daily-sell ">
-                        <div className="productCard shadow-sm border ">
-                          <div className="d-flex justify-content-between align-items-center heartIcon pe-2">
-                            <h6 className="badge border text-dark m-2">
-                              <Skeleton height={20} width={100} />
-                            </h6>
-                            <Skeleton height={20} width={20} />
-                          </div>
+                      <div className="w-100">
+                        <Skeleton height={180} width="100%" />
+                      </div>
 
-                          <div className="w-100">
-                            <Skeleton height={180} width="100%" />
-                          </div>
+                      <div className="p-2">
+                        <h4>
+                          <Skeleton />
+                        </h4>
+                        <p>
+                          <Skeleton />
+                        </p>
 
-                          <div className="p-2">
-                            <h4>
-                              <Skeleton />
-                            </h4>
-                            <p>
-                              <Skeleton />
-                            </p>
-
-                            <div className="w-100 ">
-                              <Skeleton height={30} width="100%" />
-                            </div>
-                          </div>
+                        <div className="w-100 ">
+                          <Skeleton height={30} width="100%" />
                         </div>
                       </div>
-                    );
-                  }
-               )
-           )
-        }
-                
+                    </div>
+                  </div>
+                );
+              })}
         </div>
       </div>
     </>

@@ -67,16 +67,17 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="d-flex flex-wrap justify-content-between align-items-center mt-4 pt-4 pb-5">
+        <div className="d-flex flex-wrap justify-content-between align-items-center mt-4 pt-4">
           <p className="mb-0 pb-2">
-            © 2024. All Rights Reserved Bing Bang
+            © 2024. All Rights Reserved Big Bang
           </p>
-          <div className="social-icons d-flex align-items-center gap-2 ">
+          
+        </div>
+        <div className="social-icons d-flex align-items-center gap-2 ">
               <img src="https://cdn-icons-png.flaticon.com/128/665/665209.png" alt="facebook" style={{height:"25px" , width:"25px"}} />
              <a href="https://www.instagram.com/bigbangcrackers?utm_source=qr&igsh=MXh1ZGk3Z2txamZq" target="_blank"> <img src="https://cdn-icons-png.flaticon.com/128/15522/15522253.png" alt="instagram" style={{height:"25px" , width:"25px"}}  /></a>
               <img src="https://cdn-icons-png.flaticon.com/128/15522/15522333.png" alt="youtube"  style={{height:"25px" , width:"25px"}} />
             </div>
-        </div>
         <div className="d-flex justify-content-center mt-1">
           {/* <p className="">
             Developed by{" "}

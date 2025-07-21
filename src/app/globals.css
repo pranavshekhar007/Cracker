@@ -1159,23 +1159,27 @@ body {
   margin-top: 25px;
 }
 .daily-sell1 {
-  background: url("https://i0.wp.com/bigbangcrackers.com/wp-content/uploads/2023/08/chakker.png?resize=600%2C494&ssl=1") no-repeat center center;
-  background-size: contain; /* scales image to fit inside container fully */
+  position: relative;
+
+  background: url("/assets/BigBangLogo.jpg") no-repeat center center;
+  background-size: contain;/* adjust size as needed for watermark effect */
+  background-position: bottom right; /* place logo at bottom right */
+  background-color: #fff; /* set card background to white */
+
   padding: 25px !important;
   min-height: 300px;
   border-radius: 12px;
-  color: white;
+  color: black; /* text color to black */
+
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+
   box-sizing: border-box;
-  background-color: #00000033;
-    border: 1px solid #ddd;
-    
+  border: 1px solid #ddd;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
-.daily-sell1{
-   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
+
 
 .daily-sells {
   background: linear-gradient(to right, #ffe6e6, #ffd1d1, #fbbcbc, #e76c6a, #6d0d0c);
@@ -1205,7 +1209,7 @@ body {
 }
 .daily-sell {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-   width: 100%;
+  width: 100%;
   max-width: 300px;
   min-width: 250px;
   overflow: hidden;
@@ -3360,21 +3364,48 @@ body , html{
       font-size: 13px;
         padding: "10px 14px";
     } */
-
-@media (max-width: 770px) {
-    .whatsappBtn{
-      bottom: 11% !important;
-    }
-    .whatsappA{
-      font-size: 13px;
-        padding: "7px 7px" !important;
-    }
-    .whatsappLogo{
-      width: 18px !important;
-      height: 18px !important;
+    .locationBtn {
+      bottom: 11%;  /* increase to keep well above whatsapp button */
+      right: 3%;
+      z-index: 9999;
     }
     
-}
+    .whatsappBtn {
+      bottom: 5%;  /* keep closer to bottom */
+      right: 3%;
+    }
+    
+    @media (max-width: 770px) {
+      .locationBtn {
+        bottom: 18% !important; /* higher on small screens */
+      }
+    
+      .locationA {
+        font-size: 13px;
+        padding: 7px 7px !important;
+      }
+    
+      .locationLogo {
+        width: 18px !important;
+        height: 18px !important;
+      }
+    
+      .whatsappBtn {
+        bottom: 10% !important;
+      }
+    
+      .whatsappA {
+        font-size: 13px;
+        padding: 7px 7px !important;
+      }
+    
+      .whatsappLogo {
+        width: 18px !important;
+        height: 18px !important;
+      }
+    }
+    
+
 .productDetail h6{
    min-width:  150px;
 }
