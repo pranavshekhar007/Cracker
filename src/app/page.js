@@ -8,7 +8,7 @@ import ShopFromFarm from "./Components/ShopFromFarm";
 import Footer from "./Components/Footer";
 import SegmentedToggleWithContent from "./Components/SegmentedToggleWithContent";
 import HeroSection from "./Components/HeroSection";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp} from "react-icons/fa";
 import {
   getProductServ,
   getComboProductServ,
@@ -380,12 +380,12 @@ export default function Home() {
 
         <div
           className="locationBtn position-fixed"
-          style={{ bottom: "10%", right: "3%", zIndex: "9999" }}
+          style={{ bottom: "11%", right: "3%", zIndex: "9999" }}
         >
           <button
             className="btn btn-danger d-flex justify-content-center align-items-center rounded-pill"
             style={{
-              padding: "10px 14px",
+              padding: "10px 13px",
               fontWeight: "bold",
             }}
             onClick={openModal}
@@ -402,7 +402,7 @@ export default function Home() {
               <div className="modal-dialog modal-dialog-centered modal-lg">
                 <div className="modal-content">
                   <div className="modal-header">
-                    <h5 className="modal-title">Select Location</h5>
+                    <h5 className="modal-title"> Select Location</h5>
                     <button
                       type="button"
                       className="btn-close"

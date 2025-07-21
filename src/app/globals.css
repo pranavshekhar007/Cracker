@@ -3360,12 +3360,8 @@ body , html{
     font-size: 12px;
 }
 }
- /* .whatsappA{
-      font-size: 13px;
-        padding: "10px 14px";
-    } */
     .locationBtn {
-      bottom: 11%;  /* increase to keep well above whatsapp button */
+      bottom: 11%;
       right: 3%;
       z-index: 9999;
     }
@@ -3540,3 +3536,6 @@ body , html{
 }
 
 
+.carousel-item button.btn-link:hover {
+  text-decoration: underline;
+}

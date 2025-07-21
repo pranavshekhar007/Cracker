@@ -226,29 +226,79 @@ import { FaStar, FaCheckCircle } from "react-icons/fa";
 
 const Testimonials = () => {
   const [reviews, setReviews] = useState([]);
+  const [expanded, setExpanded] = useState({}); 
 
   useEffect(() => {
     // Static reviews data
     const staticReviews = [
       {
-        author_name: "Ravi Kumar",
-        text: "Excellent service and genuine crackers at best rates. Highly recommended for Diwali shopping!",
-        profile_photo_url: "/assets/review1.jpeg",
-        relative_time_description: "2 weeks ago",
+        author_name: "Bhuvi Karthik",
+        text: "Good quality 💥 Worth for money 💯 Time to good delivery Response very well …",
+        profile_photo_url: "/assets/Bhuvi.png",
+        relative_time_description: "5 months ago",
         rating: 5,
       },
       {
-        author_name: "Meena Sharma",
-        text: "Fast delivery and superb packing. Very satisfied with my purchase from Big Bang Crackers.",
-        profile_photo_url: "/assets/review3.jpeg",
-        relative_time_description: "1 month ago",
+        author_name: "Kanaga Raj",
+        text: "Great quality and specially liked delivered in good way",
+        profile_photo_url: "/assets/Kanaga.png",
+        relative_time_description: "3 months ago",
+        rating: 5,
+      },
+      {
+        author_name: "Arjun Krishna",
+        text: "This was my first time buying crackers online, as I usually purchase them from the store. I decided to give it a try, and I’m really happy with my experience! The packaging was excellent, and everything I ordered was included. The crackers were fantastic—they burst beautifully and added to the celebration. I’m definitely going to buy from them again next year, and I’m hoping for the same level of excitement and quality. Highly recommended!",
+        profile_photo_url: "/assets/Arjun.png",
+        relative_time_description: "5 months ago",
         rating: 4,
       },
       {
-        author_name: "Ajay Singh",
-        text: "Huge variety of crackers and amazing combo offers. Will order again next year!",
-        profile_photo_url: "/assets/review2.jpeg",
+        author_name: "poorani kannan",
+        text: "Ordered for Diwali and was impressed with the fast delivery and secure packaging. The prices were reasonable and all items were as described. Will order again!",
+        profile_photo_url: "/assets/poorani.png",
         relative_time_description: "3 months ago",
+        rating: 4,
+      },
+      {
+        author_name: "Kishore MuthuKumar",
+        text: "crackers is a popular tradition in many parts of India. People light firecrackers to celebrate the victory of light over darkness and good over evil. The colorful explosions and loud sounds are believed to drive away evil spirits and bring joy and excitement, especially among children. However, in recent years, there's been growing awareness about the environmental and health effects of crackers, leading many to choose eco-friendly or green crackers or celebrate Diwali in quieter, more sustainable ways.",
+        profile_photo_url: "/assets/Kishore.png",
+        relative_time_description: "3 months ago",
+        rating: 5,
+      },
+      // {
+      //   author_name: "Harikrishna IYER",
+      //   text: "Amazing place, crackers are good quality. Enjoyed my diwali",
+      //   profile_photo_url: "/assets/Harikrishna.png",
+      //   relative_time_description: "3 months ago",
+      //   rating: 5,
+      // },
+      // {
+      //   author_name: "Harikrishna IYER",
+      //   text: "Amazing place, crackers are good quality. Enjoyed my diwali",
+      //   profile_photo_url: "/assets/Harikrishna.png",
+      //   relative_time_description: "3 months ago",
+      //   rating: 5,
+      // },
+      {
+        author_name: "Harikrishna IYER",
+        text: "Amazing place, crackers are good quality. Enjoyed my diwali",
+        profile_photo_url: "/assets/Harikrishna.png",
+        relative_time_description: "3 months ago",
+        rating: 5,
+      },
+      {
+        author_name: "Kalaivani selvaraj",
+        text: "product quality is very good. Quick and safe delivery👍",
+        profile_photo_url: "/assets/kalivani.png",
+        relative_time_description: "3 months ago",
+        rating: 4,
+      },
+      {
+        author_name: "Chetan Agarwal",
+        text: "Thank you sir ✌✌ All the crackers were nice and executed well👌👌 Every package was neatly packed and liked by everyone Thanks again👍👍",
+        profile_photo_url: "/assets/chetan.png",
+        relative_time_description: "8 months ago",
         rating: 5,
       },
     ];
@@ -256,11 +306,14 @@ const Testimonials = () => {
     setReviews(staticReviews);
   }, []);
 
+  const toggleReadMore = (index) => {
+    setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+
   return (
     <div className="testimonials-section py-5 px-3" style={{ backgroundColor: "#f8f9fa" }}>
       <div className="container">
         <div className="row d-flex align-items-center">
-          {/* Heading Section */}
           <div className="col-md-5 col-12 mb-4 mb-md-0">
             <h2
               className="testi-heading"
@@ -276,13 +329,8 @@ const Testimonials = () => {
             </h2>
           </div>
 
-          {/* Carousel Section */}
           <div className="col-md-7 col-12">
-            <div
-              id="testimonialCarousel"
-              className="carousel slide"
-              data-bs-ride="carousel"
-            >
+            <div id="testimonialCarousel" className="carousel slide" data-bs-ride="carousel">
               <div className="carousel-inner">
                 {reviews.map((review, index) => (
                   <div
@@ -320,16 +368,36 @@ const Testimonials = () => {
                         <small className="text-muted mb-3">
                           {review.relative_time_description}
                         </small>
+
                         <p className="testi-content mb-0" style={{ fontStyle: "italic" }}>
-                          “{review.text}”
+                          “
+                          {expanded[index]
+                            ? review.text
+                            : review.text.length > 150
+                            ? `${review.text.substring(0, 150)}...`
+                            : review.text}
+                          ”
                         </p>
+
+                        {review.text.length > 150 && (
+                          <button
+                            onClick={() => toggleReadMore(index)}
+                            className="btn btn-link p-0 mt-1"
+                            style={{
+                              fontSize: "0.9rem",
+                              color: "#1a73e8",
+                              textDecoration: "none",
+                            }}
+                          >
+                            {expanded[index] ? "Read less" : "Read more"}
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Carousel Controls */}
               {reviews.length > 1 && (
                 <>
                   <button
