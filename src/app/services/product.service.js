@@ -150,6 +150,18 @@ export const getStatesServ = async () => {
 
 // city api
 
+// City
+export const getCityServ = async (formData) => {
+  try {
+    const response = await axios.post(BASE_URL + "city/list", formData);
+    return response;
+  } catch (error) {
+    // Handle error (e.g., log or throw an error)
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
 export const getCityByStateServ = async (stateId) => {
     try {
       const response = await axios.get(BASE_URL + `city?stateId=${stateId}`);

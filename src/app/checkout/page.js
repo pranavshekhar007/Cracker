@@ -619,7 +619,7 @@ import {
   addressUpdate,
 } from "../services/address.service";
 import {
-  getCitiesServ,
+  getCityServ,
   getStatesServ,
   placeOrderServ,
 } from "../services/product.service";
@@ -928,7 +928,7 @@ const Page = () => {
 
   const getCity = async () => {
     try {
-      const res = await getCitiesServ();
+      const res = await getCityServ();
       if (res?.statusCode == "200") {
         console.log(res.data);
         setCityList(res.data);

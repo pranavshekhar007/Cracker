@@ -31,4 +31,15 @@ export const contact = async (formData) => {
   }
 };
 
+export const addBulkOrderServ = async (formData) => {
+  try {
+    const response = await axios.post(BASE_URL + "bulk-order/create", formData, getConfig());
+    return response;
+  } catch (error) {
+    // Handle error (e.g., log or throw an error)
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
 

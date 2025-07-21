@@ -107,7 +107,7 @@
 import React, { useRef, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import { bulkOrder } from "../services/support.service";
+import { addBulkOrderServ } from "../services/support.service";
 
 const BulkOrderPage = () => {
   const fileInputRef = useRef(null);
@@ -133,7 +133,7 @@ const BulkOrderPage = () => {
   const handleSubmit = async (e) => {
      e.preventDefault();
        try {
-         const res = await bulkOrder(formData);
+         const res = await addBulkOrderServ(formData);
          console.log("Message sent successfully!");
          setFormData({
            firstName: "",
