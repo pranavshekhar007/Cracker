@@ -206,6 +206,7 @@ import React, { useState, useContext ,  useRef , useEffect} from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { LoggedDataContext } from "../context/context";
+import { addToCartServ, removeToCartServ, userCartList } from "../services/product.service";
 import "../globals.css";
 import Search from "./Search";
 
@@ -237,6 +238,32 @@ const Navbar = () => {
       router.push("/register");
     }
   };
+
+  const [cartListApi , setCartListApi] = useState();
+  
+    const getUserCart = async () => {
+      const id = loggedUserData?.id
+      // console.log("user id" , loggedUserData)
+      try{
+         const res = await userCartList(loggedUserData?._id)
+         console.log("cart list" , res)
+         setCartListApi(res?.cartItems)
+      }
+      catch(error){
+        console.log("error in cart list" , error)
+      }
+    }
+    
+     useEffect(() => {
+      console.log("user id" , loggedUserData?._id)
+      if(loggedUserData?._id){
+          getUserCart();
+      }
+      else{
+        console.log("nothing")
+      }
+         
+      }, [loggedUserData?._id])
 
 
     const handleIncreaseQty = (e, v) => {
@@ -353,6 +380,43 @@ const Navbar = () => {
     setComboCartList(localComboCartList);
   };
   
+   const handleAddToCartApi = async (v)=>{
+       const payload = {
+        userId:loggedUserData?._id,
+        id: v._id,
+        itemType:v?.itemType
+      }
+  
+       try{
+         const res = await  addToCartServ(payload);
+         console.log(res);
+          getUserCart();
+       }
+       catch(error){
+           console.log("error in add to cart api", error)
+       }
+    }
+  
+    const handleIncreaseApi = (e , v) => {
+        handleAddToCartApi(v);
+    }
+  
+      const handleDecreaseApi =  async (e , v) => {
+         const payload = {
+        userId:loggedUserData?._id,
+        id: v._id,
+        itemType:v?.itemType
+      }
+  
+       try{
+         const res = await removeToCartServ(payload);
+         console.log(res);
+         getUserCart();
+       }
+       catch(error){
+           console.log("error in add to cart api", error)
+       }
+    }
   return (
     <>
       {/* Top Navbar */}
@@ -419,13 +483,20 @@ const Navbar = () => {
             />
             <div className="notificationDiv" >
               <p>
-                  {cartList?.reduce(
+                 {loggedUserData && cartListApi ?
+                 (  
+                    cartListApi.reduce(
+                      (total, item) => total + (item?.quantity || 0),
+                       0)
+                 ): (
+                   cartList?.reduce(
                   (total, item) => total + (item.quantity || 0),
                   0
                 ) + comboCartList?.reduce(
                   (total, item) => total + (item.quantity || 0),
                   0
-                )} 
+                )
+                 )}
               </p>
             </div>
           </div>
@@ -562,7 +633,7 @@ const Navbar = () => {
               ></button>
             </div>
                
-            {(cartList?.length <= 0 && comboCartList?.length <= 0) ? (
+            {(cartList?.length <= 0 && comboCartList?.length <= 0 && cartListApi?.length <= 0) ? (
                  <div className="offcanvas-body d-flex flex-column align-items-center">
                   <img src="https://img.freepik.com/free-vector/supermarket-shopping-cart-concept-illustration_114360-22408.jpg?uid=R195795735&ga=GA1.1.1778899298.1732287368&semt=ais_hybrid&w=740" className="img-fluid" style={{maxWidth: "60%"}}></img>
                   <h5 className="p-2 text-center">Your Cart is <span className="text-danger">Empty!</span></h5>
@@ -651,6 +722,51 @@ const Navbar = () => {
                         className="mb-0 text-secondary "
                         style={{ borderColor: "green" , cursor:"pointer" }}
                         onClick={(e) => handleIncreaseComboQty(e, item)}
+                      >
+                        +
+                      </p>
+                    </div>
+                  
+                    </div>
+                  </div>
+                </div>
+              ))}
+               {cartListApi?.map((item) => (
+                <div className="d-flex mb-3" key={item._id}>
+                  <img
+                    src={item.productHeroImage}
+                    alt={item.description}
+                    className="me-3"
+                    style={{ width: "80px", height: "80px" }}
+                  />
+                  <div className="w-100">
+                    <h6>{item.name}</h6>
+
+                    <div className="d-flex justify-content-between w-100">
+
+                        <p className=" fw-bold mt-1 mb-0">
+                      <del className="text-muted fw-normal">₹{item?.price}</del>   ₹{item?.discountedPrice ?? item?.pricing?.comboPrice ?? "N/A"}
+                    </p> 
+
+                      <div className="d-flex counterDiv  rounded-1 ">
+                      <p
+                       className="mb-0 text-secondary"
+                        style={{ borderColor: "red"  , cursor:"pointer" }}
+                        onClick={(e) => handleDecreaseApi(e, item)}
+                      >
+                        -
+                      </p>
+                      <p  className="mb-0">
+                        {/* {
+                          cartList.find((cartitem) => cartitem._id === item._id)
+                            ?.quantity
+                        } */}
+                        {item?.quantity}
+                      </p>
+                      <p
+                        className="mb-0 text-secondary "
+                        style={{ borderColor: "green" , cursor:"pointer" }}
+                        onClick={(e) => handleIncreaseApi(e, item)}
                       >
                         +
                       </p>
