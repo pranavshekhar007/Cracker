@@ -266,10 +266,11 @@
 
 
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect , useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
+import { addToCartServ, removeToCartServ, userCartList } from "../services/product.service";
 
 function ComboProductCard({
   value,
@@ -285,6 +286,24 @@ function ComboProductCard({
   useEffect(() => {
     console.log("combo product card called");
   }, [value]);
+
+   const [comboCartListApi , setComboCartListApi] = useState();
+  
+    const getUserCart = async () => {
+      const id = loggedUserData?.id
+      try{
+         const res = await userCartList(loggedUserData?._id)
+         console.log("cart list" , res)
+         setComboCartListApi(res?.cartItems)
+      }
+      catch(error){
+        console.log("error in cart list" , error)
+      }
+    }
+  
+    useEffect(() => {
+      getUserCart();
+    }, [loggedUserData?._id])
 
   const handleAddToCartComboLocal = (e, v) => {
     e.preventDefault();
@@ -307,6 +326,45 @@ function ComboProductCard({
       console.log("Something went wrong", error);
     }
   };
+
+const  handleAddToCartComboApi =  async (e , v) => {
+     const payload = {
+          userId:loggedUserData?._id,
+          id: v._id,
+          itemType:"ComboProduct"
+        }
+    
+         try{
+           const res = await  addToCartServ(payload);
+           console.log(res);
+            getUserCart();
+         }
+         catch(error){
+             console.log("error in add to cart api", error)
+         }
+  }
+
+  const handleIncreaseApi = (e , v) => {
+        handleAddToCartComboApi(v);
+    }
+  
+      const handleDecreaseApi =  async (e , v) => {
+         const payload = {
+        userId:loggedUserData?._id,
+        id: v._id,
+        itemType:"ComboProduct"
+      }
+  
+       try{
+         const res = await removeToCartServ(payload);
+         console.log(res);
+         getUserCart();
+       }
+       catch(error){
+           console.log("error in add to cart api", error)
+       }
+    }
+
   const handleAddToWishListLocal = (e, v) => {
     e.preventDefault();
     e.stopPropagation();
@@ -374,6 +432,7 @@ function ComboProductCard({
   };
 
   return (
+
     <div
       className={`productCard  border bg-white overflow-hidden  position-relative ${
         height ? "productHeight" : ""
@@ -384,7 +443,7 @@ function ComboProductCard({
         // ...(cardHeight && { minHeight: cardHeight }),
         boxShadow: "rgba(17, 17, 26, 0.1) 0px 0px 16px",
       }}
-      onClick={() => router.push("/combo-details/" + value?._id)}
+      // onClick={() => router.push("/combo-details/" + value?._id)}
     >
       <div
         className=" position-absolute top-0 end-0 shadow-sm p-2 bg-danger"
@@ -421,7 +480,8 @@ function ComboProductCard({
     onMouseLeave={(e) => (e.currentTarget.style.opacity = 0)}
   >
      <div className="d-flex gap-1">
-      <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" 
+      <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png"
+       onClick={() => router.push("/combo-details/" + value?._id)} 
       className=" p-2"
       style={{height:"36px" , width:"36px" , borderRadius:"50%" , backgroundColor: "#e1e5d9b8"}}></img>
        <div  style={{
@@ -450,9 +510,6 @@ function ComboProductCard({
     </div>
   </div>
       </div>
-
-      
-
 
       <div
         className={`p-sm-3 pt-sm-3 p-2  productInner d-flex flex-column justify-content-between bg-white ${
@@ -486,7 +543,33 @@ function ComboProductCard({
 
         <div className="d-flex gap-2 align-items-center heartIcon mt-3 pb-2">
           <div className="d-flex justify-content-around align-items-center w-100 ">
-            {comboCartList?.find((item) => item._id === value._id) ? (
+            {loggedUserData ? (
+                  comboCartListApi?.find((item) => item._id === value._id) ? (
+              <div className="d-flex counterDiv  w-100">
+                <p
+                  style={{ backgroundColor: "#6d0d0c" }}
+                  className="w-100 text-white"
+                  onClick={(e) => handleDecreaseApi(e, value)}
+                >
+                  -
+                </p>
+                <p className="w-100" style={{ backgroundColor: "#f9f5f5" }}>
+                  {comboCartListApi.find((item) => item._id === value._id)?.quantity}
+                </p>
+                <p
+                  className="w-100 text-white"
+                  style={{ backgroundColor: "#6d0d0c" }}
+                  onClick={(e) => handleIncreaseApi(e, value)}
+                > + </p>
+              </div>
+            ) : (
+              <button onClick={(e) => handleAddToCartComboApi(e, value)}>
+                {" "}
+                Add To Cart{" "}
+              </button>
+            )
+            ):(
+              comboCartList?.find((item) => item._id === value._id) ? (
               <div className="d-flex counterDiv  w-100">
                 <p
                   style={{ backgroundColor: "#6d0d0c" }}
@@ -509,6 +592,7 @@ function ComboProductCard({
                 {" "}
                 Add To Cart{" "}
               </button>
+            )
             )}
           </div>
           <img
@@ -523,7 +607,8 @@ function ComboProductCard({
           />
         </div>
       </div>
-    </div>
+    </div> 
+
   );
 }
 

@@ -46,16 +46,6 @@ export const getCategory = async () => {
   }
 };
 
-// add to cart
-export const addToCartServ = async (payload) => {
-  try {
-    const response = await axios.post(BASE_URL + "user/add-to-cart/"+payload?.productId, {userId:payload?.userId});
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching product list:", error);
-    throw error; 
-  }
-};
 
 
 // combo  products
@@ -211,6 +201,43 @@ export const addReviewServ = async (payload) => {
     return response.data;
   } catch (error) {
     console.error("review error:", error);
+    throw error;
+  }
+};
+
+
+// add to cart
+export const addToCartServ = async (payload) => {
+  try {
+    const response = await axios.post(BASE_URL + "user/add-to-cart/"+payload?.id, {userId:payload?.userId , itemType:payload?.itemType});
+    return response.data;
+  } catch (error) {
+    console.error("Error ", error);
+    throw error; 
+  }
+};
+
+// add to cart
+export const removeToCartServ = async (payload) => {
+  try {
+    const response = await axios.post(BASE_URL + "user/remove-from-cart/"+payload?.id, {userId:payload?.userId , itemType:payload?.itemType});
+    return response.data;
+  } catch (error) {
+    console.error("Error ", error);
+    throw error; 
+  }
+};
+
+//user cart products
+
+// my order details
+
+export const userCartList = async (id) => {
+  try {
+    const response = await axios.get(BASE_URL + `user/cart/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("error:", error);
     throw error;
   }
 };
