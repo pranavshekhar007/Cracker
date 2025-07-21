@@ -105,8 +105,6 @@ const DailySell = ({ productList }) => {
         <h1 className="text-center">Trending Now</h1>
         <div className="all-sells d-flex gap-4 justify-content-center">
           <div className="daily-sell1 daily-sell">
-            <h3>Ground Chakkar.</h3>
-            <p>Get the best deal before close.</p>
             <div className="daily-shop d-flex gap-2 align-items-center justify-content-center my-3">
               <p
                 className="fs-5 mb-0 text-white fs-6"

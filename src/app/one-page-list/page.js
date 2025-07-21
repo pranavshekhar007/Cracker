@@ -861,7 +861,7 @@ const Page = () => {
                 alt="filter icon"
                 style={{ width: "20px", marginRight: "6px" }}
               />
-              Filters
+              Select Category
             </button>
           </div>
 

@@ -205,7 +205,7 @@ const ShopFromFarm = ({ productList }) => {
   return (
     <>
       <div className="from-farm d-flex flex-column align-items-center pb-5">
-        <p className="text-shop">Explore the Our Shop products</p>
+        {/* <p className="text-shop">Explore the Our Shop products</p> */}
         {/* <h1>From our Farm</h1> */}
         <div className="Farm-Products container ">
           <div className="row  my-4">

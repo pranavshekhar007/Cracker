@@ -8,7 +8,7 @@ import ShopFromFarm from "./Components/ShopFromFarm";
 import Footer from "./Components/Footer";
 import SegmentedToggleWithContent from "./Components/SegmentedToggleWithContent";
 import HeroSection from "./Components/HeroSection";
-import { FaWhatsapp} from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import {
   getProductServ,
   getComboProductServ,
@@ -109,19 +109,67 @@ export default function Home() {
         <Toaster />
         <Navbar />
 
+        {/* Place below <Navbar /> */}
+
+        <div className="container my-3">
+          <button
+            className="locationBtn btn btn-danger d-flex justify-content-center align-items-center mx-auto rounded-pill"
+            onClick={openModal}
+          >
+            <i className="fa fa-map-marker-alt me-2"></i>
+            Check Delivery & Minimum Order
+          </button>
+
+          {showModal && (
+            <div
+              className="modal fade show"
+              style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
+            >
+              <div className="modal-dialog modal-dialog-centered modal-lg">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">
+                      Check Delivery & Minimum Order
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      onClick={closeModal}
+                    ></button>
+                  </div>
+
+                  <div className="modal-body">
+                    <LocationSelector />
+                  </div>
+
+                  <div className="modal-footer">
+                    <button className="btn btn-secondary" onClick={closeModal}>
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* ===== Updates Bar Section ===== */}
         <div className="update-bar d-flex align-items-center shadow-sm rounded">
           <div className="update-label d-flex align-items-center px-3 py-2 rounded-start">
             <i className="bi bi-lightning-fill me-2"></i>
-            <strong>UPDATES</strong>
+            <strong>DISCLAIMER</strong>
           </div>
           <div className="update-text-wrapper py-2 px-2">
             <div className="update-text">
-              🚨 Over India Except Crackers Banned States. &nbsp; | &nbsp; 🔥 As
-              Per The Supreme Court Order, Online Sale Of Firecrackers Is Not
-              Permitted! &nbsp; | &nbsp; 🎉 Safe & Fast Delivery Options
-              Available Now! &nbsp; | &nbsp; 📢 Celebrate Responsibly — Stay
-              Safe, Stay Happy!
+              🚨 As per 2018 Supreme Court guidelines, direct online sale of
+              firecrackers is not permitted.&nbsp; | &nbsp; ✅ Big Bang Crackers strictly
+              follows all legal and regulatory requirements.&nbsp; | &nbsp; 🛒 Please add your
+              products to cart and submit enquiry.&nbsp; | &nbsp; 📞 Our team will respond
+              within 24 hours via WhatsApp or call.&nbsp; | &nbsp; 📝 We operate under valid
+              licenses with 100% compliance to Explosives Act & safety
+              protocols.&nbsp; | &nbsp; 🏢 All stock points and godowns are certified as per
+              rules.&nbsp; | &nbsp; 🚚 Deliveries are handled only through approved transport
+              services.&nbsp; | &nbsp; 🎇 Celebrate Diwali safely, responsibly, and legally.
             </div>
           </div>
         </div>
@@ -375,55 +423,8 @@ export default function Home() {
             </div>
           </div>
         )}
- 
+
         <Footer />
-
-        <div
-          className="locationBtn position-fixed"
-          style={{ bottom: "11%", right: "3%", zIndex: "9999" }}
-        >
-          <button
-            className="btn btn-danger d-flex justify-content-center align-items-center rounded-pill"
-            style={{
-              padding: "10px 13px",
-              fontWeight: "bold",
-            }}
-            onClick={openModal}
-          >
-            <i className="fas fa-map-marker-alt me-2"></i>
-            Select Location
-          </button>
-
-          {showModal && (
-            <div
-              className="modal fade show"
-              style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
-            >
-              <div className="modal-dialog modal-dialog-centered modal-lg">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title"> Select Location</h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      onClick={closeModal}
-                    ></button>
-                  </div>
-
-                  <div className="modal-body">
-                    <LocationSelector />
-                  </div>
-
-                  <div className="modal-footer">
-                    <button className="btn btn-secondary" onClick={closeModal}>
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
 
         <div
           className="whatsappBtn position-fixed"

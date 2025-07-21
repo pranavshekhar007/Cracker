@@ -124,8 +124,6 @@
 //           className="img-fluid  productImage"
 //         />
 
-        
-
 //         {/* <img src={value?.image} alt={value.description} className="img-fluid" /> */}
 //       </div>
 
@@ -141,7 +139,7 @@
 //   >
 //     {/* Click to View */}
 //     <div className="d-flex gap-1">
-//       <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" 
+//       <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png"
 //       className=" p-2"
 //       style={{height:"36px" , width:"36px" , borderRadius:"50%" , backgroundColor: "#e1e5d9b8"}}></img>
 //       <img
@@ -157,8 +155,6 @@
 //         />
 //     </div>
 //   </div>
-
-      
 
 //       <div
 //         className={`p-2 productInner d-flex flex-column justify-content-between ${
@@ -210,8 +206,6 @@
 // }
 
 // export default ProductCard;
-
-
 
 "use client";
 import React, { useContext } from "react";
@@ -313,16 +307,18 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
       style={{
         ...(bgColor && { backgroundColor: bgColor }),
         ...(borderRadius && { borderRadius: borderRadius }),
-        cursor:"pointer",
+        cursor: "pointer",
         backgroundColor: "white",
       }}
       onClick={() => router.push("/product-details/" + value?._id)}
     >
-      <div className="d-flex justify-content-between align-items-center heartIcon pe-2  position-absolute " style={{zIndex:"99"}} >
-       {/* <h6 className="badge  text-white  bg-danger p-sm-2 ">
+      <div
+        className="d-flex justify-content-between align-items-center heartIcon pe-2  position-absolute "
+        style={{ zIndex: "99" }}
+      >
+        {/* <h6 className="badge  text-white  bg-danger p-sm-2 ">
   {value?.categoryId?.length > 0 ? value.categoryId[0].name : "Category"}
 </h6> */}
-
       </div>
 
       <div className="d-flex justify-content-center position-relative ">
@@ -330,72 +326,96 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
           src={value?.productHeroImage}
           className="img-fluid  productImage "
         />
-         
-         <div
-    className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center text-white fw-bold"
-    style={{
-      backgroundColor: "rgba(0, 0, 0, 0.3)",
-      opacity: 0,
-      transition: "opacity 0.3s",
-    }}
-    onMouseEnter={(e) => (e.currentTarget.style.opacity = 1)}
-    onMouseLeave={(e) => (e.currentTarget.style.opacity = 0)}
-  >
-   
-    <div className="d-flex gap-1">
-      <img src="https://cdn-icons-png.flaticon.com/128/159/159604.png" 
-      className=" p-2"
-      style={{height:"36px" , width:"36px" , borderRadius:"50%" , backgroundColor: "#e1e5d9b8"}}></img>
-     <div  style={{
-    height: "36px",
-    width: "36px",
-    borderRadius: "50%",
-    backgroundColor: "#e1e5d9b8",
-    display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden"
-  }}
->
-  <img
-    style={{
-      height: "60%", 
-      width: "60%",
-      objectFit: "contain",
-    }}
-    onClick={(e) => handleAddToWishListLocal(e, value)}
-    alt="wishlist"
-    src={
-      wishList?.find((item) => item._id === value._id)
-        ? "https://cdn-icons-png.flaticon.com/128/18275/18275909.png"
-        : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"
-    }
-  />
-</div>
 
-    </div>
-      </div>
-      
-        
+        <div
+          className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center text-white fw-bold"
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            opacity: 0,
+            transition: "opacity 0.3s",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.opacity = 1)}
+          onMouseLeave={(e) => (e.currentTarget.style.opacity = 0)}
+        >
+          <div className="d-flex gap-1">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/159/159604.png"
+              className=" p-2"
+              style={{
+                height: "36px",
+                width: "36px",
+                borderRadius: "50%",
+                backgroundColor: "#e1e5d9b8",
+              }}
+            ></img>
+            <div
+              style={{
+                height: "36px",
+                width: "36px",
+                borderRadius: "50%",
+                backgroundColor: "#e1e5d9b8",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflow: "hidden",
+              }}
+            >
+              <img
+                style={{
+                  height: "60%",
+                  width: "60%",
+                  objectFit: "contain",
+                }}
+                onClick={(e) => handleAddToWishListLocal(e, value)}
+                alt="wishlist"
+                src={
+                  wishList?.find((item) => item._id === value._id)
+                    ? "https://cdn-icons-png.flaticon.com/128/18275/18275909.png"
+                    : "https://cdn-icons-png.flaticon.com/128/1077/1077035.png"
+                }
+              />
+            </div>
+          </div>
+        </div>
 
         {/* <img src={value?.image} alt={value.description} className="img-fluid" /> */}
       </div>
 
       {/* click to view */}
 
-        
       <div
         className={`p-2 productInner d-flex flex-column justify-content-between ${
           innerHeight ? "innerHeight" : ""
         }`}
       >
         <h4 className="fw-bold">{value?.name}</h4>
-        <p className="fw-semibold text-danger">{value?.productType}</p>
+        <div className="mt-2 d-flex gap-2">
+        <p
+          className="text-danger d-inline"
+          style={{
+            border: "1px solid #ffd7d7",
+            backgroundColor: "#fce6e6",
+            padding: "3px 15px",
+            borderRadius: "18px",
+          }}
+        >
+          {value?.productType}
+        </p>
+        </div>
+
         <div>
           {/* <h4 className="fs-6 mb-1 mt-2">{value.category}</h4>
         <h4 className="fw-bold mb-3">{value.description}</h4> */}
-         <div className="d-flex justify-content-between mt-2">
-           <p className="text-secondary text-decoration-line-through"> &#8377;{value?.price}</p>
-            <p className="fw-bold fs-5 text-success">  &#8377;{value?.discountedPrice} </p>
-         </div>
-          
+          <div className="d-flex justify-content-between mt-2">
+            <p className="text-secondary text-decoration-line-through">
+              {" "}
+              &#8377;{value?.price}
+            </p>
+            <p className="fw-bold fs-5 text-success">
+              {" "}
+              &#8377;{value?.discountedPrice}{" "}
+            </p>
+          </div>
         </div>
 
         <div className="d-flex justify-content-around align-items-center mt-sm-3 mt-1">

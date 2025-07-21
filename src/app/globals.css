@@ -1932,7 +1932,7 @@ body {
 .update-bar {
   /* width: 100%; */
   max-width: 1350px;
-  margin: 85px auto 1px;
+  margin: 15px auto 1px;
   background-color: rgb(232, 229, 229);;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
@@ -1967,7 +1967,7 @@ body {
 .update-text {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-left 25s linear infinite;
+  animation: scroll-left 65s linear infinite;
   padding-left: 100%;
   font-family: 'Montserrat', sans-serif;
 }
@@ -1983,7 +1983,7 @@ body {
 
 @media (max-width:1095px){
   .update-bar{
-    margin: 65px 0px 0 0px;
+    margin: 1px 0px 0 0px;
   }
 }
 /* @media (max-width:1px){
@@ -1994,12 +1994,12 @@ body {
 
 @media (max-width:1024px){
   .update-bar{
-    margin: 70px 20px 0 20px;
+    margin: 12px 20px 0 20px;
   }
 }
 @media (max-width:767px){
   .update-bar{
-    margin: 55px 20px 0 20px;
+    margin: 12px 20px 0 20px;
   }
 }
 
@@ -3360,32 +3360,14 @@ body , html{
     font-size: 12px;
 }
 }
-    .locationBtn {
-      bottom: 11%;
-      right: 3%;
-      z-index: 9999;
-    }
+
     
     .whatsappBtn {
       bottom: 5%;  /* keep closer to bottom */
       right: 3%;
     }
     
-    @media (max-width: 770px) {
-      .locationBtn {
-        bottom: 18% !important; /* higher on small screens */
-      }
-    
-      .locationA {
-        font-size: 13px;
-        padding: 7px 7px !important;
-      }
-    
-      .locationLogo {
-        width: 18px !important;
-        height: 18px !important;
-      }
-    
+    @media (max-width: 770px) {    
       .whatsappBtn {
         bottom: 10% !important;
       }
@@ -3400,6 +3382,32 @@ body , html{
         height: 18px !important;
       }
     }
+    
+    .locationBtn {
+      margin-top: 75px;
+      padding: 10px 23px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 1095px) {    
+      .locationBtn {
+        margin-top: 65px;
+      }
+    }
+
+    @media (max-width: 767px) {    
+      .locationBtn {
+        margin-top: 55apx;
+      }
+    }
+    
+    @media (max-width: 337px) {    
+      .locationBtn {
+        padding: 10px 10px;
+        margin-top: 60px;
+      }
+    }
+
     
 
 .productDetail h6{

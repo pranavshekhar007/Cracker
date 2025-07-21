@@ -639,16 +639,24 @@ function page() {
     }
   }, [details]);
 
-  
-
   return (
     <div>
       <Navbar selectedItem="Shop" />
       <div style={{}} className="py-md-5">
         <div className="container my-md-5 my-4 shadow-sm">
           <div className="d-flex mt-md-5 mt-5 breadcrumb">
-            <p style={{ color: "rgb(188 94 94)" , cursor:"pointer" }} onClick={() => router.push("/")}>Home -</p>
-            <p style={{ color: "rgb(153 61 61)", cursor:"pointer"  }}  onClick={() => router.push("/shop")}>Shop -</p>
+            <p
+              style={{ color: "rgb(188 94 94)", cursor: "pointer" }}
+              onClick={() => router.push("/")}
+            >
+              Home -
+            </p>
+            <p
+              style={{ color: "rgb(153 61 61)", cursor: "pointer" }}
+              onClick={() => router.push("/shop")}
+            >
+              Shop -
+            </p>
             <p>{details?.name}</p>
           </div>
           <div className="row px-0 px-0  bg-white position-relative ">
@@ -741,8 +749,7 @@ function page() {
                   %
                 </h5>
                 <h1 className="my-2">{details?.map}</h1>
-                
-              
+
                 <div className="varientDiv">
                   <h4 className="mb-2">{details?.name}</h4>
                 </div>
@@ -754,23 +761,32 @@ function page() {
                 </div>
                 <div>
                   <h5>
-                    Discounted Price :{" "}
+                    Our Price :{" "}
                     <span className="discountedPrice">
-                      R.s {details?.discountedPrice}
+                      Rs {details?.discountedPrice}
                     </span>{" "}
-                    ({details?.tax}) included
+                
                   </h5>
                 </div>
 
-               <div className="mt-2 d-flex gap-2">
-  {details?.tags?.map((tag, index) => (
-    <p key={index} className="text-danger d-inline" style={{border:"1px solid #ffd7d7" , backgroundColor:"#fce6e6" , padding:"3px 15px" , borderRadius:"18px"}}>
-      {tag}
-    </p>
-  ))}
-</div>
+                <div className="mt-2 d-flex gap-2">
+                  {details?.tags?.map((tag, index) => (
+                    <p
+                      key={index}
+                      className="text-danger d-inline"
+                      style={{
+                        border: "1px solid #ffd7d7",
+                        backgroundColor: "#fce6e6",
+                        padding: "3px 15px",
+                        borderRadius: "18px",
+                      }}
+                    >
+                      {tag}
+                    </p>
+                  ))}
+                </div>
 
-<div className="d-flex align-items-center reviewDiv">
+                <div className="d-flex align-items-center reviewDiv">
                   {[1, 2, 3, 4]?.map((v, i) => {
                     return (
                       <img
@@ -781,7 +797,6 @@ function page() {
                   })}
                   <a>(4 reviews)</a>
                 </div>
-
 
                 <hr />
                 <div>
@@ -847,7 +862,7 @@ function page() {
                 </div>
               </div>
 
-                {/* show details */}
+              {/* show details */}
 
               {showDetails && (
                 <div className=" p-4  rounded-3 mt-4 row productDetail">
@@ -917,61 +932,61 @@ function page() {
                       <h3 className="mb-3">Peopls Thought's</h3>
 
                       <div className="row">
-                        
-                        
-                           {ratingList?.length === 0 ? (
-    <div className="col-12">
-      <p className="text-center text-muted my-5">No reviews yet.</p>
-    </div>
-  ) : (ratingList?.map((v, i) => {
-                          return (
-                            <div className="col-12 ">
-                              <div className="reviewBox p-1 py-3 shadow-sm mb-3 mt-2 border">
-                                <div className="d-flex align-items-center">
-                                  <div>
-                                    <img
-                                      style={{
-                                        maxWidth: "118px",
-                                        maxHeight: "118px",
-                                      }}
-                                      src={
-                                        v?.userId?.profilePic
-                                          ? v?.userId?.profilePic
-                                          : "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"
-                                      }
-                                    />
-                                  </div>
-                                  <div className="ms-3">
-                                    <h5>
-                                      {v?.userId?.firstName +
-                                        " " +
-                                        v?.userId?.lastName}
-                                    </h5>
-                                    <div className="d-flex starGroup">
-                                      {[
-                                        ...Array(
-                                          Math.round(Number(v?.rating) || 0)
-                                        ),
-                                      ].map((_, i) => (
-                                        <img
-                                          key={i}
-                                          src="https://cdn-icons-png.flaticon.com/128/1828/1828884.png"
-                                          style={{
-                                            height: "20px",
-                                            marginRight: "4px",
-                                          }}
-                                        />
-                                      ))}
+                        {ratingList?.length === 0 ? (
+                          <div className="col-12">
+                            <p className="text-center text-muted my-5">
+                              No reviews yet.
+                            </p>
+                          </div>
+                        ) : (
+                          ratingList?.map((v, i) => {
+                            return (
+                              <div className="col-12 ">
+                                <div className="reviewBox p-1 py-3 shadow-sm mb-3 mt-2 border">
+                                  <div className="d-flex align-items-center">
+                                    <div>
+                                      <img
+                                        style={{
+                                          maxWidth: "118px",
+                                          maxHeight: "118px",
+                                        }}
+                                        src={
+                                          v?.userId?.profilePic
+                                            ? v?.userId?.profilePic
+                                            : "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"
+                                        }
+                                      />
                                     </div>
-                                    <p className="mb-0">{v?.review}</p>
+                                    <div className="ms-3">
+                                      <h5>
+                                        {v?.userId?.firstName +
+                                          " " +
+                                          v?.userId?.lastName}
+                                      </h5>
+                                      <div className="d-flex starGroup">
+                                        {[
+                                          ...Array(
+                                            Math.round(Number(v?.rating) || 0)
+                                          ),
+                                        ].map((_, i) => (
+                                          <img
+                                            key={i}
+                                            src="https://cdn-icons-png.flaticon.com/128/1828/1828884.png"
+                                            style={{
+                                              height: "20px",
+                                              marginRight: "4px",
+                                            }}
+                                          />
+                                        ))}
+                                      </div>
+                                      <p className="mb-0">{v?.review}</p>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          );
-                        })
-                      )
-                    }
+                            );
+                          })
+                        )}
                       </div>
                     </div>
                   </div>
@@ -979,8 +994,6 @@ function page() {
               )}
 
               {/* mobile view  */}
-
-              
             </div>
           </div>
 
