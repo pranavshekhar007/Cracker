@@ -125,28 +125,9 @@ export default function Home() {
               className="modal fade show"
               style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
             >
-              <div className="modal-dialog modal-dialog-centered modal-lg">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title">
-                      
-                    </h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      onClick={closeModal}
-                    ></button>
-                  </div>
-
-                  <div className="modal-body">
-                    <LocationSelector />
-                  </div>
-
-                  <div className="modal-footer">
-                    <button className="btn btn-secondary" onClick={closeModal}>
-                      Close
-                    </button>
-                  </div>
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content p-1">
+                  <LocationSelector onClose={closeModal} />
                 </div>
               </div>
             </div>

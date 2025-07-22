@@ -208,114 +208,121 @@
 // export default ProductCard;
 
 "use client";
-import React, { useContext , useState , useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
-import { addToCartServ, removeToCartServ, userCartList } from "../services/product.service";
+import {
+  addToCartServ,
+  removeToCartServ,
+  userCartList,
+} from "../services/product.service";
 
 function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
-  const { loggedUserData, cartList, setCartList, wishList, setWishList ,  apiCartList, setApiCartList } =
-    useContext(LoggedDataContext);
+  const {
+    loggedUserData,
+    cartList,
+    setCartList,
+    wishList,
+    setWishList,
+    apiCartList,
+    setApiCartList,
+  } = useContext(LoggedDataContext);
   const router = useRouter();
 
-    const [cartListApi , setCartListApi] = useState();
+  const [cartListApi, setCartListApi] = useState();
 
   const getUserCart = async () => {
-    const id = loggedUserData?.id
-    try{
-       const res = await userCartList(loggedUserData?._id)
-       console.log("cart list" , res)
-       setCartListApi(res?.cartItems);
+    const id = loggedUserData?.id;
+    try {
+      const res = await userCartList(loggedUserData?._id);
+      console.log("cart list", res);
+      setCartListApi(res?.cartItems);
       setApiCartList(res?.cartItems || []);
+    } catch (error) {
+      console.log("error in cart list", error);
     }
-    catch(error){
-      console.log("error in cart list" , error)
-    }
-  }
+  };
 
   useEffect(() => {
     getUserCart();
-  }, [loggedUserData?._id])
+  }, [loggedUserData?._id]);
 
   const handleAddToCartLocal = (e, v) => {
-
     e.preventDefault();
     e.stopPropagation();
-   if(loggedUserData){   
-             handleAddToCartApi(v);
-   }else{
-     try {
-      let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+    if (loggedUserData) {
+      handleAddToCartApi(v);
+    } else {
+      try {
+        let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
 
-      const existingProduct = localCartList.find((item) => item._id === v._id);
+        const existingProduct = localCartList.find(
+          (item) => item._id === v._id
+        );
 
-      if (existingProduct) {
-        existingProduct.quantity += 1;
-      } else {
-        localCartList.push({ ...v, quantity: 1 });
+        if (existingProduct) {
+          existingProduct.quantity += 1;
+        } else {
+          localCartList.push({ ...v, quantity: 1 });
+        }
+
+        localStorage.setItem("cartList", JSON.stringify(localCartList));
+        setCartList(localCartList);
+        toast.success("Item Added To the cart");
+      } catch (error) {
+        console.log("Something went wrong", error);
       }
-
-      localStorage.setItem("cartList", JSON.stringify(localCartList));
-      setCartList(localCartList);
-      toast.success("Item Added To the cart");
-    } catch (error) {
-      console.log("Something went wrong", error);
     }
-   }
   };
 
-  const handleAddToCartApi = async (v)=>{
-     const payload = {
-      userId:loggedUserData?._id,
+  const handleAddToCartApi = async (v) => {
+    const payload = {
+      userId: loggedUserData?._id,
       id: v._id,
-      itemType:"Product"
+      itemType: "Product",
+    };
+
+    try {
+      const res = await addToCartServ(payload);
+      if (res?.statusCode == 200) {
+        console.log(res);
+
+        getUserCart();
+        toast.success(res.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error) {
+      console.log("error in add to cart api", error);
     }
+  };
 
-     try{
-       const res = await  addToCartServ(payload);
-       if(res?.statusCode == 200){
-                  console.log(res);
-                
-               getUserCart();
-               toast.success(res.message);
-                }
-                else{
-                  toast.error(res?.message)
-                }
-     }
-     catch(error){
-         console.log("error in add to cart api", error)
-     }
-  }
+  const handleIncreaseApi = (e, v) => {
+    handleAddToCartApi(v);
+  };
 
-    const handleIncreaseApi = (e , v) => {
-      handleAddToCartApi(v);
-  }
-
-    const handleDecreaseApi =  async (e , v) => {
-       const payload = {
-      userId:loggedUserData?._id,
+  const handleDecreaseApi = async (e, v) => {
+    const payload = {
+      userId: loggedUserData?._id,
       id: v._id,
-      itemType:"Product"
-    }
+      itemType: "Product",
+    };
 
-     try{
-       const res = await removeToCartServ(payload);
-        if(res?.statusCode == 200){
-                   console.log(res);
-                 
-                getUserCart();
-                toast.success(res.message);
-                 }
-                 else{
-                   toast.error(res?.message)
-                 }
-     }
-     catch(error){
-         console.log("error in add to cart api", error)
-     }
-  }
+    try {
+      const res = await removeToCartServ(payload);
+      if (res?.statusCode == 200) {
+        console.log(res);
+
+        getUserCart();
+        toast.success(res.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error) {
+      console.log("error in add to cart api", error);
+    }
+  };
 
   const handleAddToWishListLocal = (e, v) => {
     e.preventDefault();
@@ -419,7 +426,7 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
             <img
               src="https://cdn-icons-png.flaticon.com/128/159/159604.png"
               className=" p-2"
-               onClick={() => router.push("/product-details/" + value?._id)}
+              onClick={() => router.push("/product-details/" + value?._id)}
               style={{
                 height: "36px",
                 width: "36px",
@@ -469,17 +476,22 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
       >
         <h4 className="fw-bold">{value?.name}</h4>
         <div className="mt-2 d-flex gap-2">
-        <p
-          className="text-danger d-inline"
-          style={{
-            border: "1px solid #ffd7d7",
-            backgroundColor: "#fce6e6",
-            padding: "3px 15px",
-            borderRadius: "18px",
-          }}
-        >
-          {value?.productType}
-        </p>
+          <p
+            className="d-inline fw-semibold"
+            style={{
+              border: "1px solid #ffd7d7",
+              backgroundColor: "#fce6e6",
+              padding: "3px 15px",
+              borderRadius: "18px",
+              fontWeight: "800",
+              fontSize: "15px",
+              letterSpacing: "0.5px",
+              marginBottom: "0",
+              color: "#d92323",
+            }}
+          >
+            {value?.productType}
+          </p>
         </div>
 
         <div>
@@ -498,35 +510,34 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
         </div>
 
         <div className="d-flex justify-content-around align-items-center mt-sm-3 mt-1">
-          {loggedUserData ?  (
-              cartListApi?.find((item) => item._id === value._id) ? (
-            <div className="d-flex counterDiv  w-100">
-              <p
-                style={{ backgroundColor: "#6d0d0c" }}
-                className="w-100 text-white"
-                onClick={(e) => handleDecreaseApi(e, value)}
-              >
-                -
-              </p>
-              <p className="w-100" style={{ backgroundColor: "#f9f5f5" }}>
-                {cartListApi.find((item) => item._id === value._id)?.quantity}
-              </p>
-              <p
-                className="w-100 text-white"
-                style={{ backgroundColor: "#6d0d0c" }}
-                onClick={(e) => handleIncreaseApi(e, value)}
-              >
-                +
-              </p>
-            </div>
-           ) : (
-            <button onClick={(e) => handleAddToCartLocal(e, value)}>
-              {" "}
-              Add To Cart{" "}
-            </button>
-          )
-          ):(
-            cartList?.find((item) => item._id === value._id) ? (
+          {loggedUserData ? (
+            cartListApi?.find((item) => item._id === value._id) ? (
+              <div className="d-flex counterDiv  w-100">
+                <p
+                  style={{ backgroundColor: "#6d0d0c" }}
+                  className="w-100 text-white"
+                  onClick={(e) => handleDecreaseApi(e, value)}
+                >
+                  -
+                </p>
+                <p className="w-100" style={{ backgroundColor: "#f9f5f5" }}>
+                  {cartListApi.find((item) => item._id === value._id)?.quantity}
+                </p>
+                <p
+                  className="w-100 text-white"
+                  style={{ backgroundColor: "#6d0d0c" }}
+                  onClick={(e) => handleIncreaseApi(e, value)}
+                >
+                  +
+                </p>
+              </div>
+            ) : (
+              <button onClick={(e) => handleAddToCartLocal(e, value)}>
+                {" "}
+                Add To Cart{" "}
+              </button>
+            )
+          ) : cartList?.find((item) => item._id === value._id) ? (
             <div className="d-flex counterDiv  w-100">
               <p
                 style={{ backgroundColor: "#6d0d0c" }}
@@ -551,7 +562,6 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
               {" "}
               Add To Cart{" "}
             </button>
-          )
           )}
         </div>
       </div>

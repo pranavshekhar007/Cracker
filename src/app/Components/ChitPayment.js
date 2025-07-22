@@ -24,6 +24,11 @@ const ChitPayment = ({
     setShowPaymentPopup(false);
   };
 
+    const handleCopyUPI = () => {
+      navigator.clipboard.writeText("renuarajan-1@okicici");
+      toast.success("UPI ID copied to clipboard!");
+    };
+    
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -99,9 +104,17 @@ const ChitPayment = ({
               <div className="d-flex flex-column align-items-center">
                 <h6 className="mb-sm-4 mb-2">Pay via Bank Transfer</h6>
                 <div className="ms-sm-3 ms-1">
-                  <p className="mb-sm-2 mb-1">
+                <div className="d-flex align-items-center mb-sm-2 mb-1">
+                  <p className="mb-0 me-2">
                     <strong>UPI ID:</strong> renuarajan-1@okicici
                   </p>
+                  <button
+                    className="btn btn-sm btn-outline-primary"
+                    onClick={handleCopyUPI}
+                  >
+                    Copy
+                  </button>
+                </div>
                   <p className="mb-sm-2 mb-1">
                     <strong>Bank:</strong> ICICI BANK
                   </p>

@@ -3441,13 +3441,13 @@ body , html{
 
     @media (max-width: 767px) {    
       .locationBtn {
-        margin-top: 55apx;
+        margin-top: 55px;
       }
     }
     
-    @media (max-width: 337px) {    
+    @media (max-width: 374px) {    
       .locationBtn {
-        padding: 10px 10px;
+        padding: 5px 5px;
         margin-top: 60px;
       }
     }

@@ -289,10 +289,10 @@
 
 "use client";
 import React, { useState, useEffect } from "react";
-import { FaMapMarkerAlt, FaTruck, FaCity } from "react-icons/fa";
+import { FaMapMarkerAlt, FaCity, FaTruck } from "react-icons/fa";
 import { getStatesServ, getCityByStateServ } from "../services/product.service";
 
-const LocationSelector = () => {
+const LocationSelector = ({ onClose }) => {
   const [addressForm, setAddressForm] = useState({
     state: "",
     stateId: "",
@@ -303,7 +303,6 @@ const LocationSelector = () => {
 
   const [stateList, setStateList] = useState([]);
   const [cities, setCities] = useState([]);
-  const [pickupMode, setPickupMode] = useState(false);
   const [selectedCityMinimumPrice, setSelectedCityMinimumPrice] = useState("");
   const [confirmedLocation, setConfirmedLocation] = useState(null);
 
@@ -314,7 +313,7 @@ const LocationSelector = () => {
         setStateList(res.data);
       }
     } catch (error) {
-      console.log("getting error in state list" + error);
+      console.log("Error fetching states:", error);
     }
   };
 
@@ -332,142 +331,159 @@ const LocationSelector = () => {
     }
   };
 
-  const handleSaveAddress = () => {
-    console.log("Address saved:", addressForm);
+  const handleCheckAvailability = () => {
     setConfirmedLocation({
       state: addressForm.state,
       city: addressForm.city,
+      minimumPrice: addressForm.minimumPrice,
     });
-    setPickupMode(false);
   };
 
   return (
     <div
-      className="card shadow rounded mb-4"
+      className="shadow rounded"
       style={{
-        borderLeft: "5px solid #ff4d4d",
-        borderRight: "5px solid #ff4d4d",
+        maxWidth: "400px",
+        margin: "0 auto",
+        borderRadius: "12px",
         overflow: "hidden",
       }}
     >
-      {/* Gradient Header */}
+      {/* Header */}
       <div
-        className="text-white text-center py-4"
+        className="text-white text-center py-3"
         style={{
-          background: "linear-gradient(45deg, #ff4d4d, #ff9999)",
+          background: "linear-gradient(45deg, #f44336, #ff9800)",
         }}
       >
-        <FaMapMarkerAlt size={30} className="mb-2" />
-
-        {/* Show confirmed location if exists */}
-        {confirmedLocation && (
-          <p className="mb-0 mt-2 fw-bold">
-            {confirmedLocation.city}, {confirmedLocation.state}
-          </p>
-        )}
-
-        <h5 className="fw-bold mb-0">
-          To Continue Shopping, – Please Select Your Delivery Location”
-        </h5>
-        <p className="mb-0" style={{ fontSize: "0.9rem" }}>
-          Check delivery availability in your location
-        </p>
+        <FaTruck size={40} className="mb-2" />
+        <h4 className="fw-bold mb-0">Check Delivery Availability</h4>
       </div>
 
-      {/* Form */}
+      {/* Body */}
       <div className="p-4">
-        <div className="row">
-          {/* State Dropdown */}
-          <div className="col-12 mb-3">
-            <label className="fw-bold">
-              {/* <FaMapMarkerAlt className="me-2 text-danger" /> */}
-              📍 Select State
-            </label>
+        <p className="mb-3 text-center">
+          Select your location to check service availability and minimum order
+          value
+        </p>
+
+        {/* State Dropdown */}
+        <div className="mb-3">
+          <label className="fw-bold mb-1">Select Your State</label>
+          <select
+            className="form-select"
+            value={addressForm.stateId}
+            onChange={async (e) => {
+              const selectedStateId = e.target.value;
+              const selectedState = stateList.find(
+                (s) => s.stateId.toString() === selectedStateId
+              );
+              setAddressForm({
+                ...addressForm,
+                state: selectedState?.name || "",
+                stateId: selectedStateId,
+                city: "",
+                cityId: "",
+                minimumPrice: "",
+              });
+              await handleGetCityByState(selectedStateId);
+              setSelectedCityMinimumPrice("");
+            }}
+          >
+            <option value="">Select State</option>
+            {stateList.map((s) => (
+              <option key={s.stateId} value={s.stateId}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* City Dropdown */}
+        {cities.length > 0 && (
+          <div className="mb-3">
+            <label className="fw-bold mb-1">Select Your City</label>
             <select
-              className="form-select shadow-sm"
-              value={addressForm.stateId}
-              onChange={async (e) => {
-                const selectedStateId = e.target.value;
-                const selectedState = stateList.find(
-                  (s) => s.stateId.toString() === selectedStateId
+              className="form-select"
+              value={addressForm.cityId}
+              onChange={(e) => {
+                const cityId = e.target.value;
+                const selectedCity = cities.find(
+                  (c) => c.cityId === parseInt(cityId)
                 );
+
+                const minimumPrice = selectedCity?.minimumPrice || "";
+
                 setAddressForm({
                   ...addressForm,
-                  state: selectedState?.name || "",
-                  stateId: selectedStateId,
-                  city: "",
-                  cityId: "",
-                  minimumPrice: "",
+                  city: selectedCity?.name || "",
+                  cityId,
+                  minimumPrice: minimumPrice,
                 });
-                await handleGetCityByState(selectedStateId);
-                setPickupMode(false);
-                setSelectedCityMinimumPrice("");
+
+                setSelectedCityMinimumPrice(minimumPrice);
               }}
             >
-              <option value="">Select State</option>
-              {stateList.map((s) => (
-                <option key={s.stateId} value={s.stateId}>
-                  {s.name}
+              <option value="">Select City</option>
+              {cities.map((c) => (
+                <option key={c.cityId} value={c.cityId}>
+                  {c.name}
                 </option>
               ))}
             </select>
           </div>
+        )}
 
-          {/* City Dropdown */}
-          {cities.length > 0 && (
-            <div className="col-12 mb-3">
-              <label className="fw-bold">
-                <FaCity className="me-2 text-danger" />
-                Select City
-              </label>
-              <select
-                className="form-select shadow-sm"
-                value={addressForm.cityId}
-                onChange={(e) => {
-                  const cityId = e.target.value;
-                  const selectedCity = cities.find(
-                    (c) => c.cityId === parseInt(cityId)
-                  );
+        {/* Check Availability Button */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "80px",
+            marginTop: "10px",
+          }}
+        >
+          <button
+            onClick={handleCheckAvailability}
+            disabled={!addressForm.stateId || !addressForm.cityId}
+            style={{
+              flex: "1",
+              background: "linear-gradient(90deg, #fa4d56, #ff6f61)",
+              color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              padding: "10px",
+              fontWeight: "600",
+              fontSize: "16px",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              cursor: "pointer",
+            }}
+          >
+            Check Availability
+          </button>
 
-                  setPickupMode(!!selectedCity);
-                  const minimumPrice = selectedCity?.minimumPrice || "";
-
-                  setAddressForm({
-                    ...addressForm,
-                    city: selectedCity?.name || "",
-                    cityId,
-                    minimumPrice: minimumPrice,
-                  });
-
-                  setSelectedCityMinimumPrice(minimumPrice);
-                }}
-              >
-                <option value="">Select City</option>
-                {cities.map((c) => (
-                  <option key={c.cityId} value={c.cityId}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          <button
+            onClick={onClose}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#333",
+              fontWeight: "500",
+              fontSize: "16px",
+              cursor: "pointer",
+            }}
+          >
+            Close
+          </button>
         </div>
 
-        {/* Delivery Info */}
-        {pickupMode && (
-          <div className="mt-4">
-            <div className="alert alert-success text-center fw-bold mb-3">
-              Minimum Order Value: ₹{selectedCityMinimumPrice}
-            </div>
-
-            <div className="text-center">
-              <button
-                className="btn btn-danger px-5"
-                onClick={handleSaveAddress}
-              >
-                Confirm Location
-              </button>
-            </div>
+        {/* Show confirmed location and minimum price */}
+        {confirmedLocation && (
+          <div className="mt-3 alert alert-success text-center fw-bold">
+            Delivery available in {confirmedLocation.city},{" "}
+            {confirmedLocation.state}. Minimum Order: ₹
+            {confirmedLocation.minimumPrice}
           </div>
         )}
       </div>

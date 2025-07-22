@@ -765,7 +765,6 @@ function page() {
                     <span className="discountedPrice">
                       Rs {details?.discountedPrice}
                     </span>{" "}
-                
                   </h5>
                 </div>
 
@@ -773,12 +772,16 @@ function page() {
                   {details?.tags?.map((tag, index) => (
                     <p
                       key={index}
-                      className="text-danger d-inline"
+                      className="text-danger d-inline fw-bold"
                       style={{
                         border: "1px solid #ffd7d7",
                         backgroundColor: "#fce6e6",
                         padding: "3px 15px",
                         borderRadius: "18px",
+                        fontWeight: "600", 
+                        fontSize: "14px", 
+                        letterSpacing: "0.5px",
+                        marginBottom: "0", 
                       }}
                     >
                       {tag}
