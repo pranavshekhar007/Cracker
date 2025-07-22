@@ -609,13 +609,14 @@ import React, { useState, useMemo, useEffect , useContext } from "react";
 import { useParams } from "next/navigation";
 import Navbar from "@/app/Components/Navbar";
 import PriceFilter from "@/app/Components/PriceFilter";
-import { getProductServ , getCategory} from "../services/product.service";
+import { getProductServ , getCategory , addToCartServ, removeToCartServ, userCartList} from "../services/product.service";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
 import { useRouter } from "next/navigation";
 import Footer from "../Components/Footer";
+
 
 const Page = () => {
   const params = useParams();
@@ -764,8 +765,75 @@ const Page = () => {
   }, [selectedCategory, searchTerm, sortOption, products , categories , priceRange ]);
 
 
-  const { loggedUserData, cartList, setCartList } =  useContext(LoggedDataContext);
+  const { loggedUserData, cartList, setCartList ,apiCartList , setApiCartList } =  useContext(LoggedDataContext);
+
+  const [CartListApi , setCartListApi] = useState();
+    
+      const getUserCart = async () => {
+        const id = loggedUserData?.id
+        try{
+           const res = await userCartList(loggedUserData?._id)
+           console.log("cart list" , res)
+           setCartListApi(res?.cartItems);
+           setApiCartList(res?.cartItems || []);
+        }
+        catch(error){
+          console.log("error in cart list" , error)
+        }
+      }
   
+      const  handleAddToCartApi =  async (e , v) => {
+           const payload = {
+                userId:loggedUserData?._id,
+                id: v._id,
+                itemType:"Product"
+              }
+          
+               try{
+                 const res = await  addToCartServ(payload);
+                  if(res?.statusCode == 200){
+                             console.log(res);
+                           
+                          getUserCart();
+                          toast.success(res.message);
+                           }
+                           else{
+                             toast.error(res?.message)
+                           }
+               }
+               catch(error){
+                   console.log("error in add to cart api", error)
+               }
+        }
+      
+        const handleIncreaseApi = (e , v) => {
+              handleAddToCartApi(v);
+          }
+        
+            const handleDecreaseApi =  async (e , v) => {
+               const payload = {
+              userId:loggedUserData?._id,
+              id: v._id,
+              itemType:"Product"
+            }
+        
+             try{
+               const res = await removeToCartServ(payload);
+               if(res?.statusCode == 200){
+                          console.log(res);
+                        
+                       getUserCart();
+                       toast.success(res.message);
+                        }
+                        else{
+                          toast.error(res?.message)
+                        }
+             }
+             catch(error){
+                 console.log("error in add to cart api", error)
+             }
+          }
+
     const handleAddToCartLocal = (e, v) => {
       e.preventDefault();
       e.stopPropagation();
@@ -787,8 +855,7 @@ const Page = () => {
         console.log("Something went wrong", error);
       }
     };
- 
-  
+
     const handleIncreaseQty = (e, v) => {
       e.preventDefault();
       e.stopPropagation();
@@ -964,7 +1031,10 @@ const Page = () => {
                                     );
                                   })
                                 : paginatedProducts.map((product, index) => {
-                    const productInCart = cartList?.find((item) => item._id === product._id);
+                    const productInCart = loggedUserData
+    ? apiCartList?.find((item) => item._id === product._id)
+    : cartList?.find((item) => item._id === product._id);
+
                      const productQty = productInCart?.quantity || 0;                
                   return(
                     
@@ -987,7 +1057,39 @@ const Page = () => {
 
 
                       <td>
-                        {product.stockQuantity <= 0 ? (
+                       {loggedUserData ? (
+                         product.stockQuantity <= 0 ? (
+                          <span style={{ color: "red" }}>Out of stock</span>
+                        ): productQty > 0 ? (
+                          <div className="d-flex justify-content-between align-items-center  counterDiv text-center">
+                            <button
+                              className="  w-100 text-danger bg-white"
+                             onClick={(e) => handleDecreaseApi(e, product)}
+                             style={{border: "1px solid #dee2e6"}}
+                            >
+                              −
+                            </button>
+                            <span className="w-100">{productQty}</span>
+                            <button
+                              className=" w-100  text-success bg-white"
+                               onClick={(e) => handleIncreaseApi(e, product)}
+                                style={{border: "1px solid #dee2e6"}}
+                            >
+                              +
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            className="btn btn-danger btn-sm w-100"
+                             onClick={(e) => handleAddToCartApi(e, product)}
+                          >
+                            Add To Cart
+                          </button>
+                        )
+                        
+                        
+                       ):(
+                         product.stockQuantity <= 0 ? (
                           <span style={{ color: "red" }}>Out of stock</span>
                         ): productQty > 0 ? (
                           <div className="d-flex justify-content-between align-items-center  counterDiv text-center">
@@ -1014,7 +1116,10 @@ const Page = () => {
                           >
                             Add To Cart
                           </button>
-                        )}
+                        )
+                        
+                        
+                       )}
                       </td>
 
                       <td>

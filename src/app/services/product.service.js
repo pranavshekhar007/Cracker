@@ -217,7 +217,7 @@ export const addToCartServ = async (payload) => {
   }
 };
 
-// add to cart
+// decrease to cart
 export const removeToCartServ = async (payload) => {
   try {
     const response = await axios.post(BASE_URL + "user/remove-from-cart/"+payload?.id, {userId:payload?.userId , itemType:payload?.itemType});
@@ -227,6 +227,19 @@ export const removeToCartServ = async (payload) => {
     throw error; 
   }
 };
+
+// remove product from cart
+
+export const removeIemToCartServ = async (payload) => {
+  try {
+    const response = await axios.post(BASE_URL + "user/remove-item-from-cart/"+payload?.id, {userId:payload?.userId , itemType:payload?.itemType});
+    return response.data;
+  } catch (error) {
+    console.error("Error ", error);
+    throw error; 
+  }
+};
+
 
 //user cart products
 

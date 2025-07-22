@@ -12,6 +12,7 @@ export const LoggedDataProvider = ({ children }) => {
   const [cartList, setCartList] = useState(null); 
   const [comboCartList, setComboCartList] = useState(null); 
   const [wishList, setWishList] = useState(null); 
+   const [apiCartList, setApiCartList] = useState([]);
 
   // Function to update user data globally and persist it in localStorage
   const updateLoggedUserData = (data) => {
@@ -64,7 +65,7 @@ export const LoggedDataProvider = ({ children }) => {
   
 
   return (
-    <LoggedDataContext.Provider value={{ setWishList, wishList, cartList, setCartList, comboCartList , setComboCartList , setLoggedUserData , loggedUserData, updateLoggedUserData, setProductList:setProductList, productList:productList }}>
+    <LoggedDataContext.Provider value={{ setWishList, wishList, cartList, setCartList, comboCartList , setComboCartList , setLoggedUserData , loggedUserData, updateLoggedUserData, setProductList:setProductList, productList:productList ,  apiCartList, setApiCartList }}>
       {children}
     </LoggedDataContext.Provider>
   );

@@ -279,7 +279,7 @@ function ComboProductCard({
   innerHeight,
   height,
 }) {
-  const { loggedUserData, comboCartList, setComboCartList, wishList, setWishList } =
+  const { loggedUserData, comboCartList, setComboCartList, wishList, setWishList, apiCartList, setApiCartList } =
     useContext(LoggedDataContext);
   const router = useRouter();
 
@@ -294,7 +294,8 @@ function ComboProductCard({
       try{
          const res = await userCartList(loggedUserData?._id)
          console.log("cart list" , res)
-         setComboCartListApi(res?.cartItems)
+         setComboCartListApi(res?.cartItems);
+         setApiCartList(res?.cartItems || []);
       }
       catch(error){
         console.log("error in cart list" , error)
@@ -336,8 +337,15 @@ const  handleAddToCartComboApi =  async (e , v) => {
     
          try{
            const res = await  addToCartServ(payload);
-           console.log(res);
-            getUserCart();
+           if(res?.statusCode == 200){
+                      console.log(res);
+                    
+                   getUserCart();
+                   toast.success(res.message);
+                    }
+                    else{
+                      toast.error(res?.message)
+                    }
          }
          catch(error){
              console.log("error in add to cart api", error)
@@ -357,8 +365,15 @@ const  handleAddToCartComboApi =  async (e , v) => {
   
        try{
          const res = await removeToCartServ(payload);
-         console.log(res);
-         getUserCart();
+         if(res?.statusCode == 200){
+                    console.log(res);
+                  
+                 getUserCart();
+                 toast.success(res.message);
+                  }
+                  else{
+                    toast.error(res?.message)
+                  }
        }
        catch(error){
            console.log("error in add to cart api", error)

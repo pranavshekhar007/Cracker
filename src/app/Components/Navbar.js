@@ -206,16 +206,18 @@ import React, { useState, useContext ,  useRef , useEffect} from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { LoggedDataContext } from "../context/context";
-import { addToCartServ, removeToCartServ, userCartList } from "../services/product.service";
+import { addToCartServ, removeIemToCartServ, removeToCartServ, userCartList } from "../services/product.service";
 import "../globals.css";
 import Search from "./Search";
+import { toast } from "react-toastify";
+
 
 const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [footerMenuOpen, setfooterMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const { loggedUserData, comboCartList, setComboCartList , cartList , setCartList } = useContext(LoggedDataContext);
+  const { loggedUserData, comboCartList, setComboCartList , cartList , setCartList , apiCartList , setApiCartList} = useContext(LoggedDataContext);
   const router = useRouter();
 
   const toggleMenu = () => {
@@ -239,32 +241,23 @@ const Navbar = () => {
     }
   };
 
-  const [cartListApi , setCartListApi] = useState();
+ 
   
     const getUserCart = async () => {
-      const id = loggedUserData?.id
-      // console.log("user id" , loggedUserData)
+    
       try{
          const res = await userCartList(loggedUserData?._id)
          console.log("cart list" , res)
-         setCartListApi(res?.cartItems)
+         setApiCartList(res?.cartItems)
       }
       catch(error){
         console.log("error in cart list" , error)
       }
     }
-    
-     useEffect(() => {
-      console.log("user id" , loggedUserData?._id)
-      if(loggedUserData?._id){
-          getUserCart();
-      }
-      else{
-        console.log("nothing")
-      }
-         
-      }, [loggedUserData?._id])
 
+    useEffect(() => {
+       getUserCart();
+    }, [loggedUserData?._id ])
 
     const handleIncreaseQty = (e, v) => {
     e.preventDefault();
@@ -389,8 +382,15 @@ const Navbar = () => {
   
        try{
          const res = await  addToCartServ(payload);
-         console.log(res);
-          getUserCart();
+          if(res?.statusCode == 200){
+            console.log(res);
+          
+         getUserCart();
+         toast.success(res.message);
+          }
+          else{
+            toast.error(res?.message)
+          }
        }
        catch(error){
            console.log("error in add to cart api", error)
@@ -398,10 +398,42 @@ const Navbar = () => {
     }
   
     const handleIncreaseApi = (e , v) => {
+
         handleAddToCartApi(v);
     }
   
       const handleDecreaseApi =  async (e , v) => {
+          e.preventDefault();
+    e.stopPropagation();
+
+         const payload = {
+        userId:loggedUserData?._id,
+        id: v._id,
+        itemType:v?.itemType
+      }
+
+  
+       try{
+         const res = await removeToCartServ(payload);
+          if(res?.statusCode == 200){
+            console.log(res);
+          
+         getUserCart();
+         toast.success(res.message);
+          }
+          else{
+            toast.error(res?.message)
+          }
+       }
+       catch(error){
+           console.log("error in add to cart api", error)
+       }
+    }
+
+     const handleRemoveItem =  async (e , v) => {
+        e.preventDefault();
+    e.stopPropagation();
+
          const payload = {
         userId:loggedUserData?._id,
         id: v._id,
@@ -409,9 +441,16 @@ const Navbar = () => {
       }
   
        try{
-         const res = await removeToCartServ(payload);
-         console.log(res);
+         const res = await removeIemToCartServ(payload);
+          if(res?.statusCode == 200){
+            console.log(res);
+          
          getUserCart();
+         toast.success(res.message);
+          }
+          else{
+            toast.error(res?.message)
+          }
        }
        catch(error){
            console.log("error in add to cart api", error)
@@ -483,9 +522,9 @@ const Navbar = () => {
             />
             <div className="notificationDiv" >
               <p>
-                 {loggedUserData && cartListApi ?
+                 {loggedUserData && apiCartList ?
                  (  
-                    cartListApi.reduce(
+                    apiCartList.reduce(
                       (total, item) => total + (item?.quantity || 0),
                        0)
                  ): (
@@ -615,7 +654,20 @@ const Navbar = () => {
             style={{ fontFamily: "poppins" }}
           >
             <div className="offcanvas-header">
-              <h5>
+              {
+                loggedUserData ? 
+                (
+                 <h5>
+                Your Cart (
+                  {apiCartList?.reduce(
+                  (total, item) => total + (item.quantity || 0),
+                  0
+                )}{" "}
+                Products
+                )
+              </h5>
+                ):(
+                  <h5>
                 Your Cart (
                 {cartList?.reduce(
                   (total, item) => total + (item.quantity || 0),
@@ -626,6 +678,10 @@ const Navbar = () => {
                 )}{" "}
                 Products)
               </h5>
+                )
+              }
+
+              
               <button
                 type="button"
                 className="btn-close"
@@ -633,7 +689,7 @@ const Navbar = () => {
               ></button>
             </div>
                
-            {(cartList?.length <= 0 && comboCartList?.length <= 0 && cartListApi?.length <= 0) ? (
+            {(cartList?.length <= 0 && comboCartList?.length <= 0 && apiCartList?.length <= 0) ? (
                  <div className="offcanvas-body d-flex flex-column align-items-center">
                   <img src="https://img.freepik.com/free-vector/supermarket-shopping-cart-concept-illustration_114360-22408.jpg?uid=R195795735&ga=GA1.1.1778899298.1732287368&semt=ais_hybrid&w=740" className="img-fluid" style={{maxWidth: "60%"}}></img>
                   <h5 className="p-2 text-center">Your Cart is <span className="text-danger">Empty!</span></h5>
@@ -641,141 +697,129 @@ const Navbar = () => {
                ):(
               
              <div className="offcanvas-body">
-              {cartList?.map((item) => (
-                <div className="d-flex mb-3" key={item._id}>
-                  <img
-                    src={item.productHeroImage}
-                    alt={item.description}
-                    className="me-3"
-                    style={{ width: "80px", height: "80px" }}
-                  />
-                  <div className="w-100">
-                    <h6>{item.name}</h6>
+             {loggedUserData ? (
 
-                    <div className="d-flex justify-content-between w-100">
+  apiCartList?.map((item) => (
+    <div className="d-flex mb-3" key={item._id}>
+      <img
+        src={item.productHeroImage}
+        alt={item.description}
+        className="me-3"
+        style={{ width: "80px", height: "80px" }}
+      />
+      <div className="w-100">
+        <div className="d-flex justify-content-between">
+          <h6>{item.name}</h6>
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/3096/3096687.png"
+            style={{ height: "15px", width: "15px", opacity: "0.6", cursor: "pointer" }}
+            onClick={(e) => handleRemoveItem(e, item)}
+          />
+        </div>
+        <div className="d-flex justify-content-between w-100">
+          <p className="fw-bold mt-1 mb-0">
+            <del className="text-muted fw-normal">₹{item?.price}</del> ₹{item?.discountedPrice ?? item?.pricing?.comboPrice ?? "N/A"}
+          </p>
 
-                        <p className=" fw-bold mt-1 mb-0">
-                      <del className="text-muted fw-normal">₹{item?.price}</del>   ₹{item?.discountedPrice ?? item?.pricing?.comboPrice ?? "N/A"}
-                    </p> 
+          <div className="d-flex counterDiv rounded-1">
+            <p
+              className="mb-0 text-secondary"
+              style={{ cursor: "pointer" }}
+              onClick={(e) => handleDecreaseApi(e, item)}
+            >
+              -
+            </p>
+            <p className="mb-0">{item?.quantity}</p>
+            <p
+              className="mb-0 text-secondary"
+              style={{ cursor: "pointer" }}
+              onClick={(e) => handleIncreaseApi(e, item)}
+            >
+              +
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))
+) : (
+  <>
+    
+    {cartList?.map((item) => (
+      <div className="d-flex mb-3" key={item._id}>
+        <img
+          src={item.productHeroImage}
+          alt={item.description}
+          className="me-3"
+          style={{ width: "80px", height: "80px" }}
+        />
+        <div className="w-100">
+          <h6>{item.name}</h6>
+          <div className="d-flex justify-content-between w-100">
+            <p className="fw-bold mt-1 mb-0">
+              <del className="text-muted fw-normal">₹{item?.price}</del> ₹{item?.discountedPrice ?? item?.pricing?.comboPrice ?? "N/A"}
+            </p>
+            <div className="d-flex counterDiv rounded-1">
+              <p
+                className="mb-0 text-secondary"
+                style={{ cursor: "pointer" }}
+                onClick={(e) => handleDecreaseQty(e, item)}
+              >
+                -
+              </p>
+              <p className="mb-0">{item?.quantity}</p>
+              <p
+                className="mb-0 text-secondary"
+                style={{ cursor: "pointer" }}
+                onClick={(e) => handleIncreaseQty(e, item)}
+              >
+                +
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
 
-                      <div className="d-flex counterDiv  rounded-1 ">
-                      <p
-                       className="mb-0 text-secondary"
-                        style={{ borderColor: "red"  , cursor:"pointer" }}
-                        onClick={(e) => handleDecreaseQty(e, item)}
-                      >
-                        -
-                      </p>
-                      <p  className="mb-0">
-                        {/* {
-                          cartList.find((cartitem) => cartitem._id === item._id)
-                            ?.quantity
-                        } */}
-                        {item?.quantity}
-                      </p>
-                      <p
-                        className="mb-0 text-secondary "
-                        style={{ borderColor: "green" , cursor:"pointer" }}
-                        onClick={(e) => handleIncreaseQty(e, item)}
-                      >
-                        +
-                      </p>
-                    </div>
-                  
-                    </div>
-                  </div>
-                </div>
-              ))}
-               {comboCartList?.map((item) => (
-                <div className="d-flex mb-3" key={item._id}>
-                  <img
-                    src={item.productHeroImage}
-                    alt={item.description}
-                    className="me-3"
-                    style={{ width: "80px", height: "80px" }}
-                  />
-                  <div className="w-100">
-                    <h6>{item.name}</h6>
+  
+    {comboCartList?.map((item) => (
+      <div className="d-flex mb-3" key={item._id}>
+        <img
+          src={item.productHeroImage}
+          alt={item.description}
+          className="me-3"
+          style={{ width: "80px", height: "80px" }}
+        />
+        <div className="w-100">
+          <h6>{item.name}</h6>
+          <div className="d-flex justify-content-between w-100">
+            <p className="fw-bold mt-1 mb-0">
+              <del className="text-muted fw-normal">₹{item?.pricing?.actualPrice}</del> ₹{item?.discountedPrice ?? item?.pricing?.comboPrice ?? "N/A"}
+            </p>
+            <div className="d-flex counterDiv rounded-1">
+              <p
+                className="mb-0 text-secondary"
+                style={{ cursor: "pointer" }}
+                onClick={(e) => handleDecreaseComboQty(e, item)}
+              >
+                -
+              </p>
+              <p className="mb-0">{item?.quantity}</p>
+              <p
+                className="mb-0 text-secondary"
+                style={{ cursor: "pointer" }}
+                onClick={(e) => handleIncreaseComboQty(e, item)}
+              >
+                +
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </>
+)}
 
-                    <div className="d-flex justify-content-between w-100">
-
-                        <p className=" fw-bold mt-1 mb-0">
-                      <del className="text-muted fw-normal">₹{item?.pricing?.actualPrice}</del>   ₹{item?.discountedPrice ?? item?.pricing?.comboPrice ?? "N/A"}
-                    </p> 
-
-                      <div className="d-flex counterDiv  rounded-1 ">
-                      <p
-                       className="mb-0 text-secondary"
-                        style={{ borderColor: "red"  , cursor:"pointer" }}
-                        onClick={(e) => handleDecreaseComboQty(e, item)}
-                      >
-                        -
-                      </p>
-                      <p  className="mb-0">
-                        {/* {
-                          cartList.find((cartitem) => cartitem._id === item._id)
-                            ?.quantity
-                        } */}
-                        {item?.quantity}
-                      </p>
-                      <p
-                        className="mb-0 text-secondary "
-                        style={{ borderColor: "green" , cursor:"pointer" }}
-                        onClick={(e) => handleIncreaseComboQty(e, item)}
-                      >
-                        +
-                      </p>
-                    </div>
-                  
-                    </div>
-                  </div>
-                </div>
-              ))}
-               {cartListApi?.map((item) => (
-                <div className="d-flex mb-3" key={item._id}>
-                  <img
-                    src={item.productHeroImage}
-                    alt={item.description}
-                    className="me-3"
-                    style={{ width: "80px", height: "80px" }}
-                  />
-                  <div className="w-100">
-                    <h6>{item.name}</h6>
-
-                    <div className="d-flex justify-content-between w-100">
-
-                        <p className=" fw-bold mt-1 mb-0">
-                      <del className="text-muted fw-normal">₹{item?.price}</del>   ₹{item?.discountedPrice ?? item?.pricing?.comboPrice ?? "N/A"}
-                    </p> 
-
-                      <div className="d-flex counterDiv  rounded-1 ">
-                      <p
-                       className="mb-0 text-secondary"
-                        style={{ borderColor: "red"  , cursor:"pointer" }}
-                        onClick={(e) => handleDecreaseApi(e, item)}
-                      >
-                        -
-                      </p>
-                      <p  className="mb-0">
-                        {/* {
-                          cartList.find((cartitem) => cartitem._id === item._id)
-                            ?.quantity
-                        } */}
-                        {item?.quantity}
-                      </p>
-                      <p
-                        className="mb-0 text-secondary "
-                        style={{ borderColor: "green" , cursor:"pointer" }}
-                        onClick={(e) => handleIncreaseApi(e, item)}
-                      >
-                        +
-                      </p>
-                    </div>
-                  
-                    </div>
-                  </div>
-                </div>
-              ))}
 
               <hr />
 
@@ -786,6 +830,10 @@ const Navbar = () => {
                   0
                 ) + comboCartList?.reduce(
                   (total, item) => total + item?.pricing?.comboPrice * item.quantity,
+                  0
+                )
+                + apiCartList?.reduce(
+                  (total, item) => total + item?.discountedPrice * item.quantity,
                   0
                 )}
                 )

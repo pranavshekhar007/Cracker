@@ -11,7 +11,7 @@ import Footer from '../Components/Footer'
 
 const page = () => {
     const router = useRouter();
-    const { setLoggedUserData, updateLoggedUserData , setCartList, setWishList } = useContext(LoggedDataContext);
+    const { setLoggedUserData, updateLoggedUserData , setCartList, setWishList , apiCartList , setApiCartList } = useContext(LoggedDataContext);
 
 
     const handleLogOut = () => {
@@ -21,6 +21,7 @@ const page = () => {
          updateLoggedUserData(null);
          setCartList([]);
          setWishList([]);
+         setApiCartList([]);
 
     localStorage.removeItem("user");
     localStorage.removeItem("cartList");
