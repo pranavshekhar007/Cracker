@@ -878,16 +878,19 @@ const Page = () => {
                     <div className="d-flex gap-3">
                       <input
                         name="fullName"
-                        placeholder="Full Name"
+                        placeholder="Full Name *"
                         value={form.fullName}
                         onChange={handleChange}
                         required
                       />
                       <input
                         name="phone"
-                        placeholder="Phone"
+                        placeholder="Mobile Number *"
                         value={form.phone}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "");
+                          if (val.length <= 10) setForm({ ...form, phone: val });
+                        }}
                         required
                       />
                     </div>
@@ -901,16 +904,17 @@ const Page = () => {
                       {/* area */}
                       <input
                         name="area"
-                        placeholder="Area"
+                        placeholder="Area *"
                         value={form.area}
                         onChange={handleChange}
                         required
                       />
                       <input
                         name="email"
-                        placeholder="Email"
+                        placeholder="Email *"
                         value={form.email}
                         onChange={handleChange}
+                        required
                       />
                     </div>
                     <div className="d-flex gap-3">
@@ -940,7 +944,7 @@ const Page = () => {
                         {form?.state ? (
                           <option value="">{form?.state}</option>
                         ) : (
-                          <option value="">Select State</option>
+                          <option value="">Select State *</option>
                         )}
                         {stateList.map((state) => (
                           <option key={state.stateId} value={state.stateId}>
@@ -978,7 +982,7 @@ const Page = () => {
                         {form?.city ? (
                           <option value="">{form?.city}</option>
                         ) : (
-                          <option value="">Select City</option>
+                          <option value="">Select City *</option>
                         )}
                         {cities.map((city) => (
                           <option key={city.cityId} value={city.cityId}>
@@ -992,9 +996,12 @@ const Page = () => {
                       {/* pincode */}
                       <input
                         name="pincode"
-                        placeholder="Pincode"
+                        placeholder="Pincode *"
                         value={form.pincode}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "");
+                          if (val.length <= 6) setForm({ ...form, pincode: val });
+                        }}                  
                         required
                       />
                     </div>

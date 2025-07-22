@@ -117,7 +117,7 @@ export default function Home() {
             onClick={openModal}
           >
             <i className="fa fa-map-marker-alt me-2"></i>
-            Check Delivery & Minimum Order
+            Check Service Availability & Minimum Order
           </button>
 
           {showModal && (
@@ -129,7 +129,7 @@ export default function Home() {
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">
-                      Check Delivery & Minimum Order
+                      
                     </h5>
                     <button
                       type="button"

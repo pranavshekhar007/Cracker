@@ -1158,18 +1158,18 @@ body {
 .all-sells{
   margin-top: 25px;
 }
-.daily-sell1 {
+/* .daily-sell1 {
   position: relative;
 
   background: url("/assets/BigBangLogo.jpg") no-repeat center center;
-  background-size: contain;/* adjust size as needed for watermark effect */
-  background-position: bottom right; /* place logo at bottom right */
-  background-color: #fff; /* set card background to white */
+  background-size: contain;
+  background-position: bottom right; 
+  background-color: #fff; 
 
   padding: 25px !important;
   min-height: 300px;
   border-radius: 12px;
-  color: black; /* text color to black */
+  color: black; 
 
   display: flex;
   flex-direction: column;
@@ -1178,7 +1178,7 @@ body {
   box-sizing: border-box;
   border: 1px solid #ddd;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
+} */
 
 
 .daily-sells {
@@ -1199,14 +1199,15 @@ body {
   font-weight: 700;
 }
 
-.daily-shop{
+/* .daily-shop{
   width: 130px;
   height: 35px;
   border-radius: 7px;
   padding: 4px;
   background-color: var(--secondary-color);
  
-}
+} */
+
 .daily-sell {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
@@ -1259,6 +1260,49 @@ body {
    width: 100%;
 }
 }
+
+
+
+.daily-sell1 {
+  position: relative;
+  background: #fff; 
+  padding: 25px !important;
+  min-height: 300px;
+  border-radius: 12px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* center content vertically */
+  align-items: center;     /* center content horizontally */
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.daily-sell1 .daily-logo {
+  width: 250px;
+  margin-bottom: 20px;
+}
+
+.daily-shop-button {
+  background-color: var(--secondary-color);
+  color: white;
+  font-weight: bold;
+  font-size: 18px; 
+  padding: 12px 30px; 
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s ease;
+}
+
+.daily-shop-button:hover {
+  background-color: #e63300;
+}
+
 /* Icon wrapper */
 /* .services-icon-wrapper {
   min-width: 50px;
@@ -3547,3 +3591,12 @@ body , html{
 .carousel-item button.btn-link:hover {
   text-decoration: underline;
 }
+
+/* input[required], select[required] {
+  border: 2px solid #ff3c00;
+} */
+
+/* input[required]::placeholder, select[required] option:first-child {
+  color: #b30000; 
+  font-weight: bold;
+} */

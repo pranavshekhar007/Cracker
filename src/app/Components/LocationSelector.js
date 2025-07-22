@@ -367,7 +367,7 @@ const LocationSelector = () => {
         )}
 
         <h5 className="fw-bold mb-0">
-          For Crackers Purchase – Select Your City
+          To Continue Shopping, – Please Select Your Delivery Location”
         </h5>
         <p className="mb-0" style={{ fontSize: "0.9rem" }}>
           Check delivery availability in your location
@@ -380,8 +380,8 @@ const LocationSelector = () => {
           {/* State Dropdown */}
           <div className="col-12 mb-3">
             <label className="fw-bold">
-              <FaTruck className="me-2 text-danger" />
-              Select State
+              {/* <FaMapMarkerAlt className="me-2 text-danger" /> */}
+              📍 Select State
             </label>
             <select
               className="form-select shadow-sm"
@@ -459,8 +459,6 @@ const LocationSelector = () => {
             <div className="alert alert-success text-center fw-bold mb-3">
               Minimum Order Value: ₹{selectedCityMinimumPrice}
             </div>
-
-      
 
             <div className="text-center">
               <button

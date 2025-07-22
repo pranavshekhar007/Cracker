@@ -198,8 +198,17 @@ const Step4 = ({
         <h3 className="my-3 text-center">Order Summary</h3>
         <div className="row">
           <div className="col-12 mb-4">
-            {cityPrice && <p>Minimum Price for this city: ₹{cityPrice}</p>}
-
+            {cityPrice && (
+              <p
+                style={{
+                  fontSize: "1.2rem",
+                  fontWeight: "bold",
+                  color: "#ff3c00",
+                }}
+              >
+                Minimum Price for this city: ₹{cityPrice}
+              </p>
+            )}
             <div className="d-flex justify-content-between">
               <h6 className="fw-bold">Total Products:</h6>
               <p className="fs-5 fw-bold">{totalProducts}</p>
@@ -216,14 +225,14 @@ const Step4 = ({
             </div>
 
             {discount > 0 && (
-              <p style={{ color: "green", fontWeight: "500" }}>
+              <p >
                 You are saving ₹{discount} on this order!
               </p>
             )}
 
             <div className="d-flex justify-content-between">
               <h6 className="fw-bold">Subtotal:</h6>
-              <p className="fs-5 fw-bold" style={{ color: "coral" }}>
+              <p className="fs-5 fw-bold" style={{ color: "green", fontWeight: "500" }}>
                 ₹{subTotal}
               </p>
             </div>
@@ -233,13 +242,24 @@ const Step4 = ({
                 className="btn btn-warning w-100 mt-3"
                 onClick={handlePlaceOrder}
                 disabled={orderPlaced}
+                style={{
+                  fontSize: "1.1rem",
+                  fontWeight: "bold",
+                  color: "#b30000",
+                }}
               >
                 {orderPlaced ? "Order Placed" : "Place Order"}
               </button>
             ) : (
               <button
                 className="btn btn-warning w-100 mt-3"
-                style={{ opacity: "0.5", cursor: "not-allowed" }}
+                style={{
+                  opacity: "0.5",
+                  cursor: "not-allowed",
+                  fontSize: "1.4rem",
+                  fontWeight: "bold",
+                  color: "#b30000",
+                }}
                 disabled
               >
                 Place Order
@@ -249,12 +269,17 @@ const Step4 = ({
             {!amountReached && (
               <div
                 className="alert alert-danger d-flex align-items-center justify-content-between py-2 px-3 rounded mt-3"
-                style={{ fontSize: "0.875rem" }}
+                style={{
+                  fontSize: "1.2rem",
+                  fontWeight: "bold",
+                  color: "#b30000",
+                }}
               >
                 <span>Minimum order amount not reached</span>
                 <button
                   className="btn btn-sm btn-outline-danger"
                   onClick={() => (window.location.href = "/")}
+                  style={{ fontWeight: "bold" }}
                 >
                   Continue Shopping
                 </button>
@@ -275,7 +300,10 @@ const Step4 = ({
           >
             Back
           </button>
-          <button onClick={() => (window.location.href = "/")} className="btn btn-danger px-4">
+          <button
+            onClick={() => (window.location.href = "/")}
+            className="btn btn-danger px-4"
+          >
             More Shopping
           </button>
         </div>
