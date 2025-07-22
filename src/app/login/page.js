@@ -10,10 +10,12 @@ import { LoggedDataContext } from '../context/context';
 import { toast } from "react-toastify";
 
 
+
 const page = () => {
 
       const router = useRouter();
-  const { updateLoggedUserData } = useContext(LoggedDataContext);
+  const { updateLoggedUserData ,  setApiCartList ,  cartList,
+      setCartList, comboCartList , setComboCartList  } = useContext(LoggedDataContext);
 
   const [formdata, setFormData] = useState({
     phone: "",

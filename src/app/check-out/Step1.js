@@ -3,9 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { LoggedDataContext } from "../context/context";
 import { otpSend, otpVerify } from "../services/authentication.service";
 import { toast } from "react-toastify";
+import { addToCartServ , userCartList } from "../services/product.service";
 
-const Step1 = ({ next }) => {
-  const { loggedUserData, updateLoggedUserData } =
+const Step1 = ({ next ,  cartList,
+      setCartList, comboCartList , setComboCartList }) => {
+  const { loggedUserData, updateLoggedUserData , setApiCartList} =
     useContext(LoggedDataContext);
 
   const [userFormData, setUserFormData] = useState({
@@ -51,6 +53,7 @@ const Step1 = ({ next }) => {
     }
     setPhoneLoading(false);
   };
+
   const otpVerifyFunc = async () => {
     if (!userFormData.phoneOtp) {
       setErrorMessage("Please enter your otp first.");
@@ -66,8 +69,12 @@ const Step1 = ({ next }) => {
       let response = await otpVerify(userFormData);
       if (response?.statusCode == "200") {
         toast.success(response?.message);
-        updateLoggedUserData(response?.data);
-        next();
+        const userData = response?.data;
+
+      updateLoggedUserData(userData);
+
+     
+      await handleUpdateCartData(userData);
       }
     } catch (error) {
       console.log(error?.response?.data?.message);
@@ -75,6 +82,66 @@ const Step1 = ({ next }) => {
     }
     setOtpLoading(false);
   };
+
+
+  const handleUpdateCartData = async (userData) => {
+      
+      // ✅ Send normal product cart
+      const guestCart = cartList || [];
+      for (let item of guestCart) {
+        const repeat = item.quantity || 1;
+        for (let i = 0; i < repeat; i++) {
+          const payload = {
+            userId: userData._id,
+            id: item._id,
+            itemType: "Product",
+          };
+          try {
+            await addToCartServ(payload);
+          } catch (err) {
+            console.log("Error syncing product:", item._id, err);
+          }
+        }
+      }
+
+       const guestComboCart = comboCartList || [];
+      for (let item of guestComboCart) {
+        const repeat = item.quantity || 1;
+        for (let i = 0; i < repeat; i++) {
+          const payload = {
+            userId: userData._id,
+            id: item._id,
+            itemType: "ComboProduct",
+          };
+          try {
+            await addToCartServ(payload);
+          } catch (err) {
+            console.log("Error syncing combo product:", item._id, err);
+          }
+        }
+      }
+
+       localStorage.removeItem("cartList");
+      localStorage.removeItem("comboCartList");
+      setCartList([]);
+      setComboCartList([]);
+
+       getUserCart(userData);
+
+      
+  }
+
+    const getUserCart = async (userData) => {
+            try{
+             const res = await userCartList(userData._id)
+               console.log("cart list" , res)
+               setApiCartList(res?.cartItems || []);
+                next();
+            }
+            catch(error){
+              console.log("error in cart list" , error)
+            }
+          }
 
   return (
     <div

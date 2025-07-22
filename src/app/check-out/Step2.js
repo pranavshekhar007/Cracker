@@ -754,7 +754,7 @@ import {
   addressList,
   addressUpdate,
 } from "../services/address.service";
-import { getCityByStateServ, getStatesServ } from "../services/product.service";
+import { getCityByStateServ, getStatesServ , userCartList} from "../services/product.service";
 
 const Step2 = ({
   next,
@@ -768,10 +768,29 @@ const Step2 = ({
   deliveryCharge,
   setDeliveryCharge,
 }) => {
+
+
   const { loggedUserData, cartList } = useContext(LoggedDataContext);
   const [editAddress, setEditAddress] = useState(false);
 
   const [shipping, setShipping] = useState("homeDelivery");
+
+   const getUserCart = async () => {
+              try{
+               const res = await userCartList(loggedUserData?._id)
+                 console.log("cart list" , res)
+                 setApiCartList(res?.cartItems || []);
+                 
+              }
+              catch(error){
+                console.log("error in cart list" , error)
+              }
+            }
+
+     useEffect(() => {
+        getUserCart();
+     },[loggedUserData?._id])       
+
 
   const handleShippingChange = (e) => {
     setShipping(e.target.value);
@@ -892,6 +911,11 @@ const Step2 = ({
 
   useEffect(() => {
     console.log("address form ", addressForm);
+   setAddressForm((prev) => ({
+  ...prev,
+  country: "India",
+}));
+
   }, [addressForm]);
   // states list api
 
@@ -1303,7 +1327,7 @@ const Step2 = ({
             <input
               className="form-control"
               placeholder="Country"
-              value={addressForm.country}
+              value={addressForm?.country}
               readOnly
               style={{
                 height: "45px",

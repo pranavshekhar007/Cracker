@@ -208,20 +208,44 @@
 // export default ProductCard;
 
 "use client";
-import React, { useContext } from "react";
+import React, { useContext , useState , useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
+import { addToCartServ, removeToCartServ, userCartList } from "../services/product.service";
 
 function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
-  const { loggedUserData, cartList, setCartList, wishList, setWishList } =
+  const { loggedUserData, cartList, setCartList, wishList, setWishList ,  apiCartList, setApiCartList } =
     useContext(LoggedDataContext);
   const router = useRouter();
 
+    const [cartListApi , setCartListApi] = useState();
+
+  const getUserCart = async () => {
+    const id = loggedUserData?.id
+    try{
+       const res = await userCartList(loggedUserData?._id)
+       console.log("cart list" , res)
+       setCartListApi(res?.cartItems);
+      setApiCartList(res?.cartItems || []);
+    }
+    catch(error){
+      console.log("error in cart list" , error)
+    }
+  }
+
+  useEffect(() => {
+    getUserCart();
+  }, [loggedUserData?._id])
+
   const handleAddToCartLocal = (e, v) => {
+
     e.preventDefault();
     e.stopPropagation();
-    try {
+   if(loggedUserData){   
+             handleAddToCartApi(v);
+   }else{
+     try {
       let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
 
       const existingProduct = localCartList.find((item) => item._id === v._id);
@@ -238,7 +262,61 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
     } catch (error) {
       console.log("Something went wrong", error);
     }
+   }
   };
+
+  const handleAddToCartApi = async (v)=>{
+     const payload = {
+      userId:loggedUserData?._id,
+      id: v._id,
+      itemType:"Product"
+    }
+
+     try{
+       const res = await  addToCartServ(payload);
+       if(res?.statusCode == 200){
+                  console.log(res);
+                
+               getUserCart();
+               toast.success(res.message);
+                }
+                else{
+                  toast.error(res?.message)
+                }
+     }
+     catch(error){
+         console.log("error in add to cart api", error)
+     }
+  }
+
+    const handleIncreaseApi = (e , v) => {
+      handleAddToCartApi(v);
+  }
+
+    const handleDecreaseApi =  async (e , v) => {
+       const payload = {
+      userId:loggedUserData?._id,
+      id: v._id,
+      itemType:"Product"
+    }
+
+     try{
+       const res = await removeToCartServ(payload);
+        if(res?.statusCode == 200){
+                   console.log(res);
+                 
+                getUserCart();
+                toast.success(res.message);
+                 }
+                 else{
+                   toast.error(res?.message)
+                 }
+     }
+     catch(error){
+         console.log("error in add to cart api", error)
+     }
+  }
+
   const handleAddToWishListLocal = (e, v) => {
     e.preventDefault();
     e.stopPropagation();
@@ -310,7 +388,7 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
         cursor: "pointer",
         backgroundColor: "white",
       }}
-      onClick={() => router.push("/product-details/" + value?._id)}
+      // onClick={() => router.push("/product-details/" + value?._id)}
     >
       <div
         className="d-flex justify-content-between align-items-center heartIcon pe-2  position-absolute "
@@ -341,6 +419,7 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
             <img
               src="https://cdn-icons-png.flaticon.com/128/159/159604.png"
               className=" p-2"
+               onClick={() => router.push("/product-details/" + value?._id)}
               style={{
                 height: "36px",
                 width: "36px",
@@ -419,7 +498,35 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
         </div>
 
         <div className="d-flex justify-content-around align-items-center mt-sm-3 mt-1">
-          {cartList?.find((item) => item._id === value._id) ? (
+          {loggedUserData ?  (
+              cartListApi?.find((item) => item._id === value._id) ? (
+            <div className="d-flex counterDiv  w-100">
+              <p
+                style={{ backgroundColor: "#6d0d0c" }}
+                className="w-100 text-white"
+                onClick={(e) => handleDecreaseApi(e, value)}
+              >
+                -
+              </p>
+              <p className="w-100" style={{ backgroundColor: "#f9f5f5" }}>
+                {cartListApi.find((item) => item._id === value._id)?.quantity}
+              </p>
+              <p
+                className="w-100 text-white"
+                style={{ backgroundColor: "#6d0d0c" }}
+                onClick={(e) => handleIncreaseApi(e, value)}
+              >
+                +
+              </p>
+            </div>
+           ) : (
+            <button onClick={(e) => handleAddToCartLocal(e, value)}>
+              {" "}
+              Add To Cart{" "}
+            </button>
+          )
+          ):(
+            cartList?.find((item) => item._id === value._id) ? (
             <div className="d-flex counterDiv  w-100">
               <p
                 style={{ backgroundColor: "#6d0d0c" }}
@@ -444,6 +551,7 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
               {" "}
               Add To Cart{" "}
             </button>
+          )
           )}
         </div>
       </div>

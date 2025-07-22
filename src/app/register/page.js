@@ -7,11 +7,13 @@ import { otpSend, otpVerify } from "../services/authentication.service";
 import { toast } from "react-toastify";
 import { useRouter } from 'next/navigation';
 import { LoggedDataContext } from '../context/context';
+import { addToCartServ , userCartList} from "../services/product.service";
 
 const page = () => {
 
           const router = useRouter();
-      const { updateLoggedUserData } = useContext(LoggedDataContext);
+       const { updateLoggedUserData ,  setApiCartList ,  cartList,
+           setCartList, comboCartList , setComboCartList , loggedUserData } = useContext(LoggedDataContext);
 
      const [userFormData, setUserFormData] = useState({
         phone: "",
@@ -58,28 +60,97 @@ const page = () => {
           }
           setPhoneLoading(false)
         };
-        const otpVerifyFunc = async (e) => {
-             e.preventDefault();
-            if (!userFormData.phoneOtp) {
-          setErrorMessage("Please enter your otp first.");
-          return;
-        }
-        setErrorMessage("");
-        setOtpLoading(true);
+
+
+      const otpVerifyFunc = async () => {
+          if (!userFormData.phoneOtp) {
+            setErrorMessage("Please enter your otp first.");
+            return;
+          }
+          if (!userFormData.firstName) {
+            setErrorMessage("Please enter you name");
+            return;
+          }
+          setErrorMessage("");
+          setOtpLoading(true);
           try {
             let response = await otpVerify(userFormData);
             if (response?.statusCode == "200") {
               toast.success(response?.message);
-              updateLoggedUserData(response?.data);
-                 router.push('/');
+              const userData = response?.data;
+      
+            updateLoggedUserData(userData);
+      
+           
+            await handleUpdateCartData(userData);
             }
           } catch (error) {
             console.log(error?.response?.data?.message);
-                toast.error(error?.response?.data?.message);
-          
+            toast.error(error?.response?.data?.message);
           }
           setOtpLoading(false);
         };
+      
+      
+        const handleUpdateCartData = async (userData) => {
+            
+            // ✅ Send normal product cart
+            const guestCart = cartList || [];
+            for (let item of guestCart) {
+              const repeat = item.quantity || 1;
+              for (let i = 0; i < repeat; i++) {
+                const payload = {
+                  userId: userData._id,
+                  id: item._id,
+                  itemType: "Product",
+                };
+                try {
+                  await addToCartServ(payload);
+                } catch (err) {
+                  console.log("Error syncing product:", item._id, err);
+                }
+              }
+            }
+      
+             const guestComboCart = comboCartList || [];
+            for (let item of guestComboCart) {
+              const repeat = item.quantity || 1;
+              for (let i = 0; i < repeat; i++) {
+                const payload = {
+                  userId: userData._id,
+                  id: item._id,
+                  itemType: "ComboProduct",
+                };
+                try {
+                  await addToCartServ(payload);
+                } catch (err) {
+                  console.log("Error syncing combo product:", item._id, err);
+                }
+              }
+            }
+      
+             localStorage.removeItem("cartList");
+            localStorage.removeItem("comboCartList");
+            setCartList([]);
+            setComboCartList([]);
+      
+             getUserCart();
+      
+            
+        }
+      
+          const getUserCart = async () => {
+                  try{
+                     const res = await userCartList(loggedUserData?._id)
+                     console.log("cart list" , res)
+                     setApiCartList(res?.cartItems || []);
+                      router.push("/")
+                  }
+                  catch(error){
+                    console.log("error in cart list" , error)
+                  }
+                }
+      
 
   return (
     <>
