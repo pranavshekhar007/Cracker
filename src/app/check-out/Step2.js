@@ -1182,6 +1182,27 @@ const Step2 = ({
             />
           </div>
         </div>
+
+        {/* area */}
+        <div className="col-md-6 col-12 p-0 px-md-2 my-2">
+            <label className="steps-label">Area</label>
+            <input
+              className="form-control"
+              placeholder="Enter Area"
+              value={addressForm?.area || ""}
+              readOnly={!editAddress}
+              onChange={(e) =>
+                setAddressForm({
+                  ...addressForm,
+                  area: e.target.value,
+                })
+              }
+              style={{
+                height: "45px",
+                background: editAddress ? "white" : "whitesmoke",
+              }}
+            />
+          </div>
         <div className="row m-0 p-0">
           {/* state */}
           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
@@ -1271,27 +1292,6 @@ const Step2 = ({
                 setAddressForm({
                   ...addressForm,
                   pincode: e.target.value,
-                })
-              }
-              style={{
-                height: "45px",
-                background: editAddress ? "white" : "whitesmoke",
-              }}
-            />
-          </div>
-
-          {/* area */}
-          <div className="col-md-6 col-12 p-0 px-md-2 my-2">
-            <label className="steps-label">Area</label>
-            <input
-              className="form-control"
-              placeholder="Enter Area"
-              value={addressForm?.area || ""}
-              readOnly={!editAddress}
-              onChange={(e) =>
-                setAddressForm({
-                  ...addressForm,
-                  area: e.target.value,
                 })
               }
               style={{
