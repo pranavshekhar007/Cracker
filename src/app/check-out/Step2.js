@@ -1113,12 +1113,13 @@ useEffect(() => {
 
         <div className="row m-0 p-0">
           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
-            <label className="steps-label">Name</label>
+            <label className="steps-label">Name <span className="text-danger">*</span></label>
             <input
               className="form-control"
               placeholder="Enter Full Name"
               value={addressForm?.fullName}
               readOnly={!editAddress}
+              required
               onChange={(e) =>
                 setAddressForm({
                   ...addressForm,
@@ -1133,12 +1134,13 @@ useEffect(() => {
           </div>
 
           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
-            <label className="steps-label">Email</label>
+            <label className="steps-label">Email <span className="text-danger">*</span></label>
             <input
               className="form-control"
               placeholder="Enter email"
               value={addressForm?.email}
               readOnly={!editAddress}
+              required
               onChange={(e) =>
                 setAddressForm({
                   ...addressForm,
@@ -1153,12 +1155,13 @@ useEffect(() => {
           </div>
 
           <div className="col-md-6 col-12 p-0 px-md-2 my-2">
-            <label className="steps-label">Phone</label>
+            <label className="steps-label">Phone <span className="text-danger">*</span></label>
             <input
               className="form-control "
               placeholder="Enter Phone"
               value={addressForm?.phone}
               readOnly={!editAddress}
+              required
               onChange={(e) =>
                 setAddressForm({
                   ...addressForm,
@@ -1216,11 +1219,12 @@ useEffect(() => {
         <div className="row m-0 p-0">
           {/* state */}
           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
-            <label className="steps-label">State</label>
+            <label className="steps-label">State <span className="text-danger">*</span></label>
             <select
               className="form-control"
               value={addressForm?.stateId || ""}
               disabled={!editAddress}
+              required
               onChange={async (e) => {
                 const selectedStateId = e.target.value;
                 const selectedState = stateList.find(
@@ -1254,11 +1258,12 @@ useEffect(() => {
 
           {/* city */}
           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
-            <label className="steps-label">City</label>
+            <label className="steps-label">City <span className="text-danger">*</span></label>
             <select
               className="form-control"
               value={addressForm?.cityId}
               disabled={!editAddress}
+              required
               onChange={async (e) => {
                 const cityId = e.target.value;
                 // Find selected city from state
@@ -1292,12 +1297,13 @@ useEffect(() => {
 
           {/* pincode */}
           <div className="col-md-4 col-12 p-0 px-md-2 my-2">
-            <label className="steps-label">Pincode</label>
+            <label className="steps-label">Pincode <span className="text-danger">*</span></label>
             <input
               className="form-control"
               placeholder="Enter Pincode"
               value={addressForm?.pincode || ""}
               readOnly={!editAddress}
+              required
               onChange={(e) =>
                 setAddressForm({
                   ...addressForm,
@@ -1333,7 +1339,7 @@ useEffect(() => {
           </div>
           {/* country */}
           <div className="col-md-12 col-12 p-0 px-md-2 my-2">
-            <label className="steps-label">Country</label>
+            <label className="steps-label">Country <span className="text-danger">*</span></label>
             <input
               className="form-control"
               placeholder="Country"
