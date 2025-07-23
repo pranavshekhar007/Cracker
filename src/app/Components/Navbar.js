@@ -240,8 +240,6 @@ const Navbar = () => {
       router.push("/register");
     }
   };
-
- 
   
     const getUserCart = async () => {
     
@@ -255,9 +253,10 @@ const Navbar = () => {
       }
     }
 
-    useEffect(() => {
-       getUserCart();
-    }, [loggedUserData?._id ])
+ useEffect(() => {
+  if (loggedUserData?._id) getUserCart(loggedUserData._id);
+}, [loggedUserData?._id]);
+
 
     const handleIncreaseQty = (e, v) => {
     e.preventDefault();

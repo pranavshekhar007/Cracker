@@ -138,11 +138,10 @@ const page = () => {
       
             
         }
-      
-          const getUserCart = async () => {
+              const getUserCart = async () => {
                   try{
                      const res = await userCartList(loggedUserData?._id)
-                     console.log("cart list" , res)
+                     console.log("cart list after register" , res)
                      setApiCartList(res?.cartItems || []);
                       router.push("/")
                   }

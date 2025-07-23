@@ -225,28 +225,11 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
     setCartList,
     wishList,
     setWishList,
-    apiCartList,
-    setApiCartList,
+    cartListApi
   } = useContext(LoggedDataContext);
   const router = useRouter();
 
-  const [cartListApi, setCartListApi] = useState();
-
-  const getUserCart = async () => {
-    const id = loggedUserData?.id;
-    try {
-      const res = await userCartList(loggedUserData?._id);
-      console.log("cart list", res);
-      setCartListApi(res?.cartItems);
-      setApiCartList(res?.cartItems || []);
-    } catch (error) {
-      console.log("error in cart list", error);
-    }
-  };
-
-  useEffect(() => {
-    getUserCart();
-  }, [loggedUserData?._id]);
+ 
 
   const handleAddToCartLocal = (e, v) => {
     e.preventDefault();

@@ -787,9 +787,10 @@ const Step2 = ({
               }
             }
 
-     useEffect(() => {
-        getUserCart();
-     },[loggedUserData?._id])       
+  useEffect(() => {
+  if (loggedUserData?._id) getUserCart(loggedUserData._id);
+}, [loggedUserData?._id]);
+      
 
 
   const handleShippingChange = (e) => {
@@ -909,14 +910,23 @@ const Step2 = ({
     getStates();
   }, []);
 
-  useEffect(() => {
-    console.log("address form ", addressForm);
-   setAddressForm((prev) => ({
-  ...prev,
-  country: "India",
-}));
+//   useEffect(() => {
+//     console.log("address form ", addressForm);
+//    setAddressForm((prev) => ({
+//   ...prev,
+//   country: "India",
+// }));
 
-  }, [addressForm]);
+//   }, [addressForm]);
+useEffect(() => {
+  if (addressForm?.country !== "India") {
+    setAddressForm((prev) => ({
+      ...prev,
+      country: "India",
+    }));
+  }
+}, [addressForm?.country]);
+
   // states list api
 
   const [stateList, setStateList] = useState([]);

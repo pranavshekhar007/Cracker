@@ -302,9 +302,10 @@ function ComboProductCard({
       }
     }
   
-    useEffect(() => {
-      getUserCart();
-    }, [loggedUserData?._id])
+   useEffect(() => {
+  if (loggedUserData?._id) getUserCart(loggedUserData._id);
+}, [loggedUserData?._id]);
+
 
   const handleAddToCartComboLocal = (e, v) => {
     e.preventDefault();
