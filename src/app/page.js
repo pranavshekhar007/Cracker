@@ -111,29 +111,6 @@ export default function Home() {
 
         {/* Place below <Navbar /> */}
 
-        <div className="container my-3">
-          <button
-            className="locationBtn btn btn-danger d-flex justify-content-center align-items-center mx-auto rounded-pill"
-            onClick={openModal}
-          >
-            <i className="fa fa-map-marker-alt me-2"></i>
-            Check Service Availability & Minimum Order
-          </button>
-
-          {showModal && (
-            <div
-              className="modal fade show"
-              style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
-            >
-              <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content p-1">
-                  <LocationSelector onClose={closeModal} />
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* ===== Updates Bar Section ===== */}
         <div className="update-bar d-flex align-items-center shadow-sm rounded">
           <div className="update-label d-flex align-items-center px-3 py-2 rounded-start">
@@ -210,9 +187,13 @@ export default function Home() {
           </div> */}
         </div>
 
-        {/* <div className="container my-4">
-          <button className="btn btn-danger" onClick={openModal}>
-            Select Location
+        <div className="container my-3">
+          <button
+            className="locationBtn btn btn-danger d-flex justify-content-center align-items-center mx-auto rounded-pill"
+            onClick={openModal}
+          >
+            <i className="fa fa-map-marker-alt me-2"></i>
+            Check Service Availability & Minimum Order
           </button>
 
           {showModal && (
@@ -220,31 +201,14 @@ export default function Home() {
               className="modal fade show"
               style={{ display: "block", background: "rgba(0,0,0,0.5)" }}
             >
-              <div className="modal-dialog modal-dialog-centered modal-lg">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title">Select Location</h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      onClick={closeModal}
-                    ></button>
-                  </div>
-
-                  <div className="modal-body">
-                    <LocationSelector />
-                  </div>
-
-                  <div className="modal-footer">
-                    <button className="btn btn-secondary" onClick={closeModal}>
-                      Close
-                    </button>
-                  </div>
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content p-1">
+                  <LocationSelector onClose={closeModal} />
                 </div>
               </div>
             </div>
           )}
-        </div> */}
+        </div>
 
         {/* Daily best sells section */}
         {/* <DailySell

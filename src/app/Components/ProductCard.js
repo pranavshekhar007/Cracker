@@ -246,7 +246,6 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
   useEffect(() => {
     getUserCart();
   }, [loggedUserData?._id]);
- 
 
   const handleAddToCartLocal = (e, v) => {
     e.preventDefault();
@@ -477,18 +476,20 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
         <h4 className="fw-bold">{value?.name}</h4>
         <div className="mt-2 d-flex gap-2">
           <p
-            className="d-inline fw-semibold"
-            style={{
-              border: "1px solid #ffd7d7",
-              backgroundColor: "#fce6e6",
-              padding: "3px 15px",
-              borderRadius: "18px",
-              fontWeight: "800",
-              fontSize: "15px",
-              letterSpacing: "0.5px",
-              marginBottom: "0",
-              color: "#d92323",
-            }}
+            className={`product-type-badge ${
+              value?.productType?.toLowerCase() === "chakkar"
+                ? "product-type-chakkar"
+                : value?.productType?.toLowerCase() === "sparkles"
+                ? "product-type-sparkles"
+                : value?.productType?.toLowerCase().replace(/\s/g, "") === "onesounds"
+                ? "product-type-onesounds"
+                : value?.productType?.toLowerCase().replace(/\s/g, "") === "flowerpots"
+                ? "product-type-flowerpots"
+                : value?.productType?.toLowerCase() === "multishots"
+                ? "product-type-multishots"
+          
+                : "product-type-default"
+            }`}
           >
             {value?.productType}
           </p>
