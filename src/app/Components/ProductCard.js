@@ -224,11 +224,28 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
     cartList,
     setCartList,
     wishList,
+    setApiCartList,
     setWishList,
-    cartListApi
   } = useContext(LoggedDataContext);
   const router = useRouter();
 
+  const [cartListApi, setCartListApi] = useState();
+
+  const getUserCart = async () => {
+    const id = loggedUserData?.id;
+    try {
+      const res = await userCartList(loggedUserData?._id);
+      console.log("cart list", res);
+      setCartListApi(res?.cartItems);
+      setApiCartList(res?.cartItems || []);
+    } catch (error) {
+      console.log("error in cart list", error);
+    }
+  };
+
+  useEffect(() => {
+    getUserCart();
+  }, [loggedUserData?._id]);
  
 
   const handleAddToCartLocal = (e, v) => {
@@ -270,8 +287,8 @@ function ProductCard({ value, bgColor, borderRadius, innerHeight, height }) {
       const res = await addToCartServ(payload);
       if (res?.statusCode == 200) {
         console.log(res);
+        await getUserCart();
 
-        getUserCart();
         toast.success(res.message);
       } else {
         toast.error(res?.message);

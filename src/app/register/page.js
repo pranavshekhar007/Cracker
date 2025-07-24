@@ -134,13 +134,12 @@ const page = () => {
             setCartList([]);
             setComboCartList([]);
       
-             getUserCart();
-      
-            
+             getUserCart(userData);  
         }
-              const getUserCart = async () => {
+
+              const getUserCart = async (userData) => {
                   try{
-                     const res = await userCartList(loggedUserData?._id)
+                     const res = await userCartList(userData?._id)
                      console.log("cart list after register" , res)
                      setApiCartList(res?.cartItems || []);
                       router.push("/")

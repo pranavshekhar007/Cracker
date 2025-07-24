@@ -64,26 +64,10 @@ export const LoggedDataProvider = ({ children }) => {
   }, []);
   
 
-   const [cartListApi, setCartListApi] = useState();
-
-  const getUserCart = async () => {
-    const id = loggedUserData?.id;
-    try {
-      const res = await userCartList(loggedUserData?._id);
-      console.log("cart list", res);
-      setCartListApi(res?.cartItems);
-      setApiCartList(res?.cartItems || []);
-    } catch (error) {
-      console.log("error in cart list", error);
-    }
-  };
-
-  useEffect(() => {
-    getUserCart();
-  }, [loggedUserData?._id]);
+   
 
   return (
-    <LoggedDataContext.Provider value={{ setWishList, wishList, cartList, setCartList, comboCartList , setComboCartList , setLoggedUserData , loggedUserData, updateLoggedUserData, setProductList:setProductList, productList:productList ,  apiCartList, setApiCartList , cartListApi }}>
+    <LoggedDataContext.Provider value={{ setWishList, wishList, cartList, setCartList, comboCartList , setComboCartList , setLoggedUserData , loggedUserData, updateLoggedUserData, setProductList:setProductList, productList:productList ,  apiCartList, setApiCartList }}>
       {children}
     </LoggedDataContext.Provider>
   );

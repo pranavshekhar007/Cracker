@@ -330,9 +330,13 @@ function ComboProductCard({
   };
 
 const  handleAddToCartComboApi =  async (e , v) => {
+        e.preventDefault();
+
+  console.log("calling add to cart api" , v)
+     
      const payload = {
-          userId:loggedUserData?._id,
-          id: v._id,
+          userId: loggedUserData?._id,
+          id: v?._id,
           itemType:"ComboProduct"
         }
     
@@ -341,7 +345,7 @@ const  handleAddToCartComboApi =  async (e , v) => {
            if(res?.statusCode == 200){
                       console.log(res);
                     
-                   getUserCart();
+                 await  getUserCart();
                    toast.success(res.message);
                     }
                     else{
@@ -354,7 +358,9 @@ const  handleAddToCartComboApi =  async (e , v) => {
   }
 
   const handleIncreaseApi = (e , v) => {
-        handleAddToCartComboApi(v);
+    
+     e.preventDefault();
+        handleAddToCartComboApi(e , v);
     }
   
       const handleDecreaseApi =  async (e , v) => {
