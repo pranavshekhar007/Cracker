@@ -1,6 +1,3 @@
-
-
-
 // "use client";
 // import React, { useState, useContext , useEffect } from "react";
 // import Navbar from "../Components/Navbar";
@@ -20,12 +17,10 @@
 
 //   // const [step, setStep] = useState(1);
 
-
 // const [step, setStep] = useState(() => {
 //   // If user is logged in, start at Step 2
 //   return loggedUserData?._id ? 2 : 1;
 // });
-
 
 //   const [shipping, setShipping] = useState("homeDelivery");
 
@@ -44,7 +39,7 @@
 
 //   const [deliveryCharge, setDeliveryCharge] = useState(0);
 //   const [discount, setDiscount] = useState(0);
- 
+
 //   const [cityPrice, setCityPrice] = useState(0);
 
 //   const next = () => setStep((prev) => prev + 1);
@@ -94,7 +89,7 @@
 
 //   const [orderPayload, setOrderPayload] = useState({
 //       userId: loggedUserData?._id || "",
-  
+
 //      product: Array.isArray(cartList)
 //       ? cartList.map((item) => ({
 //       productId: item._id,
@@ -109,7 +104,6 @@
 //       productHeroImage: item.productHeroImage,
 //       productName: item.name || item.title || ""})): [],
 
-
 //       totalAmount: cartList?.reduce(
 //         (total, item) => total + item.discountedPrice * item.quantity,
 //         0
@@ -119,11 +113,10 @@
 
 //   const [amountReached, setAmountReached] = useState(false);
 
-
 //  useEffect(() => {
 //     if (!loggedUserData || !cartList) return;
 
-//     const subTotal = 
+//     const subTotal =
 //     (cartList.reduce((total, item) => {
 //       const price = item?.discountedPrice;
 //       return total + price * item.quantity;
@@ -176,8 +169,8 @@
 //     setAmountReached(subTotal >= minCityPrice);
 
 //     console.log("payload", orderPayload);
-//     console.log("comboCartList" , comboCartList) 
-//     console.log("CartList" , cartList) 
+//     console.log("comboCartList" , comboCartList)
+//     console.log("CartList" , cartList)
 //     console.log("amount reached", amountReached);
 //   }, [loggedUserData, cartList, comboCartList,  addressForm, cityPrice , shipping]);
 
@@ -203,7 +196,6 @@
 //       console.log(error);
 //     }
 //   };
-
 
 //   return (
 //     <div style={{ backgroundColor: "#f6f6f6", minHeight: "100vh" }}>
@@ -246,12 +238,8 @@
 
 // export default Page;
 
-
-
-
-
 "use client";
-import React, { useState, useContext , useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
@@ -265,16 +253,22 @@ import { placeOrderServ } from "../services/product.service";
 import { toast } from "react-toastify";
 
 const Page = () => {
-  const { loggedUserData , cartList , setCartList , comboCartList , setComboCartList , apiCartList , setApiCartList} = useContext(LoggedDataContext);
+  const {
+    loggedUserData,
+    cartList,
+    setCartList,
+    comboCartList,
+    setComboCartList,
+    apiCartList,
+    setApiCartList,
+  } = useContext(LoggedDataContext);
 
   // const [step, setStep] = useState(1);
 
-
-const [step, setStep] = useState(() => {
-  // If user is logged in, start at Step 2
-  return loggedUserData?._id ? 2 : 1;
-});
-
+  const [step, setStep] = useState(() => {
+    // If user is logged in, start at Step 2
+    return loggedUserData?._id ? 2 : 1;
+  });
 
   const [shipping, setShipping] = useState("homeDelivery");
 
@@ -288,12 +282,12 @@ const [step, setStep] = useState(() => {
     pincode: "",
     country: "India",
     fullName: "",
-    email:""
+    email: "",
   });
 
   const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [discount, setDiscount] = useState(0);
- 
+
   const [cityPrice, setCityPrice] = useState(0);
 
   const next = () => setStep((prev) => prev + 1);
@@ -317,12 +311,12 @@ const [step, setStep] = useState(() => {
       setCityPrice,
       cartList,
       setCartList,
-      comboCartList ,
-       setComboCartList,
-       apiCartList,
+      comboCartList,
+      setComboCartList,
+      apiCartList,
       amountReached,
       placeOrderFunc,
-      orderId
+      orderId,
     };
 
     switch (step) {
@@ -342,44 +336,42 @@ const [step, setStep] = useState(() => {
   };
 
   const [orderPayload, setOrderPayload] = useState({
-      userId: loggedUserData?._id || "",
-  
-     product: Array.isArray(apiCartList)
+    userId: loggedUserData?._id || "",
+
+    product: Array.isArray(apiCartList)
       ? apiCartList.map((item) => ({
-      productId: item._id,
-      quantity: item.quantity,
-      totalPrice: item.discountedPrice * item.quantity,
-      productHeroImage: item.productHeroImage,
-    productType: item.itemType  })): [],
+          productId: item._id,
+          quantity: item.quantity,
+          totalPrice: item.discountedPrice * item.quantity,
+          productHeroImage: item.productHeroImage,
+          productType: item.itemType,
+        }))
+      : [],
 
-
-      totalAmount: apiCartList?.reduce(
-        (total, item) => total + item.discountedPrice * item.quantity,
-        0
-      ),
-      address: addressForm,
-    });
+    totalAmount: apiCartList?.reduce(
+      (total, item) => total + item.discountedPrice * item.quantity,
+      0
+    ),
+    address: addressForm,
+  });
 
   const [amountReached, setAmountReached] = useState(false);
 
-
- useEffect(() => {
+  useEffect(() => {
     if (!loggedUserData || !apiCartList) return;
 
-    const subTotal = 
-    (apiCartList.reduce((total, item) => {
+    const subTotal = apiCartList.reduce((total, item) => {
       const price = item?.discountedPrice;
       return total + price * item.quantity;
-    }, 0)) 
+    }, 0);
 
-     const originalTotal =
-     ( apiCartList.reduce((total, item) => {
-    const originalPrice =  item?.price || 0;
-    return total + originalPrice * item.quantity;
-  }, 0))
+    const originalTotal = apiCartList.reduce((total, item) => {
+      const originalPrice = item?.price || 0;
+      return total + originalPrice * item.quantity;
+    }, 0);
 
-  const calculatedDiscount = originalTotal - subTotal;
-  setDiscount(calculatedDiscount);
+    const calculatedDiscount = originalTotal - subTotal;
+    setDiscount(calculatedDiscount);
 
     const minCityPrice = cityPrice || 0;
 
@@ -388,41 +380,43 @@ const [step, setStep] = useState(() => {
 
     setOrderPayload({
       userId: loggedUserData._id,
-       product: Array.isArray(apiCartList)
-      ? apiCartList.map((item) => ({
-      productId: item._id,
-      quantity: item.quantity,
-      totalPrice: item.discountedPrice * item.quantity,
-      productHeroImage: item.productHeroImage,
-    productType: item.itemType })): [],
+      product: Array.isArray(apiCartList)
+        ? apiCartList.map((item) => ({
+            productId: item._id,
+            quantity: item.quantity,
+            totalPrice: item.discountedPrice * item.quantity,
+            productHeroImage: item.productHeroImage,
+            productType: item.itemType,
+          }))
+        : [],
 
       totalAmount: subTotal,
       address: addressForm,
       deliveryCharge: deliveryCharge,
-      shipping: shipping
+      shipping: shipping,
     });
 
     setAmountReached(subTotal >= minCityPrice);
 
     console.log("payload", orderPayload);
 
-    console.log(" api CartList" , apiCartList) 
+    console.log(" api CartList", apiCartList);
     console.log("amount reached", amountReached);
-  }, [loggedUserData, apiCartList,   addressForm, cityPrice , shipping]);
+  }, [loggedUserData, apiCartList, addressForm, cityPrice, shipping]);
 
-   const [orderId, setOrderId] = useState(null);
+  const [orderId, setOrderId] = useState(null);
 
   const placeOrderFunc = async () => {
     try {
       let response = await placeOrderServ(orderPayload);
       if (response?.statusCode == 200) {
-      console.log("booking created" , response)
+        console.log("booking created", response);
         toast.success(response?.message);
         // setCartList([]);
         // setComboCartList([]);
         // localStorage.removeItem("cartList");
         // localStorage.removeItem("comboCartList");
-        setApiCartList([])
+        setApiCartList([]);
         // router.push("/");
 
         setOrderId(response?.data?._id);
@@ -434,36 +428,37 @@ const [step, setStep] = useState(() => {
     }
   };
 
-
   return (
     <div style={{ backgroundColor: "#f6f6f6", minHeight: "100vh" }}>
       <Navbar />
       <div className="container my-5 pt-5">
         {/* Stepper UI */}
         <div className="checkout-steps mx-auto my-4">
-          {["Login", "Delivery", "Cart", "Summary", "Payment"].map((label, index) => {
-            const current = index + 1 === step;
-            const done = index + 1 < step;
-            return (
-              <div className="step-item" key={index}>
-                <div
-                  className={`step-circle ${
-                    done ? "done" : current ? "active" : ""
-                  }`}
-                >
-                  {done ? "✓" : index + 1}
-                </div>
-                <div className="step-label">{label}</div>
-                {index < 4 && (
+          {["Login", "Delivery", "Cart", "Summary", "Payment"].map(
+            (label, index) => {
+              const current = index + 1 === step;
+              const done = index + 1 < step;
+              return (
+                <div className="step-item" key={index}>
                   <div
-                    className={`step-line ${
-                      index + 2 <= step ? "filled" : ""
+                    className={`step-circle ${
+                      done ? "done" : current ? "active" : ""
                     }`}
-                  ></div>
-                )}
-              </div>
-            );
-          })}
+                  >
+                    {done ? "✓" : index + 1}
+                  </div>
+                  <div className="step-label">{label}</div>
+                  {index < 4 && (
+                    <div
+                      className={`step-line ${
+                        index + 2 <= step ? "filled" : ""
+                      }`}
+                    ></div>
+                  )}
+                </div>
+              );
+            }
+          )}
         </div>
 
         {/* Step Component Rendering */}
@@ -475,4 +470,3 @@ const [step, setStep] = useState(() => {
 };
 
 export default Page;
-
