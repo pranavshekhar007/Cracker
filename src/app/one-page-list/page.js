@@ -1,5 +1,3 @@
-
-
 // "use client";
 
 // import React, { useState, useMemo, useEffect , useContext } from "react";
@@ -35,9 +33,8 @@
 //     const [payload, setPayload] = useState({ pageCount: 10, pageNo: 1 });
 //     const [statics, setStatics] = useState({ totalCount: 0 });
 
-  
 //   const getProductList = async () => {
-//   setShowLoader(true); 
+//   setShowLoader(true);
 //       console.log("inside get product list")
 //   try {
 //     const response = await getProductServ({
@@ -49,11 +46,11 @@
 //     // if (response?.statusCode === "200") {
 //       setProductList(response?.data);
 //       console.log("all product" , response?.data)
-      
+
 //       if (response?.documentCount?.totalCount) {
 //         const pages = Math.ceil(response.documentCount.totalCount / payload.pageCount);
 //         setTotalPages(pages);
-//         setStatics(response.documentCount); 
+//         setStatics(response.documentCount);
 //       // }
 //     }
 //   } catch (error) {
@@ -63,9 +60,6 @@
 //   setShowLoader(false); // disable loader after request
 // };
 
-
-
-
 //      const [showLoaderCategory, setShowLoaderCategory] = useState(false);
 //     const [categories, setCategoryList] = useState([]);
 //     const getCategoryList = async () => {
@@ -74,26 +68,24 @@
 //         let response = await getCategory();
 //         console.log( response?.data);
 //         if (response?.statusCode == "200") {
-  
+
 //            const allCategory = { name: "All" };
 //         const categoryWithAll = [allCategory, ...response.data];
-  
+
 //         setCategoryList(categoryWithAll);
 //           // setCategoryList(response?.data);
 //         }
 //       } catch (error) {
-//          console.log("error in getting category" + error) 
+//          console.log("error in getting category" + error)
 //       }
 //       setShowLoaderCategory(false);
-     
+
 //     };
-  
+
 //     useEffect(() => {
-    
+
 //         getCategoryList();
 //       }, []);
-    
-        
 
 //       useEffect(() => {
 //   getProductList();
@@ -160,28 +152,25 @@
 //   );
 // }
 
-
-    
 //     return filtered
 //   }, [selectedCategory, searchTerm, sortOption, products , categories , priceRange , payload ]);
 
-
 //   const { loggedUserData, cartList, setCartList } =  useContext(LoggedDataContext);
-  
+
 //     const handleAddToCartLocal = (e, v) => {
 //       e.preventDefault();
 //       e.stopPropagation();
 //       try {
 //         let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
-  
+
 //         const existingProduct = localCartList.find((item) => item._id === v._id);
-  
+
 //         if (existingProduct) {
 //           existingProduct.quantity += 1;
 //         } else {
 //           localCartList.push({ ...v, quantity: 1 });
 //         }
-  
+
 //         localStorage.setItem("cartList", JSON.stringify(localCartList));
 //         setCartList(localCartList);
 //         toast.success("Item Added To the cart");
@@ -189,27 +178,26 @@
 //         console.log("Something went wrong", error);
 //       }
 //     };
- 
-  
+
 //     const handleIncreaseQty = (e, v) => {
 //       e.preventDefault();
 //       e.stopPropagation();
 //       let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
-  
+
 //       const existingProduct = localCartList.find((item) => item._id === v._id);
 //       if (existingProduct) {
 //         existingProduct.quantity += 1;
 //       }
-  
+
 //       localStorage.setItem("cartList", JSON.stringify(localCartList));
 //       setCartList(localCartList);
 //     };
-  
+
 //     const handleDecreaseQty = (e, v) => {
 //       e.preventDefault();
 //       e.stopPropagation();
 //       let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
-  
+
 //       const existingProduct = localCartList.find((item) => item._id === v._id);
 //       if (existingProduct) {
 //         existingProduct.quantity -= 1;
@@ -217,7 +205,7 @@
 //           localCartList = localCartList.filter((item) => item._id !== v._id);
 //         }
 //       }
-  
+
 //       localStorage.setItem("cartList", JSON.stringify(localCartList));
 //       setCartList(localCartList);
 //     };
@@ -225,10 +213,7 @@
 // //     const productInCart = cartList?.find((item) => item._id === value._id);
 // // const productQty = productInCart?.quantity || 0;
 
-
 // // pagination
-  
-
 
 //  const [totalPages, setTotalPages] = useState(1);
 
@@ -280,7 +265,7 @@
 //                                        <div className="m-1 w-100">
 //                                          <Skeleton width="100%" height={40}/>
 //                                          {/* <Skeleton width="100%" height={18}/> */}
-                                         
+
 //                                        </div>
 //                                      </div>
 //                                    </div>
@@ -305,7 +290,7 @@
 //                   }}
 //                 >
 //                   <p className="mb-0">{cat.name}</p>
-//                   <img 
+//                   <img
 //                     src="https://cdn-icons-png.flaticon.com/128/130/130884.png"
 //                     alt="arrow icon"
 //                     style={{
@@ -352,7 +337,7 @@
 //                {showLoader
 //                                 ? [1, 2, 3, 4 , 5 , 6 , 7 , 8]?.map((v, i) => {
 //                                     return (
-                                    
+
 //                                           <tr key={`skeleton-${i}`} >
 //                                             <td>  <Skeleton width="100%" height={40}/></td>
 //                                             <td>  <Skeleton width="100%" height={40}/></td>
@@ -361,15 +346,14 @@
 //                                             <td>  <Skeleton width="100%" height={40}/></td>
 //                                             <td>  <Skeleton width="100%" height={40}/></td>
 //                                           </tr>
-                                          
-                                       
+
 //                                     );
 //                                   })
 //                                 : filteredProducts.map((product, index) => {
 //                     const productInCart = cartList?.find((item) => item._id === product._id);
-//                      const productQty = productInCart?.quantity || 0;                
+//                      const productQty = productInCart?.quantity || 0;
 //                   return(
-                    
+
 //                     <tr key={product._id}>
 //                       <td>{product?.hsnCode}</td>
 //                       <td>{product.name} (10pcs/box)</td>
@@ -386,7 +370,6 @@
 //                         </span>
 //                       </td>
 //                       <td>₹{product.discountedPrice}.00</td>
-
 
 //                       <td>
 //                         {product.stockQuantity <= 0 ? (
@@ -427,7 +410,7 @@
 //                       </td>
 //                     </tr>
 //                   )})}
-                 
+
 //                 </tbody>
 //               </table>
 //             </div>
@@ -599,24 +582,27 @@
 
 // export default Page;
 
-
 // pagination added from frontend
-
 
 "use client";
 
-import React, { useState, useMemo, useEffect , useContext } from "react";
+import React, { useState, useMemo, useEffect, useContext } from "react";
 import { useParams } from "next/navigation";
 import Navbar from "@/app/Components/Navbar";
 import PriceFilter from "@/app/Components/PriceFilter";
-import { getProductServ , getCategory , addToCartServ, removeToCartServ, userCartList} from "../services/product.service";
+import {
+  getProductServ,
+  getCategory,
+  addToCartServ,
+  removeToCartServ,
+  userCartList,
+} from "../services/product.service";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { toast } from "react-toastify";
 import { LoggedDataContext } from "../context/context";
 import { useRouter } from "next/navigation";
 import Footer from "../Components/Footer";
-
 
 const Page = () => {
   const params = useParams();
@@ -633,74 +619,64 @@ const Page = () => {
 
   const [products, setProductList] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
-   const [priceRange, setPriceRange] = useState([0, 500]);
-    // const [showCount, setShowCount] = useState(10);
+  const [priceRange, setPriceRange] = useState([0, 500]);
+  // const [showCount, setShowCount] = useState(10);
 
-   const [currentPage, setCurrentPage] = useState(1);
-     const [itemsPerPage, setItemsPerPage] = useState(10);
-       const [totalPages, setTotalPages] = useState(1);
-  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+
   const getProductList = async () => {
-  setShowLoader(true); 
-      console.log("inside get product list")
-  try {
-     const response = await getProductServ({
-            pageCount: 1000,
-            pageNo: 1,
-          });
+    setShowLoader(true);
+    console.log("inside get product list");
+    try {
+      const response = await getProductServ({
+        pageCount: 1000,
+        pageNo: 1,
+      });
 
-     console.log("all product" , response?.data)
-    // if (response?.statusCode === "200") {
+      console.log("all product", response?.data);
+      // if (response?.statusCode === "200") {
       setProductList(response?.data);
-      console.log("all product" , response?.data)
-      
-      
-  } catch (error) {
-    console.error("Error fetching products", error);
-  }
+      console.log("all product", response?.data);
+    } catch (error) {
+      console.error("Error fetching products", error);
+    }
 
-  setShowLoader(false); // disable loader after request
-};
+    setShowLoader(false); // disable loader after request
+  };
 
-
-
-
-     const [showLoaderCategory, setShowLoaderCategory] = useState(false);
-    const [categories, setCategoryList] = useState([]);
-    const getCategoryList = async () => {
-      setShowLoaderCategory(true);
-      try {
-        let response = await getCategory();
-        console.log( response?.data);
-        if (response?.statusCode == "200") {
-  
-           const allCategory = { name: "All" };
+  const [showLoaderCategory, setShowLoaderCategory] = useState(false);
+  const [categories, setCategoryList] = useState([]);
+  const getCategoryList = async () => {
+    setShowLoaderCategory(true);
+    try {
+      let response = await getCategory();
+      console.log(response?.data);
+      if (response?.statusCode == "200") {
+        const allCategory = { name: "All" };
         const categoryWithAll = [allCategory, ...response.data];
-  
-        setCategoryList(categoryWithAll);
-          // setCategoryList(response?.data);
-        }
-      } catch (error) {
-         console.log("error in getting category" + error) 
-      }
-      setShowLoaderCategory(false);
-     
-    };
-  
-    useEffect(() => {
-    
-        getCategoryList();
-      }, []);
-    
-        
 
-      useEffect(() => {
-  getProductList();
-}, []);
+        setCategoryList(categoryWithAll);
+        // setCategoryList(response?.data);
+      }
+    } catch (error) {
+      console.log("error in getting category" + error);
+    }
+    setShowLoaderCategory(false);
+  };
 
   useEffect(() => {
-  getProductList();
-}, []);
+    getCategoryList();
+  }, []);
+
+  useEffect(() => {
+    getProductList();
+  }, []);
+
+  useEffect(() => {
+    getProductList();
+  }, []);
 
   useEffect(() => {
     setSelectedCategory(categoryFromUrl);
@@ -710,18 +686,16 @@ const Page = () => {
   const filteredProducts = useMemo(() => {
     let filtered = products;
 
-    console.log("all product filters" , products)
+    console.log("all product filters", products);
 
-    if(selectedCategory !== "All"){
-        filtered = filtered.filter((p) =>
-    selectedCategory &&
-    p.categoryId &&
-    p.categoryId.some(
-      (cat) =>
-        cat.name &&
-        cat.name === selectedCategory
-    ));
-   }
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(
+        (p) =>
+          selectedCategory &&
+          p.categoryId &&
+          p.categoryId.some((cat) => cat.name && cat.name === selectedCategory)
+      );
+    }
 
     // Filter by search term
     if (searchTerm.trim()) {
@@ -752,170 +726,172 @@ const Page = () => {
 
     // return filtered.slice(0, showCount);
 
-       // price filtering
+    // price filtering
     if (priceRange.length === 2) {
-  filtered = filtered.filter(
-    (p) => p.discountedPrice >= priceRange[0] && p.discountedPrice <= priceRange[1]
-  );
-}
+      filtered = filtered.filter(
+        (p) =>
+          p.discountedPrice >= priceRange[0] &&
+          p.discountedPrice <= priceRange[1]
+      );
+    }
 
+    return filtered;
+  }, [
+    selectedCategory,
+    searchTerm,
+    sortOption,
+    products,
+    categories,
+    priceRange,
+  ]);
 
-    
-    return filtered
-  }, [selectedCategory, searchTerm, sortOption, products , categories , priceRange ]);
+  const { loggedUserData, cartList, setCartList, apiCartList, setApiCartList } =
+    useContext(LoggedDataContext);
 
+  const [CartListApi, setCartListApi] = useState();
 
-  const { loggedUserData, cartList, setCartList ,apiCartList , setApiCartList } =  useContext(LoggedDataContext);
+  const getUserCart = async () => {
+    const id = loggedUserData?.id;
+    try {
+      const res = await userCartList(loggedUserData?._id);
+      console.log("cart list", res);
+      setCartListApi(res?.cartItems);
+      setApiCartList(res?.cartItems || []);
+    } catch (error) {
+      console.log("error in cart list", error);
+    }
+  };
 
-  const [CartListApi , setCartListApi] = useState();
-    
-      const getUserCart = async () => {
-        const id = loggedUserData?.id
-        try{
-           const res = await userCartList(loggedUserData?._id)
-           console.log("cart list" , res)
-           setCartListApi(res?.cartItems);
-           setApiCartList(res?.cartItems || []);
-        }
-        catch(error){
-          console.log("error in cart list" , error)
-        }
-      }
-  
-      const  handleAddToCartApi =  async (e , v) => {
-           const payload = {
-                userId:loggedUserData?._id,
-                id: v._id,
-                itemType:"Product"
-              }
-          
-               try{
-                 const res = await  addToCartServ(payload);
-                  if(res?.statusCode == 200){
-                             console.log(res);
-                           
-                          getUserCart();
-                          toast.success(res.message);
-                           }
-                           else{
-                             toast.error(res?.message)
-                           }
-               }
-               catch(error){
-                   console.log("error in add to cart api", error)
-               }
-        }
-      
-        const handleIncreaseApi = (e , v) => {
-              handleAddToCartApi(v);
-          }
-        
-            const handleDecreaseApi =  async (e , v) => {
-               const payload = {
-              userId:loggedUserData?._id,
-              id: v._id,
-              itemType:"Product"
-            }
-        
-             try{
-               const res = await removeToCartServ(payload);
-               if(res?.statusCode == 200){
-                          console.log(res);
-                        
-                       getUserCart();
-                       toast.success(res.message);
-                        }
-                        else{
-                          toast.error(res?.message)
-                        }
-             }
-             catch(error){
-                 console.log("error in add to cart api", error)
-             }
-          }
-
-    const handleAddToCartLocal = (e, v) => {
-      e.preventDefault();
-      e.stopPropagation();
-      try {
-        let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
-  
-        const existingProduct = localCartList.find((item) => item._id === v._id);
-  
-        if (existingProduct) {
-          existingProduct.quantity += 1;
-        } else {
-          localCartList.push({ ...v, quantity: 1 });
-        }
-  
-        localStorage.setItem("cartList", JSON.stringify(localCartList));
-        setCartList(localCartList);
-        toast.success("Item Added To the cart");
-      } catch (error) {
-        console.log("Something went wrong", error);
-      }
+  const handleAddToCartApi = async (e, v) => {
+    const payload = {
+      userId: loggedUserData?._id,
+      id: v._id,
+      itemType: "Product",
     };
 
-    const handleIncreaseQty = (e, v) => {
-      e.preventDefault();
-      e.stopPropagation();
+    try {
+      const res = await addToCartServ(payload);
+      if (res?.statusCode == 200) {
+        console.log(res);
+
+        getUserCart();
+        toast.success(res.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error) {
+      console.log("error in add to cart api", error);
+    }
+  };
+
+  const handleIncreaseApi = (e, v) => {
+    handleAddToCartApi(v);
+  };
+
+  const handleDecreaseApi = async (e, v) => {
+    const payload = {
+      userId: loggedUserData?._id,
+      id: v._id,
+      itemType: "Product",
+    };
+
+    try {
+      const res = await removeToCartServ(payload);
+      if (res?.statusCode == 200) {
+        console.log(res);
+
+        getUserCart();
+        toast.success(res.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error) {
+      console.log("error in add to cart api", error);
+    }
+  };
+
+  const handleAddToCartLocal = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
       let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
-  
+
       const existingProduct = localCartList.find((item) => item._id === v._id);
+
       if (existingProduct) {
         existingProduct.quantity += 1;
+      } else {
+        localCartList.push({ ...v, quantity: 1 });
       }
-  
+
       localStorage.setItem("cartList", JSON.stringify(localCartList));
       setCartList(localCartList);
-    };
-  
-    const handleDecreaseQty = (e, v) => {
-      e.preventDefault();
-      e.stopPropagation();
-      let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
-  
-      const existingProduct = localCartList.find((item) => item._id === v._id);
-      if (existingProduct) {
-        existingProduct.quantity -= 1;
-        if (existingProduct.quantity <= 0) {
-          localCartList = localCartList.filter((item) => item._id !== v._id);
-        }
+      toast.success("Item Added To the cart");
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  };
+
+  const handleIncreaseQty = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+
+    const existingProduct = localCartList.find((item) => item._id === v._id);
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    }
+
+    localStorage.setItem("cartList", JSON.stringify(localCartList));
+    setCartList(localCartList);
+  };
+
+  const handleDecreaseQty = (e, v) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+
+    const existingProduct = localCartList.find((item) => item._id === v._id);
+    if (existingProduct) {
+      existingProduct.quantity -= 1;
+      if (existingProduct.quantity <= 0) {
+        localCartList = localCartList.filter((item) => item._id !== v._id);
       }
-  
-      localStorage.setItem("cartList", JSON.stringify(localCartList));
-      setCartList(localCartList);
-    };
+    }
 
-//     const productInCart = cartList?.find((item) => item._id === value._id);
-// const productQty = productInCart?.quantity || 0;
+    localStorage.setItem("cartList", JSON.stringify(localCartList));
+    setCartList(localCartList);
+  };
 
+  //     const productInCart = cartList?.find((item) => item._id === value._id);
+  // const productQty = productInCart?.quantity || 0;
 
-// pagination
+  // pagination
 
   useEffect(() => {
-      setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
-    }, [filteredProducts, itemsPerPage]);
-  
-    const paginatedProducts = useMemo(() => {
-      const startIdx = (currentPage - 1) * itemsPerPage;
-      const endIdx = startIdx + itemsPerPage;
-      return filteredProducts.slice(startIdx, endIdx);
-    }, [filteredProducts, currentPage, itemsPerPage]);
-  
-    const handlePageChange = (newPage) => {
-      if (newPage >= 1 && newPage <= totalPages) {
-        setCurrentPage(newPage);
-      }
-    };
-  
+    setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
+  }, [filteredProducts, itemsPerPage]);
+
+  const paginatedProducts = useMemo(() => {
+    const startIdx = (currentPage - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    return filteredProducts.slice(startIdx, endIdx);
+  }, [filteredProducts, currentPage, itemsPerPage]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
 
   return (
     <>
       <Navbar />
 
       <div className="shop-page">
-      <h1 className="text-center mb-4" style={{ color: '#6d0d0c' }}>Quick Buy</h1>
+        <h1 className="text-center mb-4" style={{ color: "#6d0d0c" }}>
+          Quick Buy
+        </h1>
         <div className="shop-sections d-flex flex-md-nowrap flex-wrap">
           {/* MOBILE: Filter Toggle Button */}
           <div className="d-md-none mb-3">
@@ -936,58 +912,67 @@ const Page = () => {
           <div className="category-section d-none d-md-block">
             <h5>Categories</h5>
             <div className="all-category mb-5">
-            {showLoaderCategory
-                             ? [1, 2, 3, 4 , 5 , 6 , 7 ,8]?.map((v, i) => {
-                                 return (
-                                   <div>
-                                     <div className="d-flex align-items-center px-2  text-light mb-1 shadow-sm rounded border">
-                                       {/* <Skeleton height={40} width={40}/> */}
-                                       <div className="m-1 w-100">
-                                         <Skeleton width="100%" height={40}/>
-                                         {/* <Skeleton width="100%" height={18}/> */}
-                                         
-                                       </div>
-                                     </div>
-                                   </div>
-                                 );
-                               })
-                             : categories.map((cat) => (
-                <div
-                  key={cat}
-                  className={`category d-flex justify-content-between align-items-center ${
-                    selectedCategory === cat.name ? "selected-category" : ""
-                  }`}
-                  onClick={() => setSelectedCategory(cat.name)}
-                  style={{
-                    cursor: "pointer",
-                    backgroundColor:
-                      selectedCategory === cat.name ? "#6d0d0c" : "transparent",
-                    color: selectedCategory === cat.name ? "white" : "black",
-                    padding: "8px 12px",
-                    borderRadius: "6px",
-                    transition: "background-color 0.3s ease, color 0.3s ease",
-                    userSelect: "none",
-                  }}
-                >
-                  <p className="mb-0">{cat.name}</p>
-                  <img 
-                    src="https://cdn-icons-png.flaticon.com/128/130/130884.png"
-                    alt="arrow icon"
-                    style={{
-                      filter: selectedCategory === cat.name ? "invert(1)" : "none",
-                      transition: "filter 0.3s ease",
-                    }}
-                  />
-                </div>
-              ))}
+              {showLoaderCategory
+                ? [1, 2, 3, 4, 5, 6, 7, 8]?.map((v, i) => {
+                    return (
+                      <div>
+                        <div className="d-flex align-items-center px-2  text-light mb-1 shadow-sm rounded border">
+                          {/* <Skeleton height={40} width={40}/> */}
+                          <div className="m-1 w-100">
+                            <Skeleton width="100%" height={40} />
+                            {/* <Skeleton width="100%" height={18}/> */}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                : categories.map((cat) => (
+                    <div
+                      key={cat}
+                      className={`category d-flex justify-content-between align-items-center ${
+                        selectedCategory === cat.name ? "selected-category" : ""
+                      }`}
+                      onClick={() => setSelectedCategory(cat.name)}
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor:
+                          selectedCategory === cat.name
+                            ? "#6d0d0c"
+                            : "transparent",
+                        color:
+                          selectedCategory === cat.name ? "white" : "black",
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        transition:
+                          "background-color 0.3s ease, color 0.3s ease",
+                        userSelect: "none",
+                      }}
+                    >
+                      <p className="mb-0">{cat.name}</p>
+                      <img
+                        src="https://cdn-icons-png.flaticon.com/128/130/130884.png"
+                        alt="arrow icon"
+                        style={{
+                          filter:
+                            selectedCategory === cat.name
+                              ? "invert(1)"
+                              : "none",
+                          transition: "filter 0.3s ease",
+                        }}
+                      />
+                    </div>
+                  ))}
             </div>
 
-            <PriceFilter values={priceRange} setValues={setPriceRange}  />
+            <PriceFilter values={priceRange} setValues={setPriceRange} />
           </div>
 
           <div className="item-section">
             <div className="row gx-0   mb-2">
-              <div className="col-sm-12 col-12 p-2 rounded-2" style={{backgroundColor:"#e9e9e9"}}>
+              <div
+                className="col-sm-12 col-12 p-2 rounded-2"
+                style={{ backgroundColor: "#e9e9e9" }}
+              >
                 <h5> {selectedCategory}</h5>
               </div>
               {/* <div className="col-sm-3 col-6 ps-3 justify-content-end d-flex">
@@ -1004,133 +989,166 @@ const Page = () => {
               <table className="table table-bordered align-middle">
                 <thead className="table-light">
                   <tr>
-                    <th>Product Code</th>
+                  <th>S.No.</th>
+                    {/* <th>Product Code</th> */}
                     <th>Product Name (Packing)</th>
                     {/* <th>Image</th> */}
-                    <th>MRP</th>
+                    {/* <th>MRP</th> */}
                     <th>Product Price</th>
                     <th>Quantity</th>
                     <th>Billing Price</th>
                   </tr>
                 </thead>
                 <tbody>
-               {showLoader
-                                ? [1, 2, 3, 4 , 5 , 6 , 7 , 8]?.map((v, i) => {
-                                    return (
-                                    
-                                          <tr key={`skeleton-${i}`} >
-                                            <td>  <Skeleton width="100%" height={40}/></td>
-                                            <td>  <Skeleton width="100%" height={40}/></td>
-                                            <td>  <Skeleton width="100%" height={40}/></td>
-                                            <td>  <Skeleton width="100%" height={40}/></td>
-                                            <td>  <Skeleton width="100%" height={40}/></td>
-                                            <td>  <Skeleton width="100%" height={40}/></td>
-                                          </tr>
-                                          
-                                       
-                                    );
-                                  })
-                                : paginatedProducts.map((product, index) => {
-                    const productInCart = loggedUserData
-    ? apiCartList?.find((item) => item._id === product._id)
-    : cartList?.find((item) => item._id === product._id);
+                  {showLoader
+                    ? [1, 2, 3, 4, 5, 6, 7, 8]?.map((v, i) => {
+                        return (
+                          <tr key={`skeleton-${i}`}>
+                            <td>
+                              {" "}
+                              <Skeleton width="100%" height={40} />
+                            </td>
+                            <td>
+                              {" "}
+                              <Skeleton width="100%" height={40} />
+                            </td>
+                            <td>
+                              {" "}
+                              <Skeleton width="100%" height={40} />
+                            </td>
+                            <td>
+                              {" "}
+                              <Skeleton width="100%" height={40} />
+                            </td>
+                            <td>
+                              {" "}
+                              <Skeleton width="100%" height={40} />
+                            </td>
+                            <td>
+                              {" "}
+                              <Skeleton width="100%" height={40} />
+                            </td>
+                          </tr>
+                        );
+                      })
+                    : paginatedProducts.map((product, index) => {
+                        const productInCart = loggedUserData
+                          ? apiCartList?.find(
+                              (item) => item._id === product._id
+                            )
+                          : cartList?.find((item) => item._id === product._id);
 
-                     const productQty = productInCart?.quantity || 0;                
-                  return(
-                    
-                    <tr key={product._id}>
-                      <td>{product?.hsnCode}</td>
-                      <td>{product.name} (10pcs/box)</td>
-                      {/* <td>
+                        const productQty = productInCart?.quantity || 0;
+                        return (
+                          <tr key={product._id}>
+                            <td>{index + 1}</td> 
+                            {/* <td>{product?.hsnCode}</td> */}
+                            <td>{product.name} (10pcs/box)</td>
+                            {/* <td>
                         <img
                           src={product.image}
                           alt={product.description}
                           style={{ width: "40px", height: "auto" }}
                         />
                       </td> */}
-                      <td>
-                        <span className="text-muted text-decoration-line-through">
-                          ₹{product.price}.00
-                        </span>
-                      </td>
-                      <td>₹{product.discountedPrice}.00</td>
+                            <td>
+                              <div>
+                                <span className="text-muted text-decoration-line-through">
+                                  ₹{product.price}.00
+                                </span>
+                              </div>
+                              <div>
+                                <span>₹{product.discountedPrice}.00</span>
+                              </div>
+                            </td>
 
+                            <td>
+                              {loggedUserData ? (
+                                product.stockQuantity <= 0 ? (
+                                  <span style={{ color: "red" }}>
+                                    Out of stock
+                                  </span>
+                                ) : productQty > 0 ? (
+                                  <div className="d-flex justify-content-between align-items-center  counterDiv text-center">
+                                    <button
+                                      className="  w-100 text-danger bg-white"
+                                      onClick={(e) =>
+                                        handleDecreaseApi(e, product)
+                                      }
+                                      style={{ border: "1px solid #dee2e6" }}
+                                    >
+                                      −
+                                    </button>
+                                    <span className="w-100">{productQty}</span>
+                                    <button
+                                      className=" w-100  text-success bg-white"
+                                      onClick={(e) =>
+                                        handleIncreaseApi(e, product)
+                                      }
+                                      style={{ border: "1px solid #dee2e6" }}
+                                    >
+                                      +
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <button
+                                    className="btn btn-danger btn-sm w-100"
+                                    onClick={(e) =>
+                                      handleAddToCartApi(e, product)
+                                    }
+                                  >
+                                    Add To Cart
+                                  </button>
+                                )
+                              ) : product.stockQuantity <= 0 ? (
+                                <span style={{ color: "red" }}>
+                                  Out of stock
+                                </span>
+                              ) : productQty > 0 ? (
+                                <div className="d-flex justify-content-between align-items-center  counterDiv text-center">
+                                  <button
+                                    className="  w-100 text-danger bg-white"
+                                    onClick={(e) =>
+                                      handleDecreaseQty(e, product)
+                                    }
+                                    style={{ border: "1px solid #dee2e6" }}
+                                  >
+                                    −
+                                  </button>
+                                  <span className="w-100">{productQty}</span>
+                                  <button
+                                    className=" w-100  text-success bg-white"
+                                    onClick={(e) =>
+                                      handleIncreaseQty(e, product)
+                                    }
+                                    style={{ border: "1px solid #dee2e6" }}
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              ) : (
+                                <button
+                                  className="btn btn-danger btn-sm w-100"
+                                  onClick={(e) =>
+                                    handleAddToCartLocal(e, product)
+                                  }
+                                >
+                                  Add To Cart
+                                </button>
+                              )}
+                            </td>
 
-                      <td>
-                       {loggedUserData ? (
-                         product.stockQuantity <= 0 ? (
-                          <span style={{ color: "red" }}>Out of stock</span>
-                        ): productQty > 0 ? (
-                          <div className="d-flex justify-content-between align-items-center  counterDiv text-center">
-                            <button
-                              className="  w-100 text-danger bg-white"
-                             onClick={(e) => handleDecreaseApi(e, product)}
-                             style={{border: "1px solid #dee2e6"}}
-                            >
-                              −
-                            </button>
-                            <span className="w-100">{productQty}</span>
-                            <button
-                              className=" w-100  text-success bg-white"
-                               onClick={(e) => handleIncreaseApi(e, product)}
-                                style={{border: "1px solid #dee2e6"}}
-                            >
-                              +
-                            </button>
-                          </div>
-                        ) : (
-                          <button
-                            className="btn btn-danger btn-sm w-100"
-                             onClick={(e) => handleAddToCartApi(e, product)}
-                          >
-                            Add To Cart
-                          </button>
-                        )
-                        
-                        
-                       ):(
-                         product.stockQuantity <= 0 ? (
-                          <span style={{ color: "red" }}>Out of stock</span>
-                        ): productQty > 0 ? (
-                          <div className="d-flex justify-content-between align-items-center  counterDiv text-center">
-                            <button
-                              className="  w-100 text-danger bg-white"
-                             onClick={(e) => handleDecreaseQty(e, product)}
-                             style={{border: "1px solid #dee2e6"}}
-                            >
-                              −
-                            </button>
-                            <span className="w-100">{productQty}</span>
-                            <button
-                              className=" w-100  text-success bg-white"
-                               onClick={(e) => handleIncreaseQty(e, product)}
-                                style={{border: "1px solid #dee2e6"}}
-                            >
-                              +
-                            </button>
-                          </div>
-                        ) : (
-                          <button
-                            className="btn btn-danger btn-sm w-100"
-                             onClick={(e) => handleAddToCartLocal(e, product)}
-                          >
-                            Add To Cart
-                          </button>
-                        )
-                        
-                        
-                       )}
-                      </td>
-
-                      <td>
-                        ₹
-                        {productQty > 0
-                          ? (productQty* product.discountedPrice).toFixed(2)
-                          : "0.00"}
-                      </td>
-                    </tr>
-                  )})}
-                 
+                            <td>
+                              ₹
+                              {productQty > 0
+                                ? (
+                                    productQty * product.discountedPrice
+                                  ).toFixed(2)
+                                : "0.00"}
+                            </td>
+                          </tr>
+                        );
+                      })}
                 </tbody>
               </table>
             </div>
@@ -1288,10 +1306,9 @@ const Page = () => {
 
           <hr className="my-3" />
           <PriceFilter values={priceRange} setValues={setPriceRange} />
-
         </div>
       )}
-      <Footer/>
+      <Footer />
     </>
   );
 };
