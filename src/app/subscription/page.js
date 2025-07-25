@@ -73,37 +73,44 @@ const SubscriptionPageContent = () => {
 
   const getRemainingMonths = (enrolmentDate, schemeEndDate, paidMonths) => {
     const months = [];
-    let current = new Date(
-      enrolmentDate.getFullYear(),
-      enrolmentDate.getMonth(),
-      1
-    );
-    const end = new Date(
-      schemeEndDate.getFullYear(),
-      schemeEndDate.getMonth(),
-      1
-    );
-
+  
+    let calculationStartMonth = enrolmentDate.getMonth();
+    let calculationStartYear = enrolmentDate.getFullYear();
+  
+    // If enrolled after 10th, start from next month
+    if (enrolmentDate.getDate() > 10) {
+      calculationStartMonth += 1;
+  
+      if (calculationStartMonth > 11) {
+        calculationStartMonth = 0;
+        calculationStartYear += 1;
+      }
+    }
+  
+    let current = new Date(calculationStartYear, calculationStartMonth, 1);
+    const end = new Date(schemeEndDate.getFullYear(), schemeEndDate.getMonth(), 1);
+  
     while (current <= end) {
       const monthName = current.toLocaleString("default", { month: "long" });
       const year = current.getFullYear().toString();
-
+  
       const paidEntry = paidMonths.find(
         (pm) => pm.monthNumber === monthName && pm.monthYear === year
       );
-
+  
       months.push({
         monthName,
         year,
         isPaid: !!paidEntry,
         status: paidEntry ? paidEntry.status : null,
       });
-
+  
       current.setMonth(current.getMonth() + 1);
     }
-
+  
     return months;
   };
+  
 
   return (
     <>
