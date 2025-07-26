@@ -321,10 +321,10 @@ export default function Home() {
                 }}
               >
                 <li>
-                  •⁠ ⁠Door Delivery: Tamil Nadu, Pondicherry, and Bangalore
+                   ⁠Door Delivery: Tamil Nadu, Pondicherry, and Bangalore
                 </li>
                 <li>
-                  •⁠ ⁠To-Pay Lorry Transport: Other legally allowed cities
+                 ⁠ To-Pay Lorry Transport: Other legally allowed cities
                 </li>
               </ul>
 
@@ -398,7 +398,7 @@ export default function Home() {
                   onClick={handleProceed}
                   disabled={!isChecked}
                 >
-                  🔴 PROCEED
+                   PROCEED
                 </button>
               </div>
             </div>
