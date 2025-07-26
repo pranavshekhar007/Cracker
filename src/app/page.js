@@ -120,14 +120,16 @@ export default function Home() {
           <div className="update-text-wrapper py-2 px-2">
             <div className="update-text">
               🚨 As per 2018 Supreme Court guidelines, direct online sale of
-              firecrackers is not permitted.&nbsp; | &nbsp; ✅ Big Bang Crackers strictly
-              follows all legal and regulatory requirements.&nbsp; | &nbsp; 🛒 Please add your
-              products to cart and submit enquiry.&nbsp; | &nbsp; 📞 Our team will respond
-              within 24 hours via WhatsApp or call.&nbsp; | &nbsp; 📝 We operate under valid
+              firecrackers is not permitted.&nbsp; | &nbsp; ✅ Big Bang Crackers
+              strictly follows all legal and regulatory requirements.&nbsp; |
+              &nbsp; 🛒 Please add your products to cart and submit
+              enquiry.&nbsp; | &nbsp; 📞 Our team will respond within 24 hours
+              via WhatsApp or call.&nbsp; | &nbsp; 📝 We operate under valid
               licenses with 100% compliance to Explosives Act & safety
-              protocols.&nbsp; | &nbsp; 🏢 All stock points and godowns are certified as per
-              rules.&nbsp; | &nbsp; 🚚 Deliveries are handled only through approved transport
-              services.&nbsp; | &nbsp; 🎇 Celebrate Diwali safely, responsibly, and legally.
+              protocols.&nbsp; | &nbsp; 🏢 All stock points and godowns are
+              certified as per rules.&nbsp; | &nbsp; 🚚 Deliveries are handled
+              only through approved transport services.&nbsp; | &nbsp; 🎇
+              Celebrate Diwali safely, responsibly, and legally.
             </div>
           </div>
         </div>
@@ -246,7 +248,7 @@ export default function Home() {
             style={{ background: "rgb(49 49 49 / 80%)", zIndex: 9999 }}
           >
             <div
-              className="p-4 bg-white shadow "
+              className="p-4 bg-white shadow"
               style={{ width: "700px", maxWidth: "90%", borderRadius: "22px" }}
             >
               <h4
@@ -267,17 +269,46 @@ export default function Home() {
                   lineHeight: "1.6",
                 }}
               >
-                Big Bang Crackers is based in Tamil Nadu and operates in
-                compliance with local laws. We do not sell firecrackers online
-                to banned areas. This website is intended for order inquiries
-                and checkout from customers in legally permitted regions only.
+                Big Bang Crackers is based in Tamil Nadu and strictly complies
+                with the Hon’ble Supreme Court’s order dated{" "}
+                <strong>23.10.2018</strong> regarding the sale of firecrackers.
               </p>
 
               <p
-                className="text-muted mt-3"
-                style={{ fontFamily: "Inter, sans-serif", fontSize: "0.95rem" }}
+                className="text-muted"
+                style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: "0.95rem",
+                  lineHeight: "1.6",
+                }}
               >
-                Deliveries are made via:
+                🚫 <strong>We do not sell firecrackers online.</strong> This
+                website serves only as a digital catalogue and enquiry portal.
+                No payment or confirmed purchase is processed through this
+                platform.
+              </p>
+
+              <p
+                className="text-muted"
+                style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: "0.95rem",
+                  lineHeight: "1.6",
+                }}
+              >
+                ✅ Orders are confirmed only through manual verification, and
+                deliveries are made only to regions where permitted by law.
+              </p>
+
+              <p
+                className="text-muted"
+                style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: "0.95rem",
+                  marginBottom: "0.6rem",
+                }}
+              >
+                <strong>Delivery options:</strong>
               </p>
               <ul
                 style={{
@@ -287,12 +318,13 @@ export default function Home() {
                   paddingLeft: "20px",
                   marginBottom: "1rem",
                   textAlign: "left",
-                  display: "inline-block",
                 }}
               >
-                <li>Door delivery: Tamil Nadu, Pondicherry, and Bangalore</li>
                 <li>
-                  To-pay lorry transport: All other legally allowed cities
+                  •⁠ ⁠Door Delivery: Tamil Nadu, Pondicherry, and Bangalore
+                </li>
+                <li>
+                  •⁠ ⁠To-Pay Lorry Transport: Other legally allowed cities
                 </li>
               </ul>
 
@@ -301,32 +333,36 @@ export default function Home() {
                 style={{
                   fontFamily: "Inter, sans-serif",
                   fontSize: "0.95rem",
-                  marginBottom: "0.8rem",
+                  lineHeight: "1.6",
                 }}
               >
-                We do not deliver to restricted zones, and do not use courier
-                services (e.g., DTDC, India Post).
+                🚫 We do not deliver to restricted zones and do not use courier
+                services (e.g., DTDC, India Post) for fireworks.
               </p>
+
               <p
                 className="text-muted"
                 style={{
                   fontFamily: "Inter, sans-serif",
                   fontSize: "0.95rem",
-                  marginBottom: "0.8rem",
+                  lineHeight: "1.6",
                 }}
               >
-                Only licensed green crackers are provided where required by law.
+                ✅ Only certified green crackers are offered, wherever required
+                by law.
               </p>
+
               <p
                 className="text-muted"
                 style={{
                   fontFamily: "Inter, sans-serif",
                   fontSize: "0.95rem",
-                  marginBottom: "1.2rem",
+                  lineHeight: "1.6",
                 }}
               >
-                Orders from restricted areas will be canceled and refunded
-                without exception.
+                🔒 By proceeding, you confirm that your location permits the
+                lawful possession and transport of fireworks, and you agree to
+                comply with all applicable laws.
               </p>
 
               <div className="d-flex gap-2 align-items-start mb-3">
@@ -346,14 +382,14 @@ export default function Home() {
                     maxWidth: "500px",
                   }}
                 >
-                  I confirm my location legally permits the purchase and
-                  delivery of fireworks, and I agree to the terms.
+                  ✅ I confirm my location legally permits the purchase and
+                  delivery of fireworks and I agree to these terms.
                 </p>
               </div>
 
               <div className="d-flex justify-content-center">
                 <button
-                  className="btn disclaimerBtn border-none text-white mt-2 fw-bold "
+                  className="btn disclaimerBtn border-none text-white mt-2 fw-bold"
                   style={{
                     width: "50%",
                     backgroundColor: "#c01212",
@@ -362,7 +398,7 @@ export default function Home() {
                   onClick={handleProceed}
                   disabled={!isChecked}
                 >
-                  PROCEED
+                  🔴 PROCEED
                 </button>
               </div>
             </div>
