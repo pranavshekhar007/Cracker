@@ -503,7 +503,13 @@ const Navbar = () => {
         {/* Nav Icons */}
         <div className="nav-icons  d-md-flex gap-3 align-items-center">
          <div className="d-flex gap-md-3 gap-2">
-          <div onClick={() => router.push("/my-wishlist")}>
+         <div style={{ cursor: "pointer" }} onClick={() => router.push("/subscription")}>
+           <img
+            src="https://cdn-icons-png.flaticon.com/128/5836/5836056.png"
+            alt="subscribe-icon"
+          />
+         </div>
+          <div style={{ cursor: "pointer" }} onClick={() => router.push("/my-wishlist")}>
            <img
             src="https://cdn-icons-png.flaticon.com/128/13369/13369080.png"
             alt="icon1"

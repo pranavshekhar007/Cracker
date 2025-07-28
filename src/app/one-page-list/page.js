@@ -1058,7 +1058,7 @@ const Page = () => {
                                 </span>
                               </div>
                               <div>
-                                <span>₹{product.discountedPrice}.00</span>
+                                <span className="fw-bold text-success" >₹{product.discountedPrice}.00</span>
                               </div>
                             </td>
 
