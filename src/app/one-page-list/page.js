@@ -763,6 +763,7 @@ const Page = () => {
   };
 
   const handleAddToCartApi = async (e, v) => {
+     e.preventDefault();
     const payload = {
       userId: loggedUserData?._id,
       id: v._id,
@@ -785,10 +786,12 @@ const Page = () => {
   };
 
   const handleIncreaseApi = (e, v) => {
-    handleAddToCartApi(v);
+     e.preventDefault();
+    handleAddToCartApi(e , v);
   };
 
   const handleDecreaseApi = async (e, v) => {
+     e.preventDefault();
     const payload = {
       userId: loggedUserData?._id,
       id: v._id,
