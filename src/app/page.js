@@ -244,12 +244,23 @@ export default function Home() {
 
         {showDisclaimer && (
           <div
-            className="payment-popup position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-            style={{ background: "rgb(49 49 49 / 80%)", zIndex: 9999 }}
+            className="payment-popup position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center"
+            style={{
+              background: "rgba(49, 49, 49, 0.8)",
+              zIndex: 9999,
+              overflowY: "auto", // <-- Key part
+              padding: "40px 20px", // Padding prevents content sticking to top
+            }}
           >
             <div
-              className="p-4 bg-white shadow"
-              style={{ width: "700px", maxWidth: "90%", borderRadius: "22px" }}
+              className="bg-white p-4 shadow"
+              style={{
+                maxWidth: "500px",
+                width: "100%",
+                borderRadius: "22px",
+                margin: "auto", // Center horizontally
+                fontFamily: "Inter, sans-serif",
+              }}
             >
               <h4
                 className="fw-bold mb-3 text-dark text-center"
@@ -263,11 +274,7 @@ export default function Home() {
 
               <p
                 className="text-muted"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.95rem",
-                  lineHeight: "1.6",
-                }}
+                style={{ fontSize: "0.95rem", lineHeight: "1.6" }}
               >
                 Big Bang Crackers is based in Tamil Nadu and strictly complies
                 with the Hon’ble Supreme Court’s order dated{" "}
@@ -276,11 +283,7 @@ export default function Home() {
 
               <p
                 className="text-muted"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.95rem",
-                  lineHeight: "1.6",
-                }}
+                style={{ fontSize: "0.95rem", lineHeight: "1.6" }}
               >
                 🚫 <strong>We do not sell firecrackers online.</strong> This
                 website serves only as a digital catalogue and enquiry portal.
@@ -290,11 +293,7 @@ export default function Home() {
 
               <p
                 className="text-muted"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.95rem",
-                  lineHeight: "1.6",
-                }}
+                style={{ fontSize: "0.95rem", lineHeight: "1.6" }}
               >
                 ✅ Orders are confirmed only through manual verification, and
                 deliveries are made only to regions where permitted by law.
@@ -302,39 +301,26 @@ export default function Home() {
 
               <p
                 className="text-muted"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.95rem",
-                  marginBottom: "0.6rem",
-                }}
+                style={{ fontSize: "0.95rem", marginBottom: "0.6rem" }}
               >
                 <strong>Delivery options:</strong>
               </p>
+
               <ul
                 style={{
-                  fontFamily: "Inter, sans-serif",
                   fontSize: "0.95rem",
                   color: "#6c757d",
                   paddingLeft: "20px",
                   marginBottom: "1rem",
-                  textAlign: "left",
                 }}
               >
-                <li>
-                   ⁠Door Delivery: Tamil Nadu, Pondicherry, and Bangalore
-                </li>
-                <li>
-                 ⁠ To-Pay Lorry Transport: Other legally allowed cities
-                </li>
+                <li>⁠Door Delivery: Tamil Nadu, Pondicherry, and Bangalore</li>
+                <li>⁠To-Pay Lorry Transport: Other legally allowed cities</li>
               </ul>
 
               <p
                 className="text-muted"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.95rem",
-                  lineHeight: "1.6",
-                }}
+                style={{ fontSize: "0.95rem", lineHeight: "1.6" }}
               >
                 🚫 We do not deliver to restricted zones and do not use courier
                 services (e.g., DTDC, India Post) for fireworks.
@@ -342,11 +328,7 @@ export default function Home() {
 
               <p
                 className="text-muted"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.95rem",
-                  lineHeight: "1.6",
-                }}
+                style={{ fontSize: "0.95rem", lineHeight: "1.6" }}
               >
                 ✅ Only certified green crackers are offered, wherever required
                 by law.
@@ -354,18 +336,14 @@ export default function Home() {
 
               <p
                 className="text-muted"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "0.95rem",
-                  lineHeight: "1.6",
-                }}
+                style={{ fontSize: "0.95rem", lineHeight: "1.6" }}
               >
                 🔒 By proceeding, you confirm that your location permits the
                 lawful possession and transport of fireworks, and you agree to
                 comply with all applicable laws.
               </p>
 
-              <div className="d-flex gap-2 align-items-start mb-3">
+              {/* <div className="d-flex gap-2 align-items-start mb-3">
                 <input
                   type="checkbox"
                   style={{ height: "20px", marginTop: "3px" }}
@@ -385,7 +363,7 @@ export default function Home() {
                   ✅ I confirm my location legally permits the purchase and
                   delivery of fireworks and I agree to these terms.
                 </p>
-              </div>
+              </div> */}
 
               <div className="d-flex justify-content-center">
                 <button
@@ -396,9 +374,10 @@ export default function Home() {
                     borderRadius: "0",
                   }}
                   onClick={handleProceed}
-                  disabled={!isChecked}
+                  // disabled={!isChecked}
+                  disabled={false}
                 >
-                   PROCEED
+                  PROCEED
                 </button>
               </div>
             </div>
